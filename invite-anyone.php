@@ -319,7 +319,7 @@ function invite_anyone_search_members( $search_terms, $pag_num = 10, $pag_page =
 	return BP_Core_User::search_users( $search_terms, $pag_num, $pag_page );
 }
 
-require ( WP_PLUGIN_DIR . '/bp-invite-anyone/invite-anyone/invite-anyone-cssjs.php' );
+require ( WP_PLUGIN_DIR . '/invite-anyone/invite-anyone/invite-anyone-cssjs.php' );
 function invite_anyone_js_loader() {
 	wp_enqueue_script( 'inviteAnyoneJS' );
 }
