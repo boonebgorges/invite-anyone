@@ -4,7 +4,7 @@
 Plugin Name: Invite Anyone
 Plugin URI: http://dev.commons.gc.cuny.edu
 Description: Allows group admins to invite any BuddyPress member to a group, whether or not they are friends
-Version: 0.1
+Version: 0.2
 Author: Boone Gorges
 Author URI: http://teleogistic.net
 Site Wide Only: true
@@ -224,20 +224,28 @@ function get_members_invite_list( $user_id = false, $group_id ) {
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
 
-	$friend_ids = BP_Core_User::get_alphabetical_users();
+	if ( method_exists ( 'BP_Core_User', 'get_alphabetical_users' ) ) // For BP < 1.2
+		$friend_ids = BP_Core_User::get_alphabetical_users();
+	else
+		$friend_ids = BP_Core_User::get_users('alphabetical');
 
 	if ( (int) $friend_ids['total'] < 1 )
 		return false;
 
 	for ( $i = 0; $i < count($friend_ids['users']); $i++ ) {
-		if ( groups_check_user_has_invite( $friend_ids['users'][$i]->user_id, $group_id ) || groups_is_user_member( $friend_ids['users'][$i]->user_id, $group_id ) )
+		if ( $friend_ids['users'][$i]->user_id ) // For BP < 1.2
+			$user_id =  $friend_ids['users'][$i]->user_id;
+		else
+			$user_id =  $friend_ids['users'][$i]->id;
+			
+		if ( groups_check_user_has_invite( $user_id, $group_id ) || groups_is_user_member( $user_id, $group_id ) )
 			continue;
-
-		$display_name = bp_core_get_user_displayname( $friend_ids['users'][$i]->user_id );
-
-		if ( $display_name != ' ' ) {
+		
+		$display_name = bp_core_get_user_displayname( $user_id );
+		
+		if ( $display_name != '' ) {
 			$friends[] = array(
-				'id' => $friend_ids['users'][$i]->user_id,
+				'id' => $user_id,
 				'full_name' => $display_name
 			);
 		}
@@ -306,9 +314,13 @@ function invite_anyone_ajax_autocomplete_results() {
 
 	if ( $friends['users'] ) {
 		foreach ( $friends['users'] as $user ) {
-			$ud = get_userdata($user->user_id);
+			if ( $user->user_id ) // For BP < 1.2
+				$user_id = $user->user_id;
+			else
+				$user_id = $user->id;
+			$ud = get_userdata($user_id);
 			$username = $ud->user_login;
-			echo bp_core_fetch_avatar( array( 'item_id' => $user->user_id, 'type' => 'thumb', 'width' => 25, 'height' => 25 ) ) . ' ' . bp_core_get_user_displayname( $user->user_id ) . ' (' . $username . ')
+			echo bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'thumb', 'width' => 25, 'height' => 25 ) ) . ' ' . bp_core_get_user_displayname( $user->user_id ) . ' (' . $username . ')
 			';
 		}		
 	}

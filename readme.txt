@@ -22,3 +22,7 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 
 = 0.1 =
 * Initial release
+
+= 0.2 =
+* Compatibility with BP 1.2 trunk
+* Bugfixes regarding file locations

@@ -4,15 +4,15 @@ function invite_anyone_add_js() {
 	global $bp;
 	
 	if ( $bp->current_component == $bp->groups->slug ) {
-		wp_register_script('invite-anyone-js', WP_PLUGIN_URL . '/bp-invite-anyone/invite-anyone/invite-anyone-js.js');
+		wp_register_script('invite-anyone-js', WP_PLUGIN_URL . '/invite-anyone/invite-anyone/invite-anyone-js.js');
 		wp_enqueue_script( 'invite-anyone-js' );
 		
 		add_action( 'wp_head', 'invite_anyone_autocomplete_init_jsblock' );
 
 
 		
-		wp_enqueue_script( 'invite-anyone-autocomplete-js', WP_PLUGIN_URL . '/bp-invite-anyone/invite-anyone/jquery.autocomplete.js', array( 'jquery' ) );
-		wp_enqueue_script( 'bp-jquery-autocomplete-fb', WP_PLUGIN_URL . '/bp-invite-anyone/invite-anyone/jquery.autocompletefb.js' );
+		wp_enqueue_script( 'invite-anyone-autocomplete-js', WP_PLUGIN_URL . '/invite-anyone/invite-anyone/jquery.autocomplete.js', array( 'jquery' ) );
+		wp_enqueue_script( 'bp-jquery-autocomplete-fb', WP_PLUGIN_URL . '/invite-anyone/invite-anyone/jquery.autocompletefb.js' );
 		wp_enqueue_script( 'bp-jquery-bgiframe', BP_PLUGIN_URL . '/bp-messages/js/autocomplete/jquery.bgiframe.min.js' );
 		wp_enqueue_script( 'bp-jquery-dimensions', BP_PLUGIN_URL . '/bp-messages/js/autocomplete/jquery.dimensions.js' );
 	}
@@ -169,7 +169,7 @@ input#send-to-input { width: 225px !important; }
 li a#nav-invite-anyone {
 	padding: 0.55em 3.1em 0.55em 0px !important;
 	margin-right: 10px;
-	background: url(<?php echo WP_PLUGIN_URL, '/bp-invite-anyone/invite-anyone/invite_bullet.gif'; ?>) no-repeat 89% 52%;
+	background: url(<?php echo WP_PLUGIN_URL, '/invite-anyone/invite-anyone/invite_bullet.gif'; ?>) no-repeat 89% 52%;
 	
 }
 	</style>
