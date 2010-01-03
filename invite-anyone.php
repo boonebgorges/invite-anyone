@@ -38,6 +38,8 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 			$this->enable_create_step = false;
 			$this->enable_edit_step = false;
 		}
+		
+		$this->enable_nav_item = $this->enable_nav_item();
 
 	}
 
@@ -80,6 +82,15 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 		groups_send_invites( $bp->loggedin_user->id, $bp->groups->current_group->id ); 
 
 		bp_core_add_message( __('Group invites sent.', 'buddypress') );	
+	}
+	
+	function enable_nav_item() {
+		global $bp;
+		
+		if ( bp_group_is_admin() || bp_group_is_mod() )
+			return true;
+		else
+			return false;
 	}
 	
 	function widget_display() {}
@@ -265,11 +276,8 @@ function invite_anyone_ajax_invite_user() {
 	if ( !$_POST['friend_id'] || !$_POST['friend_action'] || !$_POST['group_id'] )
 		return false;
 	
-	if ( !groups_is_user_admin( $bp->loggedin_user->id, $_POST['group_id'] ) )
-		return false;
-	
-	//if ( !friends_check_friendship( $bp->loggedin_user->id, $_POST['friend_id'] ) )
-		//return false;
+/*	if ( !groups_is_user_admin( $bp->loggedin_user->id, $_POST['group_id'] ) )
+		return false; */
 	
 	if ( 'invite' == $_POST['friend_action'] ) {
 				
