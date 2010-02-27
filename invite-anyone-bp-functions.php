@@ -52,6 +52,8 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 		check_admin_referer( 'groups_create_save_' . $this->slug );
 
 		/* Set method and save */
+		if ( bp_group_has_invites() )
+			$this->has_invites = true;
 		$this->method = 'create';
 		$this->save();
 	}
@@ -67,7 +69,10 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 
 		groups_send_invites( $bp->loggedin_user->id, $bp->groups->current_group->id ); 
 
-		bp_core_add_message( __('Group invites sent.', 'buddypress') );	
+		if ( $this->has_invites )
+			bp_core_add_message( __('Group invites sent.', 'buddypress') );	
+		else
+			bp_core_add_message( __('Group created successfully.', 'buddypress') );
 	}
 	
 	function enable_nav_item() {

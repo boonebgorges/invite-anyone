@@ -30,3 +30,6 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 = 0.3 =
 * Compatibility with BP 1.2.1, including new bp-default theme
 * Rearranged files to ensure BP is loaded before plugin is
+
+= 0.3.1 =
+* Added a "successfully created" message when no invites are sent on group creation
