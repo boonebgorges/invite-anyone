@@ -13,7 +13,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  */
- 
+
 jQuery.fn.autoCompletefb = function(options) 
 {
 	var tmp = this;
@@ -46,10 +46,9 @@ jQuery.fn.autoCompletefb = function(options)
 	/*jQuery(settings.foundClass+" img.p").click(function(){
 		acfb.removeFind(this);
 	});*/
-	
+				
 	jQuery(settings.inputClass,tmp).autocomplete(settings.urlLookup,settings.acOptions);
 	jQuery(settings.inputClass,tmp).result(function(e,d,f){
-		
 		//var f = settings.foundClass.replace(/\./,'');
 		var z = String(d).indexOf('user-');
 		var z = String(d).substring(z+5);

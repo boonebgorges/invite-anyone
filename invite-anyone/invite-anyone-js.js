@@ -13,7 +13,6 @@ j("div#invite-anyone-member-list input").click(
 			} else {
 				var friend_action = 'uninvite';
 			}
-		
 
 			j.post( ajaxurl, {
 				action: 'invite_anyone_groups_invite_user',
@@ -24,7 +23,7 @@ j("div#invite-anyone-member-list input").click(
 				'group_id': j("input#group_id").val()
 			},
 			function(response)
-			{ 
+			{
 				if ( j("#message") )
 					j("#message").hide();
 

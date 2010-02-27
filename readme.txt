@@ -2,7 +2,7 @@
 Contributors: boonebgorges, cuny-academic-commons
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WPMU 2.8, BuddyPress 1.1
-Tested up to: WPMU 2.8.6, BuddyPress 1.1.3
+Tested up to: WPMU 2.8.6, BuddyPress 1.2.1
 Stable tag: trunk
 
 Allows group admins to invite anyone to their groups, regardless of whether they're friends
@@ -26,3 +26,7 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 = 0.2 =
 * Compatibility with BP 1.2 trunk
 * Bugfixes regarding file locations
+
+= 0.3 =
+* Compatibility with BP 1.2.1, including new bp-default theme
+* Rearranged files to ensure BP is loaded before plugin is
