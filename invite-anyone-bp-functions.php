@@ -291,9 +291,6 @@ function bp_new_group_invite_member_list() {
 	function bp_get_new_group_invite_member_list( $args = '' ) {
 		global $bp;
 
-		if ( !function_exists('friends_install') )
-			return false;
-
 		$defaults = array(
 			'group_id' => false,
 			'separator' => 'li'

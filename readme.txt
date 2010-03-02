@@ -1,5 +1,6 @@
 === Plugin Name ===
 Contributors: boonebgorges, cuny-academic-commons
+Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WPMU 2.8, BuddyPress 1.1
 Tested up to: WPMU 2.8.6, BuddyPress 1.2.1
@@ -15,7 +16,7 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 
 == Installation ==
 
-* Upload the directory '/invite-anyone/' to your WP plugins directory and activate from the Dashboard of the main blog.
+* Upload the directory '/invite-anyone/' to your WP plugins directory and activate from the Dashboard of the main blog. Some users have reported problems when activating the plugin sitewide, so consider activating it on the BP blog only.
 
 
 == Changelog ==
@@ -33,3 +34,7 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 
 = 0.3.1 =
 * Added a "successfully created" message when no invites are sent on group creation
+
+= 0.3.2 =
+* Made it possible to use the plugin with friends component turned off
+* Turned off Site Wide Only to remove PHP errors on some subdomain blogs

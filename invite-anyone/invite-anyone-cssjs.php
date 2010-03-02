@@ -1,5 +1,7 @@
 <?php
 
+// Todo: figure out what happens when $bp->action_variables is not an array
+
 function invite_anyone_add_js() {
 	global $bp;
 	
