@@ -4,7 +4,7 @@ Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WPMU 2.8, BuddyPress 1.1
 Tested up to: WPMU 2.8.6, BuddyPress 1.2.1
-Stable tag: trunk
+Stable tag: 0.3.3
 
 Allows group admins to invite anyone to their groups, regardless of whether they're friends
 
@@ -38,3 +38,6 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 = 0.3.2 =
 * Made it possible to use the plugin with friends component turned off
 * Turned off Site Wide Only to remove PHP errors on some subdomain blogs
+
+= 0.3.3 =
+* Fixed bug that kept non-active users from appearing in member list

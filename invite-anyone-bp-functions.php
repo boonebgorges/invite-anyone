@@ -325,26 +325,21 @@ function bp_new_group_invite_member_list() {
 
 
 function get_members_invite_list( $user_id = false, $group_id ) {
-	global $bp;
+	global $bp, $wpdb;
 
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
+	
+	$query = "SELECT * FROM {$wpdb->users}";
+	$members = $wpdb->get_results( $query, ARRAY_A );
 
-	if ( method_exists ( 'BP_Core_User', 'get_alphabetical_users' ) ) // For BP < 1.2
-		$friend_ids = BP_Core_User::get_alphabetical_users();
-	else
-		$friend_ids = BP_Core_User::get_users('alphabetical');
-
-	if ( (int) $friend_ids['total'] < 1 )
+	if ( !count($members) )
 		return false;
 
-	for ( $i = 0; $i < count($friend_ids['users']); $i++ ) {
-		if ( $friend_ids['users'][$i]->user_id ) // For BP < 1.2
-			$user_id =  $friend_ids['users'][$i]->user_id;
-		else
-			$user_id =  $friend_ids['users'][$i]->id;
-			
-		if ( groups_check_user_has_invite( $user_id, $group_id ) || groups_is_user_member( $user_id, $group_id ) )
+	foreach( $members as $member ) {
+		$user_id = $member['ID'];
+		
+		if ( groups_is_user_member( $user_id, $group_id ) )
 			continue;
 		
 		$display_name = bp_core_get_user_displayname( $user_id );
@@ -356,6 +351,7 @@ function get_members_invite_list( $user_id = false, $group_id ) {
 			);
 		}
 	}
+
 
 	if ( !$friends )
 		return false;
