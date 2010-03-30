@@ -1,0 +1,76 @@
+#!/usr/bin/env php
+# Translation of the WordPress plugin Invite Anyone 0.3.3 by Boone Gorges.
+# Copyright (C) 2010 Boone Gorges
+# This file is distributed under the same license as the Invite Anyone package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Invite Anyone 0.3.3\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/invite-anyone\n"
+"POT-Creation-Date: 2010-03-29 16:03+0000\n"
+"PO-Revision-Date: 2010-03-30 09:46+0100\n"
+"Last-Translator: Jesper\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: invite-anyone-bp-functions.php:15
+#: invite-anyone-bp-functions.php:171
+#: invite-anyone-bp-functions.php:261
+msgid "Send Invites"
+msgstr "Stuur Uitnodigingen"
+
+#: invite-anyone-bp-functions.php:73
+msgid "Group invites sent."
+msgstr "Groep uitnodigingen verstuurd."
+
+#: invite-anyone-bp-functions.php:75
+msgid "Group created successfully."
+msgstr "Groep succesvol aangemaakt."
+
+#: invite-anyone-bp-functions.php:111
+#: invite-anyone-bp-functions.php:200
+msgid "Search for members to invite:"
+msgstr "Zoek naar leden om uit te nodigen:"
+
+#: invite-anyone-bp-functions.php:119
+#: invite-anyone-bp-functions.php:208
+msgid "Or select members from the directory:"
+msgstr "Of selecteer leden uit de directory:"
+
+#: invite-anyone-bp-functions.php:134
+msgid "Select people to invite."
+msgstr "Selecteer mensen om uit te nodigen."
+
+#: invite-anyone-bp-functions.php:154
+#: invite-anyone-bp-functions.php:243
+#: invite-anyone-bp-functions.php:387
+msgid "Remove Invite"
+msgstr "Verwijder Uitnodiging"
+
+#: invite-anyone-bp-functions.php:223
+msgid "Select people to invite from your friends list."
+msgstr "Selecteer mensen uit je vriendenlijst om uit te nodigen."
+
+#. Plugin Name of the plugin/theme
+msgid "Invite Anyone"
+msgstr "Iedereen Uitnodigen"
+
+#. Plugin URI of the plugin/theme
+msgid "http://teleogistic.net/code/buddypress/invite-anyone/"
+msgstr "http://teleogistic.net/code/buddypress/invite-anyone/"
+
+#. Description of the plugin/theme
+msgid "Allows group admins to invite any BuddyPress member to a group, whether or not they are friends"
+msgstr "Sta groep admins toe elk BuddyPress lid, voor een groep, uit te nodigen. Wel of geen vrienden."
+
+#. Author of the plugin/theme
+msgid "Boone Gorges"
+msgstr "Boone Gorges"
+
+#. Author URI of the plugin/theme
+msgid "http://teleogistic.net"
+msgstr "http://teleogistic.net"
+

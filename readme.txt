@@ -4,7 +4,7 @@ Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WPMU 2.8, BuddyPress 1.1
 Tested up to: WPMU 2.8.6, BuddyPress 1.2.1
-Stable tag: 0.3.4
+Stable tag: 0.3.5
 
 Allows group admins to invite anyone to their groups, regardless of whether they're friends
 
@@ -17,6 +17,11 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 == Installation ==
 
 * Upload the directory '/invite-anyone/' to your WP plugins directory and activate from the Dashboard of the main blog. Some users have reported problems when activating the plugin sitewide, so consider activating it on the BP blog only.
+
+
+== Translation credits ==
+
+* Dutch: Jesper Popma
 
 
 == Changelog ==
@@ -44,3 +49,7 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 
 = 0.3.4 =
 * Added POT file and localization function
+
+= 0.3.5 =
+* Corrected localization function (d'oh)
+* Added Dutch translation - thanks, Jesper!
