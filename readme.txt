@@ -53,3 +53,7 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 = 0.3.5 =
 * Corrected localization function (d'oh)
 * Added Dutch translation - thanks, Jesper!
+
+= 0.4 =
+* Removed "Send Invites" button during group creation
+* Enabled invitations by email
