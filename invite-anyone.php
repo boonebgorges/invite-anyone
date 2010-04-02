@@ -9,6 +9,7 @@ Author: Boone Gorges
 Author URI: http://teleogistic.net
 */
 
+define( 'BP_INVITE_ANYONE_VER', '0.4' );
 
 if ( !defined( 'BP_INVITE_ANYONE_SLUG' ) )
 	define( 'BP_INVITE_ANYONE_SLUG', 'invite-anyone' );
@@ -33,5 +34,12 @@ function invite_anyone_locale_init () {
 }
 add_action ('plugins_loaded', 'invite_anyone_locale_init');
 
+
+
+function invite_anyone_activation() {
+	require( dirname( __FILE__ ) . '/invite-anyone/db.php' );
+	invite_anyone_create_table();
+}
+register_activation_hook( __FILE__, 'invite_anyone_activation' );
 
 ?>
