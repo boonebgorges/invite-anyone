@@ -130,7 +130,7 @@ function invite_anyone_setup_nav() {
 		'name' => __( 'Send Invites', 'buddypress' ),
 		'slug' => $bp->invite_anyone->slug,
 		'position' => 80,
-		'screen_function' => 'bp_example_screen_one',
+		'screen_function' => 'invite_anyone_screen_one',
 		'default_subnav_slug' => 'invite-new-members'
 	) );
 
@@ -215,7 +215,7 @@ function invite_anyone_screen_one_content() {
 	<form action="<?php echo $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/send/' ?>" method="post">
 	
 	<ol id="invite-anyone-steps">
-		<h4><?php _e( 'Invite New Members', 'bp-example' ) ?></h4>
+		<h4><?php _e( 'Invite New Members', 'bp-invite-anyone' ) ?></h4>
 		<p>Invite friends to join <?php echo bloginfo('name'); ?> by following these steps:</p>
 		
 		<li>
@@ -284,7 +284,7 @@ function invite_anyone_screen_two() {
 	function invite_anyone_screen_two_content() {
 		global $bp; ?>
 
-		<h4><?php _e( 'Sent Invites', 'bp-example' ) ?></h4>
+		<h4><?php _e( 'Sent Invites', 'bp-invite-anyone' ) ?></h4>
 
 		<p><?php _e( 'You have sent invitations to the following people.', 'bp-invite-anyone' ) ?></p>
 		
