@@ -93,7 +93,6 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 		}
 			
 		/* Group invitations */
-				
 		$groups = array();
 		foreach ( $invites as $invite ) {
 			if ( !$invite->group_invitations[0] )
@@ -461,9 +460,9 @@ function invite_anyone_process_invitations( $data ) {
 	foreach( $emails as $email ) {
 		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'An invitation to join %s', 'buddypress' ), get_blog_option( BP_ROOT_BLOG, 'blogname' ) );
 
-		$message = $data['invite_anyone_custom_message'];
+		$message = strip_tags($data['invite_anyone_custom_message']);
 		
-		$accept_link = bp_get_root_domain() . '/register/accept-invitation/' . urlencode($email);
+		$accept_link =  site_url( BP_REGISTER_SLUG ) . '/accept-invitation/' . urlencode($email);
 		
 		$message .= sprintf( __( '
 
