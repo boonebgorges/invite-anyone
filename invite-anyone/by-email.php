@@ -394,8 +394,9 @@ function invite_anyone_allowed_domains() {
 
 
 function invite_anyone_format_date( $date ) {
-	$thetime = strtotime( $date );
-	$thetime = strftime( "%D", $thetime );
+	$thetime = strtotime( $date );	
+	$format = get_option('date_format'); 
+	$thetime = date( "$format", $thetime );
 	return $thetime;
 }
 
