@@ -166,12 +166,12 @@ if ( invite_anyone_access_test() ) {
 }
 
 function invite_anyone_access_test() {
-	global $current_user;
+	global $current_user, $bp;
 
 	if ( !is_user_logged_in() )
 		return false;
 		
-	if ( bp_current_component == BP_PROFILE_SLUG && !bp_is_my_profile() )
+	if ( $bp->displayed_user->id && !bp_is_my_profile() )
 		return false;
 	
 	if ( !$iaoptions = get_option( 'invite_anyone' ) )
