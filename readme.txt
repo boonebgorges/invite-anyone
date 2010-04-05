@@ -26,34 +26,44 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 
 == Changelog ==
 
-= 0.1 =
-* Initial release
-
-= 0.2 =
-* Compatibility with BP 1.2 trunk
-* Bugfixes regarding file locations
-
-= 0.3 =
-* Compatibility with BP 1.2.1, including new bp-default theme
-* Rearranged files to ensure BP is loaded before plugin is
-
-= 0.3.1 =
-* Added a "successfully created" message when no invites are sent on group creation
-
-= 0.3.2 =
-* Made it possible to use the plugin with friends component turned off
-* Turned off Site Wide Only to remove PHP errors on some subdomain blogs
-
-= 0.3.3 =
-* Fixed bug that kept non-active users from appearing in member list
-
-= 0.3.4 =
-* Added POT file and localization function
+= 0.4 =
+* New feature: Invite by email from new Send Invites profile tab
+* Links from group invite pages to Invite By Email page
+* Removed "Send Invites" button during group creation
 
 = 0.3.5 =
 * Corrected localization function (d'oh)
 * Added Dutch translation - thanks, Jesper!
 
-= 0.4 =
-* Removed "Send Invites" button during group creation
-* Enabled invitations by email
+= 0.3.4 =
+* Added POT file and localization function
+
+= 0.3.3 =
+* Fixed bug that kept non-active users from appearing in member list
+
+= 0.3.2 =
+* Made it possible to use the plugin with friends component turned off
+* Turned off Site Wide Only to remove PHP errors on some subdomain blogs
+
+= 0.3.1 =
+* Added a "successfully created" message when no invites are sent on group creation
+
+= 0.3 =
+* Compatibility with BP 1.2.1, including new bp-default theme
+* Rearranged files to ensure BP is loaded before plugin is
+
+= 0.2 =
+* Compatibility with BP 1.2 trunk
+* Bugfixes regarding file locations
+
+= 0.1 =
+* Initial release
+
+
+
+
+
+
+
+
+

@@ -4,7 +4,7 @@
 Plugin Name: Invite Anyone
 Plugin URI: http://teleogistic.net/code/buddypress/invite-anyone/
 Description: Allows group admins to invite any BuddyPress member to a group, whether or not they are friends
-Version: 0.4 bleeding
+Version: 0.4
 Author: Boone Gorges
 Author URI: http://teleogistic.net
 */
@@ -39,6 +39,15 @@ add_action ('plugins_loaded', 'invite_anyone_locale_init');
 function invite_anyone_activation() {
 	require( dirname( __FILE__ ) . '/invite-anyone/db.php' );
 	invite_anyone_create_table();
+	
+	if ( !$iaoptions = get_option( 'invite_anyone' ) )
+		$iaoptions = array(
+			'max_invites' => 5,
+			'default_invitation_message' => 'Hi there',
+			'allow_email_invitations' => 'all'
+		);
+	
+	add_option( 'invite_anyone', $iaoptions );
 }
 register_activation_hook( __FILE__, 'invite_anyone_activation' );
 

@@ -4,11 +4,15 @@
 	- on invitee join:
 		- notifications to inviter(s) that individual has joined
 	- admin functions:
-		- number of email invitees allowed
-	- link from group pages	
+		- toggle group link
+		- toggle each of two parts of plugin; maybe for different user levels too
+	- email verification - email_exists. If found, give link to the profile (w friend link?)
+	- js for inline validation
+	- hook into member lists and searches with "not finding?" message
+	- Invite Anyone widget
 */
 
-require( 'db.php' );
+require( dirname(__FILE__) . '/db.php' );
 
 function invite_anyone_setup_globals() {
 	global $bp, $wpdb;
@@ -55,12 +59,10 @@ function invite_anyone_register_screen_message() {
 				}
 				$inviters_text .= ' and ' . bp_core_get_user_displayname( $inviters[$counter] );
 			}
-			
-/* Remember: This chunk has to be moved back into the activate once shown working. Change 17 to user_id too! */			
+					
 
 /* Todo: make an error happen when the email address in action_variables isn't real */
-			/* begin test */
-	
+		
 			
 			$message = sprintf( __( "Welcome! You've been invited by %s to join the site. Please fill out the information below to create your account.", 'bp-invite-anyone' ), $inviters_text );
 				
@@ -130,7 +132,8 @@ function invite_anyone_setup_nav() {
 		'slug' => $bp->invite_anyone->slug,
 		'position' => 80,
 		'screen_function' => 'invite_anyone_screen_one',
-		'default_subnav_slug' => 'invite-new-members'
+		'default_subnav_slug' => 'invite-new-members',
+		'show_for_displayed_user' => invite_anyone_access_test()
 	) );
 
 	$invite_anyone_link = $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/';
@@ -143,7 +146,7 @@ function invite_anyone_setup_nav() {
 		'parent_url' => $invite_anyone_link,
 		'screen_function' => 'invite_anyone_screen_one',
 		'position' => 10,
-		'user_has_access' => bp_is_my_profile() // Only the logged in user can access this on his/her profile
+		'user_has_access' => invite_anyone_access_test()
 	) );
 
 	bp_core_new_subnav_item( array(
@@ -153,13 +156,87 @@ function invite_anyone_setup_nav() {
 		'parent_url' => $invite_anyone_link,
 		'screen_function' => 'invite_anyone_screen_two',
 		'position' => 20,
-		'user_has_access' => bp_is_my_profile() // Only the logged in user can access this on his/her profile
+		'user_has_access' => invite_anyone_access_test()
 	) );
 }
-add_action( 'wp', 'invite_anyone_setup_nav', 2 );
-add_action( 'admin_menu', 'invite_anyone_setup_nav', 2 );
 
+if ( invite_anyone_access_test() ) {
+	add_action( 'wp', 'invite_anyone_setup_nav', 2 );
+	add_action( 'admin_menu', 'invite_anyone_setup_nav', 2 );
+}
 
+function invite_anyone_access_test() {
+	global $current_user;
+
+	if ( !is_user_logged_in() )
+		return false;
+		
+	if ( bp_current_component == BP_PROFILE_SLUG && !bp_is_my_profile() )
+		return false;
+	
+	if ( !$iaoptions = get_option( 'invite_anyone' ) )
+		$iaoptions = array();
+	
+	/* This is the last of the general checks: logged in, looking at own profile, and finally admin has set to "All Users".*/
+	if ( $iaoptions['email_visibility_toggle'] == 'no_limit' )
+		return true;
+	
+	/* Minimum number of days since joined the site */
+	if ( $iaoptions['email_since_toggle'] == 'yes' ) {
+		if ( $since = $iaoptions['days_since'] ) {
+			$since = $since * 86400;
+
+			$date_registered = strtotime($current_user->data->user_registered);
+			$time = time();
+			
+			if ( $time - $date_registered < $since )
+				return false;
+		}
+	}
+	
+	/* Minimum role on this blog. Users who are at the necessary role or higher should move right through this toward the 'return true' at the end of the function. */
+	if ( $iaoptions['email_role_toggle'] == 'yes' ) {
+		if ( $role = $iaoptions['minimum_role'] ) {
+			switch ( $role ) {
+				case 'Subscriber' :
+					if ( !current_user_can( 'read' ) )
+						return false;
+					break;
+				
+				case 'Contributor' :
+					if ( !current_user_can( 'edit_posts' ) )
+						return false;
+					break;
+				
+				case 'Author' :
+					if ( !current_user_can( 'publish_posts' ) )
+						return false;
+					break;
+				
+				case 'Editor' :
+					if ( !current_user_can( 'delete_others_pages' ) )
+						return false;
+					break;
+			}
+		}
+	}
+	
+	/* User blacklist */
+	if ( $iaoptions['email_blacklist_toggle'] == 'yes' ) {
+		if ( $blacklist = $iaoptions['email_blacklist'] ) {
+			$blacklist = explode( ",", $blacklist );
+			$user_id = $current_user->ID;
+			if ( in_array( $user_id, $blacklist ) )
+				return false;			
+		}
+	}
+	
+	/* Todo: flesh this out. User blacklist; minimum role */
+	
+	return true;
+		
+}
+add_action( 'wp_head', 'invite_anyone_access_test' );
 
 
 
@@ -182,7 +259,7 @@ function invite_anyone_screen_one() {
 function invite_anyone_screen_one_content() {
 		global $bp;
 			
-		if ( !$iaoptions = get_option( 'invite_anyone_options' ) )
+		if ( !$iaoptions = get_option( 'invite_anyone' ) )
 			$iaoptions = array();
 			
 		if ( !$max_invites = $iaoptions['max_invites'] )
@@ -224,8 +301,8 @@ function invite_anyone_screen_one_content() {
 		<?php invite_anyone_email_fields( $returned_emails ) ?>
 		
 		<li>
-			<?php _e( '(optional) Customize the text of the invitation.', 'bp-invite-anyone' ) ?></p>
-			<textarea rows="5" cols="40" name="invite_anyone_custom_message" id="invite-anyone-custom-message"><?php invite_anyone_invitation_message( $returned_message ) ?></textarea>		
+			<p><?php _e( '(optional) Customize the text of the invitation.', 'bp-invite-anyone' ) ?></p>
+			<textarea rows="5" cols="40" name="invite_anyone_custom_message" id="invite-anyone-custom-message"><?php echo invite_anyone_invitation_message( $returned_message ) ?></textarea>		
 		</li>
 		
 		<?php if ( bp_has_groups( "type=alphabetical&user_id=" . bp_loggedin_user_id() ) ) : ?>
@@ -247,7 +324,7 @@ function invite_anyone_screen_one_content() {
 		<?php endif; ?>
 		
 	</ol>
-	
+		
 	<div class="submit">
 		<input type="submit" name="invite-anyone-submit" id="invite-anyone-submit" value="<?php _e( 'Send Invites', 'buddypress' ) ?> " />
 	</div>
@@ -338,7 +415,7 @@ function invite_anyone_screen_two() {
  *
  */
 function invite_anyone_email_fields( $returned_emails = false ) {
-	if ( !$iaoptions = get_option( 'invite_anyone_options' ) )
+	if ( !$iaoptions = get_option( 'invite_anyone' ) )
 		$iaoptions = array();
 		
 	if ( !$max_invites = $iaoptions['max_invites'] )
@@ -359,19 +436,25 @@ function invite_anyone_invitation_message( $returned_message = false ) {
 	global $bp;
 	
 	if ( !$returned_message ) {
-		if ( !$iaoptions = get_option( 'invite_anyone_options' ) )
+		$inviter_name = $bp->loggedin_user->userdata->display_name;
+		$site_name = get_bloginfo('name');
+		
+		if ( !$iaoptions = get_option( 'invite_anyone' ) )
 			$iaoptions = array();
 		
 		if ( !$text = $iaoptions['default_invitation_message'] ) {
-			$inviter_name = $bp->loggedin_user->userdata->display_name;
-			$site_name = get_bloginfo('name');
-			$text = "You have been invited by $inviter_name to join the $site_name community."; 
+			$text = "You have been invited by %%INVITERNAME%% to join the %%SITENAME%% community."; 
+		}
+		
+		if ( !is_admin() ) {
+			$text = str_replace( '%%INVITERNAME%%', $inviter_name, $text );
+			$text = str_replace( '%%SITENAME%%', $site_name, $text );
 		}
 	} else {
 		$text = $returned_message;	
 	}
 	
-	echo $text;
+	return $text;
 }
 
 function invite_anyone_allowed_domains() {
