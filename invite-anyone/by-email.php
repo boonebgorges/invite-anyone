@@ -341,6 +341,7 @@ function invite_anyone_screen_one_content() {
 function invite_anyone_screen_two() {
 	global $bp;
 	
+	
 	/* Todo: "Are you sure" page after "Send Invites" */
 	if ( $bp->current_component == $bp->invite_anyone->slug && $bp->current_action == 'sent-invites' && $bp->action_variables[0] == 'send' ) {
 		if ( invite_anyone_process_invitations( $_POST ) )
@@ -583,26 +584,28 @@ function invite_anyone_validate_email( $user_email ) {
 	//if ( email_exists($user_email) )
 	//	return 'used';
 	
-	// The following checks can only be run on WPMU
-	if ( function_exists( 'get_site_option' ) ) {
+	// Many of he following checks can only be run on WPMU
+	if ( function_exists( 'is_email_address_unsafe' ) ) {
 		if ( is_email_address_unsafe( $user_email ) )
 			return 'unsafe';
+	}
 		
+	if ( function_exists( 'validate_email' ) ) {
 		if ( !validate_email( $user_email ) )
 			return 'invalid';
+	}
 	
-		$limited_email_domains = get_site_option( 'limited_email_domains' );
-		
-		if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
-			$emaildomain = substr( $user_email, 1 + strpos( $user_email, '@' ) );
-			if( in_array( $emaildomain, $limited_email_domains ) == false ) {
-				return 'limited_domain';
+	if ( function_exists( 'get_site_option' ) ) {
+		if ( $limited_email_domains = get_site_option( 'limited_email_domains' ) ) {
+			if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
+				$emaildomain = substr( $user_email, 1 + strpos( $user_email, '@' ) );
+				if( in_array( $emaildomain, $limited_email_domains ) == false ) {
+					return 'limited_domain';
+				}
 			}
 		}
 	}
 	
-
-
 	return 'safe';
 }
 

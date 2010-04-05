@@ -4,7 +4,7 @@ Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WPMU 2.8, BuddyPress 1.1
 Tested up to: WPMU 2.9.2, BuddyPress 1.2.3
-Stable tag: 0.4
+Stable tag: 0.4.1
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -32,6 +32,10 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 
 
 == Changelog ==
+
+= 0.4.1 =
+* Fixed problem with email validation causing fatal errors on single WP
+* Fixed bug that allows members to see Send Invites tab on profiles other than their own
 
 = 0.4 =
 * New feature: Invite by email from new Send Invites profile tab
