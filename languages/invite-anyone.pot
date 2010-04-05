@@ -1,5 +1,4 @@
-#!/usr/bin/env php
-# Translation of the WordPress plugin Invite Anyone 0.3.3 by Boone Gorges.
+# Translation of the WordPress plugin Invite Anyone 0.4 by Boone Gorges.
 # Copyright (C) 2010 Boone Gorges
 # This file is distributed under the same license as the Invite Anyone package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -7,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Invite Anyone 0.3.3\n"
+"Project-Id-Version: Invite Anyone 0.4\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/invite-anyone\n"
-"POT-Creation-Date: 2010-03-29 16:03+0000\n"
+"POT-Creation-Date: 2010-04-05 14:06+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,42 +16,224 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: invite-anyone-bp-functions.php:15 invite-anyone-bp-functions.php:171
-#: invite-anyone-bp-functions.php:261
+#: invite-anyone-bp-functions.php:20 invite-anyone-bp-functions.php:176
+#: invite-anyone-bp-functions.php:274 invite-anyone/by-email.php:131
+#: invite-anyone/by-email.php:329
 msgid "Send Invites"
 msgstr ""
 
-#: invite-anyone-bp-functions.php:73
+#: invite-anyone-bp-functions.php:78
 msgid "Group invites sent."
 msgstr ""
 
-#: invite-anyone-bp-functions.php:75
+#: invite-anyone-bp-functions.php:80
 msgid "Group created successfully."
 msgstr ""
 
-#: invite-anyone-bp-functions.php:111 invite-anyone-bp-functions.php:200
+#: invite-anyone-bp-functions.php:116 invite-anyone-bp-functions.php:210
 msgid "Search for members to invite:"
 msgstr ""
 
-#: invite-anyone-bp-functions.php:119 invite-anyone-bp-functions.php:208
-msgid "Or select members from the directory:"
+#: invite-anyone-bp-functions.php:124 invite-anyone-bp-functions.php:218
+msgid "Select members from the directory:"
 msgstr ""
 
-#: invite-anyone-bp-functions.php:134
+#: invite-anyone-bp-functions.php:139
 msgid "Select people to invite."
 msgstr ""
 
-#: invite-anyone-bp-functions.php:154 invite-anyone-bp-functions.php:243
-#: invite-anyone-bp-functions.php:387
+#: invite-anyone-bp-functions.php:159 invite-anyone-bp-functions.php:255
+#: invite-anyone-bp-functions.php:406
 msgid "Remove Invite"
 msgstr ""
 
-#: invite-anyone-bp-functions.php:223
+#: invite-anyone-bp-functions.php:200
+msgid ""
+"Want to invite someone to the group who is not yet a member of the site?"
+msgstr ""
+
+#: invite-anyone-bp-functions.php:200
+msgid "Send invitations by email."
+msgstr ""
+
+#: invite-anyone-bp-functions.php:235
 msgid "Select people to invite from your friends list."
 msgstr ""
 
+#. #-#-#-#-#  plugin.pot (Invite Anyone 0.4)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
+#: invite-anyone/admin-panel.php:4
 msgid "Invite Anyone"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:22
+msgid "Invite Anyone Settings"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:28
+msgid "Save Changes"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:41
+msgid "General Settings"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:43
+msgid "Number of email invitations users are permitted to send at a time"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:45
+msgid "Default text of email invitation message"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:48
+msgid "Access Settings"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:50
+msgid "Allow email invitations to be sent by"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:52
+msgid "Number of groups to display per page"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:65
+msgid "Control the default behavior of Invite Anyone."
+msgstr ""
+
+#: invite-anyone/admin-panel.php:85
+msgid "Control which members are able to send various kinds of invitations."
+msgstr ""
+
+#: invite-anyone/admin-panel.php:94
+msgid "All users"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:96
+msgid "A limited set of users"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:100
+msgid ""
+"Only users who have been members of the site for a minimum number of days:"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:105
+msgid "Only users who have at least the following role on this blog:"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:107
+msgid "Subscriber"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:108
+msgid "Contributor"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:109
+msgid "Author"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:110
+msgid "Editor"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:111
+msgid "Administrator"
+msgstr ""
+
+#: invite-anyone/admin-panel.php:116
+msgid ""
+"Provide a comma-separated list of users (identified by their numerical user "
+"ids) who <strong>cannot</strong> send invitations by email:"
+msgstr ""
+
+#: invite-anyone/by-email.php:37
+msgid ""
+"It looks like you're trying to accept an invitation to join the site, but "
+"some information is missing. Please try again by clicking on the link in the "
+"invitation email."
+msgstr ""
+
+#: invite-anyone/by-email.php:67
+#, php-format
+msgid ""
+"Welcome! You've been invited by %s to join the site. Please fill out the "
+"information below to create your account."
+msgstr ""
+
+#: invite-anyone/by-email.php:143 invite-anyone/by-email.php:294
+msgid "Invite New Members"
+msgstr ""
+
+#: invite-anyone/by-email.php:153 invite-anyone/by-email.php:363
+msgid "Sent Invites"
+msgstr ""
+
+#: invite-anyone/by-email.php:298
+msgid "Enter email addresses in the fields below."
+msgstr ""
+
+#: invite-anyone/by-email.php:298
+msgid ""
+"You can only invite people whose email addresses end in one of the following "
+"domains:"
+msgstr ""
+
+#: invite-anyone/by-email.php:304
+msgid "(optional) Customize the text of the invitation."
+msgstr ""
+
+#: invite-anyone/by-email.php:310
+msgid ""
+"(optional) Select some groups. Invitees will receive invitations to these "
+"groups when they join the site."
+msgstr ""
+
+#: invite-anyone/by-email.php:347
+msgid "Your invitations were sent successfully!"
+msgstr ""
+
+#: invite-anyone/by-email.php:349
+msgid "Sorry, there was a problem sending your invitations. Please try again."
+msgstr ""
+
+#: invite-anyone/by-email.php:365
+msgid "You have sent invitations to the following people."
+msgstr ""
+
+#: invite-anyone/by-email.php:371
+msgid "Invited email address"
+msgstr ""
+
+#: invite-anyone/by-email.php:372
+msgid "Group invitations"
+msgstr ""
+
+#: invite-anyone/by-email.php:373
+msgid "Sent"
+msgstr ""
+
+#: invite-anyone/by-email.php:374
+msgid "Accepted"
+msgstr ""
+
+#: invite-anyone/by-email.php:495
+msgid "You didn't include any email addresses!"
+msgstr ""
+
+#: invite-anyone/by-email.php:544
+#, php-format
+msgid "An invitation to join %s"
+msgstr ""
+
+#: invite-anyone/by-email.php:550
+#, php-format
+msgid ""
+"\n"
+"\n"
+"To accept this invitation, please visit %s"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
