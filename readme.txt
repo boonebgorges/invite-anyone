@@ -3,7 +3,7 @@ Contributors: boonebgorges, cuny-academic-commons
 Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WPMU 2.8, BuddyPress 1.1
-Tested up to: WPMU 2.8.6, BuddyPress 1.2.1
+Tested up to: WPMU 2.9.2, BuddyPress 1.2.3
 Stable tag: 0.4
 
 Makes BuddyPress's invitation features more powerful.
