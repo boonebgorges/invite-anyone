@@ -1,6 +1,8 @@
 <?php
 
 /* Todo:
+	- remove banned/spammer members from member lists
+	- fix foreach error as reported in teleogistic comment
 	- on invitee join:
 		- notifications to inviter(s) that individual has joined
 	- admin functions:
@@ -287,12 +289,14 @@ function invite_anyone_screen_one_content() {
 		if ( $_GET['message'] )
 			$returned_message = urldecode( $_GET['message'] );
 		
+		$blogname = get_bloginfo('name');
+		$welcome_message = sprintf( __( "Invite friends to join %s by following these steps:", 'bp-invite-anyone' ), $blogname );
 	?>
 	<form action="<?php echo $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/send/' ?>" method="post">
 	
 	<ol id="invite-anyone-steps">
 		<h4><?php _e( 'Invite New Members', 'bp-invite-anyone' ) ?></h4>
-		<p>Invite friends to join <?php echo bloginfo('name'); ?> by following these steps:</p>
+		<p><?php echo $welcome_message ?></p>
 		
 		<li>
 			<p><?php _e( 'Enter email addresses in the fields below.', 'bp-invite-anyone' ) ?> <?php if( invite_anyone_allowed_domains() ) : ?> <?php _e( 'You can only invite people whose email addresses end in one of the following domains:', 'bp-invite-anyone' ) ?> <?php echo invite_anyone_allowed_domains(); ?><?php endif; ?></p>
