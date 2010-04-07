@@ -34,6 +34,7 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 == Changelog ==
 
 = 0.5 =
+* Enabled Opt Out option for invitees
 * Subject line is now customizable by the admin
 * Admin can toggle whether users can customize subject line and message body of invitation emails
 * Some localization bugs fixed

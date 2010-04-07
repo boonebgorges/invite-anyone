@@ -1,11 +1,13 @@
 <?php
 
 /* Todo:
-	- opt out link
 	- reply-to address
 		- send $headers to wp_mail
 		- set admin option to allow custom reply-to
-	- auto-populate email field
+	- make friendships and group joins automatic/forced
+		- but maybe make an admin toggle for it
+	- accept invitation screen
+		- check email to see if already registered
 	- on invitee join:
 		- notifications to inviter(s) that individual has joined
 	- admin functions:
@@ -34,6 +36,75 @@ add_action( 'wp', 'invite_anyone_setup_globals', 2 );
 add_action( 'admin_menu', 'invite_anyone_setup_globals', 2 );
 
 
+function invite_anyone_opt_out_screen() {
+	global $bp;
+	
+	if ( $_POST['oops_submit'] ) {
+		bp_core_redirect( site_url( BP_REGISTER_SLUG ) . '/accept-invitation/' . urlencode( $_POST['opt_out_email'] ) );
+	}
+	
+	$opt_out_button_text = __('Opt Out', 'bp-invite-anyone');
+	$oops_button_text =  __('Accept Invitation', 'bp-invite-anyone'); 
+	
+	$sitename = get_bloginfo('name');
+	
+	$opt_out_message = sprintf( __( 'To opt out of future invitations to %s, make sure that your email is entered in the field below and click "Opt Out".', 'bp-invite-anyone' ), $sitename );
+	
+	$oops_message = sprintf( __( 'If you are here by mistake and would like to accept your invitation to %s, click "Accept Invitation" instead.', 'bp-invite-anyone' ), $sitename );
+	
+	if ( $bp->current_component == BP_REGISTER_SLUG && $bp->current_action == 'opt-out' ) {
+		get_header();
+?>
+		<div id="content">
+		<div class="padder">
+		<?php if ( $bp->action_variables[1] == 'submit' ) : ?>
+			<?php if ( $_POST['opt_out_submit'] == $opt_out_button_text && $email = urldecode( $_POST['opt_out_email'] ) ) : ?>
+			
+				<?php check_admin_referer( 'invite_anyone_opt_out' ) ?>
+			
+				<?php if ( invite_anyone_mark_as_opt_out( $email ) ) : ?>
+					<?php $opted_out_message = __( 'You have successfully opted out. No more invitation emails will be sent to you by this site.', 'bp-invite-anyone' ) ?>
+					<p><?php echo $opted_out_message ?></p>
+				<?php else : ?>
+					<p><?php _e( 'Sorry, there was an error in processing your request', 'bp-invite-anyone' ) ?></p>
+				<?php endif; ?>			
+			<?php else : ?>
+			
+					<?php print_r($_POST); ?>
+			<?php endif; ?>
+		
+		<?php else : ?>
+			<?php if ( $email = $bp->action_variables[0] ) : ?>
+				<script type="text/javascript">
+				jQuery(document).ready( function() {
+					jQuery("input#opt_out_email").val("<?php echo urldecode($email) ?>");
+				});
+				</script> 
+			<?php endif; ?>
+			
+			<form action="<?php echo $email ?>/submit" method="post">
+				<p><?php echo $opt_out_message ?></p>
+				
+				<p><?php echo $oops_message ?></p>
+				
+				<?php wp_nonce_field( 'invite_anyone_opt_out' ) ?>
+				<p><?php _e( 'Email:', 'bp-invite-anyone' ) ?> <input type="text" id="opt_out_email" name="opt_out_email" size="50" /></p>
+				
+				<p><input type="submit" name="opt_out_submit" value="<?php echo $opt_out_button_text ?>" /> <input type="submit" name="oops_submit" value="<?php echo $oops_button_text ?>" /> 
+				</p>
+				
+			</form>
+		<?php endif; ?>
+		</div>
+		</div>
+<?php
+		get_footer();
+		die();
+	
+	}
+}
+add_action( 'wp', 'invite_anyone_opt_out_screen', 1 );
+
 
 function invite_anyone_register_screen_message() {
 	global $bp;
@@ -45,12 +116,12 @@ function invite_anyone_register_screen_message() {
 	
 	<?php if ( $bp->current_action == 'accept-invitation' && $email = urldecode( $bp->action_variables[0] ) ) : ?>
 	
-	<script type="text/javascript">
-	jQuery(document).ready( function() {
-		jQuery("input#signup_email").val("<?php echo $email ?>");
-	});
-	
-	</script>
+		<script type="text/javascript">
+		jQuery(document).ready( function() {
+			jQuery("input#signup_email").val("<?php echo $email ?>");
+		});
+		
+		</script>
 	
 	
 		<?php 			
@@ -62,10 +133,14 @@ function invite_anyone_register_screen_message() {
 			}
 			
 			$inviters_text = '';
-			if ( count( $inviters ) == 1 ) {
+			if ( count( $inviters ) == 0 ) {
+				$inviters_text = '';
+			} else if ( count( $inviters ) == 1 ) {
+				$inviters_text .= 'by ';
 				$inviters_text .= bp_core_get_user_displayname( $inviters[0] );
 			} else {
 				$counter = 1;
+				$inviters_text .= 'by ';
 				$inviters_text .= bp_core_get_user_displayname( $inviters[0] );
 				while ( $counter < count( $inviters ) - 1 ) {
 					$inviters_text .= ', ' . bp_core_get_user_displayname( $inviters[$counter] );
@@ -75,10 +150,9 @@ function invite_anyone_register_screen_message() {
 			}
 					
 
-/* Todo: make an error happen when the email address in action_variables isn't real */
 		
 			
-			$message = sprintf( __( "Welcome! You've been invited by %s to join the site. Please fill out the information below to create your account.", 'bp-invite-anyone' ), $inviters_text );
+			$message = sprintf( __( "Welcome! You've been invited %s to join the site. Please fill out the information below to create your account.", 'bp-invite-anyone' ), $inviters_text );
 				
 		?>
 		<div id="message" class="success"><p><?php echo $message ?></p></div>	
@@ -244,9 +318,7 @@ function invite_anyone_access_test() {
 				return false;			
 		}
 	}
-	
-	/* Todo: flesh this out. User blacklist; minimum role */
-	
+		
 	return true;
 		
 }
@@ -377,8 +449,6 @@ function invite_anyone_screen_one_content() {
 function invite_anyone_screen_two() {
 	global $bp;
 	
-	
-	/* Todo: "Are you sure" page after "Send Invites" */
 	if ( $bp->current_component == $bp->invite_anyone->slug && $bp->current_action == 'sent-invites' && $bp->action_variables[0] == 'send' ) {
 		if ( invite_anyone_process_invitations( $_POST ) )
 			bp_core_add_message( __( 'Your invitations were sent successfully!', 'bp-invite-anyone' ), 'success' );
@@ -574,28 +644,37 @@ function invite_anyone_process_invitations( $data ) {
 	foreach( $emails as $email ) {
 		$check = invite_anyone_validate_email( $email );
 		switch ( $check ) {
-			case 'unsafe' :
-				bp_core_add_message( __("Sorry, $email is not a permitted email address.", 'bp-invite-anyone' ), 'error' );
-				$is_error = 1;
-				break;
 			
-			case 'invalid' :
-				bp_core_add_message( __("Sorry, $email is not a valid email address. Please make sure that you have typed it correctly.", 'bp-invite-anyone' ), 'error' );
-				$is_error = 1;
-				break;
-			
-			case 'limited_domain' :
-				bp_core_add_message( __( "Sorry, $email is not a permitted email address. Please make sure that you have typed the domain name correctly.", 'bp-invite-anyone' ), 'error');
+			case 'opt_out' :
+				$error_message = __( "Sorry, $email has opted out of email invitations from this site.", 'bp-invite-anyone' );
 				$is_error = 1;
 				break;
 			
 			case 'used' :
-				bp_core_add_message( __( "$email is already a registered user of this site.", 'bp-invite_anyone'), 'error');
+				$error_message = __( "Sorry, $email is already a registered user of the site. ", 'bp-invite-anyone' );
 				$is_error = 1;
-				break;		
+				break;
+				
+			case 'unsafe' :
+				$error_message = __( "Sorry, $email is not a permitted email address.", 'bp-invite-anyone' );
+				$is_error = 1;
+				break;
+			
+			case 'invalid' :
+				$error_message = __( "Sorry, $email is not a valid email address. Please make sure that you have typed it correctly.", 'bp-invite-anyone' );
+				$is_error = 1;
+				break;
+			
+			case 'limited_domain' :
+				$error_message = __( "Sorry, $email is not a permitted email address. Please make sure that you have typed the domain name correctly.", 'bp-invite-anyone' );
+				$is_error = 1;
+				break;	
 		}
 		
 		if ( $is_error ) {
+			$error_message .= " " . __( 'Please remove the email address and try again.', 'bp-invite-anyone' );
+			bp_core_add_message( $error_message, 'error' );
+		
 			$d = '';
 			foreach ( $emails as $key => $email )
 				$d .= "email$key=" . urlencode($email) . '&';
@@ -624,9 +703,15 @@ function invite_anyone_process_invitations( $data ) {
 				
 		$accept_link =  site_url( BP_REGISTER_SLUG ) . '/accept-invitation/' . urlencode($email);
 		
+		$opt_out_link = site_url( BP_REGISTER_SLUG ) . '/opt-out/' . urlencode( $email );
+	
 		$message .= sprintf( __( '
 
 To accept this invitation, please visit %s', 'bp-invite-anyone' ), $accept_link );
+		
+		$message .= sprintf( __( '
+
+To opt out of future invitations to this site, please visit %s', 'bp-invite-anyone' ), $opt_out_link );
 		
 		$to = apply_filters( 'invite_anyone_invitee_email', $email );
 		$subject = apply_filters( 'invite_anyone_invitation_subject', $subject );
@@ -660,16 +745,23 @@ function invite_anyone_validate_email( $user_email ) {
 	//if ( email_exists($user_email) )
 	//	return 'used';
 	
+	if ( invite_anyone_check_is_opt_out( $user_email ) )
+		return 'opt_out';
+
+	if ( $user = get_user_by_email( $user_email ) )
+		return 'used';
+
 	// Many of he following checks can only be run on WPMU
 	if ( function_exists( 'is_email_address_unsafe' ) ) {
 		if ( is_email_address_unsafe( $user_email ) )
 			return 'unsafe';
 	}
-		
+
 	if ( function_exists( 'validate_email' ) ) {
 		if ( !validate_email( $user_email ) )
 			return 'invalid';
 	}
+		
 	
 	if ( function_exists( 'get_site_option' ) ) {
 		if ( $limited_email_domains = get_site_option( 'limited_email_domains' ) ) {
