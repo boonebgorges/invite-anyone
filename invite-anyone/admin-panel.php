@@ -39,6 +39,8 @@ function invite_anyone_settings_setup() {
 	
 	/* General Settings */
 	add_settings_section('invite_anyone_general_settings', __('General Settings', 'bp-invite-anyone'), 'invite_anyone_settings_main_content', 'invite_anyone');
+
+	add_settings_field('invite_anyone_settings_replacement_patterns', __('Replacement patterns for email text fields', 'bp-invite-anyone'), 'invite_anyone_settings_replacement_patterns', 'invite_anyone', 'invite_anyone_general_settings');
 		
 	add_settings_field('invite_anyone_settings_default_invitation_subject', __('Text of email invitation subject line', 'bp-invite-anyone'), 'invite_anyone_settings_default_invitation_subject', 'invite_anyone', 'invite_anyone_general_settings');
 	
@@ -72,15 +74,21 @@ global $current_user;
 ?>
 	<p><?php _e( 'Control the default behavior of Invite Anyone.', 'bp-invite-anyone' ) ?></p>
 
-	<p>Replacement patterns for the following text boxes: 
+
+<?php
+}
+
+function invite_anyone_settings_replacement_patterns() {
+?>
+
 		<ul>
 			<li><strong>%%INVITERNAME%%</strong> - display name of the inviter</li>
 			<li><strong>%%INVITERURL%%</strong> - URL to the profile of the inviter</li>
 			<li><strong>%%SITENAME%%</strong> - name of your site (<?php bloginfo('name') ?>)</li>
 		</ul>
-
 <?php
 }
+
 
 /* Max number of email invitations at a time */
 
