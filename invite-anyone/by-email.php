@@ -1,11 +1,16 @@
 <?php
 
 /* Todo:
+	- opt out link
+	- reply-to address
+		- send $headers to wp_mail
+		- set admin option to allow custom reply-to
+	- auto-populate email field
 	- on invitee join:
 		- notifications to inviter(s) that individual has joined
 	- admin functions:
 		- toggle group link
-		- toggle each of two parts of plugin; maybe for different user levels too
+		- toggle group invitations: standard vs all members
 	- email verification - email_exists. If found, give link to the profile (w friend link?)
 	- js for inline validation
 	- hook into member lists and searches with "not finding?" message
@@ -39,6 +44,15 @@ function invite_anyone_register_screen_message() {
 	
 	
 	<?php if ( $bp->current_action == 'accept-invitation' && $email = urldecode( $bp->action_variables[0] ) ) : ?>
+	
+	<script type="text/javascript">
+	jQuery(document).ready( function() {
+		jQuery("input#signup_email").val("<?php echo $email ?>");
+	});
+	
+	</script>
+	
+	
 		<?php 			
 			$invites = invite_anyone_get_invitations_by_invited_email( $email );
 			$inviters = array();

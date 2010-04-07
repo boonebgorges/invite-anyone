@@ -39,6 +39,7 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 * Some localization bugs fixed
 * Filtered spammers from group invitation list
 * Fixed bug that may have caused problems with some MU limited email domain lists
+* Email Address field is now auto-populated on Accept Invitation screen
 
 = 0.4.1 =
 * Fixed problem with email validation causing fatal errors on single WP
