@@ -42,9 +42,7 @@ function invite_anyone_activation() {
 	
 	if ( !$iaoptions = get_option( 'invite_anyone' ) )
 		$iaoptions = array(
-			'db_version' => 0.5,
 			'max_invites' => 5,
-			'default_invitation_message' => 'Hi there',
 			'allow_email_invitations' => 'all',
 			'message_is_customizable' => 'yes',
 			'subject_is_customizable' => 'no'
