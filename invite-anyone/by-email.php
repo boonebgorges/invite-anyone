@@ -1,8 +1,6 @@
 <?php
 
 /* Todo:
-	- remove banned/spammer members from member lists
-	- fix foreach error as reported in teleogistic comment
 	- on invitee join:
 		- notifications to inviter(s) that individual has joined
 	- admin functions:
@@ -526,7 +524,7 @@ function invite_anyone_allowed_domains() {
 	if ( function_exists( 'get_site_option' ) ) {
 		$limited_email_domains = get_site_option( 'limited_email_domains' );
 		
-		if ( !$limited_email_domains )
+		if ( !$limited_email_domains || !is_array( $limited_email_domains ) )
 			return $domains;
 		
 		foreach( $limited_email_domains as $domain )
