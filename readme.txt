@@ -37,6 +37,7 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 * Subject line is now customizable by the admin
 * Admin can toggle whether users can customize subject line and message body of invitation emails
 * Some localization bugs fixed
+* Filtered spammers from group invitation list
 
 = 0.4.1 =
 * Fixed problem with email validation causing fatal errors on single WP

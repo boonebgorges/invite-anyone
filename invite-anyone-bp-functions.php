@@ -349,7 +349,7 @@ function get_members_invite_list( $user_id = false, $group_id ) {
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
 	
-	$query = "SELECT * FROM {$wpdb->users}";
+	$query = "SELECT * FROM {$wpdb->users} WHERE spam=0";
 	$members = $wpdb->get_results( $query, ARRAY_A );
 
 	if ( !count($members) )
