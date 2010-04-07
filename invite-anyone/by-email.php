@@ -286,9 +286,13 @@ function invite_anyone_screen_one_content() {
 			$counter++;
 		}
 		
+		
+		if ( $_GET['subject'] )
+			$returned_subject = urldecode( $_GET['subject'] );
+		
 		if ( $_GET['message'] )
 			$returned_message = urldecode( $_GET['message'] );
-		
+				
 		$blogname = get_bloginfo('name');
 		$welcome_message = sprintf( __( "Invite friends to join %s by following these steps:", 'bp-invite-anyone' ), $blogname );
 	?>
@@ -305,8 +309,24 @@ function invite_anyone_screen_one_content() {
 		<?php invite_anyone_email_fields( $returned_emails ) ?>
 		
 		<li>
-			<p><?php _e( '(optional) Customize the text of the invitation.', 'bp-invite-anyone' ) ?></p>
-			<textarea rows="5" cols="40" name="invite_anyone_custom_message" id="invite-anyone-custom-message"><?php echo invite_anyone_invitation_message( $returned_message ) ?></textarea>		
+			<?php if ( $iaoptions['subject_is_customizable'] == 'yes' ) : ?>
+				<p><?php _e( '(optional) Customize the subject line of the invitation email.', 'bp-invite-anyone' ) ?></p>
+					<textarea rows="2" cols="60" name="invite_anyone_custom_subject" id="invite-anyone-custom-subject"><?php echo invite_anyone_invitation_subject( $returned_subject ) ?></textarea>	
+			<?php else : ?>
+				<p><strong>Subject: </strong><?php echo invite_anyone_invitation_subject( $returned_message ) ?></p>
+				<input type="hidden" name="invite_anyone_custom_subject" value="<?php echo invite_anyone_invitation_subject() ?>" />
+			<?php endif; ?>
+		</li>
+		
+		<li>
+			<?php if ( $iaoptions['message_is_customizable'] == 'yes' ) : ?>
+				<p><?php _e( '(optional) Customize the text of the invitation.', 'bp-invite-anyone' ) ?></p>
+					<textarea rows="7" cols="60" name="invite_anyone_custom_message" id="invite-anyone-custom-message"><?php echo invite_anyone_invitation_message( $returned_message ) ?></textarea>		
+			<?php else : ?>
+				<p><strong>Message: </strong><?php echo invite_anyone_invitation_message( $returned_message ) ?></p>
+				<input type="hidden" name="invite_anyone_custom_message" value="<?php echo invite_anyone_invitation_message() ?>" />
+			<?php endif; ?>
+		
 		</li>
 		
 		<?php if ( bp_has_groups( "type=alphabetical&user_id=" . bp_loggedin_user_id() ) ) : ?>
@@ -437,6 +457,30 @@ function invite_anyone_email_fields( $returned_emails = false ) {
 <?php
 }
 
+
+function invite_anyone_invitation_subject( $returned_message = false ) {
+	global $bp;
+	
+	if ( !$returned_message ) {
+		$site_name = get_bloginfo('name');
+		
+		if ( !$iaoptions = get_option( 'invite_anyone' ) )
+			$iaoptions = array();
+		
+		if ( !$text = $iaoptions['default_invitation_subject'] ) {
+			$text = __( "An invitation to join the %%SITENAME%% community.", 'bp-invite-anyone' ); /* Do not translate the string %%SITENAME%%! */ 
+		}
+		
+		if ( !is_admin() ) {
+			$text = invite_anyone_wildcard_replace( $text );
+		}
+	} else {
+		$text = $returned_message;	
+	}
+	
+	return $text;
+}
+
 function invite_anyone_invitation_message( $returned_message = false ) {
 	global $bp;
 	
@@ -448,16 +492,29 @@ function invite_anyone_invitation_message( $returned_message = false ) {
 			$iaoptions = array();
 		
 		if ( !$text = $iaoptions['default_invitation_message'] ) {
-			$text = "You have been invited by %%INVITERNAME%% to join the %%SITENAME%% community."; 
+			$text = __( "You have been invited by %%INVITERNAME%% to join the %%SITENAME%% community. \n\r\n\rVisit %%INVITERNAME%%'s profile at %%INVITERURL%%.", 'bp-invite-anyone' ); /* Do not translate the strings embedded in %% ... %% ! */ 
 		}
 		
 		if ( !is_admin() ) {
-			$text = str_replace( '%%INVITERNAME%%', $inviter_name, $text );
-			$text = str_replace( '%%SITENAME%%', $site_name, $text );
+			$text = invite_anyone_wildcard_replace( $text );
 		}
 	} else {
 		$text = $returned_message;	
 	}
+	
+	return $text;
+}
+
+function invite_anyone_wildcard_replace( $text ) {
+	global $bp;
+	
+	$inviter_name = $bp->loggedin_user->userdata->display_name;
+	$site_name = get_bloginfo('name');
+	$inviter_url = bp_loggedin_user_domain();
+	
+	$text = str_replace( '%%INVITERNAME%%', $inviter_name, $text );
+	$text = str_replace( '%%SITENAME%%', $site_name, $text );
+	$text = str_replace( '%%INVITERURL%%', $inviter_url, $text );
 	
 	return $text;
 }
@@ -534,8 +591,11 @@ function invite_anyone_process_invitations( $data ) {
 			foreach ( $data['invite_anyone_groups'] as $key => $group )
 				$d .= "group$key=" . $group . '&';
 			
-			$d .= 'message=' . urlencode($data['invite_anyone_custom_message']);
+			if ( $data['invite_anyone_custom_subject'] )
+				$d .= 'subject=' . urlencode($data['invite_anyone_custom_subject']);
 		
+			$d .= 'message=' . urlencode($data['invite_anyone_custom_message']);
+				
 			bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members?' . $d  );
 		}		
 	}
@@ -546,10 +606,10 @@ function invite_anyone_process_invitations( $data ) {
 	$is_error = 0;
 	
 	foreach( $emails as $email ) {
-		$subject = '[' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '] ' . sprintf( __( 'An invitation to join %s', 'buddypress' ), get_blog_option( BP_ROOT_BLOG, 'blogname' ) );
+		$subject = stripslashes( strip_tags( $data['invite_anyone_custom_subject'] ) );
 
-		$message = strip_tags($data['invite_anyone_custom_message']);
-		
+		$message = stripslashes( strip_tags( $data['invite_anyone_custom_message'] ) );
+				
 		$accept_link =  site_url( BP_REGISTER_SLUG ) . '/accept-invitation/' . urlencode($email);
 		
 		$message .= sprintf( __( '
@@ -559,7 +619,7 @@ To accept this invitation, please visit %s', 'bp-invite-anyone' ), $accept_link 
 		$to = apply_filters( 'invite_anyone_invitee_email', $email );
 		$subject = apply_filters( 'invite_anyone_invitation_subject', $subject );
 		$message = apply_filters( 'invite_anyone_invitation_message', $message, $accept_link );
-		
+				
 		wp_mail( $to, $subject, $message );
 			
 		/* todo: isolate which email(s) cause problems, and send back to user */

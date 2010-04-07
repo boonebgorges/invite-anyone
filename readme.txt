@@ -33,6 +33,11 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 
 == Changelog ==
 
+= 0.5 =
+* Subject line is now customizable by the admin
+* Admin can toggle whether users can customize subject line and message body of invitation emails
+* Some localization bugs fixed
+
 = 0.4.1 =
 * Fixed problem with email validation causing fatal errors on single WP
 * Fixed bug that allows members to see Send Invites tab on profiles other than their own

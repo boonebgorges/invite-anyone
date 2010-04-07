@@ -1,62 +1,237 @@
-#!/usr/bin/env php
-# Translation of the WordPress plugin Invite Anyone 0.3.3 by Boone Gorges.
+# Translation of the WordPress plugin Invite Anyone 0.4 by Boone Gorges.
 # Copyright (C) 2010 Boone Gorges
 # This file is distributed under the same license as the Invite Anyone package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Invite Anyone 0.3.3\n"
+"Project-Id-Version: Invite Anyone 0.4\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/invite-anyone\n"
-"POT-Creation-Date: 2010-03-29 16:03+0000\n"
-"PO-Revision-Date: 2010-03-30 09:46+0100\n"
+"POT-Creation-Date: 2010-04-05 14:06+0000\n"
+"PO-Revision-Date: 2010-04-06 22:25+0100\n"
 "Last-Translator: Jesper\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: invite-anyone-bp-functions.php:15
-#: invite-anyone-bp-functions.php:171
-#: invite-anyone-bp-functions.php:261
+#: invite-anyone-bp-functions.php:20
+#: invite-anyone-bp-functions.php:176
+#: invite-anyone-bp-functions.php:274
+#: invite-anyone/by-email.php:131
+#: invite-anyone/by-email.php:329
 msgid "Send Invites"
 msgstr "Stuur Uitnodigingen"
 
-#: invite-anyone-bp-functions.php:73
+#: invite-anyone-bp-functions.php:78
 msgid "Group invites sent."
 msgstr "Groep uitnodigingen verstuurd."
 
-#: invite-anyone-bp-functions.php:75
+#: invite-anyone-bp-functions.php:80
 msgid "Group created successfully."
 msgstr "Groep succesvol aangemaakt."
 
-#: invite-anyone-bp-functions.php:111
-#: invite-anyone-bp-functions.php:200
+#: invite-anyone-bp-functions.php:116
+#: invite-anyone-bp-functions.php:210
 msgid "Search for members to invite:"
 msgstr "Zoek naar leden om uit te nodigen:"
 
-#: invite-anyone-bp-functions.php:119
-#: invite-anyone-bp-functions.php:208
-msgid "Or select members from the directory:"
-msgstr "Of selecteer leden uit de directory:"
+#: invite-anyone-bp-functions.php:124
+#: invite-anyone-bp-functions.php:218
+msgid "Select members from the directory:"
+msgstr "Selecteer leden uit de directory:"
 
-#: invite-anyone-bp-functions.php:134
+#: invite-anyone-bp-functions.php:139
 msgid "Select people to invite."
 msgstr "Selecteer mensen om uit te nodigen."
 
-#: invite-anyone-bp-functions.php:154
-#: invite-anyone-bp-functions.php:243
-#: invite-anyone-bp-functions.php:387
+#: invite-anyone-bp-functions.php:159
+#: invite-anyone-bp-functions.php:255
+#: invite-anyone-bp-functions.php:406
 msgid "Remove Invite"
 msgstr "Verwijder Uitnodiging"
 
-#: invite-anyone-bp-functions.php:223
+#: invite-anyone-bp-functions.php:200
+msgid "Want to invite someone to the group who is not yet a member of the site?"
+msgstr "Wil je iemand uitnodigen voor de groep die nog geen lid is van deze site?"
+
+#: invite-anyone-bp-functions.php:200
+msgid "Send invitations by email."
+msgstr "Stuur uitnodigingen per email."
+
+#: invite-anyone-bp-functions.php:235
 msgid "Select people to invite from your friends list."
 msgstr "Selecteer mensen uit je vriendenlijst om uit te nodigen."
 
+#. #-#-#-#-#  plugin.pot (Invite Anyone 0.4)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
+#: invite-anyone/admin-panel.php:4
 msgid "Invite Anyone"
-msgstr "Iedereen Uitnodigen"
+msgstr "Invite Anyone"
+
+#: invite-anyone/admin-panel.php:22
+msgid "Invite Anyone Settings"
+msgstr "Invite Anyone Instellingen"
+
+#: invite-anyone/admin-panel.php:28
+msgid "Save Changes"
+msgstr "Bewaar Wijzigingen"
+
+#: invite-anyone/admin-panel.php:41
+msgid "General Settings"
+msgstr "Algemene Instellingen"
+
+#: invite-anyone/admin-panel.php:43
+msgid "Number of email invitations users are permitted to send at a time"
+msgstr "Aantal email uitnodigingen die gebruikers per keer mogen versturen"
+
+#: invite-anyone/admin-panel.php:45
+msgid "Default text of email invitation message"
+msgstr "Standaard tekst van email uitnodiging bericht"
+
+#: invite-anyone/admin-panel.php:48
+msgid "Access Settings"
+msgstr "Toegang Instellingen"
+
+#: invite-anyone/admin-panel.php:50
+msgid "Allow email invitations to be sent by"
+msgstr "Sta email uitnodigingen toe om verstuurd te worden door"
+
+#: invite-anyone/admin-panel.php:52
+msgid "Number of groups to display per page"
+msgstr "Aantal groepen om te tonen per pagina"
+
+#: invite-anyone/admin-panel.php:65
+msgid "Control the default behavior of Invite Anyone."
+msgstr "Beheer het standaard gedrag van Invite Anyone."
+
+#: invite-anyone/admin-panel.php:85
+msgid "Control which members are able to send various kinds of invitations."
+msgstr "Beheer welke leden verschillende soorten uitnodigingen kunnen versturen."
+
+#: invite-anyone/admin-panel.php:94
+msgid "All users"
+msgstr "Alle gebruikers"
+
+#: invite-anyone/admin-panel.php:96
+msgid "A limited set of users"
+msgstr "Een gelimiteerd aantal gebruikers"
+
+#: invite-anyone/admin-panel.php:100
+msgid "Only users who have been members of the site for a minimum number of days:"
+msgstr "Alleen gebruikers die al een minimaal aantal dagen lid zijn van de site:"
+
+#: invite-anyone/admin-panel.php:105
+msgid "Only users who have at least the following role on this blog:"
+msgstr "Alleen gebruikers die tenminste de volgende rol op dit blog hebben:"
+
+#: invite-anyone/admin-panel.php:107
+msgid "Subscriber"
+msgstr "Subscriber"
+
+#: invite-anyone/admin-panel.php:108
+msgid "Contributor"
+msgstr "Contributor"
+
+#: invite-anyone/admin-panel.php:109
+msgid "Author"
+msgstr "Author"
+
+#: invite-anyone/admin-panel.php:110
+msgid "Editor"
+msgstr "Editor"
+
+#: invite-anyone/admin-panel.php:111
+msgid "Administrator"
+msgstr "Administrator"
+
+#: invite-anyone/admin-panel.php:116
+msgid "Provide a comma-separated list of users (identified by their numerical user ids) who <strong>cannot</strong> send invitations by email:"
+msgstr "Lever een komma gescheiden lijst van gebruikers (geïdentificeerd door hun numerieke user ids) die <strong>niet</strong> uitnodigingen per email kunnen versturen:"
+
+#: invite-anyone/by-email.php:37
+msgid "It looks like you're trying to accept an invitation to join the site, but some information is missing. Please try again by clicking on the link in the invitation email."
+msgstr "Het lijkt erop dat je probeert een uitnodiging, om lid van de site te worden, te accepteren. Maar enkele informatie is onvolledig. Probeer aub opnieuw door op de link in de uitnodigings-email te klikken."
+
+#: invite-anyone/by-email.php:67
+#, php-format
+msgid "Welcome! You've been invited by %s to join the site. Please fill out the information below to create your account."
+msgstr "Welkom! Je bent uitgenodigd door %s om lid van de site te worden. Vul aub de onderstaande informatie in om een account te maken."
+
+#: invite-anyone/by-email.php:143
+#: invite-anyone/by-email.php:294
+msgid "Invite New Members"
+msgstr "Nodig Nieuwe Leden Uit"
+
+#: invite-anyone/by-email.php:153
+#: invite-anyone/by-email.php:363
+#, fuzzy
+msgid "Sent Invites"
+msgstr "Stuur Uitnodigingen"
+
+#: invite-anyone/by-email.php:298
+msgid "Enter email addresses in the fields below."
+msgstr "Vul email adressen in het onderstaande veld in."
+
+#: invite-anyone/by-email.php:298
+msgid "You can only invite people whose email addresses end in one of the following domains:"
+msgstr "Je kunt alleen mensen uitnodigen wiens email adressen eindigen op een van de volgende domeinen:"
+
+#: invite-anyone/by-email.php:304
+msgid "(optional) Customize the text of the invitation."
+msgstr "(optioneel) Maak de tekst van de uitnodiging op maat."
+
+#: invite-anyone/by-email.php:310
+msgid "(optional) Select some groups. Invitees will receive invitations to these groups when they join the site."
+msgstr "(optioneel) Selecteer een aantal groepen. Genodigden ontvangen invitaties tot deze groepen wanneer ze lid van de site worden."
+
+#: invite-anyone/by-email.php:347
+msgid "Your invitations were sent successfully!"
+msgstr "Je uitnodigingen zijn succesvol verstuurd!"
+
+#: invite-anyone/by-email.php:349
+msgid "Sorry, there was a problem sending your invitations. Please try again."
+msgstr "Sorry, Er was een probleem bij het versturen van je uitnodiging. Probeer opnieuw aub."
+
+#: invite-anyone/by-email.php:365
+msgid "You have sent invitations to the following people."
+msgstr "Je hebt de volgende mensen uitnodigingen gestuurd."
+
+#: invite-anyone/by-email.php:371
+msgid "Invited email address"
+msgstr "Uitgenodigd email adres"
+
+#: invite-anyone/by-email.php:372
+msgid "Group invitations"
+msgstr "Groep uitnodigingen"
+
+#: invite-anyone/by-email.php:373
+msgid "Sent"
+msgstr "Verzonden"
+
+#: invite-anyone/by-email.php:374
+msgid "Accepted"
+msgstr "Geaccepteerd"
+
+#: invite-anyone/by-email.php:495
+msgid "You didn't include any email addresses!"
+msgstr "Je hebt geen email adressen toegevoegd!"
+
+#: invite-anyone/by-email.php:544
+#, php-format
+msgid "An invitation to join %s"
+msgstr "Een uitnodiging om lid te worden van %s"
+
+#: invite-anyone/by-email.php:550
+#, php-format
+msgid ""
+"\n"
+"\n"
+"To accept this invitation, please visit %s"
+msgstr ""
+"\n"
+"\n"
+"Om deze uitnodiging te accepteren, bezoek aub %s"
 
 #. Plugin URI of the plugin/theme
 msgid "http://teleogistic.net/code/buddypress/invite-anyone/"

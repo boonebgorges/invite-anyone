@@ -39,10 +39,18 @@ function invite_anyone_settings_setup() {
 	
 	/* General Settings */
 	add_settings_section('invite_anyone_general_settings', __('General Settings', 'bp-invite-anyone'), 'invite_anyone_settings_main_content', 'invite_anyone');
+		
+	add_settings_field('invite_anyone_settings_default_invitation_subject', __('Text of email invitation subject line', 'bp-invite-anyone'), 'invite_anyone_settings_default_invitation_subject', 'invite_anyone', 'invite_anyone_general_settings');
+	
+	
+	add_settings_field('invite_anyone_settings_default_invitation_message', __('Text of email invitation message', 'bp-invite-anyone'), 'invite_anyone_settings_default_invitation_message', 'invite_anyone', 'invite_anyone_general_settings');
+	
+		
+	
+	add_settings_field('invite_anyone_settings_is_customizable', __('Allow users to customize invitation', 'bp-invite-anyone'), 'invite_anyone_settings_is_customizable', 'invite_anyone', 'invite_anyone_general_settings');	
+
 	
 	add_settings_field('invite_anyone_settings_number_of_invitations', __('Number of email invitations users are permitted to send at a time', 'bp-invite-anyone'), 'invite_anyone_settings_number_of_invitations', 'invite_anyone', 'invite_anyone_general_settings');
-	
-	add_settings_field('invite_anyone_settings_default_invitation_message', __('Default text of email invitation message', 'bp-invite-anyone'), 'invite_anyone_settings_default_invitation_message', 'invite_anyone', 'invite_anyone_general_settings');
 		
 	/* Access Settings */
 	add_settings_section('invite_anyone_access_settings', __('Access Settings', 'bp-invite-anyone'), 'invite_anyone_settings_access_content', 'invite_anyone');
@@ -63,6 +71,14 @@ function invite_anyone_settings_main_content() {
 global $current_user;
 ?>
 	<p><?php _e( 'Control the default behavior of Invite Anyone.', 'bp-invite-anyone' ) ?></p>
+
+	<p>Replacement patterns for the following text boxes: 
+		<ul>
+			<li><strong>%%INVITERNAME%%</strong> - display name of the inviter</li>
+			<li><strong>%%INVITERURL%%</strong> - URL to the profile of the inviter</li>
+			<li><strong>%%SITENAME%%</strong> - name of your site (<?php bloginfo('name') ?>)</li>
+		</ul>
+
 <?php
 }
 
@@ -73,11 +89,29 @@ function invite_anyone_settings_number_of_invitations() {
 	echo "<input id='invite_anyone_settings_number_of_invitations' name='invite_anyone[max_invites]' size='10' type='text' value='{$options['max_invites']}' />";
 }
 
+function invite_anyone_settings_default_invitation_subject() {
+	$options = get_option( 'invite_anyone' );
+	echo "<textarea name='invite_anyone[default_invitation_subject]' cols=60 rows=2 >" . invite_anyone_invitation_subject() . "</textarea>";
+}
+
 function invite_anyone_settings_default_invitation_message() {
 	$options = get_option( 'invite_anyone' );
-	echo "<textarea id='invite_anyone_settings_number_of_invitations' name='invite_anyone[default_invitation_message]' cols=60 rows=5 >" . invite_anyone_invitation_message() . "</textarea>";
-	echo "<br />";
-	echo "Replacement patterns: <ul><li><strong>%%INVITERNAME%%</strong> - display name of the inviter</li><li><strong>%%SITENAME%%</strong> - name of your site (" .  get_bloginfo('name') . ")</li></ul>";
+	echo "<textarea name='invite_anyone[default_invitation_message]' cols=60 rows=5 >" . invite_anyone_invitation_message() . "</textarea>";
+}
+
+function invite_anyone_settings_is_customizable() {
+	$options = get_option( 'invite_anyone' );
+?>
+	<ul>
+		<li>
+			<input type="checkbox" name="invite_anyone[subject_is_customizable]" value="yes" <?php if( $options['subject_is_customizable'] == 'yes' ) : ?>checked="checked"<?php endif; ?> /> Subject line
+		</li>
+		
+		<li>
+			<input type="checkbox" name="invite_anyone[message_is_customizable]" value="yes" <?php if( $options['message_is_customizable'] == 'yes' ) : ?>checked="checked"<?php endif; ?> /> Message body
+		</li>
+	</ul>
+<?php
 }
 
 function invite_anyone_settings_access_content() {

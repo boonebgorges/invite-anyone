@@ -44,7 +44,9 @@ function invite_anyone_activation() {
 		$iaoptions = array(
 			'max_invites' => 5,
 			'default_invitation_message' => 'Hi there',
-			'allow_email_invitations' => 'all'
+			'allow_email_invitations' => 'all',
+			'message_is_customizable' => 'yes',
+			'subject_is_customizable' => 'no'
 		);
 	
 	add_option( 'invite_anyone', $iaoptions );
