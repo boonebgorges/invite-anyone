@@ -1,6 +1,9 @@
 <?php
 
 /* Todo:
+	- group invitations on send invite screen
+		- allow admin to shut them off
+		- add hook so that other plugins can recreate it (for mike pratt)
 	- reply-to address
 		- send $headers to wp_mail
 		- set admin option to allow custom reply-to
