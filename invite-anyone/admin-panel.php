@@ -53,7 +53,9 @@ function invite_anyone_settings_setup() {
 
 	
 	add_settings_field('invite_anyone_settings_number_of_invitations', __('Number of email invitations users are permitted to send at a time', 'bp-invite-anyone'), 'invite_anyone_settings_number_of_invitations', 'invite_anyone', 'invite_anyone_general_settings');
-		
+	
+	add_settings_field('invite_anyone_settings_can_send_group_invites_email', __('Allow users to send group invitations along with email invitations', 'bp-invite-anyone'), 'invite_anyone_settings_can_send_group_invites_email', 'invite_anyone', 'invite_anyone_general_settings');
+	
 	/* Access Settings */
 	add_settings_section('invite_anyone_access_settings', __('Access Settings', 'bp-invite-anyone'), 'invite_anyone_settings_access_content', 'invite_anyone');
 	
@@ -84,7 +86,6 @@ function invite_anyone_settings_replacement_patterns() {
 		<ul>
 			<li><strong>%%INVITERNAME%%</strong> - display name of the inviter</li>
 			<li><strong>%%INVITERURL%%</strong> - URL to the profile of the inviter</li>
-			<li><strong>%%SITENAME%%</strong> - name of your site (<?php bloginfo('name') ?>)</li>
 		</ul>
 <?php
 }
@@ -95,6 +96,13 @@ function invite_anyone_settings_replacement_patterns() {
 function invite_anyone_settings_number_of_invitations() {
 	$options = get_option( 'invite_anyone' );
 	echo "<input id='invite_anyone_settings_number_of_invitations' name='invite_anyone[max_invites]' size='10' type='text' value='{$options['max_invites']}' />";
+}
+
+function invite_anyone_settings_can_send_group_invites_email() {
+	$options = get_option( 'invite_anyone' );
+?>
+	<input type="checkbox" name="invite_anyone[can_send_group_invites_email]" value="yes" <?php if ( $options['can_send_group_invites_email'] == 'yes' ) : ?>checked="checked"<?php endif; ?> />
+<?php
 }
 
 function invite_anyone_settings_default_invitation_subject() {

@@ -1,0 +1,29 @@
+
+Todo:
+	- opt out confirmation screen
+		- make text editable by admin
+	- check input box widths (too narrow?)
+	- reply-to address
+		- send $headers to wp_mail
+		- set admin option to allow custom reply-to
+	- make friendships and group joins automatic/forced
+		- but maybe make an admin toggle for it
+	- sent invites screen
+		- have a way to filter/sort by accepted/not accepted
+		- have a way to clear individual accepted/all accepted
+		- paginate?
+	- accept invitation screen
+		- check email to see if already registered
+		- if not, give "you can still register" message
+		- check error message in case of no email in url
+		- add hook for admins to add other dropdown items? via crashutah
+	- on invitee join:
+		- notifications to inviter(s) that individual has joined
+	- admin functions:
+		- toggle group link
+		- toggle group invitations: standard vs all members
+		- allow sitewide admins to edit footer text without making it editable by users
+	- email verification - email_exists. If found, give link to the profile (w friend link?)
+	- js for inline validation
+	- hook into member lists and searches with "not finding?" message
+	- Invite Anyone widget

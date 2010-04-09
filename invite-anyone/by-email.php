@@ -1,27 +1,5 @@
 <?php
 
-/* Todo:
-	- group invitations on send invite screen
-		- allow admin to shut them off
-		- add hook so that other plugins can recreate it (for mike pratt)
-	- reply-to address
-		- send $headers to wp_mail
-		- set admin option to allow custom reply-to
-	- make friendships and group joins automatic/forced
-		- but maybe make an admin toggle for it
-	- accept invitation screen
-		- check email to see if already registered
-	- on invitee join:
-		- notifications to inviter(s) that individual has joined
-	- admin functions:
-		- toggle group link
-		- toggle group invitations: standard vs all members
-	- email verification - email_exists. If found, give link to the profile (w friend link?)
-	- js for inline validation
-	- hook into member lists and searches with "not finding?" message
-	- Invite Anyone widget
-*/
-
 require( dirname(__FILE__) . '/db.php' );
 
 function invite_anyone_setup_globals() {
@@ -416,7 +394,7 @@ function invite_anyone_screen_one_content() {
 		
 		</li>
 		
-		<?php if ( bp_has_groups( "type=alphabetical&user_id=" . bp_loggedin_user_id() ) ) : ?>
+		<?php if ( $iaoptions['can_send_group_invites_email'] == 'yes' && bp_has_groups( "type=alphabetical&user_id=" . bp_loggedin_user_id() ) ) : ?>
 		<li>
 			<p><?php _e( '(optional) Select some groups. Invitees will receive invitations to these groups when they join the site.', 'bp-invite-anyone' ) ?></p>
 			<ul id="invite-anyone-group-list">
@@ -433,6 +411,8 @@ function invite_anyone_screen_one_content() {
 		
 		</li>
 		<?php endif; ?>
+		
+		<?php do_action( 'invite_anyone_addl_fields' ) ?>
 		
 	</ol>
 		
@@ -553,7 +533,7 @@ function invite_anyone_invitation_subject( $returned_message = false ) {
 			$iaoptions = array();
 		
 		if ( !$text = $iaoptions['default_invitation_subject'] ) {
-			$text = __( "An invitation to join the %%SITENAME%% community.", 'bp-invite-anyone' ); /* Do not translate the string %%SITENAME%%! */ 
+			$text = sprintf( __( "An invitation to join the %s community.", 'bp-invite-anyone' ), $site_name );
 		}
 		
 		if ( !is_admin() ) {
@@ -577,7 +557,7 @@ function invite_anyone_invitation_message( $returned_message = false ) {
 			$iaoptions = array();
 		
 		if ( !$text = $iaoptions['default_invitation_message'] ) {
-			$text = __( "You have been invited by %%INVITERNAME%% to join the %%SITENAME%% community. \n\r\n\rVisit %%INVITERNAME%%'s profile at %%INVITERURL%%.", 'bp-invite-anyone' ); /* Do not translate the strings embedded in %% ... %% ! */ 
+			$text = sprintf( __( "You have been invited by %%INVITERNAME%% to join the %s community. \n\r\n\rVisit %%INVITERNAME%%'s profile at %%INVITERURL%%.", 'bp-invite-anyone' ), $sitename ); /* Do not translate the strings embedded in %% ... %% ! */ 
 		}
 		
 		if ( !is_admin() ) {
@@ -598,7 +578,6 @@ function invite_anyone_wildcard_replace( $text ) {
 	$inviter_url = bp_loggedin_user_domain();
 	
 	$text = str_replace( '%%INVITERNAME%%', $inviter_name, $text );
-	$text = str_replace( '%%SITENAME%%', $site_name, $text );
 	$text = str_replace( '%%INVITERURL%%', $inviter_url, $text );
 	
 	return $text;
@@ -695,6 +674,8 @@ function invite_anyone_process_invitations( $data ) {
 	}
 	
 	/* send and record invitations */
+	
+	do_action( 'invite_anyone_process_addl_fields' );
 	
 	$groups = $data['invite_anyone_groups'];	
 	$is_error = 0;

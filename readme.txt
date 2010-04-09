@@ -4,7 +4,7 @@ Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WPMU 2.8, BuddyPress 1.1
 Tested up to: WPMU 2.9.2, BuddyPress 1.2.3
-Stable tag: 0.4.1
+Stable tag: 0.5
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -41,6 +41,8 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 * Filtered spammers from group invitation list
 * Fixed bug that may have caused problems with some MU limited email domain lists
 * Email Address field is now auto-populated on Accept Invitation screen
+* Created admin toggle for group invites attached to email screen
+* Added hook for additional fields on Invite New Members screen (as well as a hook for processing the additional data)
 
 = 0.4.1 =
 * Fixed problem with email validation causing fatal errors on single WP
