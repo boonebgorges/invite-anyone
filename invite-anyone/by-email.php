@@ -50,8 +50,7 @@ function invite_anyone_opt_out_screen() {
 					<p><?php _e( 'Sorry, there was an error in processing your request', 'bp-invite-anyone' ) ?></p>
 				<?php endif; ?>			
 			<?php else : ?>
-			
-					<?php print_r($_POST); ?>
+				<?php /* I guess this should be some sort of error message? */ ?>
 			<?php endif; ?>
 		
 		<?php else : ?>
@@ -351,7 +350,6 @@ function invite_anyone_screen_one_content() {
 			$counter++;
 		}
 		
-		
 		if ( $_GET['subject'] )
 			$returned_subject = urldecode( $_GET['subject'] );
 		
@@ -376,9 +374,9 @@ function invite_anyone_screen_one_content() {
 		<li>
 			<?php if ( $iaoptions['subject_is_customizable'] == 'yes' ) : ?>
 				<p><?php _e( '(optional) Customize the subject line of the invitation email.', 'bp-invite-anyone' ) ?></p>
-					<textarea rows="2" cols="60" name="invite_anyone_custom_subject" id="invite-anyone-custom-subject"><?php echo invite_anyone_invitation_subject( $returned_subject ) ?></textarea>	
+					<textarea rows="2" cols="90" name="invite_anyone_custom_subject" id="invite-anyone-custom-subject"><?php echo invite_anyone_invitation_subject( $returned_subject ) ?></textarea>	
 			<?php else : ?>
-				<p><strong>Subject: </strong><?php echo invite_anyone_invitation_subject( $returned_message ) ?></p>
+				<p><strong>Subject: </strong><?php echo invite_anyone_invitation_subject( $returned_subject ) ?></p>
 				<input type="hidden" name="invite_anyone_custom_subject" value="<?php echo invite_anyone_invitation_subject() ?>" />
 			<?php endif; ?>
 		</li>
@@ -386,7 +384,7 @@ function invite_anyone_screen_one_content() {
 		<li>
 			<?php if ( $iaoptions['message_is_customizable'] == 'yes' ) : ?>
 				<p><?php _e( '(optional) Customize the text of the invitation.', 'bp-invite-anyone' ) ?></p>
-					<textarea rows="7" cols="60" name="invite_anyone_custom_message" id="invite-anyone-custom-message"><?php echo invite_anyone_invitation_message( $returned_message ) ?></textarea>		
+					<textarea rows="7" cols="90" name="invite_anyone_custom_message" id="invite-anyone-custom-message"><?php echo invite_anyone_invitation_message( $returned_message ) ?></textarea>		
 			<?php else : ?>
 				<p><strong>Message: </strong><?php echo invite_anyone_invitation_message( $returned_message ) ?></p>
 				<input type="hidden" name="invite_anyone_custom_message" value="<?php echo invite_anyone_invitation_message() ?>" />
@@ -658,16 +656,21 @@ function invite_anyone_process_invitations( $data ) {
 			bp_core_add_message( $error_message, 'error' );
 		
 			$d = '';
-			foreach ( $emails as $key => $email )
-				$d .= "email$key=" . urlencode($email) . '&';
+			if ( $emails ) {
+				foreach ( $emails as $key => $email )
+					$d .= "email$key=" . urlencode($email) . '&';
+			}
 		
-			foreach ( $data['invite_anyone_groups'] as $key => $group )
-				$d .= "group$key=" . $group . '&';
+			if ( $data['invite_anyone_groups'] ) {
+				foreach ( $data['invite_anyone_groups'] as $key => $group )
+					$d .= "group$key=" . $group . '&';
+			}
 			
 			if ( $data['invite_anyone_custom_subject'] )
-				$d .= 'subject=' . urlencode($data['invite_anyone_custom_subject']);
+				$d .= 'subject=' . urlencode($data['invite_anyone_custom_subject']) . '&';
 		
-			$d .= 'message=' . urlencode($data['invite_anyone_custom_message']);
+			if ( $data['invite_anyone_custom_message'] )
+				$d .= 'message=' . urlencode($data['invite_anyone_custom_message']);
 				
 			bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members?' . $d  );
 		}		

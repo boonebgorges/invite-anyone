@@ -2,7 +2,6 @@
 Todo:
 	- opt out confirmation screen
 		- make text editable by admin
-	- check input box widths (too narrow?)
 	- reply-to address
 		- send $headers to wp_mail
 		- set admin option to allow custom reply-to

@@ -33,6 +33,11 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 
 == Changelog ==
 
+= 0.5.1 =
+* Fixed bug with subject/message content when email is returned as an error
+* Fixed error with email error messages when no groups were selected
+* Changed width of textareas on Invite New Members tab
+
 = 0.5 =
 * Enabled Opt Out option for invitees
 * Subject line is now customizable by the admin
