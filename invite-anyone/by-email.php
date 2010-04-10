@@ -577,6 +577,7 @@ function invite_anyone_wildcard_replace( $text ) {
 	
 	$text = str_replace( '%%INVITERNAME%%', $inviter_name, $text );
 	$text = str_replace( '%%INVITERURL%%', $inviter_url, $text );
+	$text = str_replace( '%%SITENAME%%', $site_name, $text );
 	
 	return $text;
 }
