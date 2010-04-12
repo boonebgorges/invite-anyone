@@ -4,7 +4,7 @@ Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WPMU 2.8, BuddyPress 1.1
 Tested up to: WPMU 2.9.2, BuddyPress 1.2.3
-Stable tag: 0.5.1
+Stable tag: 0.5.2
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -29,15 +29,21 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 == Translation credits ==
 
 * Dutch: Jesper Popma
+* Italian: Luca Camellini
 
 
 == Changelog ==
+
+= 0.5.2 =
+* Added Italian translation (thanks, Luca!)
+* Removed "Want to invite..." prompt from Send Invites screen during group creation
+* Attempted a fix for certain in_array errors in css/js loader file
+
 
 = 0.5.1 =
 * Fixed bug with subject/message content when email is returned as an error
 * Fixed error with email error messages when no groups were selected
 * Changed width of textareas on Invite New Members tab
-* Added Italian translation (thanks, Luca!)
 
 = 0.5 =
 * Enabled Opt Out option for invitees

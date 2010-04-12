@@ -5,7 +5,7 @@
 function invite_anyone_add_js() {
 	global $bp;
 	
-	if ( $bp->current_component == $bp->invite_anyone->slug || $bp->current_action == BP_INVITE_ANYONE_SLUG || in_array( BP_INVITE_ANYONE_SLUG, $bp->action_variables ) ) {
+	if ( $bp->current_component == $bp->invite_anyone->slug || $bp->current_action == BP_INVITE_ANYONE_SLUG || ( is_array( $bp->action_variables ) && in_array( BP_INVITE_ANYONE_SLUG, $bp->action_variables ) ) ) {
 		wp_register_script('invite-anyone-js', WP_PLUGIN_URL . '/invite-anyone/invite-anyone/invite-anyone-js.js');
 		wp_enqueue_script( 'invite-anyone-js' );
 		
@@ -43,7 +43,7 @@ function invite_anyone_autocomplete_init_jsblock() {
 
 function invite_anyone_add_css() {
 	global $bp;
-	if ( $bp->current_component == $bp->invite_anyone->slug || $bp->current_action == BP_INVITE_ANYONE_SLUG || in_array( BP_INVITE_ANYONE_SLUG, $bp->action_variables ) ) {
+	if ( $bp->current_component == $bp->invite_anyone->slug || $bp->current_action == BP_INVITE_ANYONE_SLUG || ( is_array( $bp->action_variables ) && in_array( BP_INVITE_ANYONE_SLUG, $bp->action_variables ) ) ) {
    		$style_url = WP_PLUGIN_URL . '/invite-anyone/invite-anyone/invite-anyone.css';
         $style_file = WP_PLUGIN_DIR . '/invite-anyone/invite-anyone/invite-anyone.css';
         if (file_exists($style_file)) {
