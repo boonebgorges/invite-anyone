@@ -34,11 +34,13 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 
 == Changelog ==
 
+= 0.6 =
+* Plugin now includes a widget for email invitation from any page
+
 = 0.5.2 =
 * Added Italian translation (thanks, Luca!)
 * Removed "Want to invite..." prompt from Send Invites screen during group creation
 * Attempted a fix for certain in_array errors in css/js loader file
-
 
 = 0.5.1 =
 * Fixed bug with subject/message content when email is returned as an error

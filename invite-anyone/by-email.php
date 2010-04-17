@@ -334,7 +334,7 @@ function invite_anyone_screen_one_content() {
 		if ( 'group-invites' == $bp->action_variables[0] )
 			$from_group = $bp->action_variables[1];
 		
-		/* Grabs any information previously entered but returned because of an error */
+		/* This handles the email addresses sent back when there is an error */
 		$returned_emails = array();
 		$counter = 0;
 		while ( $_GET['email' . $counter] ) {
@@ -342,7 +342,19 @@ function invite_anyone_screen_one_content() {
 			$counter++;
 		}
 		
-		// $returned_groups is padded so that array_search (below) returns true for first group
+		/* If the user is coming from the widget, $returned_emails is populated with those email addresses */
+		if ( $_POST['invite_anyone_widget'] ) {
+			check_admin_referer( 'invite-anyone-widget_' . $bp->loggedin_user->id );
+			
+			if ( is_array( $_POST['emails'] ) ) {
+				foreach( $_POST['emails'] as $email ) {
+					if ( $email != '' )
+						$returned_emails[] = $email;	
+				}
+			}			
+		}
+		
+		/* $returned_groups is padded so that array_search (below) returns true for first group */
 		$returned_groups = array( 0 );
 		$counter = 0;
 		while ( $_GET['group' . $counter] ) {
@@ -508,6 +520,9 @@ function invite_anyone_email_fields( $returned_emails = false ) {
 		
 	if ( !$max_invites = $iaoptions['max_invites'] )
 		$max_invites = 5;
+	
+	if ( count( $returned_emails > $max_invites ) )
+		$max_invites = count( $returned_emails );
 	
 ?>
 	<ol id="invite-anyone-email-fields">

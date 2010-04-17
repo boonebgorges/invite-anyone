@@ -1,5 +1,7 @@
 
 Todo:
+	- check bp groupblog compatibility
+	- check to make sure that bp_has_groups( user_id ) is filtering correctly; hnla reports that he can see all groups, even hidden ones
 	- opt out confirmation screen
 		- make text editable by admin
 	- reply-to address
@@ -25,4 +27,3 @@ Todo:
 	- email verification - email_exists. If found, give link to the profile (w friend link?)
 	- js for inline validation
 	- hook into member lists and searches with "not finding?" message
-	- Invite Anyone widget

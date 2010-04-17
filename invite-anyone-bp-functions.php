@@ -1,6 +1,7 @@
 <?php
 
 require( dirname( __FILE__ ) . '/invite-anyone/by-email.php' );
+require( dirname( __FILE__ ) . '/invite-anyone/widgets.php' );
 
 if ( is_admin() )
 	require( dirname( __FILE__ ) . '/invite-anyone/admin-panel.php' );
