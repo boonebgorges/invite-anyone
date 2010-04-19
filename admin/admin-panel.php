@@ -9,11 +9,11 @@ add_action( 'admin_menu', 'invite_anyone_admin_add', 80 );
 
 
 function invite_anyone_admin_scripts() {
-	wp_enqueue_script( 'invite-anyone-admin-js', WP_PLUGIN_URL . '/invite-anyone/invite-anyone/admin-js.js' );
+	wp_enqueue_script( 'invite-anyone-admin-js', WP_PLUGIN_URL . '/invite-anyone/admin/admin-js.js' );
 }
  
 function invite_anyone_admin_styles() {
-	wp_enqueue_style( 'invite-anyone-admin-css', WP_PLUGIN_URL . '/invite-anyone/invite-anyone/admin-css.css' );
+	wp_enqueue_style( 'invite-anyone-admin-css', WP_PLUGIN_URL . '/invite-anyone/admin/admin-css.css' );
 }
 
 function invite_anyone_admin_panel() {

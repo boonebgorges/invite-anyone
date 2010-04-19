@@ -8,6 +8,8 @@ jQuery(document).ready( function() {
 	if ( j(toggle).attr('checked') == false ) {
 		j("div.invite-anyone-admin-limited input").attr('disabled', 'disabled');
 		j("div.invite-anyone-admin-limited select").attr('disabled', 'disabled');
+		j("div.invite-anyone-admin-limited").css('color', '#999');
+		j("div.invite-anyone-admin-limited input").css('color', '#999');
 	}	
 
 	j(offtoggle).click(

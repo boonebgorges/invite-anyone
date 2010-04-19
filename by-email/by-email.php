@@ -1,6 +1,21 @@
 <?php
 
-require( dirname(__FILE__) . '/db.php' );
+require( WP_PLUGIN_DIR . '/invite-anyone/by-email/by-email-db.php' );
+require( WP_PLUGIN_DIR . '/invite-anyone/widgets/widgets.php' );
+
+function invite_anyone_add_by_email_css() {
+	global $bp;
+	
+	if ( $bp->current_component == BP_INVITE_ANYONE_SLUG ) {
+   		$style_url = WP_PLUGIN_URL . '/invite-anyone/by-email/by-email-css.css';
+        $style_file = WP_PLUGIN_DIR . '/invite-anyone/by-email/by-email-css.css';
+        if (file_exists($style_file)) {
+            wp_register_style('invite-anyone-by-email-style', $style_url);
+            wp_enqueue_style('invite-anyone-by-email-style');
+        }
+    }
+}
+add_action( 'wp_print_styles', 'invite_anyone_add_by_email_css' );
 
 function invite_anyone_setup_globals() {
 	global $bp, $wpdb;
@@ -324,7 +339,7 @@ function invite_anyone_screen_one() {
 
 function invite_anyone_screen_one_content() {
 		global $bp;
-			
+
 		if ( !$iaoptions = get_option( 'invite_anyone' ) )
 			$iaoptions = array();
 			
@@ -363,10 +378,10 @@ function invite_anyone_screen_one_content() {
 		}
 		
 		if ( $_GET['subject'] )
-			$returned_subject = urldecode( $_GET['subject'] );
+			$returned_subject = stripslashes( urldecode( $_GET['subject'] ) );
 		
 		if ( $_GET['message'] )
-			$returned_message = urldecode( $_GET['message'] );
+			$returned_message = stripslashes( urldecode( $_GET['message'] ) );
 				
 		$blogname = get_bloginfo('name');
 		$welcome_message = sprintf( __( "Invite friends to join %s by following these steps:", 'bp-invite-anyone' ), $blogname );
@@ -386,7 +401,7 @@ function invite_anyone_screen_one_content() {
 		<li>
 			<?php if ( $iaoptions['subject_is_customizable'] == 'yes' ) : ?>
 				<p><?php _e( '(optional) Customize the subject line of the invitation email.', 'bp-invite-anyone' ) ?></p>
-					<textarea rows="2" cols="90" name="invite_anyone_custom_subject" id="invite-anyone-custom-subject"><?php echo invite_anyone_invitation_subject( $returned_subject ) ?></textarea>	
+					<textarea name="invite_anyone_custom_subject" id="invite-anyone-custom-subject"><?php echo invite_anyone_invitation_subject( $returned_subject ) ?></textarea>	
 			<?php else : ?>
 				<p><strong>Subject: </strong><?php echo invite_anyone_invitation_subject( $returned_subject ) ?></p>
 				<input type="hidden" name="invite_anyone_custom_subject" value="<?php echo invite_anyone_invitation_subject() ?>" />
@@ -396,7 +411,7 @@ function invite_anyone_screen_one_content() {
 		<li>
 			<?php if ( $iaoptions['message_is_customizable'] == 'yes' ) : ?>
 				<p><?php _e( '(optional) Customize the text of the invitation.', 'bp-invite-anyone' ) ?></p>
-					<textarea rows="7" cols="90" name="invite_anyone_custom_message" id="invite-anyone-custom-message"><?php echo invite_anyone_invitation_message( $returned_message ) ?></textarea>		
+					<textarea name="invite_anyone_custom_message" id="invite-anyone-custom-message"><?php echo invite_anyone_invitation_message( $returned_message ) ?></textarea>		
 			<?php else : ?>
 				<p><strong>Message: </strong><?php echo invite_anyone_invitation_message( $returned_message ) ?></p>
 				<input type="hidden" name="invite_anyone_custom_message" value="<?php echo invite_anyone_invitation_message() ?>" />
@@ -521,14 +536,14 @@ function invite_anyone_email_fields( $returned_emails = false ) {
 	if ( !$max_invites = $iaoptions['max_invites'] )
 		$max_invites = 5;
 	
-	if ( count( $returned_emails > $max_invites ) )
+	if ( count( $returned_emails  ) > $max_invites  )
 		$max_invites = count( $returned_emails );
 	
 ?>
 	<ol id="invite-anyone-email-fields">
 	<?php for( $i = 0; $i < $max_invites; $i++ ) : ?>
 		<li>
-			<input type="text" name="invite_anyone_email[]" class="invite-anyone-email-field" size="30" <?php if ( $returned_emails[$i] ) : ?>value="<?php echo $returned_emails[$i] ?>"<?php endif; ?>" />
+			<input type="text" name="invite_anyone_email[]" class="invite-anyone-email-field" <?php if ( $returned_emails[$i] ) : ?>value="<?php echo $returned_emails[$i] ?>"<?php endif; ?>" />
 		</li>
 	<?php endfor; ?>
 	</ol>
@@ -564,13 +579,13 @@ function invite_anyone_invitation_message( $returned_message = false ) {
 	
 	if ( !$returned_message ) {
 		$inviter_name = $bp->loggedin_user->userdata->display_name;
-		$site_name = get_bloginfo('name');
+		$blogname = get_bloginfo('name');
 		
 		if ( !$iaoptions = get_option( 'invite_anyone' ) )
 			$iaoptions = array();
 		
 		if ( !$text = $iaoptions['default_invitation_message'] ) {
-			$text = sprintf( __( "You have been invited by %%INVITERNAME%% to join the %s community. \n\r\n\rVisit %%INVITERNAME%%'s profile at %%INVITERURL%%.", 'bp-invite-anyone' ), $sitename ); /* Do not translate the strings embedded in %% ... %% ! */ 
+			$text = sprintf( __( "You have been invited by %%INVITERNAME%% to join the %s community. \n\r\n\rVisit %%INVITERNAME%%'s profile at %%INVITERURL%%.", 'bp-invite-anyone' ), $blogname ); /* Do not translate the strings embedded in %% ... %% ! */ 
 		}
 		
 		if ( !is_admin() ) {
@@ -683,10 +698,10 @@ function invite_anyone_process_invitations( $data ) {
 			}
 			
 			if ( $data['invite_anyone_custom_subject'] )
-				$d .= 'subject=' . urlencode($data['invite_anyone_custom_subject']) . '&';
+				$d .= 'subject=' . urlencode( stripslashes( $data['invite_anyone_custom_subject'] ) ) . '&';
 		
 			if ( $data['invite_anyone_custom_message'] )
-				$d .= 'message=' . urlencode($data['invite_anyone_custom_message']);
+				$d .= 'message=' . urlencode( stripslashes( $data['invite_anyone_custom_message'] ) );
 				
 			bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members?' . $d  );
 		}		

@@ -1,0 +1,9 @@
+.invite-anyone-widget-email-fields {
+	width: 95%;
+}
+
+input#invite-anyone-widget-submit {
+	float: right;
+	margin-top: 10px;
+}
+

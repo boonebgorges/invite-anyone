@@ -16,12 +16,16 @@ if ( !defined( 'BP_INVITE_ANYONE_SLUG' ) )
 
 /* Only load the BuddyPress plugin functions if BuddyPress is loaded and initialized. */
 function invite_anyone_init() {
-	require( dirname( __FILE__ ) . '/invite-anyone-bp-functions.php' );
+	require( dirname( __FILE__ ) . '/group-invites/group-invites.php' );
+	require( dirname( __FILE__ ) . '/by-email/by-email.php' );	
+	
+	if ( is_admin() )
+		require( dirname( __FILE__ ) . '/admin/admin-panel.php' );
 }
 add_action( 'bp_init', 'invite_anyone_init' );
 
 if ( function_exists( 'bp_post_get_permalink' ) )
-	require( dirname( __FILE__ ) . '/invite-anyone-bp-functions.php' );
+	require( dirname( __FILE__ ) . '/group-invites/group-invites.php' );
 
 
 function invite_anyone_locale_init () {
@@ -37,16 +41,27 @@ add_action ('plugins_loaded', 'invite_anyone_locale_init');
 
 
 function invite_anyone_activation() {
-	require( dirname( __FILE__ ) . '/invite-anyone/db.php' );
+	require( dirname( __FILE__ ) . '/by-email/by-email-db.php' );
 	invite_anyone_create_table();
 	
 	if ( !$iaoptions = get_option( 'invite_anyone' ) )
-		$iaoptions = array(
-			'max_invites' => 5,
-			'allow_email_invitations' => 'all',
-			'message_is_customizable' => 'yes',
-			'subject_is_customizable' => 'no'
-		);
+		$iaoptions = array();
+	
+	if ( !$iaoptions['max_invites'] )
+		$iaoptions['max_invites'] = 5;
+	
+	if ( !$iaoptions['allow_email_invitations'] )
+		$iaoptions['allow_email_invitations'] = 'all';
+	
+	if ( !$iaoptions['message_is_customizable'] )
+		$iaoptions['message_is_customizable'] = 'yes';
+	
+	if ( !$iaoptions['subject_is_customizable'] )
+		$iaoptions['subject_is_customizable'] = 'no';
+		
+	if ( !$iaoptions['can_send_group_invites_email'] )
+		$iaoptions['can_send_group_invites_email'] = 'yes';
+	
 	
 	update_option( 'invite_anyone', $iaoptions );
 }

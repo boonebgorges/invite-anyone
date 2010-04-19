@@ -1,8 +1,6 @@
 <?php
 /* Invite Anyone database functions */
 
-
-
 function invite_anyone_create_table() {
 	global $wpdb;
 	
@@ -26,10 +24,7 @@ function invite_anyone_create_table() {
 
 		update_option( 'bp_invite_anyone_ver', BP_INVITE_ANYONE_VER );
 	}
-  
 }
-
-
 
 function invite_anyone_record_invitation( $inviter_id, $email, $message, $groups ) {
 	global $wpdb, $bp;

@@ -1,6 +1,18 @@
 <?php
 /* Invite Anyone widgets */
 
+function invite_anyone_add_widget_css() {
+	global $bp;
+	
+	$style_url = WP_PLUGIN_URL . '/invite-anyone/widgets/widgets-css.css';
+	$style_file = WP_PLUGIN_DIR . '/invite-anyone/widgets/widgets-css.css';
+	if (file_exists($style_file)) {
+		wp_register_style('invite-anyone-widget-style', $style_url);
+		wp_enqueue_style('invite-anyone-widget-style');
+	}
+    
+}
+
 class InviteAnyoneWidget extends WP_Widget {
     /** constructor */
     function InviteAnyoneWidget() {
@@ -11,15 +23,19 @@ class InviteAnyoneWidget extends WP_Widget {
 
 		/* Create the widget. */
 		$this->WP_Widget( 'invite-anyone-widget', 'Invite Anyone', $widget_ops, $control_ops );
+		
+		if ( is_active_widget( false, false, $this->id_base ) )
+			wp_enqueue_style( 'invite-anyone-widget-style', WP_PLUGIN_URL . '/invite-anyone/widgets/widgets-css.css' );
+		
 	}
 
     /** @see WP_Widget::widget */
     function widget($args, $instance) {		
     	global $bp;
         extract( $args );
-        
+                
         if ( !$title = apply_filters('widget_title', $instance['title'] ) )
-        	$title = _e( 'Invite Anyone', 'bp-invite-anyone' );
+        	$title = __( 'Invite Anyone', 'bp-invite-anyone' );
         
         if ( !$email_fields = $instance['email_fields'] )
         	$email_fields = 3;
@@ -42,7 +58,7 @@ class InviteAnyoneWidget extends WP_Widget {
 						<ul>
 						<?php for( $i = 0; $i < $email_fields; $i++ ) : ?>
 							<li>							
-							<input type="text" size="30" name="emails[<?php echo $i ?>]" />						
+							<input type="text" class="invite-anyone-widget-email-fields" name="emails[<?php echo $i ?>]" />						
 							</li>
 						<?php endfor; ?>
 						</ul>
@@ -69,8 +85,8 @@ class InviteAnyoneWidget extends WP_Widget {
     /** @see WP_Widget::form */
     function form($instance) {
     	
-        if ( !$title = esc_attr($instance['title']) )
-        	$title = _e( 'Invite Anyone', 'bp-invite-anyone' );
+        //if ( !$title = esc_attr($instance['title']) )
+        	//$title = __( 'Invite Anyone', 'bp-invite-anyone' );
         
         if ( !$email_fields = (int)$instance['email_fields'] )
         	$email_fields = 3;
