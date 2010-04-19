@@ -17,6 +17,20 @@ function invite_anyone_add_by_email_css() {
 }
 add_action( 'wp_print_styles', 'invite_anyone_add_by_email_css' );
 
+function invite_anyone_add_by_email_js() {
+	global $bp;
+	
+	if ( $bp->current_component == BP_INVITE_ANYONE_SLUG ) {
+   		$style_url = WP_PLUGIN_URL . '/invite-anyone/by-email/by-email-js.js';
+        $style_file = WP_PLUGIN_DIR . '/invite-anyone/by-email/by-email-js.js';
+        if (file_exists($style_file)) {
+            wp_register_script('invite-anyone-by-email-scripts', $style_url);
+            wp_enqueue_script('invite-anyone-by-email-scripts');
+        }
+    }
+}
+add_action( 'wp_print_scripts', 'invite_anyone_add_by_email_js' );
+
 function invite_anyone_setup_globals() {
 	global $bp, $wpdb;
 
@@ -473,20 +487,29 @@ function invite_anyone_screen_two() {
 
 
 	function invite_anyone_screen_two_content() {
-		global $bp; ?>
+		global $bp; 
+		
+		if ( !$sort_by = $_GET['sort_by'] )
+			$sort_by = 'date_invited';
+		
+		if ( !$order = $_GET['order'] )
+			$order = 'DESC';		
+		
+		?>
 
 		<h4><?php _e( 'Sent Invites', 'bp-invite-anyone' ) ?></h4>
 
 		<p><?php _e( 'You have sent invitations to the following people.', 'bp-invite-anyone' ) ?></p>
 		
-		<?php $invites = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id() ) ?>
+		<?php $invites = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id(), $sort_by, $order ) ?>
 		
 		<table class="invite-anyone-sent-invites">
 			<tr>
-				<th scope="column"><?php _e( 'Invited email address', 'bp-invite-anyone' ) ?></th>
+				<th scope="column"><a href="?sort_by=email&order=<?php if ( $_GET['sort_by'] == 'date_invited' ) : ?>DESC<?php else : ?>ASC<?php endif; ?>"><?php _e( 'Invited email address', 'bp-invite-anyone' ) ?></a></th>
 				<th scope="column"><?php _e( 'Group invitations', 'bp-invite-anyone' ) ?></th>
-				<th scope="column"><?php _e( 'Sent', 'bp-invite-anyone' ) ?></th>
-				<th scope="column"><?php _e( 'Accepted', 'bp-invite-anyone' ) ?></th>
+				<th scope="column"><a href="?sort_by=date_invited&order=<?php if ( $_GET['sort_by'] == 'date_invited' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Sent', 'bp-invite-anyone' ) ?></a></th>
+				<th scope="column"><a href="?sort_by=date_invited&order=<?php if ( $_GET['sort_by'] == 'date_accepted' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Accepted', 'bp-invite-anyone' ) ?></a></th>
+				
 			</tr>
 			
 			<?php foreach( $invites as $invite ) : ?>

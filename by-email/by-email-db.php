@@ -41,10 +41,25 @@ function invite_anyone_record_invitation( $inviter_id, $email, $message, $groups
 	return true;
 }
 
-function invite_anyone_get_invitations_by_inviter_id( $id ) {
+function invite_anyone_get_invitations_by_inviter_id( $id, $sort_by = false, $order = false ) {
 	global $wpdb, $bp;
 		
 	$sql = $wpdb->prepare( "SELECT * FROM {$bp->invite_anyone->table_name} WHERE inviter_id = %s", $id );
+	
+	switch ( $sort_by ) {
+		case 'date_invited' :
+			$sql .= ' ORDER BY date_invited';
+			break;
+		case 'date_joined' :
+			$sql .= ' ORDER BY date_joined';
+			break;
+		case 'email' :
+			$sql .= ' ORDER BY email';
+			break;	
+	}
+	
+	if ( $order )
+		$sql .= ' ' . $order;
 	
 	$results = $wpdb->get_results($sql);
 	return $results;	
