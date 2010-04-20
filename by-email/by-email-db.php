@@ -16,7 +16,8 @@ function invite_anyone_create_table() {
 			date_invited datetime NOT NULL,
 			is_joined tinyint(1) NOT NULL,
 			date_joined datetime,
-			is_opt_out tinyint(1) NOT NULL
+			is_opt_out tinyint(1) NOT NULL,
+			is_hidden tinyint(1) NOT NULL
 			) {$charset_collate};";   		
 	
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -44,7 +45,7 @@ function invite_anyone_record_invitation( $inviter_id, $email, $message, $groups
 function invite_anyone_get_invitations_by_inviter_id( $id, $sort_by = false, $order = false ) {
 	global $wpdb, $bp;
 		
-	$sql = $wpdb->prepare( "SELECT * FROM {$bp->invite_anyone->table_name} WHERE inviter_id = %s", $id );
+	$sql = $wpdb->prepare( "SELECT * FROM {$bp->invite_anyone->table_name} WHERE inviter_id = %s AND is_hidden = 0", $id );
 	
 	switch ( $sort_by ) {
 		case 'date_invited' :
@@ -73,6 +74,39 @@ function invite_anyone_get_invitations_by_invited_email( $email ) {
 	
 	$results = $wpdb->get_results($sql);
 	return $results;	
+}
+
+function invite_anyone_clear_sent_invite( $args ) {
+	global $wpdb, $bp;
+	
+	/* Accepts arguments: array(
+		'inviter_id' => id number of the inviter, (required)
+		'clear_id' => id number of the item to be cleared,
+		'type' => accepted, unaccepted, or all
+		
+			); */
+	
+	extract( $args );
+	
+	if ( !$inviter_id )
+		return false;
+	
+	if ( $clear_id )
+		$sql = $wpdb->prepare( "UPDATE {$bp->invite_anyone->table_name} SET is_hidden = 1 WHERE id = %d", $clear_id );
+	else if ( $type == 'accepted' )
+		$sql = $wpdb->prepare( "UPDATE {$bp->invite_anyone->table_name} SET is_hidden = 1 WHERE inviter_id = %d AND is_joined = 1", $inviter_id );
+	else if ( $type == 'unaccepted' )
+		$sql = $wpdb->prepare( "UPDATE {$bp->invite_anyone->table_name} SET is_hidden = 1 WHERE inviter_id = %d AND is_joined = 0", $inviter_id );
+	else if ( $type == 'all' )
+		$sql = $wpdb->prepare( "UPDATE {$bp->invite_anyone->table_name} SET is_hidden = 1 WHERE inviter_id = %d", $inviter_id );
+	else
+		return false;	
+	
+	if ( !$wpdb->query($sql) )
+		return false;
+	
+	return true;
+
 }
 
 function invite_anyone_mark_as_joined( $email ) {

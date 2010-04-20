@@ -61,5 +61,15 @@
 	text-align: left;
 }
 
-	
+.invite-anyone-sent-invites tr td:first-child {
+	width: 30px;
+	text-align: center;
+}
+
+.invite-anyone-sent-invites tr td:first-child a {
+	text-decoration: none;
+}	
+
+p#invite-anyone-clear-links {
+	padding-top: 15px;
 }

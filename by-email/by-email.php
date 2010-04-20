@@ -489,31 +489,51 @@ function invite_anyone_screen_two() {
 	function invite_anyone_screen_two_content() {
 		global $bp; 
 		
+		$inviter_id = bp_loggedin_user_id();
+		
+		if ( $clear_id = $_GET['clear'] ) {
+			check_admin_referer( 'invite_anyone_clear' );
+			
+			if ( (int)$clear_id )
+				invite_anyone_clear_sent_invite( array( 'inviter_id' => $inviter_id, 'clear_id' => $clear_id ) );
+			else
+				invite_anyone_clear_sent_invite( array( 'inviter_id' => $inviter_id, 'type' => $clear_id ) );
+		}
+		
 		if ( !$sort_by = $_GET['sort_by'] )
 			$sort_by = 'date_invited';
 		
 		if ( !$order = $_GET['order'] )
 			$order = 'DESC';		
 		
+		$base_url = $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/';
+		
 		?>
 
 		<h4><?php _e( 'Sent Invites', 'bp-invite-anyone' ) ?></h4>
 
+		<?php if ( $invites = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id(), $sort_by, $order ) ) : ?>
+
 		<p><?php _e( 'You have sent invitations to the following people.', 'bp-invite-anyone' ) ?></p>
-		
-		<?php $invites = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id(), $sort_by, $order ) ?>
 		
 		<table class="invite-anyone-sent-invites">
 			<tr>
-				<th scope="column"><a href="?sort_by=email&order=<?php if ( $_GET['sort_by'] == 'date_invited' ) : ?>DESC<?php else : ?>ASC<?php endif; ?>"><?php _e( 'Invited email address', 'bp-invite-anyone' ) ?></a></th>
+				<th scope="column"></th>
+				<th scope="column"><a href="?sort_by=email&order=<?php if ( $_GET['sort_by'] == 'email' && $_GET['order'] == 'ASC' ) : ?>DESC<?php else : ?>ASC<?php endif; ?>"><?php _e( 'Invited email address', 'bp-invite-anyone' ) ?></a></th>
 				<th scope="column"><?php _e( 'Group invitations', 'bp-invite-anyone' ) ?></th>
-				<th scope="column"><a href="?sort_by=date_invited&order=<?php if ( $_GET['sort_by'] == 'date_invited' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Sent', 'bp-invite-anyone' ) ?></a></th>
-				<th scope="column"><a href="?sort_by=date_invited&order=<?php if ( $_GET['sort_by'] == 'date_accepted' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Accepted', 'bp-invite-anyone' ) ?></a></th>
+				<th scope="column"><a href="?sort_by=date_invited&order=<?php if ( $_GET['sort_by'] == 'date_invited' && $_GET['order'] == 'DESC' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Sent', 'bp-invite-anyone' ) ?></a></th>
+				<th scope="column"><a href="?sort_by=date_invited&order=<?php if ( $_GET['sort_by'] == 'date_accepted' && $_GET['order'] == 'DESC' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Accepted', 'bp-invite-anyone' ) ?></a></th>
 				
 			</tr>
 			
 			<?php foreach( $invites as $invite ) : ?>
 			<?php
+				$query_string = preg_replace( "|clear=[0-9]+|", '', $_SERVER['QUERY_STRING'] );
+				
+				$clear_url = ( $query_string ) ? $base_url . '?' . $query_string . '&clear=' . $invite->id : $base_url . '?clear=' . $invite->id;
+				$clear_url = wp_nonce_url( $clear_url, 'invite_anyone_clear' );
+				$clear_link = '<a class="confirm" alt="' . __( 'Clear this invitation', 'bp-invite-anyone' ) . '" href="' . $clear_url . '">x</a>';
+				
 				if ( $invite->group_invitations ) {
 					$groups = unserialize( $invite->group_invitations );
 					$group_names = '<ul>';
@@ -535,16 +555,25 @@ function invite_anyone_screen_two() {
 			?>
 			
 			<tr>
+				<td><?php echo $clear_link ?></td>
 				<td><?php echo $invite->email ?></td>
 				<td><?php echo $group_names ?></td>
 				<td><?php echo $date_invited ?></td>
 				<td><?php echo $date_joined ?></td>
 			</tr>
 			<?php endforeach; ?>
-			
-		
 		</table>
 		
+		<p id="invite-anyone-clear-links">
+			<a class="confirm" href="<?php echo wp_nonce_url( $base_url . '?clear=accepted', 'invite_anyone_clear' ) ?>"><?php _e( 'Clear all accepted invitations', 'bp-invite-anyone' ) ?></a> | 
+			<a class="confirm" href="<?php echo wp_nonce_url( $base_url . '?clear=all', 'invite_anyone_clear' ) ?>"><?php _e( 'Clear all invitations', 'bp-invite-anyone' ) ?></a>
+		</p>
+		
+		<?php else : ?>
+		
+		<p><?php _e( "You haven't sent any email invitations yet.", 'bp-invite-anyone' ) ?></p>
+		
+		<?php endif; ?>
 	<?php
 	}
 

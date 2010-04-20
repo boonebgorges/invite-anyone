@@ -9,7 +9,6 @@ Todo:
 	- make friendships and group joins automatic/forced
 		- but maybe make an admin toggle for it
 	- sent invites screen
-		- have a way to clear individual accepted/all accepted
 		- paginate?
 	- accept invitation screen
 		- check email to see if already registered
