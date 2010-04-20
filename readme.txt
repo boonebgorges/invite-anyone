@@ -37,6 +37,7 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 = 0.6 =
 * Plugin now includes a widget for email invitation from any page
 * Sent Invites sortable by email address, date invited, date accepted
+* Created admin controls over who group admins/mods/members can invite to groups
 * CSS issues fixed
 
 = 0.5.2 =

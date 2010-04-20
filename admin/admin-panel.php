@@ -61,7 +61,7 @@ function invite_anyone_settings_setup() {
 	
 	add_settings_field('invite_anyone_settings_email_visibility', __('Allow email invitations to be sent by', 'bp-invite-anyone'), 'invite_anyone_settings_email_visibility', 'invite_anyone', 'invite_anyone_access_settings');
 	
-	add_settings_field('invite_anyone_settings_groups_per_page', __('Number of groups to display per page', 'bp-invite-anyone'), 'invite_anyone_settings_groups_per_page', 'invite_anyone', 'invite_anyone_general');
+	add_settings_field( 'invite_anyone_settings_group_invite_visibility', __( 'Limit group invitations', 'bp-invite-anyone' ), 'invite_anyone_settings_group_invite_visibility', 'invite_anyone', 'invite_anyone_access_settings' );
 
 
 
@@ -141,7 +141,7 @@ function invite_anyone_settings_email_visibility() {
 ?>
 
 	<ul>
-		<li><input type='radio' name='invite_anyone[email_visibility_toggle]' id='invite_anyone_toggle_email_no_limit' value='no_limit' <?php if( $options['email_visibility_toggle'] == 'no_limit' ) : ?>checked="checked"<?php endif; ?> /> <?php _e( 'All users', 'bp-invite-anyone' ) ?></li>
+		<li><input type='radio' name='invite_anyone[email_visibility_toggle]' id='invite_anyone_toggle_email_no_limit' value='no_limit' <?php if( $options['email_visibility_toggle'] != 'limit' ) : ?>checked="checked"<?php endif; ?> /> <?php _e( 'All users', 'bp-invite-anyone' ) ?></li>
 		
 		<li><input type='radio' name='invite_anyone[email_visibility_toggle]' id='invite_anyone_toggle_email_limit' value='limit' <?php if( $options['email_visibility_toggle'] == 'limit' ) : ?>checked="checked"<?php endif; ?> /> <?php _e( 'A limited set of users', 'bp-invite-anyone' ) ?>
 			<div class="invite-anyone-admin-limited">
@@ -171,6 +171,47 @@ function invite_anyone_settings_email_visibility() {
 		</li>
 	</ul>
 
+<?php
+}
+
+function invite_anyone_settings_group_invite_visibility() {
+	$options = get_option( 'invite_anyone' );
+?>
+	<ul>	
+	Invite Anyone extends BuddyPress's default group invitation settings. Instead of allowing you to invite only friends to a group, this plugin allows you to invite any member of the site. Use these settings to limit possible invitees for different group roles.
+	<br />
+		<li><?php _e( "<strong>Site admins</strong> can send group invitations to: ", 'bp-invite-anyone' ) ?> 
+			<select name="invite_anyone[group_invites_can_admin]">
+				<option value="anyone" <?php if( $options['group_invites_can_admin'] == 'anyone' ) : ?>selected="selected"<?php endif; ?> ><?php _e( 'Anyone' ) ?></option>
+				<option value="friends" <?php if( $options['group_invites_can_admin'] == 'friends' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Friends' ) ?></option>
+				<option value="noone" <?php if( $options['group_invites_can_admin'] == 'noone' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'No one' ) ?></option>
+			</select>		
+		</li>
+
+		<li><?php _e( "<strong>Group admins</strong> can send group invitations to: ", 'bp-invite-anyone' ) ?> 
+			<select name="invite_anyone[group_invites_can_group_admin]">
+				<option value="anyone" <?php if( $options['group_invites_can_group_admin'] == 'anyone' ) : ?>selected="selected"<?php endif; ?> ><?php _e( 'Anyone' ) ?></option>
+				<option value="friends" <?php if( $options['group_invites_can_group_admin'] == 'friends' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Friends' ) ?></option>
+				<option value="noone" <?php if( $options['group_invites_can_group_admin'] == 'noone' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'No one' ) ?></option>
+			</select>		
+		</li>
+
+		<li><?php _e( "<strong>Group mods</strong> can send group invitations to: ", 'bp-invite-anyone' ) ?> 
+			<select name="invite_anyone[group_invites_can_group_mod]">
+				<option value="anyone" <?php if( $options['group_invites_can_group_mod'] == 'anyone' ) : ?>selected="selected"<?php endif; ?> ><?php _e( 'Anyone' ) ?></option>
+				<option value="friends" <?php if( $options['group_invites_can_group_mod'] == 'friends' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Friends' ) ?></option>
+				<option value="noone" <?php if( $options['group_invites_can_group_mod'] == 'noone' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'No one' ) ?></option>
+			</select>		
+		</li>
+
+		<li><?php _e( "<strong>Group members</strong> can send group invitations to: ", 'bp-invite-anyone' ) ?> 
+			<select name="invite_anyone[group_invites_can_group_member]">
+				<option value="anyone" <?php if( $options['group_invites_can_group_member'] == 'anyone' ) : ?>selected="selected"<?php endif; ?> ><?php _e( 'Anyone' ) ?></option>
+				<option value="friends" <?php if( $options['group_invites_can_group_member'] == 'friends' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Friends' ) ?></option>
+				<option value="noone" <?php if( $options['group_invites_can_group_member'] == 'noone' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'No one' ) ?></option>
+			</select>		
+		</li>	
+	</ul>
 <?php
 }
 
