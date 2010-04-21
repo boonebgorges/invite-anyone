@@ -544,6 +544,9 @@ function invite_anyone_group_invite_access_test() {
 	if ( !is_user_logged_in() )
 		return 'noone';
 	
+	if ( !bp_group_is_member() )
+		return 'noone';
+	
 	if ( !$iaoptions = get_option( 'invite_anyone' ) )
 		$iaoptions = array();
 
