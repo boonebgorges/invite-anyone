@@ -7,6 +7,18 @@ function invite_anyone_admin_add() {
 }
 add_action( 'admin_menu', 'invite_anyone_admin_add', 80 );
 
+/* Stolen from Welcome Pack - thanks, Paul! */
+function invite_anyone_admin_add_action_link( $links, $file ) {
+	if ( 'invite-anyone/invite-anyone.php' != $file )
+		return $links;
+
+	$settings_link = '<a href="' . admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) . '">' . __( 'Settings', 'bp-invite-anyone' ) . '</a>';
+	array_unshift( $links, $settings_link );
+
+	return $links;
+}
+add_filter( 'plugin_action_links', 'invite_anyone_admin_add_action_link', 10, 2 );
+
 
 function invite_anyone_admin_scripts() {
 	wp_enqueue_script( 'invite-anyone-admin-js', WP_PLUGIN_URL . '/invite-anyone/admin/admin-js.js' );
