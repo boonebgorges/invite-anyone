@@ -45,7 +45,7 @@ class InviteAnyoneWidget extends WP_Widget {
         ?>
         
         <?php /* Non-logged-in and unauthorized users should not see the widget */ ?>
-        <?php if ( invite_anyone_access_test() ) : ?>
+        <?php if ( invite_anyone_access_test() && $bp->current_component != $bp->invite_anyone->slug ) : ?>
               <?php echo $before_widget; ?>
                   <?php if ( $title )
                         echo $before_title . $title . $after_title; ?>
