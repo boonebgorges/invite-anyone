@@ -64,6 +64,12 @@ class InviteAnyoneWidget extends WP_Widget {
 						</ul>
 					<?php endif; ?>
 					
+					<?php /* If we're on a group page, send the group_id as well */ ?>
+					<?php if ( bp_is_group() ) : ?>
+						<?php global $bp;  ?>
+						<input type="hidden" name="invite_anyone_widget_group" id="invite_anyone_widget_group" value="<?php echo $bp->groups->current_group->id ?>" />
+					<?php endif; ?>
+					
 					<input type="hidden" name="invite_anyone_widget" id="invite_anyone_widget" value="1" />
 					
 					<?php wp_nonce_field( 'invite-anyone-widget_' . $bp->loggedin_user->id ) ?> 

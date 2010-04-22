@@ -371,6 +371,8 @@ function invite_anyone_screen_one_content() {
 			$counter++;
 		}
 		
+		$returned_groups = array( 0 );
+		
 		/* If the user is coming from the widget, $returned_emails is populated with those email addresses */
 		if ( $_POST['invite_anyone_widget'] ) {
 			check_admin_referer( 'invite-anyone-widget_' . $bp->loggedin_user->id );
@@ -380,11 +382,15 @@ function invite_anyone_screen_one_content() {
 					if ( $email != '' && $email != __( 'email address', 'bp-invite-anyone' ) )
 						$returned_emails[] = $email;	
 				}
-			}			
+			}
+			
+			/* If the widget appeared on a group page, the group ID should come along with it too */
+			if ( isset( $_POST['invite_anyone_widget_group'] ) )
+				$returned_groups[] = $_POST['invite_anyone_widget_group'];
+			
 		}
 		
 		/* $returned_groups is padded so that array_search (below) returns true for first group */
-		$returned_groups = array( 0 );
 		$counter = 0;
 		while ( $_GET['group' . $counter] ) {
 			$returned_groups[] = urldecode( $_GET['group' . $counter] );
