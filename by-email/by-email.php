@@ -440,6 +440,7 @@ function invite_anyone_screen_one_content() {
 				</p>
 				<input type="hidden" name="invite_anyone_custom_message" value="<?php echo invite_anyone_invitation_message() ?>" />
 			<?php endif; ?>
+				<p><?php _e( 'The message will also contain a custom footer containing links to accept the invitation or opt out of further email invitations from this site.', 'bp-invite-anyone' ) ?></p>
 		
 		</li>
 		
@@ -660,22 +661,47 @@ function invite_anyone_invitation_message( $returned_message = false ) {
 	return $text;
 }
 
-function invite_anyone_wildcard_replace( $text ) {
+function invite_anyone_process_footer( $email ) {
+
+	if ( !$iaoptions = get_option( 'invite_anyone' ) )
+		$iaoptions = array();
+		
+	if ( !$footer = $iaoptions['addl_invitation_message'] ) {
+	
+		$footer = __( 'To accept this invitation, please visit %%ACCEPTURL%%', 'bp-invite-anyone' );
+		$footer .= '
+
+';
+		$footer .= __( 'To opt out of future invitations to this site, please visit %%OPTOUTURL%%', 'bp-invite-anyone' );
+	}
+	
+	return $footer;
+}
+
+function invite_anyone_wildcard_replace( $text, $email = false ) {
 	global $bp;
 	
 	$inviter_name = $bp->loggedin_user->userdata->display_name;
 	$site_name = get_bloginfo('name');
 	$inviter_url = bp_loggedin_user_domain();
+	$accept_link =  site_url( BP_REGISTER_SLUG ) . '/accept-invitation/' . urlencode($email);		
+	$opt_out_link = site_url( BP_REGISTER_SLUG ) . '/opt-out/' . urlencode( $email );
+	
 	
 	$text = str_replace( '%%INVITERNAME%%', $inviter_name, $text );
 	$text = str_replace( '%%INVITERURL%%', $inviter_url, $text );
 	$text = str_replace( '%%SITENAME%%', $site_name, $text );
+	$text = str_replace( '%%OPTOUTURL%%', $opt_out_link, $text );
+	$text = str_replace( '%%ACCEPTURL%%', $accept_link, $text );
+	
 	
 	/* Adding single % replacements because lots of people are making the mistake */
 	$text = str_replace( '%INVITERNAME%', $inviter_name, $text );
 	$text = str_replace( '%INVITERURL%', $inviter_url, $text );
 	$text = str_replace( '%SITENAME%', $site_name, $text );
-	
+	$text = str_replace( '%OPTOUTURL%', $opt_out_link, $text );
+	$text = str_replace( '%ACCEPTURL%', $accept_link, $text );
+		
 	return $text;
 }
 
@@ -786,22 +812,19 @@ function invite_anyone_process_invitations( $data ) {
 
 		$message = stripslashes( strip_tags( $data['invite_anyone_custom_message'] ) );
 				
-		$accept_link =  site_url( BP_REGISTER_SLUG ) . '/accept-invitation/' . urlencode($email);
+		$footer = invite_anyone_process_footer( $email );
+		$footer = invite_anyone_wildcard_replace( $footer, $email );
 		
-		$opt_out_link = site_url( BP_REGISTER_SLUG ) . '/opt-out/' . urlencode( $email );
-	
-		$message .= sprintf( __( '
+		$message .= '
 
-To accept this invitation, please visit %s', 'bp-invite-anyone' ), $accept_link );
-		
-		$message .= sprintf( __( '
-
-To opt out of future invitations to this site, please visit %s', 'bp-invite-anyone' ), $opt_out_link );
+================
+';
+		$message .= $footer;
 		
 		$to = apply_filters( 'invite_anyone_invitee_email', $email );
 		$subject = apply_filters( 'invite_anyone_invitation_subject', $subject );
 		$message = apply_filters( 'invite_anyone_invitation_message', $message, $accept_link );
-				
+			
 		wp_mail( $to, $subject, $message );
 			
 		/* todo: isolate which email(s) cause problems, and send back to user */

@@ -6,7 +6,7 @@ form.standard-form .invite-anyone-widget-email-fields input[type="text"] {
 }
 
 p#invite-anyone-widget-submit {
-	text-align: right;
+	text-align: left;
 	margin-top: 10px;
 }
 

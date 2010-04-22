@@ -56,9 +56,9 @@ function invite_anyone_settings_setup() {
 		
 	add_settings_field('invite_anyone_settings_default_invitation_subject', __('Text of email invitation subject line', 'bp-invite-anyone'), 'invite_anyone_settings_default_invitation_subject', 'invite_anyone', 'invite_anyone_general_settings');
 	
+	add_settings_field('invite_anyone_settings_default_invitation_message', __('Main text of email invitation message', 'bp-invite-anyone'), 'invite_anyone_settings_default_invitation_message', 'invite_anyone', 'invite_anyone_general_settings');
 	
-	add_settings_field('invite_anyone_settings_default_invitation_message', __('Text of email invitation message', 'bp-invite-anyone'), 'invite_anyone_settings_default_invitation_message', 'invite_anyone', 'invite_anyone_general_settings');
-	
+	add_settings_field('invite_anyone_settings_addl_invitation_message', __('Footer text of email invitation message (not editable by users)', 'bp-invite-anyone'), 'invite_anyone_settings_addl_invitation_message', 'invite_anyone', 'invite_anyone_general_settings');
 		
 	
 	add_settings_field('invite_anyone_settings_is_customizable', __('Allow users to customize invitation', 'bp-invite-anyone'), 'invite_anyone_settings_is_customizable', 'invite_anyone', 'invite_anyone_general_settings');	
@@ -96,8 +96,11 @@ function invite_anyone_settings_replacement_patterns() {
 ?>
 
 		<ul>
-			<li><strong>%%INVITERNAME%%</strong> - display name of the inviter</li>
-			<li><strong>%%INVITERURL%%</strong> - URL to the profile of the inviter</li>
+			<li><strong>%%SITENAME%%</strong> - <?php _e( 'name of your website', 'bp-invite-anyone' ) ?></li>
+			<li><strong>%%INVITERNAME%%</strong> - <?php _e( 'display name of the inviter', 'bp-invite-anyone' ) ?></li>
+			<li><strong>%%INVITERURL%%</strong> - <?php _e( 'URL to the profile of the inviter', 'bp-invite-anyone' ) ?></li>
+			<li><strong>%%ACCEPTURL%%</strong> - <?php _e( 'Link that invited users can click to accept the invitation', 'bp-invite-anyone' ) ?></li>
+			<li><strong>%%OPTOUTURL%%</strong> - <?php _e( 'Link that invited users can click to opt out of future invitations', 'bp-invite-anyone' ) ?></li>
 		</ul>
 <?php
 }
@@ -118,13 +121,17 @@ function invite_anyone_settings_can_send_group_invites_email() {
 }
 
 function invite_anyone_settings_default_invitation_subject() {
-	$options = get_option( 'invite_anyone' );
 	echo "<textarea name='invite_anyone[default_invitation_subject]' cols=60 rows=2 >" . invite_anyone_invitation_subject() . "</textarea>";
 }
 
 function invite_anyone_settings_default_invitation_message() {
-	$options = get_option( 'invite_anyone' );
 	echo "<textarea name='invite_anyone[default_invitation_message]' cols=60 rows=5 >" . invite_anyone_invitation_message() . "</textarea>";
+}
+
+function invite_anyone_settings_addl_invitation_message() {
+?>
+	<textarea name='invite_anyone[addl_invitation_message]' cols=60 rows=5 ><?php echo invite_anyone_process_footer( '[email]' ) ?></textarea>
+<?php
 }
 
 function invite_anyone_settings_is_customizable() {
