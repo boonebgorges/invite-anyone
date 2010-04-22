@@ -423,7 +423,9 @@ function invite_anyone_screen_one_content() {
 				<p><?php _e( '(optional) Customize the subject line of the invitation email.', 'bp-invite-anyone' ) ?></p>
 					<textarea name="invite_anyone_custom_subject" id="invite-anyone-custom-subject"><?php echo invite_anyone_invitation_subject( $returned_subject ) ?></textarea>	
 			<?php else : ?>
-				<p><strong>Subject: </strong><?php echo invite_anyone_invitation_subject( $returned_subject ) ?></p>
+				<p><?php _e( 'Subject:', 'bp-invite-anyone' ) ?><br />
+					<textarea name="invite_anyone_custom_subject" id="invite-anyone-custom-subject" disabled="disabled"><?php echo invite_anyone_invitation_subject( $returned_subject ) ?></textarea>
+				</p>
 				<input type="hidden" name="invite_anyone_custom_subject" value="<?php echo invite_anyone_invitation_subject() ?>" />
 			<?php endif; ?>
 		</li>
@@ -433,7 +435,9 @@ function invite_anyone_screen_one_content() {
 				<p><?php _e( '(optional) Customize the text of the invitation.', 'bp-invite-anyone' ) ?></p>
 					<textarea name="invite_anyone_custom_message" id="invite-anyone-custom-message"><?php echo invite_anyone_invitation_message( $returned_message ) ?></textarea>		
 			<?php else : ?>
-				<p><strong>Message: </strong><?php echo invite_anyone_invitation_message( $returned_message ) ?></p>
+				<p><?php _e( 'Message:', 'bp-invite-anyone' ) ?><br />
+					<textarea name="invite_anyone_custom_message" id="invite-anyone-custom-message" disabled="disabled"><?php echo invite_anyone_invitation_message( $returned_message ) ?></textarea>
+				</p>
 				<input type="hidden" name="invite_anyone_custom_message" value="<?php echo invite_anyone_invitation_message() ?>" />
 			<?php endif; ?>
 		
