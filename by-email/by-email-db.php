@@ -115,7 +115,7 @@ function invite_anyone_mark_as_joined( $email ) {
 	$is_joined = 1;
 	$date_joined = gmdate( "Y-m-d H:i:s" );
 		
-	$sql = $wpdb->prepare( "UPDATE {$bp->invite_anyone->table_name} SET is_joined = %d, date_joined = %s WHERE email = %s", $is_joined, $date_joined, $email ); 
+	$sql = $wpdb->prepare( "UPDATE {$bp->invite_anyone->table_name} SET is_hidden = 0, is_joined = %d, date_joined = %s WHERE email = %s", $is_joined, $date_joined, $email ); 
 	
 	if ( !$wpdb->query($sql) )
 		return false;
