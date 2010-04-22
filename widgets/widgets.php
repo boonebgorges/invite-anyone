@@ -52,13 +52,13 @@ class InviteAnyoneWidget extends WP_Widget {
 					
 					<p><?php echo $instruction_text ?></p>
 					
-					<form action="<?php echo bp_loggedin_user_domain() . $bp->invite_anyone->slug ?>" method="post">
+					<form class="standard-form" action="<?php echo bp_loggedin_user_domain() . $bp->invite_anyone->slug ?>" method="post">
 					
 					<?php if ( $email_fields ) : ?>
-						<ul>
+						<ul class="invite-anyone-widget-email-fields">
 						<?php for( $i = 0; $i < $email_fields; $i++ ) : ?>
 							<li>							
-							<input type="text" class="invite-anyone-widget-email-fields" name="emails[<?php echo $i ?>]" />						
+							<input type="text" name="emails[<?php echo $i ?>]" value="<?php _e( 'email address', 'bp-invite-anyone') ?>" onfocus="if (this.value == '<?php _e( 'email address', 'bp-invite-anyone' ) ?>' ) { this.value = ''; }" />						
 							</li>
 						<?php endfor; ?>
 						</ul>
@@ -67,8 +67,8 @@ class InviteAnyoneWidget extends WP_Widget {
 					<input type="hidden" name="invite_anyone_widget" id="invite_anyone_widget" value="1" />
 					
 					<?php wp_nonce_field( 'invite-anyone-widget_' . $bp->loggedin_user->id ) ?> 
-					<p>
-						<input class="button" id="invite-anyone-widget-submit" type="submit" value="<?php _e( 'Continue', 'bp-invite-anyone' ) ?>" />
+					<p id="invite-anyone-widget-submit" >
+						<input class="button" type="submit" value="<?php _e( 'Continue', 'bp-invite-anyone' ) ?>" />
 					</p>
 					</form>
 					

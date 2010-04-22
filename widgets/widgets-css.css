@@ -1,9 +1,16 @@
-.invite-anyone-widget-email-fields {
+form.standard-form .invite-anyone-widget-email-fields input[type="text"] {
 	width: 95%;
+	padding: 4px;
+	font-size: 9pt;
+	margin-bottom: 10px;
 }
 
-input#invite-anyone-widget-submit {
-	float: right;
+p#invite-anyone-widget-submit {
+	text-align: right;
 	margin-top: 10px;
+}
+
+div.invite-anyone {
+	border: 1px solid #f00;
 }
 

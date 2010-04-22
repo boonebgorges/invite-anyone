@@ -377,7 +377,7 @@ function invite_anyone_screen_one_content() {
 			
 			if ( is_array( $_POST['emails'] ) ) {
 				foreach( $_POST['emails'] as $email ) {
-					if ( $email != '' )
+					if ( $email != '' && $email != __( 'email address', 'bp-invite-anyone' ) )
 						$returned_emails[] = $email;	
 				}
 			}			
