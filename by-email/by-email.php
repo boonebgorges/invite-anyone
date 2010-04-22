@@ -522,7 +522,7 @@ function invite_anyone_screen_two() {
 				<th scope="column"><a href="?sort_by=email&order=<?php if ( $_GET['sort_by'] == 'email' && $_GET['order'] == 'ASC' ) : ?>DESC<?php else : ?>ASC<?php endif; ?>"><?php _e( 'Invited email address', 'bp-invite-anyone' ) ?></a></th>
 				<th scope="column"><?php _e( 'Group invitations', 'bp-invite-anyone' ) ?></th>
 				<th scope="column"><a href="?sort_by=date_invited&order=<?php if ( $_GET['sort_by'] == 'date_invited' && $_GET['order'] == 'DESC' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Sent', 'bp-invite-anyone' ) ?></a></th>
-				<th scope="column"><a href="?sort_by=date_invited&order=<?php if ( $_GET['sort_by'] == 'date_accepted' && $_GET['order'] == 'DESC' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Accepted', 'bp-invite-anyone' ) ?></a></th>
+				<th scope="column"><a href="?sort_by=date_joined&order=<?php if ( $_GET['sort_by'] == 'date_joined' && $_GET['order'] == 'DESC' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Accepted', 'bp-invite-anyone' ) ?></a></th>
 				
 			</tr>
 			
