@@ -1,4 +1,4 @@
-# Translation of the WordPress plugin Invite Anyone 0.5.1 by Boone Gorges.
+# Translation of the WordPress plugin Invite Anyone 0.6 bleeding by Boone Gorges.
 # Copyright (C) 2010 Boone Gorges
 # This file is distributed under the same license as the Invite Anyone package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Invite Anyone 0.5.1\n"
+"Project-Id-Version: Invite Anyone 0.6 bleeding\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/invite-anyone\n"
-"POT-Creation-Date: 2010-04-12 16:38+0000\n"
+"POT-Creation-Date: 2010-04-22 20:54+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,276 +16,331 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: invite-anyone-bp-functions.php:20 invite-anyone-bp-functions.php:176
-#: invite-anyone-bp-functions.php:274 invite-anyone/by-email.php:199
-#: invite-anyone/by-email.php:418
-msgid "Send Invites"
-msgstr ""
-
-#: invite-anyone-bp-functions.php:78
-msgid "Group invites sent."
-msgstr ""
-
-#: invite-anyone-bp-functions.php:80
-msgid "Group created successfully."
-msgstr ""
-
-#: invite-anyone-bp-functions.php:116 invite-anyone-bp-functions.php:210
-msgid "Search for members to invite:"
-msgstr ""
-
-#: invite-anyone-bp-functions.php:124 invite-anyone-bp-functions.php:218
-msgid "Select members from the directory:"
-msgstr ""
-
-#: invite-anyone-bp-functions.php:139
-msgid "Select people to invite."
-msgstr ""
-
-#: invite-anyone-bp-functions.php:159 invite-anyone-bp-functions.php:255
-#: invite-anyone-bp-functions.php:406
-msgid "Remove Invite"
-msgstr ""
-
-#: invite-anyone-bp-functions.php:200
-msgid ""
-"Want to invite someone to the group who is not yet a member of the site?"
-msgstr ""
-
-#: invite-anyone-bp-functions.php:200
-msgid "Send invitations by email."
-msgstr ""
-
-#: invite-anyone-bp-functions.php:235
-msgid "Select people to invite from your friends list."
-msgstr ""
-
-#. #-#-#-#-#  plugin.pot (Invite Anyone 0.5.1)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (Invite Anyone 0.6 bleeding)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
-#: invite-anyone/admin-panel.php:4
+#: admin/admin-panel.php:4 widgets/widgets.php:38 widgets/widgets.php:95
 msgid "Invite Anyone"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:22
+#: admin/admin-panel.php:15
+msgid "Settings"
+msgstr ""
+
+#: admin/admin-panel.php:34
 msgid "Invite Anyone Settings"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:28
+#: admin/admin-panel.php:40
 msgid "Save Changes"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:41
+#: admin/admin-panel.php:53
 msgid "General Settings"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:43
+#: admin/admin-panel.php:55
 msgid "Replacement patterns for email text fields"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:45
+#: admin/admin-panel.php:57
 msgid "Text of email invitation subject line"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:48
-msgid "Text of email invitation message"
+#: admin/admin-panel.php:59
+msgid "Main text of email invitation message"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:52
+#: admin/admin-panel.php:61
+msgid "Footer text of email invitation message (not editable by users)"
+msgstr ""
+
+#: admin/admin-panel.php:64
 msgid "Allow users to customize invitation"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:55
+#: admin/admin-panel.php:67
 msgid "Number of email invitations users are permitted to send at a time"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:57
+#: admin/admin-panel.php:69
 msgid "Allow users to send group invitations along with email invitations"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:60
+#: admin/admin-panel.php:72
 msgid "Access Settings"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:62
+#: admin/admin-panel.php:74
 msgid "Allow email invitations to be sent by"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:64
-msgid "Number of groups to display per page"
+#: admin/admin-panel.php:76
+msgid "Limit group invitations"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:77
+#: admin/admin-panel.php:89
 msgid "Control the default behavior of Invite Anyone."
 msgstr ""
 
-#: invite-anyone/admin-panel.php:135
+#: admin/admin-panel.php:99
+msgid "name of your website"
+msgstr ""
+
+#: admin/admin-panel.php:100
+msgid "display name of the inviter"
+msgstr ""
+
+#: admin/admin-panel.php:101
+msgid "URL to the profile of the inviter"
+msgstr ""
+
+#: admin/admin-panel.php:102
+msgid "Link that invited users can click to accept the invitation"
+msgstr ""
+
+#: admin/admin-panel.php:103
+msgid "Link that invited users can click to opt out of future invitations"
+msgstr ""
+
+#: admin/admin-panel.php:154
 msgid "Control which members are able to send various kinds of invitations."
 msgstr ""
 
-#: invite-anyone/admin-panel.php:144
+#: admin/admin-panel.php:163
 msgid "All users"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:146
+#: admin/admin-panel.php:165
 msgid "A limited set of users"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:150
+#: admin/admin-panel.php:169
 msgid ""
 "Only users who have been members of the site for a minimum number of days:"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:155
+#: admin/admin-panel.php:174
 msgid "Only users who have at least the following role on this blog:"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:157
+#: admin/admin-panel.php:176
 msgid "Subscriber"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:158
+#: admin/admin-panel.php:177
 msgid "Contributor"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:159
+#: admin/admin-panel.php:178
 msgid "Author"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:160
+#: admin/admin-panel.php:179
 msgid "Editor"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:161
+#: admin/admin-panel.php:180
 msgid "Administrator"
 msgstr ""
 
-#: invite-anyone/admin-panel.php:166
+#: admin/admin-panel.php:185
 msgid ""
 "Provide a comma-separated list of users (identified by their numerical user "
 "ids) who <strong>cannot</strong> send invitations by email:"
 msgstr ""
 
-#: invite-anyone/by-email.php:27
+#: admin/admin-panel.php:202
+msgid "<strong>Site admins</strong> can send group invitations to: "
+msgstr ""
+
+#: admin/admin-panel.php:204 admin/admin-panel.php:212
+#: admin/admin-panel.php:220 admin/admin-panel.php:228
+msgid "Anyone"
+msgstr ""
+
+#: admin/admin-panel.php:205 admin/admin-panel.php:213
+#: admin/admin-panel.php:221 admin/admin-panel.php:229
+msgid "Friends"
+msgstr ""
+
+#: admin/admin-panel.php:206 admin/admin-panel.php:214
+#: admin/admin-panel.php:222 admin/admin-panel.php:230
+msgid "No one"
+msgstr ""
+
+#: admin/admin-panel.php:210
+msgid "<strong>Group admins</strong> can send group invitations to: "
+msgstr ""
+
+#: admin/admin-panel.php:218
+msgid "<strong>Group mods</strong> can send group invitations to: "
+msgstr ""
+
+#: admin/admin-panel.php:226
+msgid "<strong>Group members</strong> can send group invitations to: "
+msgstr ""
+
+#: by-email/by-email.php:56
 msgid "Opt Out"
 msgstr ""
 
-#: invite-anyone/by-email.php:28
+#: by-email/by-email.php:57
 msgid "Accept Invitation"
 msgstr ""
 
-#: invite-anyone/by-email.php:32
+#: by-email/by-email.php:61
 #, php-format
 msgid ""
 "To opt out of future invitations to %s, make sure that your email is entered "
 "in the field below and click \"Opt Out\"."
 msgstr ""
 
-#: invite-anyone/by-email.php:34
+#: by-email/by-email.php:63
 #, php-format
 msgid ""
 "If you are here by mistake and would like to accept your invitation to %s, "
 "click \"Accept Invitation\" instead."
 msgstr ""
 
-#: invite-anyone/by-email.php:47
+#: by-email/by-email.php:76
 msgid ""
 "You have successfully opted out. No more invitation emails will be sent to "
 "you by this site."
 msgstr ""
 
-#: invite-anyone/by-email.php:50
+#: by-email/by-email.php:79
 msgid "Sorry, there was an error in processing your request"
 msgstr ""
 
-#: invite-anyone/by-email.php:71
+#: by-email/by-email.php:100
 msgid "Email:"
 msgstr ""
 
-#: invite-anyone/by-email.php:93
+#: by-email/by-email.php:122
 msgid ""
 "It looks like you're trying to accept an invitation to join the site, but "
 "some information is missing. Please try again by clicking on the link in the "
 "invitation email."
 msgstr ""
 
-#: invite-anyone/by-email.php:135
+#: by-email/by-email.php:164
 #, php-format
 msgid ""
 "Welcome! You've been invited %s to join the site. Please fill out the "
 "information below to create your account."
 msgstr ""
 
-#: invite-anyone/by-email.php:211 invite-anyone/by-email.php:365
+#: by-email/by-email.php:228 by-email/by-email.php:470
+#: group-invites/group-invites.php:83 group-invites/group-invites.php:236
+#: group-invites/group-invites.php:334
+msgid "Send Invites"
+msgstr ""
+
+#: by-email/by-email.php:240 by-email/by-email.php:412
 msgid "Invite New Members"
 msgstr ""
 
-#: invite-anyone/by-email.php:221 invite-anyone/by-email.php:451
+#: by-email/by-email.php:250 by-email/by-email.php:524
 msgid "Sent Invites"
 msgstr ""
 
-#: invite-anyone/by-email.php:360
+#: by-email/by-email.php:382 widgets/widgets.php:61
+msgid "email address"
+msgstr ""
+
+#: by-email/by-email.php:407
 #, php-format
 msgid "Invite friends to join %s by following these steps:"
 msgstr ""
 
-#: invite-anyone/by-email.php:369
+#: by-email/by-email.php:416
 msgid "Enter email addresses in the fields below."
 msgstr ""
 
-#: invite-anyone/by-email.php:369
+#: by-email/by-email.php:416
 msgid ""
 "You can only invite people whose email addresses end in one of the following "
 "domains:"
 msgstr ""
 
-#: invite-anyone/by-email.php:376
+#: by-email/by-email.php:423
 msgid "(optional) Customize the subject line of the invitation email."
 msgstr ""
 
-#: invite-anyone/by-email.php:386
+#: by-email/by-email.php:426
+msgid "Subject:"
+msgstr ""
+
+#: by-email/by-email.php:435
 msgid "(optional) Customize the text of the invitation."
 msgstr ""
 
-#: invite-anyone/by-email.php:397
+#: by-email/by-email.php:438
+msgid "Message:"
+msgstr ""
+
+#: by-email/by-email.php:443
+msgid ""
+"The message will also contain a custom footer containing links to accept the "
+"invitation or opt out of further email invitations from this site."
+msgstr ""
+
+#: by-email/by-email.php:449
 msgid ""
 "(optional) Select some groups. Invitees will receive invitations to these "
 "groups when they join the site."
 msgstr ""
 
-#: invite-anyone/by-email.php:435
+#: by-email/by-email.php:487
 msgid "Your invitations were sent successfully!"
 msgstr ""
 
-#: invite-anyone/by-email.php:437
+#: by-email/by-email.php:489
 msgid "Sorry, there was a problem sending your invitations. Please try again."
 msgstr ""
 
-#: invite-anyone/by-email.php:453
+#: by-email/by-email.php:528
 msgid "You have sent invitations to the following people."
 msgstr ""
 
-#: invite-anyone/by-email.php:459
+#: by-email/by-email.php:533
 msgid "Invited email address"
 msgstr ""
 
-#: invite-anyone/by-email.php:460
+#: by-email/by-email.php:534
 msgid "Group invitations"
 msgstr ""
 
-#: invite-anyone/by-email.php:461
+#: by-email/by-email.php:535
 msgid "Sent"
 msgstr ""
 
-#: invite-anyone/by-email.php:462
+#: by-email/by-email.php:536
 msgid "Accepted"
 msgstr ""
 
-#: invite-anyone/by-email.php:534
+#: by-email/by-email.php:546
+msgid "Clear this invitation"
+msgstr ""
+
+#: by-email/by-email.php:579
+msgid "Clear all accepted invitations"
+msgstr ""
+
+#: by-email/by-email.php:580
+msgid "Clear all invitations"
+msgstr ""
+
+#: by-email/by-email.php:585
+msgid "You haven't sent any email invitations yet."
+msgstr ""
+
+#: by-email/by-email.php:627
 #, php-format
 msgid "An invitation to join the %s community."
 msgstr ""
 
-#: invite-anyone/by-email.php:558
+#: by-email/by-email.php:651
 #, php-format
 msgid ""
 "You have been invited by %%INVITERNAME%% to join the %s community. \n"
@@ -293,28 +348,82 @@ msgid ""
 "\rVisit %%INVITERNAME%%'s profile at %%INVITERURL%%."
 msgstr ""
 
-#: invite-anyone/by-email.php:620
+#: by-email/by-email.php:671
+#, php-format
+msgid "To accept this invitation, please visit %%ACCEPTURL%%"
+msgstr ""
+
+#: by-email/by-email.php:675
+#, php-format
+msgid ""
+"To opt out of future invitations to this site, please visit %%OPTOUTURL%%"
+msgstr ""
+
+#: by-email/by-email.php:743
 msgid "You didn't include any email addresses!"
 msgstr ""
 
-#: invite-anyone/by-email.php:656
+#: by-email/by-email.php:779
 msgid "Please remove the email address and try again."
 msgstr ""
 
-#: invite-anyone/by-email.php:696
-#, php-format
-msgid ""
-"\n"
-"\n"
-"To accept this invitation, please visit %s"
+#: group-invites/group-invites.php:141
+msgid "Group invites sent."
 msgstr ""
 
-#: invite-anyone/by-email.php:700
-#, php-format
+#: group-invites/group-invites.php:143
+msgid "Group created successfully."
+msgstr ""
+
+#: group-invites/group-invites.php:176 group-invites/group-invites.php:270
+msgid "Search for members to invite:"
+msgstr ""
+
+#: group-invites/group-invites.php:184 group-invites/group-invites.php:278
+msgid "Select members from the directory:"
+msgstr ""
+
+#: group-invites/group-invites.php:199
+msgid "Select people to invite."
+msgstr ""
+
+#: group-invites/group-invites.php:219 group-invites/group-invites.php:315
+#: group-invites/group-invites.php:466
+msgid "Remove Invite"
+msgstr ""
+
+#: group-invites/group-invites.php:260
 msgid ""
-"\n"
-"\n"
-"To opt out of future invitations to this site, please visit %s"
+"Want to invite someone to the group who is not yet a member of the site?"
+msgstr ""
+
+#: group-invites/group-invites.php:260
+msgid "Send invitations by email."
+msgstr ""
+
+#: group-invites/group-invites.php:295
+msgid "Select people to invite from your friends list."
+msgstr ""
+
+#: widgets/widgets.php:44 widgets/widgets.php:101
+msgid ""
+"Invite friends to join the site by entering their email addresses below."
+msgstr ""
+
+#: widgets/widgets.php:77
+msgid "Continue"
+msgstr ""
+
+#: widgets/widgets.php:104
+msgid "Title:"
+msgstr ""
+
+#: widgets/widgets.php:106
+msgid "Text to display in widget:"
+msgstr ""
+
+#: widgets/widgets.php:110
+msgid "Number of email fields to display in widget:"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
