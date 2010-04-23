@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Invite Anyone 0.6 bleeding\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/invite-anyone\n"
-"POT-Creation-Date: 2010-04-22 20:54+0000\n"
+"POT-Creation-Date: 2010-04-23 17:18+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,6 +102,14 @@ msgstr ""
 msgid "Link that invited users can click to opt out of future invitations"
 msgstr ""
 
+#: admin/admin-panel.php:142
+msgid "Subject line"
+msgstr ""
+
+#: admin/admin-panel.php:146
+msgid "Message body"
+msgstr ""
+
 #: admin/admin-panel.php:154
 msgid "Control which members are able to send various kinds of invitations."
 msgstr ""
@@ -147,6 +155,14 @@ msgstr ""
 msgid ""
 "Provide a comma-separated list of users (identified by their numerical user "
 "ids) who <strong>cannot</strong> send invitations by email:"
+msgstr ""
+
+#: admin/admin-panel.php:200
+msgid ""
+"Invite Anyone extends BuddyPress's default group invitation settings. "
+"Instead of allowing you to invite only friends to a group, this plugin "
+"allows you to invite any member of the site. Use these settings to limit "
+"possible invitees for different group roles."
 msgstr ""
 
 #: admin/admin-panel.php:202
@@ -343,9 +359,8 @@ msgstr ""
 #: by-email/by-email.php:651
 #, php-format
 msgid ""
-"You have been invited by %%INVITERNAME%% to join the %s community. \n"
-"\r\n"
-"\rVisit %%INVITERNAME%%'s profile at %%INVITERURL%%."
+"You have been invited by %%INVITERNAME%% to join the %s community. \\n\\r\\n"
+"\\rVisit %%INVITERNAME%%'s profile at %%INVITERURL%%."
 msgstr ""
 
 #: by-email/by-email.php:671
@@ -361,6 +376,30 @@ msgstr ""
 
 #: by-email/by-email.php:743
 msgid "You didn't include any email addresses!"
+msgstr ""
+
+#: by-email/by-email.php:753
+msgid "Sorry, $email has opted out of email invitations from this site."
+msgstr ""
+
+#: by-email/by-email.php:758
+msgid "Sorry, $email is already a registered user of the site. "
+msgstr ""
+
+#: by-email/by-email.php:763
+msgid "Sorry, $email is not a permitted email address."
+msgstr ""
+
+#: by-email/by-email.php:768
+msgid ""
+"Sorry, $email is not a valid email address. Please make sure that you have "
+"typed it correctly."
+msgstr ""
+
+#: by-email/by-email.php:773
+msgid ""
+"Sorry, $email is not a permitted email address. Please make sure that you "
+"have typed the domain name correctly."
 msgstr ""
 
 #: by-email/by-email.php:779
