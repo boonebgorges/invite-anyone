@@ -103,11 +103,11 @@ class InviteAnyoneWidget extends WP_Widget {
         ?>
             <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
            
-            <p><label for="<?php echo $this->get_field_id('instruction_text'); ?>"><?php _e('Text to display in widget:'); ?> 
+            <p><label for="<?php echo $this->get_field_id('instruction_text'); ?>"><?php _e( 'Text to display in widget:', 'bp-invite-anyone' ); ?> 
             <textarea class="widefat" id="<?php echo $this->get_field_id('instruction_text'); ?>" name="<?php echo $this->get_field_name('instruction_text'); ?>"><?php echo $instruction_text; ?></textarea>
             </label></p>
            
-            <p><label for="<?php echo $this->get_field_id('email_fields'); ?>"><?php _e('Number of email fields to display in widget:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('email_fields'); ?>" name="<?php echo $this->get_field_name('email_fields'); ?>" type="text" value="<?php echo $email_fields; ?>" /></label></p>
+            <p><label for="<?php echo $this->get_field_id('email_fields'); ?>"><?php _e( 'Number of email fields to display in widget:', 'bp-invite-anyone' ); ?> <input class="widefat" id="<?php echo $this->get_field_id('email_fields'); ?>" name="<?php echo $this->get_field_name('email_fields'); ?>" type="text" value="<?php echo $email_fields; ?>" /></label></p>
             
         <?php 
     }

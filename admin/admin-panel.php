@@ -139,11 +139,11 @@ function invite_anyone_settings_is_customizable() {
 ?>
 	<ul>
 		<li>
-			<input type="checkbox" name="invite_anyone[subject_is_customizable]" value="yes" <?php if( $options['subject_is_customizable'] == 'yes' ) : ?>checked="checked"<?php endif; ?> /> Subject line
+			<input type="checkbox" name="invite_anyone[subject_is_customizable]" value="yes" <?php if( $options['subject_is_customizable'] == 'yes' ) : ?>checked="checked"<?php endif; ?> /> <?php _e( 'Subject line', 'bp-invite-anyone' ) ?>
 		</li>
 		
 		<li>
-			<input type="checkbox" name="invite_anyone[message_is_customizable]" value="yes" <?php if( $options['message_is_customizable'] == 'yes' ) : ?>checked="checked"<?php endif; ?> /> Message body
+			<input type="checkbox" name="invite_anyone[message_is_customizable]" value="yes" <?php if( $options['message_is_customizable'] == 'yes' ) : ?>checked="checked"<?php endif; ?> /> <?php _e( 'Message body', 'bp-invite-anyone' ) ?>
 		</li>
 	</ul>
 <?php
@@ -197,7 +197,7 @@ function invite_anyone_settings_group_invite_visibility() {
 	$options = get_option( 'invite_anyone' );
 ?>
 	<ul>	
-	Invite Anyone extends BuddyPress's default group invitation settings. Instead of allowing you to invite only friends to a group, this plugin allows you to invite any member of the site. Use these settings to limit possible invitees for different group roles.
+	<?php _e( 'Invite Anyone extends BuddyPress\'s default group invitation settings. Instead of allowing you to invite only friends to a group, this plugin allows you to invite any member of the site. Use these settings to limit possible invitees for different group roles.', 'bp-invite-anyone' ) ?>
 	<br />
 		<li><?php _e( "<strong>Site admins</strong> can send group invitations to: ", 'bp-invite-anyone' ) ?> 
 			<select name="invite_anyone[group_invites_can_admin]">

@@ -161,7 +161,7 @@ function invite_anyone_register_screen_message() {
 
 		
 			
-			$message = sprintf( __( "Welcome! You've been invited %s to join the site. Please fill out the information below to create your account.", 'bp-invite-anyone' ), $inviters_text );
+			$message = sprintf( __( 'Welcome! You\'ve been invited %s to join the site. Please fill out the information below to create your account.', 'bp-invite-anyone' ), $inviters_text );
 				
 		?>
 		<div id="message" class="success"><p><?php echo $message ?></p></div>	
@@ -404,7 +404,7 @@ function invite_anyone_screen_one_content() {
 			$returned_message = stripslashes( urldecode( $_GET['message'] ) );
 				
 		$blogname = get_bloginfo('name');
-		$welcome_message = sprintf( __( "Invite friends to join %s by following these steps:", 'bp-invite-anyone' ), $blogname );
+		$welcome_message = sprintf( __( 'Invite friends to join %s by following these steps:', 'bp-invite-anyone' ), $blogname );
 	?>
 	<form action="<?php echo $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/send/' ?>" method="post">
 	
@@ -624,7 +624,7 @@ function invite_anyone_invitation_subject( $returned_message = false ) {
 			$iaoptions = array();
 		
 		if ( !$text = $iaoptions['default_invitation_subject'] ) {
-			$text = sprintf( __( "An invitation to join the %s community.", 'bp-invite-anyone' ), $site_name );
+			$text = sprintf( __( 'An invitation to join the %s community.', 'bp-invite-anyone' ), $site_name );
 		}
 		
 		if ( !is_admin() ) {
@@ -648,7 +648,7 @@ function invite_anyone_invitation_message( $returned_message = false ) {
 			$iaoptions = array();
 		
 		if ( !$text = $iaoptions['default_invitation_message'] ) {
-			$text = sprintf( __( "You have been invited by %%INVITERNAME%% to join the %s community. \n\r\n\rVisit %%INVITERNAME%%'s profile at %%INVITERURL%%.", 'bp-invite-anyone' ), $blogname ); /* Do not translate the strings embedded in %% ... %% ! */ 
+			$text = sprintf( __( 'You have been invited by %%INVITERNAME%% to join the %s community. \n\r\n\rVisit %%INVITERNAME%%\'s profile at %%INVITERURL%%.', 'bp-invite-anyone' ), $blogname ); /* Do not translate the strings embedded in %% ... %% ! */ 
 		}
 		
 		if ( !is_admin() ) {
@@ -740,7 +740,7 @@ function invite_anyone_process_invitations( $data ) {
 	}
 	
 	if ( empty($emails) ) {
-		bp_core_add_message( __( "You didn't include any email addresses!", 'bp-invite-anyone' ), 'error' );
+		bp_core_add_message( __( 'You didn\'t include any email addresses!', 'bp-invite-anyone' ), 'error' );
 		bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members' );
 	}
 	
@@ -750,27 +750,27 @@ function invite_anyone_process_invitations( $data ) {
 		switch ( $check ) {
 			
 			case 'opt_out' :
-				$error_message = __( "Sorry, $email has opted out of email invitations from this site.", 'bp-invite-anyone' );
+				$error_message = __( 'Sorry, $email has opted out of email invitations from this site.', 'bp-invite-anyone' );
 				$is_error = 1;
 				break;
 			
 			case 'used' :
-				$error_message = __( "Sorry, $email is already a registered user of the site. ", 'bp-invite-anyone' );
+				$error_message = __( 'Sorry, $email is already a registered user of the site. ', 'bp-invite-anyone' );
 				$is_error = 1;
 				break;
 				
 			case 'unsafe' :
-				$error_message = __( "Sorry, $email is not a permitted email address.", 'bp-invite-anyone' );
+				$error_message = __( 'Sorry, $email is not a permitted email address.', 'bp-invite-anyone' );
 				$is_error = 1;
 				break;
 			
 			case 'invalid' :
-				$error_message = __( "Sorry, $email is not a valid email address. Please make sure that you have typed it correctly.", 'bp-invite-anyone' );
+				$error_message = __( 'Sorry, $email is not a valid email address. Please make sure that you have typed it correctly.', 'bp-invite-anyone' );
 				$is_error = 1;
 				break;
 			
 			case 'limited_domain' :
-				$error_message = __( "Sorry, $email is not a permitted email address. Please make sure that you have typed the domain name correctly.", 'bp-invite-anyone' );
+				$error_message = __( 'Sorry, $email is not a permitted email address. Please make sure that you have typed the domain name correctly.', 'bp-invite-anyone' );
 				$is_error = 1;
 				break;	
 		}
