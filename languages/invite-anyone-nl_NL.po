@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Invite Anyone 0.6 bleeding\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/invite-anyone\n"
-"POT-Creation-Date: 2010-04-22 20:54+0000\n"
-"PO-Revision-Date: 2010-04-23 18:52+0100\n"
+"POT-Creation-Date: 2010-04-23 17:18+0000\n"
+"PO-Revision-Date: 2010-04-23 20:21+0100\n"
 "Last-Translator: Jesper\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -103,6 +103,14 @@ msgstr "Link die uitgenodigde gebruikers kunnen klikken om de uitnodiging te acc
 msgid "Link that invited users can click to opt out of future invitations"
 msgstr "Link die uitgenodigde gebruikers kunnen klikken om uit te schrijven voor toekomstige uitnodigingen"
 
+#: admin/admin-panel.php:142
+msgid "Subject line"
+msgstr "Onderwerp regel"
+
+#: admin/admin-panel.php:146
+msgid "Message body"
+msgstr "Bericht  "
+
 #: admin/admin-panel.php:154
 msgid "Control which members are able to send various kinds of invitations."
 msgstr "Beheer welke leden verschillende soorten uitnodigingen kunnen versturen."
@@ -146,6 +154,10 @@ msgstr "Administrator"
 #: admin/admin-panel.php:185
 msgid "Provide a comma-separated list of users (identified by their numerical user ids) who <strong>cannot</strong> send invitations by email:"
 msgstr "Lever een komma gescheiden lijst van gebruikers (geïdentificeerd door hun numerieke user ids) die <strong>niet</strong> uitnodigingen per e-mail kunnen versturen:"
+
+#: admin/admin-panel.php:200
+msgid "Invite Anyone extends BuddyPress's default group invitation settings. Instead of allowing you to invite only friends to a group, this plugin allows you to invite any member of the site. Use these settings to limit possible invitees for different group roles."
+msgstr "Invite Anyone breidt BuddyPress's standaard groep uitnodiging instellingen uit. In plaats van dat je alleen vrienden voor een groep uit kunt nodigen, staat deze plugin je toe elk lid van de site uit te nodigen. Gebruik deze instellingen om eventuele genodigden voor verschillende groepsrollen te beperken."
 
 #: admin/admin-panel.php:202
 msgid "<strong>Site admins</strong> can send group invitations to: "
@@ -195,7 +207,7 @@ msgstr "Accepteer Uitnodiging"
 #: by-email/by-email.php:61
 #, php-format
 msgid "To opt out of future invitations to %s, make sure that your email is entered in the field below and click \"Opt Out\"."
-msgstr "Als je je wilt afmelden voor toekomstige uitnodigingen tot % s, zorg ervoor dat uw e-mail is opgenomen in het onderstaande veld en klik op \"Afmelden\"."
+msgstr "Als je je wilt afmelden voor toekomstige uitnodigingen tot % s, zorg ervoor dat je e-mail is opgenomen in het onderstaande veld en klik op \"Afmelden\"."
 
 #: by-email/by-email.php:63
 #, php-format
@@ -208,7 +220,7 @@ msgstr "Je hebt je succesvol afgemeld. Er worden, van deze site, geen invitatie 
 
 #: by-email/by-email.php:79
 msgid "Sorry, there was an error in processing your request"
-msgstr "Sorry, er is een fout opgetreden bij de verwerking van uw aanvraag"
+msgstr "Sorry, er is een fout opgetreden bij de verwerking van je aanvraag"
 
 #: by-email/by-email.php:100
 msgid "Email:"
@@ -335,11 +347,11 @@ msgstr "Een uitnodiging om lid te worden van de %s community."
 #: by-email/by-email.php:651
 #, php-format
 msgid ""
-"You have been invited by %%INVITERNAME%% to join the %s community. \n"
-"\r\n"
-"\rVisit %%INVITERNAME%%'s profile at %%INVITERURL%%."
+"You have been invited by %%INVITERNAME%% to join the %s community. \\n"
+"\\r\\n"
+"\\rVisit %%INVITERNAME%%'s profile at %%INVITERURL%%."
 msgstr ""
-"Je bent uitgenodigd door %%INVITERNAME%% om lid te worden van de %s community. \n"
+"Je bent uitgenodigd door %%INVITERNAME%% om lid te worden van de %s community. \\n"
 "\r\n"
 "\rBezoek %%INVITERNAME%%'s profiel op %%INVITERURL%%."
 
@@ -362,6 +374,26 @@ msgstr ""
 #: by-email/by-email.php:743
 msgid "You didn't include any email addresses!"
 msgstr "Je hebt geen e-mail adressen toegevoegd!"
+
+#: by-email/by-email.php:753
+msgid "Sorry, $email has opted out of email invitations from this site."
+msgstr "Sorry, $email heeft zich afgemeld voor email uitnodigingen van deze site."
+
+#: by-email/by-email.php:758
+msgid "Sorry, $email is already a registered user of the site. "
+msgstr "Sorry, $email is reeds een geregistreerde gebruiker van de site."
+
+#: by-email/by-email.php:763
+msgid "Sorry, $email is not a permitted email address."
+msgstr "Sorry, $email is niet een toegestaan e-mailadres."
+
+#: by-email/by-email.php:768
+msgid "Sorry, $email is not a valid email address. Please make sure that you have typed it correctly."
+msgstr "Sorry, $email is geen geldig e-mailadres. Zorg ervoor dat je het correct hebt getypt."
+
+#: by-email/by-email.php:773
+msgid "Sorry, $email is not a permitted email address. Please make sure that you have typed the domain name correctly."
+msgstr "Sorry, $email is niet een toegestaan e-mailadres. Zorg ervoor dat je de domeinnaam correct hebt getypt."
 
 #: by-email/by-email.php:779
 msgid "Please remove the email address and try again."
