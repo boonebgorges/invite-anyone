@@ -3,8 +3,8 @@ Contributors: boonebgorges, cuny-academic-commons
 Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WPMU 2.8, BuddyPress 1.1
-Tested up to: WPMU 2.9.2, BuddyPress 1.2.3
-Stable tag: 0.5.2
+Tested up to: WPMU 2.9.2, BuddyPress 1.3 trunk
+Stable tag: 0.6
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -39,6 +39,7 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 * Sent Invites sortable by email address, date invited, date accepted
 * Invites can be cleared from Sent Invites list: individually, all accepted, all invitations
 * Created admin controls over who group admins/mods/members can invite to groups
+* Admins can now allow customization of invitation's main message but still have control over a non-editable footer
 * CSS issues fixed
 
 = 0.5.2 =
