@@ -750,27 +750,27 @@ function invite_anyone_process_invitations( $data ) {
 		switch ( $check ) {
 			
 			case 'opt_out' :
-				$error_message = __( 'Sorry, $email has opted out of email invitations from this site.', 'bp-invite-anyone' );
+				$error_message = sprintf( __( 'Sorry, %s has opted out of email invitations from this site.', 'bp-invite-anyone' ), $email );
 				$is_error = 1;
 				break;
 			
 			case 'used' :
-				$error_message = __( 'Sorry, $email is already a registered user of the site. ', 'bp-invite-anyone' );
+				$error_message = sprintf( __( 'Sorry, %s is already a registered user of the site. ', 'bp-invite-anyone' ), $email );
 				$is_error = 1;
 				break;
 				
 			case 'unsafe' :
-				$error_message = __( 'Sorry, $email is not a permitted email address.', 'bp-invite-anyone' );
+				$error_message = sprintf( __( 'Sorry, %s is not a permitted email address.', 'bp-invite-anyone' ), $email );
 				$is_error = 1;
 				break;
 			
 			case 'invalid' :
-				$error_message = __( 'Sorry, $email is not a valid email address. Please make sure that you have typed it correctly.', 'bp-invite-anyone' );
+				$error_message = sprintf( __( 'Sorry, %s is not a valid email address. Please make sure that you have typed it correctly.', 'bp-invite-anyone' ), $email );
 				$is_error = 1;
 				break;
 			
 			case 'limited_domain' :
-				$error_message = __( 'Sorry, $email is not a permitted email address. Please make sure that you have typed the domain name correctly.', 'bp-invite-anyone' );
+				$error_message = sprintf( __( 'Sorry, %s is not a permitted email address. Please make sure that you have typed the domain name correctly.', 'bp-invite-anyone' ), $email );
 				$is_error = 1;
 				break;	
 		}

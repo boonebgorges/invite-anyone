@@ -30,9 +30,14 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 
 * Dutch: Jesper Popma
 * Italian: Luca Camellini
-
+* French: Guillaume Coulon
 
 == Changelog ==
+
+= 0.6.1 =
+* Fixed l18n bugs with error messages
+* French translation added - thanks, Guillaume!
+* Updated translations
 
 = 0.6 =
 * Plugin now includes a widget for email invitation from any page

@@ -1,5 +1,6 @@
 
 Todo:
+	- disable certain parts when Groups component is disabled (also friends)
 	- check bp groupblog compatibility
 	- opt out confirmation screen
 		- make text editable by admin
@@ -22,4 +23,5 @@ Todo:
 		- allow sitewide admins to edit footer text without making it editable by users
 		- Restrict email invitation based on group admin/mod/member
 	- js for inline validation
+	- resend email invitations
 	- hook into member lists and searches with "not finding?" message
