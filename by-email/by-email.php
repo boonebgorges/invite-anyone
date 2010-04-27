@@ -3,6 +3,20 @@
 require( WP_PLUGIN_DIR . '/invite-anyone/by-email/by-email-db.php' );
 require( WP_PLUGIN_DIR . '/invite-anyone/widgets/widgets.php' );
 
+
+// Temporary function until bp_is_active is fully integrated
+function invite_anyone_are_groups_running() {
+	if ( function_exists( 'groups_install' ) )
+		return true;
+	
+	if ( function_exists( 'bp_is_active' ) ) {
+		if ( bp_is_active( 'groups' ) )
+			return true;	
+	}
+	
+	return false;
+}
+
 function invite_anyone_add_by_email_css() {
 	global $bp;
 	
@@ -444,22 +458,25 @@ function invite_anyone_screen_one_content() {
 		
 		</li>
 		
-		<?php if ( $iaoptions['can_send_group_invites_email'] == 'yes' && bp_has_groups( "type=alphabetical&user_id=" . bp_loggedin_user_id() ) ) : ?>
-		<li>
-			<p><?php _e( '(optional) Select some groups. Invitees will receive invitations to these groups when they join the site.', 'bp-invite-anyone' ) ?></p>
-			<ul id="invite-anyone-group-list">
-				<?php while ( bp_groups() ) : bp_the_group(); ?>
-					<li>
-					<input type="checkbox" name="invite_anyone_groups[]" id="invite_anyone_groups[]" value="<?php bp_group_id() ?>" <?php if ( $from_group == bp_get_group_id() || array_search( bp_get_group_id(), $returned_groups) ) : ?>checked<?php endif; ?> />
-					<?php bp_group_avatar_mini() ?>
-					<?php bp_group_name() ?>
-
-					</li>
-				<?php endwhile; ?>
+		<?php if ( invite_anyone_are_groups_running() ) : ?>
+			<?php if ( $iaoptions['can_send_group_invites_email'] == 'yes' && bp_has_groups( "type=alphabetical&user_id=" . bp_loggedin_user_id() ) ) : ?>
+			<li>
+				<p><?php _e( '(optional) Select some groups. Invitees will receive invitations to these groups when they join the site.', 'bp-invite-anyone' ) ?></p>
+				<ul id="invite-anyone-group-list">
+					<?php while ( bp_groups() ) : bp_the_group(); ?>
+						<li>
+						<input type="checkbox" name="invite_anyone_groups[]" id="invite_anyone_groups[]" value="<?php bp_group_id() ?>" <?php if ( $from_group == bp_get_group_id() || array_search( bp_get_group_id(), $returned_groups) ) : ?>checked<?php endif; ?> />
+						<?php bp_group_avatar_mini() ?>
+						<?php bp_group_name() ?>
+	
+						</li>
+					<?php endwhile; ?>
+				
+				</ul>
 			
-			</ul>
+			</li>
+			<?php endif; ?>
 		
-		</li>
 		<?php endif; ?>
 		
 		<?php do_action( 'invite_anyone_addl_fields' ) ?>
@@ -648,7 +665,9 @@ function invite_anyone_invitation_message( $returned_message = false ) {
 			$iaoptions = array();
 		
 		if ( !$text = $iaoptions['default_invitation_message'] ) {
-			$text = sprintf( __( 'You have been invited by %%INVITERNAME%% to join the %s community. \n\r\n\rVisit %%INVITERNAME%%\'s profile at %%INVITERURL%%.', 'bp-invite-anyone' ), $blogname ); /* Do not translate the strings embedded in %% ... %% ! */ 
+			$text = sprintf( __( 'You have been invited by %%INVITERNAME%% to join the %s community.
+
+Visit %%INVITERNAME%%\'s profile at %%INVITERURL%%.', 'bp-invite-anyone' ), $blogname ); /* Do not translate the strings embedded in %% ... %% ! */ 
 		}
 		
 		if ( !is_admin() ) {

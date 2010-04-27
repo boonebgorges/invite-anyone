@@ -16,7 +16,13 @@ if ( !defined( 'BP_INVITE_ANYONE_SLUG' ) )
 
 /* Only load the BuddyPress plugin functions if BuddyPress is loaded and initialized. */
 function invite_anyone_init() {
-	require( dirname( __FILE__ ) . '/group-invites/group-invites.php' );
+	if ( function_exists( 'bp_is_active' ) ) {
+		if ( bp_is_active( 'groups' ) )
+			require( dirname( __FILE__ ) . '/group-invites/group-invites.php' );
+	} else if ( function_exists( 'groups_install' ) ) {
+		require( dirname( __FILE__ ) . '/group-invites/group-invites.php' );
+	}		
+	
 	require( dirname( __FILE__ ) . '/by-email/by-email.php' );	
 	
 	if ( is_admin() )
