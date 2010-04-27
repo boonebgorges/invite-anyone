@@ -31,6 +31,7 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 * Dutch: Jesper Popma
 * Italian: Luca Camellini
 * French: Guillaume Coulon
+* Russian: Jettochkin
 
 == Changelog ==
 
@@ -38,6 +39,7 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 * Added checks to allow email invitations to work when groups component is disabled
 * Fixed l18n bugs with error messages
 * French translation added - thanks, Guillaume!
+* Russian translation added - thanks, Jettochkin!
 * Updated translations
 
 = 0.6 =
