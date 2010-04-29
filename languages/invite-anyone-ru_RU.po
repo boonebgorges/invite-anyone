@@ -39,7 +39,7 @@ msgstr "Основные настройки"
 
 #: admin/admin-panel.php:55
 msgid "Replacement patterns for email text fields"
-msgstr "Замена моделей для полей текст сообщения"
+msgstr "Замена для полей в тексте сообщения"
 
 #: admin/admin-panel.php:57
 msgid "Text of email invitation subject line"
@@ -63,7 +63,7 @@ msgstr "Количество разрешённых e-mail приглашени�
 
 #: admin/admin-panel.php:69
 msgid "Allow users to send group invitations along with email invitations"
-msgstr "Позволить пользователям посылать группу приглашений посредством e-mail приглашений"
+msgstr "Позволить пользователям посылать приглашения в группы посредством e-mail приглашений"
 
 #: admin/admin-panel.php:72
 msgid "Access Settings"
@@ -249,7 +249,7 @@ msgstr "Пригласить новых пользователей"
 #: by-email/by-email.php:250
 #: by-email/by-email.php:524
 msgid "Sent Invites"
-msgstr "Приглашения отправлены"
+msgstr "Отправленные приглашения"
 
 #: by-email/by-email.php:382
 #: widgets/widgets.php:61
@@ -291,7 +291,7 @@ msgstr "Данное сообщение будет также содержать
 
 #: by-email/by-email.php:449
 msgid "(optional) Select some groups. Invitees will receive invitations to these groups when they join the site."
-msgstr "(опционально) Выберите несколько групп. Приглашенные получат приглашения в эти группы когда присоединяться к сайту."
+msgstr "(опционально) Выберите несколько групп. Приглашенные получат приглашения в эти группы когда присоединятся к сайту."
 
 #: by-email/by-email.php:487
 msgid "Your invitations were sent successfully!"
@@ -315,7 +315,7 @@ msgstr "Приглашения в группу"
 
 #: by-email/by-email.php:535
 msgid "Sent"
-msgstr "Отправленное"
+msgstr "Отправлено"
 
 #: by-email/by-email.php:536
 msgid "Accepted"
