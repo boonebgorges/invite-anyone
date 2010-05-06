@@ -1,5 +1,7 @@
 
 Todo:
+	- bug from Deryk; bugs in IE and elsewhere on bp.org forums
+	- http://buddypress.org/community/groups/cubepoints-buddypress-integration/forum/topic/suggested-intergration/ hooks
 	- disable certain parts when Groups component is disabled (also friends)
 	- check bp groupblog compatibility
 	- opt out confirmation screen
