@@ -39,6 +39,7 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 * Fixed bug that kept group invitation member list from being populated on some non-MU setups
 * Fixed bug that kept non-admins from seeing Send Invites group tab
 * Fixed bug that prevented JS and CSS from loading on invitation step in group creation
+* Fixed bug that caused email fields not to load properly in IE - thanks, techguy!
 
 = 0.6.1 =
 * Added checks to allow email invitations to work when groups component is disabled

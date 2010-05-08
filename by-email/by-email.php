@@ -623,7 +623,7 @@ function invite_anyone_email_fields( $returned_emails = false ) {
 	<ol id="invite-anyone-email-fields">
 	<?php for( $i = 0; $i < $max_invites; $i++ ) : ?>
 		<li>
-			<input type="text" name="invite_anyone_email[]" class="invite-anyone-email-field" <?php if ( $returned_emails[$i] ) : ?>value="<?php echo $returned_emails[$i] ?>"<?php endif; ?>" />
+			<input type="text" name="invite_anyone_email[]" class="invite-anyone-email-field" <?php if ( $returned_emails[$i] ) : ?>value="<?php echo $returned_emails[$i] ?>"<?php endif; ?> />
 		</li>
 	<?php endfor; ?>
 	</ol>
