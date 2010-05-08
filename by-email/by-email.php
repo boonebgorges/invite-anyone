@@ -231,6 +231,8 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 			groups_send_invites( $inviter_id, $group_id );
 		}			
 	}
+	
+	do_action( 'accepted_email_invite', $user_id, $inviters );
 }
 add_action( 'bp_core_activated_user', 'invite_anyone_activate_user', 10, 3 );
 
@@ -855,6 +857,7 @@ function invite_anyone_process_invitations( $data ) {
 		unset( $message, $to );
 	}
 	
+	do_action( 'sent_email_invites', $bp->loggedin_user->id, $emails, $groups );
 	
 	return true;
 }
