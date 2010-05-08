@@ -543,10 +543,10 @@ function invite_anyone_group_invite_access_test() {
 
 	if ( !is_user_logged_in() )
 		return 'noone';
-	
-	if ( !bp_group_is_member() )
+		
+	if ( !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
 		return 'noone';
-	
+
 	if ( !$iaoptions = get_option( 'invite_anyone' ) )
 		$iaoptions = array();
 
@@ -557,27 +557,21 @@ function invite_anyone_group_invite_access_test() {
 			return 'friends';
 		if ( $iaoptions['group_invites_can_admin'] == 'noone' )
 			return 'noone';
-	}
-	
-	if ( bp_group_is_admin() ) {
+	} else if ( bp_group_is_admin() ) {
 		if ( $iaoptions['group_invites_can_group_admin'] == 'anyone' || !$iaoptions['group_invites_can_group_admin'] )
 			return 'anyone';
 		if ( $iaoptions['group_invites_can_group_admin'] == 'friends' )
 			return 'friends';
 		if ( $iaoptions['group_invites_can_group_admin'] == 'noone' )
 			return 'noone';
-	}
-
-	if ( bp_group_is_mod() ) {
+	} else if ( bp_group_is_mod() ) {
 		if ( $iaoptions['group_invites_can_group_mod'] == 'anyone' || !$iaoptions['group_invites_can_group_mod'] )
 			return 'anyone';
 		if ( $iaoptions['group_invites_can_group_mod'] == 'friends' )
 			return 'friends';
 		if ( $iaoptions['group_invites_can_group_mod'] == 'noone' )
 			return 'noone';
-	}
-
-	if ( bp_group_is_member() ) {
+	} else {
 		if ( $iaoptions['group_invites_can_group_member'] == 'anyone' || !$iaoptions['group_invites_can_group_member'] )
 			return 'anyone';
 		if ( $iaoptions['group_invites_can_group_member'] == 'friends' )

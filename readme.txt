@@ -35,6 +35,10 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 
 == Changelog ==
 
+= 0.6.2 =
+* Fixed bug that kept group invitation member list from being populated on some non-MU setups
+* Fixed bug that kept non-admins from seeing Send Invites group tab
+
 = 0.6.1 =
 * Added checks to allow email invitations to work when groups component is disabled
 * Fixed l18n bugs with error messages
