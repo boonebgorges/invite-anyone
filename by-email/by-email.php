@@ -139,6 +139,8 @@ function invite_anyone_register_screen_message() {
 	
 	<?php if ( $bp->current_action == 'accept-invitation' && $email = urldecode( $bp->action_variables[0] ) ) : ?>
 	
+		<?php do_action( 'accept_email_invite_before' ) ?>
+	
 		<script type="text/javascript">
 		jQuery(document).ready( function() {
 			jQuery("input#signup_email").val("<?php echo $email ?>");
@@ -705,7 +707,7 @@ function invite_anyone_wildcard_replace( $text, $email = false ) {
 	$inviter_name = $bp->loggedin_user->userdata->display_name;
 	$site_name = get_bloginfo('name');
 	$inviter_url = bp_loggedin_user_domain();
-	$accept_link =  site_url( BP_REGISTER_SLUG ) . '/accept-invitation/' . urlencode($email);		
+	$accept_link = apply_filters( 'invite_anyone_accept_url', site_url( BP_REGISTER_SLUG ) . '/accept-invitation/' . urlencode($email) );
 	$opt_out_link = site_url( BP_REGISTER_SLUG ) . '/opt-out/' . urlencode( $email );
 	
 	
