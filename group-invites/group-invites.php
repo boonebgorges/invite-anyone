@@ -5,7 +5,7 @@
 function invite_anyone_add_js() {
 	global $bp;
 	
-	if ( $bp->current_action == BP_INVITE_ANYONE_SLUG ) {
+	if ( $bp->current_action == BP_INVITE_ANYONE_SLUG || $bp->action_variables[1] == BP_INVITE_ANYONE_SLUG ) {
 		wp_register_script('invite-anyone-js', WP_PLUGIN_URL . '/invite-anyone/group-invites/group-invites-js.js');
 		wp_enqueue_script( 'invite-anyone-js' );
 		
@@ -43,7 +43,7 @@ function invite_anyone_autocomplete_init_jsblock() {
 function invite_anyone_add_group_invite_css() {
 	global $bp;
 	
-	if ( $bp->current_action == BP_INVITE_ANYONE_SLUG ) {
+	if ( $bp->current_action == BP_INVITE_ANYONE_SLUG || $bp->action_variables[1] == BP_INVITE_ANYONE_SLUG ) {
    		$style_url = WP_PLUGIN_URL . '/invite-anyone/group-invites/group-invites-css.css';
         $style_file = WP_PLUGIN_DIR . '/invite-anyone/group-invites/group-invites-css.css';
         if (file_exists($style_file)) {
@@ -411,6 +411,11 @@ function get_members_invite_list( $user_id = false, $group_id ) {
 	
 	$query = "SELECT * FROM {$wpdb->users} WHERE spam=0";
 	$members = $wpdb->get_results( $query, ARRAY_A );
+	
+	if ( !count($members) ) {
+		$query = "SELECT * FROM {$wpdb->users}";
+		$members = $wpdb->get_results( $query, ARRAY_A );
+	}
 
 	if ( !count($members) )
 		return false;
