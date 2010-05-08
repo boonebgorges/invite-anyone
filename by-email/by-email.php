@@ -383,7 +383,7 @@ function invite_anyone_screen_one_content() {
 		$returned_emails = array();
 		$counter = 0;
 		while ( $_GET['email' . $counter] ) {
-			$returned_emails[] = urldecode( $_GET['email' . $counter] );
+			$returned_emails[] = trim( urldecode( $_GET['email' . $counter] ) );
 			$counter++;
 		}
 		
@@ -395,8 +395,8 @@ function invite_anyone_screen_one_content() {
 			
 			if ( is_array( $_POST['emails'] ) ) {
 				foreach( $_POST['emails'] as $email ) {
-					if ( $email != '' && $email != __( 'email address', 'bp-invite-anyone' ) )
-						$returned_emails[] = $email;	
+					if ( trim( $email ) != '' && trim( $email ) != __( 'email address', 'bp-invite-anyone' ) )
+						$returned_emails[] = trim( $email );	
 				}
 			}
 			
@@ -757,7 +757,7 @@ function invite_anyone_process_invitations( $data ) {
 	$emails = array();
 	foreach ( $data['invite_anyone_email'] as $email ) {
 		if ( $email != '' )
-			$emails[] = $email;
+			$emails[] = trim( $email );
 	}
 	
 	if ( empty($emails) ) {
