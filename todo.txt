@@ -1,6 +1,6 @@
 
 Todo:
-	- disable certain parts when Groups component is disabled (also friends)
+	- check bp_has_groups on email screen to allow all groups
 	- check bp groupblog compatibility
 	- opt out confirmation screen
 		- make text editable by admin
