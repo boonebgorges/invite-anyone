@@ -39,6 +39,7 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 * Fixed bug that showed non-activated users in group invitation list on some instances of single WP
 * Fixed bug that limited number of displayed groups on invite by email screen
 * Cleaned up the appearance of the group list on the invite by email screen
+* Fixed bug that may have cause foreach problem in email invitation
 
 = 0.6.2 =
 * Fixed bug that kept group invitation member list from being populated on some non-MU setups

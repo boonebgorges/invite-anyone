@@ -757,9 +757,11 @@ function invite_anyone_process_invitations( $data ) {
 	global $bp;
 	
 	$emails = array();
-	foreach ( $data['invite_anyone_email'] as $email ) {
-		if ( $email != '' )
-			$emails[] = trim( $email );
+	if ( is_array( $data['invite_anyone_email'] ) ) {
+		foreach ( $data['invite_anyone_email'] as $email ) {
+			if ( $email != '' )
+				$emails[] = trim( $email );
+		}
 	}
 	
 	if ( empty($emails) ) {
