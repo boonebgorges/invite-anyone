@@ -43,10 +43,13 @@
 	margin: 5px 10px 10px 10px;
 	float: left;
 	min-height: 60px;
+	line-height: 11pt;
+	font-size: 8pt;
 }
 
 #invite-anyone-group-list li img {
 	margin-right: 5px;
+	float: left;
 }
 
 #invite-anyone-group-list li input {
@@ -74,4 +77,8 @@
 
 p#invite-anyone-clear-links {
 	padding-top: 15px;
+}
+
+.invite-anyone-group-name {
+	float: left;
 }

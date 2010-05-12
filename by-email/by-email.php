@@ -471,7 +471,7 @@ function invite_anyone_screen_one_content() {
 						<li>
 						<input type="checkbox" name="invite_anyone_groups[]" id="invite_anyone_groups[]" value="<?php bp_group_id() ?>" <?php if ( $from_group == bp_get_group_id() || array_search( bp_get_group_id(), $returned_groups) ) : ?>checked<?php endif; ?> />
 						<?php bp_group_avatar_mini() ?>
-						<?php bp_group_name() ?>
+						<span class="invite-anyone-group-name"><?php bp_group_name() ?></span>
 	
 						</li>
 					<?php endwhile; ?>
