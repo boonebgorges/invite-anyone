@@ -463,7 +463,7 @@ function invite_anyone_screen_one_content() {
 		</li>
 		
 		<?php if ( invite_anyone_are_groups_running() ) : ?>
-			<?php if ( $iaoptions['can_send_group_invites_email'] == 'yes' && bp_has_groups( "type=alphabetical&user_id=" . bp_loggedin_user_id() ) ) : ?>
+			<?php if ( $iaoptions['can_send_group_invites_email'] == 'yes' && bp_has_groups( "per_page=10000&type=alphabetical&user_id=" . bp_loggedin_user_id() ) ) : ?>
 			<li>
 				<p><?php _e( '(optional) Select some groups. Invitees will receive invitations to these groups when they join the site.', 'bp-invite-anyone' ) ?></p>
 				<ul id="invite-anyone-group-list">
