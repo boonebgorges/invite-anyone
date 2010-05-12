@@ -35,6 +35,9 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 
 == Changelog ==
 
+= 0.6.3 =
+* Fixed bug that showed non-activated users in group invitation list on some instances of single WP
+
 = 0.6.2 =
 * Fixed bug that kept group invitation member list from being populated on some non-MU setups
 * Fixed bug that kept non-admins from seeing Send Invites group tab

@@ -413,7 +413,7 @@ function get_members_invite_list( $user_id = false, $group_id ) {
 	$members = $wpdb->get_results( $query, ARRAY_A );
 	
 	if ( !count($members) ) {
-		$query = "SELECT * FROM {$wpdb->users}";
+		$query = "SELECT * FROM {$wpdb->users} WHERE user_status = 0";
 		$members = $wpdb->get_results( $query, ARRAY_A );
 	}
 
