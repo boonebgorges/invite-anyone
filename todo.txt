@@ -1,5 +1,6 @@
 
 Todo:
+	- check slug replacement throughout
 	- check bp groupblog compatibility
 	- opt out confirmation screen
 		- make text editable by admin
