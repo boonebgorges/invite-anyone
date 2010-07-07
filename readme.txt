@@ -37,6 +37,7 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 
 = 0.6.4 =
 * Fixed bug that kept item group invitations from being sent
+* Fixed bug that prevented Send Invites profile tab from being hidden when access control was set to Administrator
 
 = 0.6.3 =
 * Fixed bug that showed non-activated users in group invitation list on some instances of single WP
