@@ -4,18 +4,18 @@
 
 function invite_anyone_add_js() {
 	global $bp;
-	
+
 	if ( $bp->current_action == BP_INVITE_ANYONE_SLUG || $bp->action_variables[1] == BP_INVITE_ANYONE_SLUG ) {
 		wp_register_script('invite-anyone-js', WP_PLUGIN_URL . '/invite-anyone/group-invites/group-invites-js.js');
 		wp_enqueue_script( 'invite-anyone-js' );
-		
+
 		add_action( 'wp_head', 'invite_anyone_autocomplete_init_jsblock' );
 
 		wp_enqueue_script( 'invite-anyone-autocomplete-js', WP_PLUGIN_URL . '/invite-anyone/group-invites/autocomplete/jquery.autocomplete.js', array( 'jquery' ) );
 		wp_enqueue_script( 'bp-jquery-autocomplete-fb', WP_PLUGIN_URL . '/invite-anyone/group-invites/autocomplete/jquery.autocompletefb.js' );
 		wp_enqueue_script( 'bp-jquery-bgiframe', BP_PLUGIN_URL . '/bp-messages/js/autocomplete/jquery.bgiframe.min.js' );
 		wp_enqueue_script( 'bp-jquery-dimensions', BP_PLUGIN_URL . '/bp-messages/js/autocomplete/jquery.dimensions.js' );
-		
+
 		if ( !function_exists( 'bp_post_get_permalink' ) )
 			wp_enqueue_script( 'invite-anyone-livequery', WP_PLUGIN_URL . '/invite-anyone/group-invites/autocomplete/jquery.livequery.js' );
 	}
@@ -42,7 +42,7 @@ function invite_anyone_autocomplete_init_jsblock() {
 
 function invite_anyone_add_group_invite_css() {
 	global $bp;
-	
+
 	if ( $bp->current_action == BP_INVITE_ANYONE_SLUG || $bp->action_variables[1] == BP_INVITE_ANYONE_SLUG ) {
    		$style_url = WP_PLUGIN_URL . '/invite-anyone/group-invites/group-invites-css.css';
         $style_file = WP_PLUGIN_DIR . '/invite-anyone/group-invites/group-invites-css.css';
@@ -61,10 +61,10 @@ li a#nav-invite-anyone {
 	padding: 0.55em 3.1em 0.55em 0px !important;
 	margin-right: 10px;
 	background: url(<?php echo WP_PLUGIN_URL, '/invite-anyone/invite-anyone/invite_bullet.gif'; ?>) no-repeat 89% 52%;
-	
+
 }
 	</style>
-<?php	
+<?php
 }
 
 
@@ -92,7 +92,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 			$this->enable_create_step = false;
 			$this->enable_edit_step = false;
 		}
-		
+
 		$this->enable_nav_item = $this->enable_nav_item();
 
 	}
@@ -115,7 +115,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 
 	function create_screen_save( ) {
 		global $bp;
-	
+
 		/* Always check the referer */
 		check_admin_referer( 'groups_create_save_' . $this->slug );
 
@@ -135,23 +135,23 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 		else
 			$redirect_url = bp_get_group_permalink( $bp->groups->current_group ) . '/admin/' . $this->slug;
 
-		groups_send_invites( $bp->loggedin_user->id, $bp->groups->current_group->id ); 
+		groups_send_invites( $bp->loggedin_user->id, $bp->groups->current_group->id );
 
 		if ( $this->has_invites )
-			bp_core_add_message( __('Group invites sent.', 'buddypress') );	
+			bp_core_add_message( __('Group invites sent.', 'buddypress') );
 		else
 			bp_core_add_message( __('Group created successfully.', 'buddypress') );
 	}
-	
+
 	function enable_nav_item() {
 		global $bp;
-		
+
 		if ( invite_anyone_group_invite_access_test() == 'anyone' )
 			return true;
 		else
 			return false;
 	}
-	
+
 	function widget_display() {}
 }
 bp_register_group_extension( 'BP_Invite_Anyone' );
@@ -159,28 +159,28 @@ bp_register_group_extension( 'BP_Invite_Anyone' );
 
 function invite_anyone_create_screen_content( $event ) {
 	if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to check for pre-1.2 versions of BP
-		
+
 		add_action( 'wp_footer', 'invite_anyone_add_old_css' );
 	?>
-		
+
 		<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
 
 			<?php do_action( 'bp_before_group_send_invites_content' ) ?>
-				
+
 				<?php if ( $event != 'create' ) : ?>
 					<form action="<?php bp_group_send_invite_form_action() ?>" method="post" id="send-invite-form">
 				<?php endif; ?>
 
 					<div class="left-menu">
-						
+
 						<p><?php _e("Search for members to invite:", 'bp-invite-anyone') ?> &nbsp; <span class="ajax-loader"></span></p>
-						
+
 						<ul class="first acfb-holder">
 							<li>
 								<input type="text" name="send-to-input" class="send-to-input" id="send-to-input" />
 							</li>
 						</ul>
-						
+
 						<p><?php _e( 'Select members from the directory:', 'bp-invite-anyone' ) ?> <span class="ajax-loader"></span></p>
 
 						<div id="invite-anyone-member-list">
@@ -231,62 +231,77 @@ function invite_anyone_create_screen_content( $event ) {
 					</div>
 
 					<div class="clear"></div>
-				
+
 				<?php if ( $event != 'create' ) : ?>
 					<p class="clear"><input type="submit" name="submit" id="submit" value="<?php _e( 'Send Invites', 'buddypress' ) ?>" /></p>
 					<?php wp_nonce_field( 'groups_send_invites', '_wpnonce_send_invites') ?>
 				<?php endif; ?>
 
-							
-				
+
+
 					<input type="hidden" name="group_id" id="group_id" value="<?php bp_group_id() ?>" />
 				<?php if ( $event != 'create' ) : ?>
 					</form>
 				<?php endif; ?>
-		
+
 
 			<?php do_action( 'bp_before_group_send_invites_content' ); ?>
 	<?php endwhile; endif;
-	
-	
-	
+
+
+
 	} else { // Begin BP 1.2 code
-	
+
+	global $bp;
+
+	if ( isset($bp->action_variables) && 'send' == $bp->action_variables[0] ) {
+		if ( !check_admin_referer( 'groups_send_invites', '_wpnonce_send_invites' ) )
+			return false;
+
+		// Send the invites.
+		groups_send_invites( $bp->loggedin_user->id, $bp->groups->current_group->id );
+
+		bp_core_add_message( __('Group invites sent.', 'buddypress') );
+
+		do_action( 'groups_screen_group_invite', $bp->groups->current_group->id );
+
+		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
+	} else {
+
 	?>
 	<?php do_action( 'bp_before_group_send_invites_content' ) ?>
-
 
 	<?php if ( invite_anyone_access_test() && !bp_is_group_create() ) : ?>
 		<p><?php _e( 'Want to invite someone to the group who is not yet a member of the site?', 'bp-invite-anyone' ) ?> <a href="<?php echo bp_loggedin_user_domain() . BP_INVITE_ANYONE_SLUG . '/invite-new-members/group-invites/' . bp_get_group_id() ?>"><?php _e( 'Send invitations by email.', 'bp-invite-anyone' ) ?></a></p>
 	<?php endif; ?>
 
 	<?php if ( $event != 'create' ) : ?>
-			<form action="<?php bp_group_send_invite_form_action() ?>" method="post" id="send-invite-form">
+			<form action="send" method="post" id="send-invite-form">
 	<?php endif; ?>
 
 
 
 		<div class="left-menu">
 					<p><?php _e("Search for members to invite:", 'bp-invite-anyone') ?> &nbsp; <span class="ajax-loader"></span></p>
-						
+
 					<ul class="first acfb-holder">
 						<li>
 							<input type="text" name="send-to-input" class="send-to-input" id="send-to-input" />
 						</li>
 					</ul>
-		
+
 					<p><?php _e( 'Select members from the directory:', 'bp-invite-anyone' ) ?> <span class="ajax-loader"></span></p>
 
 					<div id="invite-anyone-member-list">
 						<ul>
 							<?php bp_new_group_invite_member_list() ?>
 						</ul>
-		
+
 						<?php wp_nonce_field( 'groups_invite_uninvite_user', '_wpnonce_invite_uninvite_user' ) ?>
 					</div>
-				
-						
-				
+
+
+
 		</div>
 
 		<div class="main-column">
@@ -328,7 +343,7 @@ function invite_anyone_create_screen_content( $event ) {
 		</div>
 
 		<div class="clear"></div>
-		
+
 		<?php if ( $event != 'create' ) : ?>
 		<div class="submit">
 			<input type="submit" name="submit" id="submit" value="<?php _e( 'Send Invites', 'buddypress' ) ?>" />
@@ -345,21 +360,22 @@ function invite_anyone_create_screen_content( $event ) {
 						?><input type="hidden" name="group_id" id="group_id" value="<?php bp_new_group_id() ?>" /><?php
 					}
 				?>
-	
+
 	<?php if ( $event != 'create' ) : ?>
-	
 
-	
 
-	
+
+
+
 		</form>
 	<?php endif; ?>
 
 <?php do_action( 'bp_after_group_send_invites_content' ) ?>
 
-	
-	
+
+
 	<?php
+	}
 	}
 }
 
@@ -385,7 +401,7 @@ function bp_new_group_invite_member_list() {
 
 		if ( $friends ) {
 			$invites = groups_get_invites_for_group( $bp->loggedin_user->id, $group_id );
-			
+
 			for ( $i = 0; $i < count( $friends ); $i++ ) {
 				if ( $invites ) {
 					if ( in_array( $friends[$i]['id'], $invites ) ) {
@@ -408,10 +424,10 @@ function get_members_invite_list( $user_id = false, $group_id ) {
 
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
-	
+
 	$query = "SELECT * FROM {$wpdb->users} WHERE spam=0";
 	$members = $wpdb->get_results( $query, ARRAY_A );
-	
+
 	if ( !count($members) ) {
 		$query = "SELECT * FROM {$wpdb->users} WHERE user_status = 0";
 		$members = $wpdb->get_results( $query, ARRAY_A );
@@ -422,12 +438,12 @@ function get_members_invite_list( $user_id = false, $group_id ) {
 
 	foreach( $members as $member ) {
 		$user_id = $member['ID'];
-		
+
 		if ( groups_is_user_member( $user_id, $group_id ) )
 			continue;
-		
+
 		$display_name = bp_core_get_user_displayname( $user_id );
-		
+
 		if ( $display_name != '' ) {
 			$friends[] = array(
 				'id' => $user_id,
@@ -445,40 +461,40 @@ function get_members_invite_list( $user_id = false, $group_id ) {
 
 function invite_anyone_ajax_invite_user() {
 	global $bp;
-	
+
 	check_ajax_referer( 'groups_invite_uninvite_user' );
 
 	if ( !$_POST['friend_id'] || !$_POST['friend_action'] || !$_POST['group_id'] )
 		return false;
-		
-	
-	
+
+
+
 /*	if ( !groups_is_user_admin( $bp->loggedin_user->id, $_POST['group_id'] ) )
 		return false; */
-	
+
 	if ( 'invite' == $_POST['friend_action'] ) {
-				
+
 		if ( !groups_invite_user( array( 'user_id' => $_POST['friend_id'], 'group_id' => $_POST['group_id'] ) ) )
 			return false;
-		
+
 		$user = new BP_Core_User( $_POST['friend_id'] );
-		
+
 		echo '<li id="uid-' . $user->id . '">';
 		echo $user->avatar_thumb;
 		echo '<h4>' . $user->user_link . '</h4>';
 		echo '<span class="activity">' . attribute_escape( $user->last_active ) . '</span>';
 		echo '<div class="action">
-				<a class="remove" href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->groups->slug . '/' . $_POST['group_id'] . '/invites/remove/' . $user->id, 'groups_invite_uninvite_user' ) . '" id="uid-' . attribute_escape( $user->id ) . '">' . __( 'Remove Invite', 'buddypress' ) . '</a> 
+				<a class="remove" href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->groups->slug . '/' . $_POST['group_id'] . '/invites/remove/' . $user->id, 'groups_invite_uninvite_user' ) . '" id="uid-' . attribute_escape( $user->id ) . '">' . __( 'Remove Invite', 'buddypress' ) . '</a>
 			  </div>';
 		echo '</li>';
-		
+
 	} else if ( 'uninvite' == $_POST['friend_action'] ) {
-		
+
 		if ( !groups_uninvite_user( $_POST['friend_id'], $_POST['group_id'] ) )
 			return false;
-		
+
 		return true;
-		
+
 	} else {
 		return false;
 	}
@@ -487,14 +503,14 @@ add_action( 'wp_ajax_invite_anyone_groups_invite_user', 'invite_anyone_ajax_invi
 
 function invite_anyone_ajax_autocomplete_results() {
 	global $bp;
-	
+
 	$friends = false;
 
 	// Get the friend ids based on the search terms
 	if ( function_exists( 'invite_anyone_search_members' ) )
 		$friends = invite_anyone_search_members( $_GET['q'], 500, 1 );
 	//print_r($friends);
-	
+
 	$friends = apply_filters( 'bp_friends_autocomplete_list', $friends, $_GET['q'], $_GET['limit'] );
 
 	if ( $friends['users'] ) {
@@ -507,7 +523,7 @@ function invite_anyone_ajax_autocomplete_results() {
 			$username = $ud->user_login;
 			echo bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'thumb', 'width' => 25, 'height' => 25 ) ) . ' ' . bp_core_get_user_displayname( $user->user_id ) . ' (' . $username . ')
 			';
-		}		
+		}
 	}
 }
 add_action( 'wp_ajax_invite_anyone_autocomplete_results', 'invite_anyone_ajax_autocomplete_results' );
@@ -518,7 +534,7 @@ function invite_anyone_search_members( $search_terms, $pag_num = 10, $pag_page =
 
 
 function invite_anyone_remove_group_creation_invites( $a ) {
-	
+
 	foreach ( $a as $key => $value ) {
 		if ( $key == 'group-invites' ) {
 			unset( $a[$key] );
@@ -529,10 +545,10 @@ function invite_anyone_remove_group_creation_invites( $a ) {
 
 function invite_anyone_remove_invite_subnav() {
 	global $bp;
-	
+
 	if ( $bp->groups->group_creation_steps['group-invites'] )
 		unset( $bp->groups->group_creation_steps['group-invites'] );
-	
+
 	bp_core_remove_subnav_item( $bp->groups->slug, 'send-invites' );
 }
 
@@ -548,7 +564,7 @@ function invite_anyone_group_invite_access_test() {
 
 	if ( !is_user_logged_in() )
 		return 'noone';
-		
+
 	if ( !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
 		return 'noone';
 
@@ -584,7 +600,7 @@ function invite_anyone_group_invite_access_test() {
 		if ( $iaoptions['group_invites_can_group_member'] == 'noone' )
 			return 'noone';
 	}
-		
+
 	return 'noone';
 }
 
