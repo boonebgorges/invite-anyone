@@ -4,7 +4,7 @@ Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WPMU 2.8, BuddyPress 1.1
 Tested up to: WPMU 2.9.2, BuddyPress 1.2.5.2
-Stable tag: 0.6.4
+Stable tag: 0.6.5
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -34,6 +34,10 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 * Russian: Jettochkin
 
 == Changelog ==
+
+= 0.6.5 =
+* Workaround for "headers already sent" issue on group invites
+* Fixed a number of variable type problems with email invitation pages
 
 = 0.6.4 =
 * Fixed bug that kept item group invitations from being sent
