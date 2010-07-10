@@ -1,5 +1,6 @@
 
 Todo:
+	- allow admins to limit group invites by public/private/hidden
 	- check slug replacement throughout
 	- check bp groupblog compatibility
 	- opt out confirmation screen
