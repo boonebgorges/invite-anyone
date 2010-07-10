@@ -383,21 +383,27 @@ function invite_anyone_screen_one_content() {
 		if ( !$max_invites = $iaoptions['max_invites'] )
 			$max_invites = 5;
 
-		if ( 'group-invites' == $bp->action_variables[0] )
-			$from_group = $bp->action_variables[1];
+		$from_group = false;
+		if ( !empty( $bp->action_variables ) ) {
+			if ( 'group-invites' == $bp->action_variables[0] )
+				$from_group = $bp->action_variables[1];
+		}
 
 		/* This handles the email addresses sent back when there is an error */
 		$returned_emails = array();
 		$counter = 0;
-		while ( $_GET['email' . $counter] ) {
-			$returned_emails[] = trim( urldecode( $_GET['email' . $counter] ) );
-			$counter++;
+
+		if ( isset( $_GET['email0'] ) ) {
+			while ( $_GET['email' . $counter] ) {
+				$returned_emails[] = trim( urldecode( $_GET['email' . $counter] ) );
+				$counter++;
+			}
 		}
 
 		$returned_groups = array( 0 );
 
 		/* If the user is coming from the widget, $returned_emails is populated with those email addresses */
-		if ( $_POST['invite_anyone_widget'] ) {
+		if ( isset( $_POST['invite_anyone_widget'] ) ) {
 			check_admin_referer( 'invite-anyone-widget_' . $bp->loggedin_user->id );
 
 			if ( is_array( $_POST['emails'] ) ) {
@@ -415,16 +421,23 @@ function invite_anyone_screen_one_content() {
 
 		/* $returned_groups is padded so that array_search (below) returns true for first group */
 		$counter = 0;
-		while ( $_GET['group' . $counter] ) {
-			$returned_groups[] = urldecode( $_GET['group' . $counter] );
-			$counter++;
+
+		if ( isset( $_GET['group0'] ) ) {
+			while ( $_GET['group' . $counter] ) {
+				$returned_groups[] = urldecode( $_GET['group' . $counter] );
+				$counter++;
+			}
 		}
 
-		if ( $_GET['subject'] )
+		if ( isset( $_GET['subject'] ) )
 			$returned_subject = stripslashes( urldecode( $_GET['subject'] ) );
+		else
+			$returned_subject = '';
 
-		if ( $_GET['message'] )
+		if ( isset( $_GET['message'] ) )
 			$returned_message = stripslashes( urldecode( $_GET['message'] ) );
+		else
+			$returned_message = '';
 
 		$blogname = get_bloginfo('name');
 		$welcome_message = sprintf( __( 'Invite friends to join %s by following these steps:', 'bp-invite-anyone' ), $blogname );
@@ -528,7 +541,8 @@ function invite_anyone_screen_two() {
 
 		$inviter_id = bp_loggedin_user_id();
 
-		if ( $clear_id = $_GET['clear'] ) {
+		if ( isset( $_GET['clear'] ) ) {
+			$clear_id = $_GET['clear'];
 			check_admin_referer( 'invite_anyone_clear' );
 
 			if ( (int)$clear_id )
@@ -537,10 +551,14 @@ function invite_anyone_screen_two() {
 				invite_anyone_clear_sent_invite( array( 'inviter_id' => $inviter_id, 'type' => $clear_id ) );
 		}
 
-		if ( !$sort_by = $_GET['sort_by'] )
+		if ( isset( $_GET['sort_by'] ) )
+			$sort_by = $_GET['sort_by'];
+		else
 			$sort_by = 'date_invited';
 
-		if ( !$order = $_GET['order'] )
+		if ( isset( $_GET['order'] ) )
+			$order = $_GET['order'];
+		else
 			$order = 'DESC';
 
 		$base_url = $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/';
@@ -632,7 +650,7 @@ function invite_anyone_email_fields( $returned_emails = false ) {
 	<ol id="invite-anyone-email-fields">
 	<?php for( $i = 0; $i < $max_invites; $i++ ) : ?>
 		<li>
-			<input type="text" name="invite_anyone_email[]" class="invite-anyone-email-field" <?php if ( $returned_emails[$i] ) : ?>value="<?php echo $returned_emails[$i] ?>"<?php endif; ?> />
+			<input type="text" name="invite_anyone_email[]" class="invite-anyone-email-field" <?php if ( isset( $returned_emails[$i] ) ) : ?>value="<?php echo $returned_emails[$i] ?>"<?php endif; ?> />
 		</li>
 	<?php endfor; ?>
 	</ol>
