@@ -67,7 +67,6 @@ li a#nav-invite-anyone {
 <?php
 }
 
-
 class BP_Invite_Anyone extends BP_Group_Extension {
 
 	var $enable_nav_item = true;
@@ -98,7 +97,22 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 	}
 
 	function display() {
-		invite_anyone_create_screen_content( 'invite' );
+		global $bp;
+
+		if ( BP_INVITE_ANYONE_SLUG == $bp->current_action && 'send' == $bp->action_variables[0] ) {
+			if ( !check_admin_referer( 'groups_send_invites', '_wpnonce_send_invites' ) )
+				return false;
+
+			// Send the invites.
+			groups_send_invites( $bp->loggedin_user->id, $bp->groups->current_group->id );
+
+			do_action( 'groups_screen_group_invite', $bp->groups->current_group->id );
+
+			// Hack to imitate bp_core_add_message, since bp_core_redirect is giving me such hell
+			echo '<div id="message" class="updated"><p>' . __( 'Group invites sent.', 'buddypress' ) . '</p></div>';
+		}
+
+		invite_anyone_create_screen_content('invite');
 	}
 
 	function create_screen() {
@@ -155,6 +169,27 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 	function widget_display() {}
 }
 bp_register_group_extension( 'BP_Invite_Anyone' );
+
+
+function invite_anyone_catch_group_invites() {
+	global $bp;
+
+	if ( BP_INVITE_ANYONE_SLUG == $bp->current_action && 'send' == $bp->action_variables[0] ) {
+		if ( !check_admin_referer( 'groups_send_invites', '_wpnonce_send_invites' ) )
+			return false;
+
+		// Send the invites.
+		groups_send_invites( $bp->loggedin_user->id, $bp->groups->current_group->id );
+
+		bp_core_add_message( __('Group invites sent.', 'buddypress') );
+
+		do_action( 'groups_screen_group_invite', $bp->groups->current_group->id );
+
+		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
+	}
+}
+//add_action( 'wp', 'invite_anyone_catch_group_invites', 1 );
+
 
 
 function invite_anyone_create_screen_content( $event ) {
@@ -252,21 +287,7 @@ function invite_anyone_create_screen_content( $event ) {
 
 	} else { // Begin BP 1.2 code
 
-	global $bp;
 
-	if ( isset($bp->action_variables) && 'send' == $bp->action_variables[0] ) {
-		if ( !check_admin_referer( 'groups_send_invites', '_wpnonce_send_invites' ) )
-			return false;
-
-		// Send the invites.
-		groups_send_invites( $bp->loggedin_user->id, $bp->groups->current_group->id );
-
-		bp_core_add_message( __('Group invites sent.', 'buddypress') );
-
-		do_action( 'groups_screen_group_invite', $bp->groups->current_group->id );
-
-		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
-	} else {
 
 	?>
 	<?php do_action( 'bp_before_group_send_invites_content' ) ?>
@@ -376,7 +397,7 @@ function invite_anyone_create_screen_content( $event ) {
 
 	<?php
 	}
-	}
+
 }
 
 /* Creates the list of members on the Sent Invite screen */
