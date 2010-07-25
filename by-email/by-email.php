@@ -56,8 +56,7 @@ function invite_anyone_setup_globals() {
 	/* Register this in the active components array */
 	$bp->active_components[$bp->invite_anyone->slug] = $bp->invite_anyone->id;
 }
-add_action( 'wp', 'invite_anyone_setup_globals', 2 );
-add_action( 'admin_menu', 'invite_anyone_setup_globals', 2 );
+add_action( 'bp_setup_globals', 'invite_anyone_setup_globals', 2 );
 
 
 function invite_anyone_opt_out_screen() {
@@ -203,8 +202,10 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 				$inviters[] = $invite->inviter_id;
 		}
 
-		foreach ( $inviters as $inviter ) {
-			friends_add_friend( $inviter, $user_id );
+		if ( function_exists( 'friends_add_friend' ) ) {
+			foreach ( $inviters as $inviter ) {
+				friends_add_friend( $inviter, $user_id );
+			}
 		}
 
 		/* Group invitations */

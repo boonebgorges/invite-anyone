@@ -28,7 +28,7 @@ function invite_anyone_init() {
 	if ( is_admin() )
 		require( dirname( __FILE__ ) . '/admin/admin-panel.php' );
 }
-add_action( 'bp_init', 'invite_anyone_init' );
+add_action( 'bp_include', 'invite_anyone_init' );
 
 if ( function_exists( 'bp_post_get_permalink' ) )
 	require( dirname( __FILE__ ) . '/group-invites/group-invites.php' );
