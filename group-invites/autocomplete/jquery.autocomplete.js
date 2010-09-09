@@ -20,7 +20,7 @@ $.fn.extend({
 			url: isUrl ? urlOrData : null,
 			data: isUrl ? null : urlOrData,
 			delay: isUrl ? $.Autocompleter.defaults.delay : 10,
-			max: options && !options.scroll ? 10 : 150
+			max: options && !options.scroll ? 1000 : 150
 		}, options);
 		
 		// if highlight is set to false, replace it with a do-nothing function
@@ -223,7 +223,7 @@ $.Autocompleter = function(input, options) {
 		currentValue = lastWord(currentValue);
 		if ( currentValue.length >= options.minChars) {
 			$input.addClass(options.loadingClass);
-			jQuery('.ajax-loader').show();
+			jQuery('#send-invite-form .ajax-loader').show();
 			if (!options.matchCase)
 				currentValue = currentValue.toLowerCase();
 			request(currentValue, receiveData, hideResultsNow);
@@ -328,7 +328,7 @@ $.Autocompleter = function(input, options) {
 					action: 'invite_anyone_autocomplete_results',
 					'cookie': encodeURIComponent(document.cookie)
 				}, extraParams),
-				success: function(data) {
+				success: function(data) { 
 					var parsed = options.parse && options.parse(data) || parse(data);
 					cache.add(term, parsed);
 					success(term, parsed);
