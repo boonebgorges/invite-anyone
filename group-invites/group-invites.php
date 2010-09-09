@@ -528,10 +528,8 @@ function invite_anyone_ajax_autocomplete_results() {
 	$friends = false;
 
 	// Get the friend ids based on the search terms
-	if ( function_exists( 'invite_anyone_search_members' ) )
-		$friends = invite_anyone_search_members( $_GET['q'], 500, 1 );
-	//print_r($friends);
-
+	$friends = BP_Core_User::search_users( $_GET['q'], 500, 1 );
+		
 	$friends = apply_filters( 'bp_friends_autocomplete_list', $friends, $_GET['q'], $_GET['limit'] );
 
 	if ( $friends['users'] ) {
@@ -548,11 +546,6 @@ function invite_anyone_ajax_autocomplete_results() {
 	}
 }
 add_action( 'wp_ajax_invite_anyone_autocomplete_results', 'invite_anyone_ajax_autocomplete_results' );
-
-function invite_anyone_search_members( $search_terms, $pag_num = 10, $pag_page = 1 ) {
-	return BP_Core_User::search_users( $search_terms, $pag_num, $pag_page );
-}
-
 
 function invite_anyone_remove_group_creation_invites( $a ) {
 
