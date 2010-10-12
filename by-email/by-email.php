@@ -210,6 +210,20 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 			}
 		}
 		
+		// BuddyPress Followers support
+		if ( function_exists( 'bp_follow_start_following' ) ) {
+			$inviters = array();
+			foreach ( $invites as $invite ) {
+				if ( !in_array( $invite->inviter_id, $inviters ) )
+					$inviters[] = $invite->inviter_id;
+			}
+	
+			foreach ( $inviters as $inviter ) {
+				bp_follow_start_following( array( 'leader_id' => $user_id, 'follower_id' => $inviter ) );
+				bp_follow_start_following( array( 'leader_id' => $inviter, 'follower_id' => $user_id ) );
+			}
+		}
+		
 		// Group invitations
 		if ( bp_is_active( 'groups' ) ) {
 			$groups = array();
