@@ -192,46 +192,50 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 	$email = bp_core_get_user_email( $user_id );
 
 	if ( $invites = invite_anyone_get_invitations_by_invited_email( $email ) ) {
-		/* Mark as "is_joined" */
+		// Mark as "is_joined"
 		invite_anyone_mark_as_joined( $email );
 
-		/* Friendship requests */
-		$inviters = array();
-		foreach ( $invites as $invite ) {
-			if ( !in_array( $invite->inviter_id, $inviters ) )
-				$inviters[] = $invite->inviter_id;
-		}
-
-		if ( function_exists( 'friends_add_friend' ) ) {
-			foreach ( $inviters as $inviter ) {
-				friends_add_friend( $inviter, $user_id );
+		// Friendship requests
+		if ( bp_is_active( 'friends' ) ) {
+			$inviters = array();
+			foreach ( $invites as $invite ) {
+				if ( !in_array( $invite->inviter_id, $inviters ) )
+					$inviters[] = $invite->inviter_id;
+			}
+	
+			if ( function_exists( 'friends_add_friend' ) ) {
+				foreach ( $inviters as $inviter ) {
+					friends_add_friend( $inviter, $user_id );
+				}
 			}
 		}
-
-		/* Group invitations */
-		$groups = array();
-		foreach ( $invites as $invite ) {
-			if ( !$invite->group_invitations[0] )
-				continue;
-			else
-				$group_invitations = unserialize( $invite->group_invitations );
-
-			foreach ( $group_invitations as $group ) {
-				if ( !in_array( $group, array_keys($groups) ) )
-					$groups[$group] = $invite->inviter_id;
+		
+		// Group invitations
+		if ( bp_is_active( 'groups' ) ) {
+			$groups = array();
+			foreach ( $invites as $invite ) {
+				if ( !$invite->group_invitations[0] )
+					continue;
+				else
+					$group_invitations = unserialize( $invite->group_invitations );
+	
+				foreach ( $group_invitations as $group ) {
+					if ( !in_array( $group, array_keys($groups) ) )
+						$groups[$group] = $invite->inviter_id;
+				}
 			}
-		}
-
-
-		foreach ( $groups as $group_id => $inviter_id ) {
-			$args = array(
-				'user_id' => $user_id,
-				'group_id' => $group_id,
-				'inviter_id' => $inviter_id
-			);
-
-			groups_invite_user( $args );
-			groups_send_invites( $inviter_id, $group_id );
+	
+	
+			foreach ( $groups as $group_id => $inviter_id ) {
+				$args = array(
+					'user_id' => $user_id,
+					'group_id' => $group_id,
+					'inviter_id' => $inviter_id
+				);
+	
+				groups_invite_user( $args );
+				groups_send_invites( $inviter_id, $group_id );
+			}
 		}
 	}
 
@@ -881,6 +885,8 @@ function invite_anyone_process_invitations( $data ) {
 			$is_error = 1; */
 
 		invite_anyone_record_invitation( $bp->loggedin_user->id, $email, $message, $groups );
+		
+		do_action( 'sent_email_invite', $bp->loggedin_user->id, $email, $groups );
 
 		unset( $message, $to );
 	}
