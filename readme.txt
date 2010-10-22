@@ -4,7 +4,7 @@ Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WPMU 2.8, BuddyPress 1.1
 Tested up to: WPMU 2.9.2, BuddyPress 1.2.5.2
-Stable tag: 0.6.6
+Stable tag: 0.6.7
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -34,6 +34,11 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 * Russian: Jettochkin
 
 == Changelog ==
+
+= 0.6.7 =
+* Added hooks to provide support for Achievements
+* Improved checking for deactivated components
+* BuddyPress Followers support
 
 = 0.6.6 = 
 * Updated hooks to work with more recent versions of BuddyPress
