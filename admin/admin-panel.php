@@ -68,15 +68,14 @@ function invite_anyone_settings_setup() {
 	
 	add_settings_field('invite_anyone_settings_can_send_group_invites_email', __('Allow users to send group invitations along with email invitations', 'bp-invite-anyone'), 'invite_anyone_settings_can_send_group_invites_email', 'invite_anyone', 'invite_anyone_general_settings');
 	
+	add_settings_field('invite_anyone_settings_bypass_registration_lock', __('Allow email invitations to be accepted even when site registration is disabled', 'bp-invite-anyone'), 'invite_anyone_settings_bypass_registration_lock', 'invite_anyone', 'invite_anyone_general_settings');
+	
 	/* Access Settings */
 	add_settings_section('invite_anyone_access_settings', __('Access Settings', 'bp-invite-anyone'), 'invite_anyone_settings_access_content', 'invite_anyone');
 	
 	add_settings_field('invite_anyone_settings_email_visibility', __('Allow email invitations to be sent by', 'bp-invite-anyone'), 'invite_anyone_settings_email_visibility', 'invite_anyone', 'invite_anyone_access_settings');
 	
 	add_settings_field( 'invite_anyone_settings_group_invite_visibility', __( 'Limit group invitations', 'bp-invite-anyone' ), 'invite_anyone_settings_group_invite_visibility', 'invite_anyone', 'invite_anyone_access_settings' );
-
-
-
 
 }
 add_action('admin_init', 'invite_anyone_settings_setup');
@@ -117,6 +116,13 @@ function invite_anyone_settings_can_send_group_invites_email() {
 	$options = get_option( 'invite_anyone' );
 ?>
 	<input type="checkbox" name="invite_anyone[can_send_group_invites_email]" value="yes" <?php if ( $options['can_send_group_invites_email'] == 'yes' ) : ?>checked="checked"<?php endif; ?> />
+<?php
+}
+
+function invite_anyone_settings_bypass_registration_lock() {
+	$options = get_option( 'invite_anyone' );
+?>
+	<input type="checkbox" name="invite_anyone[bypass_registration_lock]" value="yes" <?php if ( $options['bypass_registration_lock'] == 'yes' ) : ?>checked="checked"<?php endif; ?> />
 <?php
 }
 

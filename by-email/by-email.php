@@ -970,6 +970,37 @@ function invite_anyone_send_invitation( $inviter_id, $email, $message, $groups )
 
 }
 
+function invite_anyone_bypass_registration_lock() {
+	global $bp;
+	
+	if ( $bp->current_component != BP_REGISTER_SLUG || $bp->current_action != 'accept-invitation' )
+		return;
+	
+	if ( !$email = urldecode( $bp->action_variables[0] ) )
+		return;
+	
+	if ( !$options = get_option( 'invite_anyone' ) )
+		return;
+		
+	if ( empty( $options['bypass_registration_lock'] ) || $options['bypass_registration_lock'] != 'yes' )
+		return;
+		
+	if ( !$invites = invite_anyone_get_invitations_by_invited_email( $email ) )
+		return;
+	
+	// This is a royal hack until there is a filter on bp_get_signup_allowed()
+	if ( bp_core_is_multisite() ) {
+		if ( !empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'blog' ) {
+			$bp->site_options['registration'] = 'all';
+		} else if ( !empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'none' ) {
+			$bp->site_options['registration'] = 'user';
+		}
+	} else {
+		add_filter( 'option_users_can_register', create_function( false, 'return true;' ) );
+	}
+}
+add_action( 'wp', 'invite_anyone_bypass_registration_lock', 1 );
+
 
 function invite_anyone_validate_email( $user_email ) {
 
