@@ -1,6 +1,17 @@
+#subnav #invite-new-members {
+  padding-left:20px;
+  background: url(../images/invite_bullet.gif) no-repeat 0 50%;
+}
+
+#subnav #sent-invites {
+  padding-left:20px;
+  background: url(../images/email_go.png) no-repeat 0 50%;
+}
+#welcome-message,
+#sent-invites-intro {font-size:14px;}
 
 #invite-anyone-email-fields {
-	margin: 15px 30px 0 30px;
+	margin: 15px 30px 0 0;
 	list-style-type: lower-alpha;
 }
 
@@ -13,17 +24,31 @@
 	margin: 20px;
 }
 
-.invite-anyone-email-fields {
-	width: 200px;
+#invite-anyone-steps label,
+#invite-anyone-steps p {font-weight:bold;}
+
+#invite-anyone-steps label {
+  display:block;
+  margin-bottom:5px;
+}
+
+#invite-anyone-email-fields {
+	width: 380px;
 }
 
 .invite-anyone-email-field {
-	width: 300px;
+	width: 380px;
 }
 
 #invite-anyone-custom-subject {
 	width: 400px;
 	height: 30px;
+}
+
+label span.disabled-subject {
+  font-style:italic;
+  color:#8f8f8f;
+  font-size:11px;
 }
 
 #invite-anyone-custom-message {
@@ -36,25 +61,45 @@
 	margin: 0;
 	padding: 0;
 	clear: both;
+  overflow:hidden;
+  width:100%;
 }
 
 #invite-anyone-group-list li {
 	width: 200px;
 	margin: 5px 10px 10px 10px;
 	float: left;
+  height:60px;
 	min-height: 60px;
-	line-height: 11pt;
-	font-size: 8pt;
+  font-size: 11px;
 }
 
 #invite-anyone-group-list li img {
 	margin-right: 5px;
 	float: left;
+  vertical-align:center;
+}
+
+#invite-anyone-group-list label {margin-bottom:0;}
+
+#invite-anyone-group-list label,
+#invite-anyone-group-list input {
+  cursor:pointer;
+}
+
+#invite-anyone-group-list label span {
+  font-weight:normal;
+  line-height:30px;
 }
 
 #invite-anyone-group-list li input {
 	float: left;
-	margin: 13px;
+	margin:10px 6px;
+  width:20px;
+}
+
+.invite-anyone-group-name {
+	float: left;
 }
 
 .invite-new-members .submit {
@@ -66,7 +111,35 @@
 	text-align: left;
 }
 
-.invite-anyone-sent-invites tr td:first-child {
+thead tr {border-bottom:2px solid #555;}
+
+thead tr th a.DESC {
+  padding-right:20px;
+  background: url(../images/sort-col-desc.gif) no-repeat 100% 50% ;
+}
+
+thead tr th a.ASC {
+  padding-right:20px;
+  background: url(../images/sort-col-asc.gif) no-repeat 100% 0 ;
+}
+
+.invite-anyone-sent-invites tbody tr {
+  border:2px solid #fff;
+  border-left:none;
+  border-right:none;
+}
+
+.invite-anyone-sent-invites th a {
+	font-weight: normal;
+	text-decoration: none;
+}
+
+.invite-anyone-sent-invites th.sort-by-me a {
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.invite-anyone-sent-invites tbody tr td:first-child {
 	width: 30px;
 	text-align: center;
 }
@@ -75,10 +148,63 @@
 	text-decoration: none;
 }	
 
-p#invite-anyone-clear-links {
-	padding-top: 15px;
+.invite-anyone-sent-invites tr.over {
+  background: #FFFEF3;
 }
 
-.invite-anyone-group-name {
-	float: left;
+.invite-anyone-sent-invites tr.accepted {
+  background:#FFFFE3;
+}
+
+.invite-anyone-sent-invites tr.accepted td {
+  color: #70B479;
+}
+
+.invite-anyone-sent-invites tr.accepted td.date-joined {
+  background: url(../images/tick.gif) no-repeat 0 50%;
+  padding-left:25px;
+}
+  
+.clear-entry,
+.clear-entry span {
+  width:18px;
+  height:16px;
+}
+
+.clear-entry {
+  position:relative;
+  display:block;
+  text-indent:-999em;
+}
+
+.clear-entry span {
+  position:absolute;
+  left:0;
+  background:  url(../images/clear-x.gif) no-repeat 0 0;
+  cursor:pointer;
+}
+
+.clear-entry span:hover {background-position: 0 100%;}
+
+tr#batch-clear {
+  border-top:1px solid #8f8f8f;
+}
+
+ul#invite-anyone-clear-links {
+  overflow:hidden;
+  width:100%; 
+}
+ 
+ul#invite-anyone-clear-links li {
+  float:left;
+}
+
+ul#invite-anyone-clear-links li a {
+  padding-right:10px; 
+  border-right: 1px solid #555;
+}
+
+ul#invite-anyone-clear-links li.last a {
+  padding-left:10px;
+  border:none;
 }
