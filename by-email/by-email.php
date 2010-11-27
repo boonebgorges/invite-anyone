@@ -387,12 +387,22 @@ function invite_anyone_screen_one() {
 
 	/* Add a do action here, so your component can be extended by others. */
 	do_action( 'invite_anyone_screen_one' );
-
+  
+	/* bp_template_title ought to be used - bp-default needs to markup the template tag
+	and run a conditional check on template tag true to hide empty element markup or not
+	add_action( 'bp_template_title', 'invite_anyone_screen_one_title' );
+	*/
 	add_action( 'bp_template_content', 'invite_anyone_screen_one_content' );
 
 	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 }
-
+/*
+function invite_anyone_screen_one_title() {
+ 
+	 _e( 'Invite New Members', 'bp-invite-anyone' ); 
+  
+	}
+*/
 function invite_anyone_screen_one_content() {
 		global $bp;
 
@@ -460,39 +470,41 @@ function invite_anyone_screen_one_content() {
 
 		$blogname = get_bloginfo('name');
 		$welcome_message = sprintf( __( 'Invite friends to join %s by following these steps:', 'bp-invite-anyone' ), $blogname );
-	?>
-	<form action="<?php echo $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/send/' ?>" method="post">
+	  
+  ?>
+	<form id="invite-anyone-by-email" action="<?php echo $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/send/' ?>" method="post">
+
+	<h4><?php _e( 'Invite New Members', 'bp-invite-anyone' ); ?></h4>
+	<p id="welcome-message"><?php echo $welcome_message ?></p>
 
 	<ol id="invite-anyone-steps">
-		<h4><?php _e( 'Invite New Members', 'bp-invite-anyone' ) ?></h4>
-		<p><?php echo $welcome_message ?></p>
-
+		
 		<li>
 			<p><?php _e( 'Enter email addresses in the fields below.', 'bp-invite-anyone' ) ?> <?php if( invite_anyone_allowed_domains() ) : ?> <?php _e( 'You can only invite people whose email addresses end in one of the following domains:', 'bp-invite-anyone' ) ?> <?php echo invite_anyone_allowed_domains(); ?><?php endif; ?></p>
+		
+			<?php invite_anyone_email_fields( $returned_emails ) ?>
 		</li>
-
-		<?php invite_anyone_email_fields( $returned_emails ) ?>
 
 		<li>
 			<?php if ( $iaoptions['subject_is_customizable'] == 'yes' ) : ?>
-				<p><?php _e( '(optional) Customize the subject line of the invitation email.', 'bp-invite-anyone' ) ?></p>
-					<textarea name="invite_anyone_custom_subject" id="invite-anyone-custom-subject"><?php echo invite_anyone_invitation_subject( $returned_subject ) ?></textarea>
+				<label for="invite-anyone-custom-subject"><?php _e( '(optional) Customize the subject line of the invitation email.', 'bp-invite-anyone' ) ?></label>
+					<textarea name="invite_anyone_custom_subject" id="invite-anyone-custom-subject" rows="15" cols="10" ><?php echo invite_anyone_invitation_subject( $returned_subject ) ?></textarea>
 			<?php else : ?>
-				<p><?php _e( 'Subject:', 'bp-invite-anyone' ) ?><br />
-					<textarea name="invite_anyone_custom_subject" id="invite-anyone-custom-subject" disabled="disabled"><?php echo invite_anyone_invitation_subject( $returned_subject ) ?></textarea>
-				</p>
-				<input type="hidden" name="invite_anyone_custom_subject" value="<?php echo invite_anyone_invitation_subject() ?>" />
+				<label for="invite-anyone-custom-subject"><?php _e( 'Subject: <span class="disabled-subject">Subject line is fixed</span>', 'bp-invite-anyone' ) ?></label>
+					<textarea name="invite_anyone_custom_subject" id="invite-anyone-custom-subject" rows="15" cols="10" disabled="disabled"><?php echo invite_anyone_invitation_subject( $returned_subject ) ?> </textarea>
+				
+				<input type="hidden" id="invite-anyone-customised-subject" name="invite_anyone_custom_subject" value="<?php echo invite_anyone_invitation_subject() ?>" />
 			<?php endif; ?>
 		</li>
 
 		<li>
 			<?php if ( $iaoptions['message_is_customizable'] == 'yes' ) : ?>
-				<p><?php _e( '(optional) Customize the text of the invitation.', 'bp-invite-anyone' ) ?></p>
-					<textarea name="invite_anyone_custom_message" id="invite-anyone-custom-message"><?php echo invite_anyone_invitation_message( $returned_message ) ?></textarea>
+				<label for="invite-anyone-custom-message"><?php _e( '(optional) Customize the text of the invitation.', 'bp-invite-anyone' ) ?></label>
+					<textarea name="invite_anyone_custom_message" id="invite-anyone-custom-message" cols="40" rows="10"><?php echo invite_anyone_invitation_message( $returned_message ) ?></textarea>
 			<?php else : ?>
-				<p><?php _e( 'Message:', 'bp-invite-anyone' ) ?><br />
+				<label for="invite-anyone-custom-message"><?php _e( 'Message:', 'bp-invite-anyone' ) ?></label>
 					<textarea name="invite_anyone_custom_message" id="invite-anyone-custom-message" disabled="disabled"><?php echo invite_anyone_invitation_message( $returned_message ) ?></textarea>
-				</p>
+				
 				<input type="hidden" name="invite_anyone_custom_message" value="<?php echo invite_anyone_invitation_message() ?>" />
 			<?php endif; ?>
 				<p><?php _e( 'The message will also contain a custom footer containing links to accept the invitation or opt out of further email invitations from this site.', 'bp-invite-anyone' ) ?></p>
@@ -506,15 +518,15 @@ function invite_anyone_screen_one_content() {
 				<ul id="invite-anyone-group-list">
 					<?php while ( bp_groups() ) : bp_the_group(); ?>
 						<li>
-						<input type="checkbox" name="invite_anyone_groups[]" id="invite_anyone_groups[]" value="<?php bp_group_id() ?>" <?php if ( $from_group == bp_get_group_id() || array_search( bp_get_group_id(), $returned_groups) ) : ?>checked<?php endif; ?> />
-						<?php bp_group_avatar_mini() ?>
-						<span class="invite-anyone-group-name"><?php bp_group_name() ?></span>
+						<input type="checkbox" name="invite_anyone_groups[]" id="invite_anyone_groups-<?php bp_group_id() ?>" value="<?php bp_group_id() ?>" <?php if ( $from_group == bp_get_group_id() || array_search( bp_get_group_id(), $returned_groups) ) : ?>checked<?php endif; ?> />
+						
+						<label for="<?php echo $idToken ?>" class="invite-anyone-group-name"><?php bp_group_avatar_mini() ?> <span><?php bp_group_name() ?></span></label>
 
 						</li>
 					<?php endwhile; ?>
 
 				</ul>
-
+       
 			</li>
 			<?php endif; ?>
 
@@ -548,13 +560,21 @@ function invite_anyone_screen_two() {
 	}
 
 	do_action( 'invite_anyone_sent_invites_screen' );
-
-	add_action( 'bp_template_content', 'invite_anyone_screen_two_content' );
+  
+  /* bp_template_title ought to be used - bp-default needs to markup the template tag
+  and run a conditional check on template tag true to hide empty element markup or not  
+  add_action( 'bp_template_title', 'invite_anyone_screen_two_title' );
+  */
+	
+  add_action( 'bp_template_content', 'invite_anyone_screen_two_content' );
 
 	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 }
-
-
+/*
+  function invite_anyone_screen_two_title() {
+	 _e( 'Sent Invites', 'bp-invite-anyone' ); 
+  }
+*/  
 	function invite_anyone_screen_two_content() {
 		global $bp;
 
@@ -584,29 +604,46 @@ function invite_anyone_screen_two() {
 
 		?>
 
-		<h4><?php _e( 'Sent Invites', 'bp-invite-anyone' ) ?></h4>
-
+		<h4><?php _e( 'Sent Invites', 'bp-invite-anyone' ); ?></h4>
+    
 		<?php if ( $invites = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id(), $sort_by, $order ) ) : ?>
 
-		<p><?php _e( 'You have sent invitations to the following people.', 'bp-invite-anyone' ) ?></p>
+		<p id="sent-invites-intro"><?php _e( 'You have sent invitations to the following people.', 'bp-invite-anyone' ) ?></p>
 
-		<table class="invite-anyone-sent-invites">
-			<tr>
-				<th scope="column"></th>
-				<th scope="column"><a href="<?php echo $base_url ?>?sort_by=email&order=<?php if ( $_GET['sort_by'] == 'email' && $_GET['order'] == 'ASC' ) : ?>DESC<?php else : ?>ASC<?php endif; ?>"><?php _e( 'Invited email address', 'bp-invite-anyone' ) ?></a></th>
-				<th scope="column"><?php _e( 'Group invitations', 'bp-invite-anyone' ) ?></th>
-				<th scope="column"><a href="<?php echo $base_url ?>?sort_by=date_invited&order=<?php if ( $_GET['sort_by'] == 'date_invited' && $_GET['order'] == 'DESC' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Sent', 'bp-invite-anyone' ) ?></a></th>
-				<th scope="column"><a href="<?php echo $base_url ?>?sort_by=date_joined&order=<?php if ( $_GET['sort_by'] == 'date_joined' && $_GET['order'] == 'DESC' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Accepted', 'bp-invite-anyone' ) ?></a></th>
+		<table class="invite-anyone-sent-invites zebra" 
+		summary="<?php _e( 'This table displays a list of all your sent invites.
+		Invites that have been accepted are highlighted in the listings.
+		You may clear any individual invites, all accepted invites or all of the invite 
+		from the list.', 'bp-invite-anyone' ) ?>">
+			<thead>
+				<tr>
+				  <th scope="col"></th>
+				  <th scope="col" <?php if ( !empty( $_GET['sort_by'] ) && $_GET['sort_by'] == 'email' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=email&amp;order=<?php if ( $_GET['sort_by'] == 'email' && $_GET['order'] == 'ASC' ) : $order = 'DESC' ?>DESC<?php else : $order = 'ASC' ?>ASC<?php endif; ?>"><?php _e( 'Invited email address', 'bp-invite-anyone' ) ?></a></th>
+				  <th scope="col"><?php _e( 'Group invitations', 'bp-invite-anyone' ) ?></th>
+				  <th scope="col" <?php if ( !empty( $_GET['sort_by'] ) && $_GET['sort_by'] == 'date_invited' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_invited&amp;order=<?php if ( $_GET['sort_by'] == 'date_invited' && $_GET['order'] == 'DESC' ) : $order = 'ASC' ?>ASC<?php else : $order = 'DESC' ?>DESC<?php endif; ?>"><?php _e( 'Sent', 'bp-invite-anyone' ) ?></a></th>
+				  <th scope="col" <?php if ( !empty( $_GET['sort_by'] ) && $_GET['sort_by'] == 'date_joined' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_joined&amp;order=<?php if ( $_GET['sort_by'] == 'date_joined' && $_GET['order'] == 'DESC' ) : $order = 'ASC' ?>ASC<?php else : $order = 'DESC' ?>DESC<?php endif; ?>"><?php _e( 'Accepted', 'bp-invite-anyone' ) ?></a></th>
+				</tr>
+			</thead>
 
+			<tfoot>
+			<tr id="batch-clear">
+			  <td colspan="5" >		
+			   <ul id="invite-anyone-clear-links">
+			      <li> <a title="<?php _e( 'Clear all accepted invites from the list', 'bp-invite-anyone' ) ?>" class="confirm" href="<?php echo wp_nonce_url( $base_url . '?clear=accepted', 'invite_anyone_clear' ) ?>"><?php _e( 'Clear all accepted invitations', 'bp-invite-anyone' ) ?></a></li>
+			      <li class="last"><a title="<?php _e( 'Clear all your listed invites', 'bp-invite-anyone' ) ?>" class="confirm" href="<?php echo wp_nonce_url( $base_url . '?clear=all', 'invite_anyone_clear' ) ?>"><?php _e( 'Clear all invitations', 'bp-invite-anyone' ) ?></a></li>
+		       	  </ul>
+			 </td>
 			</tr>
-
+      			</tfoot>
+      
+      			<tbody>
 			<?php foreach( $invites as $invite ) : ?>
 			<?php
 				$query_string = preg_replace( "|clear=[0-9]+|", '', $_SERVER['QUERY_STRING'] );
 
 				$clear_url = ( $query_string ) ? $base_url . '?' . $query_string . '&clear=' . $invite->id : $base_url . '?clear=' . $invite->id;
 				$clear_url = wp_nonce_url( $clear_url, 'invite_anyone_clear' );
-				$clear_link = '<a class="confirm" alt="' . __( 'Clear this invitation', 'bp-invite-anyone' ) . '" href="' . $clear_url . '">x</a>';
+				$clear_link = '<a class="clear-entry confirm" title="' . __( 'Clear this invitation', 'bp-invite-anyone' ) . '" href="' . $clear_url . '">x<span></span></a>';
 
 				if ( $invite->group_invitations ) {
 					$groups = unserialize( $invite->group_invitations );
@@ -622,30 +659,32 @@ function invite_anyone_screen_two() {
 
 				$date_invited = invite_anyone_format_date( $invite->date_invited );
 
-				if ( $invite->date_joined )
+				if ( $invite->date_joined ):
 					$date_joined = invite_anyone_format_date( $invite->date_joined );
-				else
+					$accepted = true;
+				else:
 					$date_joined = '-';
-			?>
-
-			<tr>
-				<td><?php echo $clear_link ?></td>
-				<td><?php echo $invite->email ?></td>
-				<td><?php echo $group_names ?></td>
-				<td><?php echo $date_invited ?></td>
-				<td><?php echo $date_joined ?></td>
-			</tr>
+					$accepted = false;
+				endif;
+          
+				?>
+      
+				<tr <?php if($accepted){ ?> class="accepted" <?php } ?>>
+					<td><?php echo $clear_link ?></td>
+					<td><?php echo $invite->email ?></td>
+					<td><?php echo $group_names ?></td>
+					<td><?php echo $date_invited ?></td>
+					<td class="date-joined"><?php echo $date_joined ?></td>
+				</tr>
 			<?php endforeach; ?>
+    		 </tbody>
 		</table>
 
-		<p id="invite-anyone-clear-links">
-			<a class="confirm" href="<?php echo wp_nonce_url( $base_url . '?clear=accepted', 'invite_anyone_clear' ) ?>"><?php _e( 'Clear all accepted invitations', 'bp-invite-anyone' ) ?></a> |
-			<a class="confirm" href="<?php echo wp_nonce_url( $base_url . '?clear=all', 'invite_anyone_clear' ) ?>"><?php _e( 'Clear all invitations', 'bp-invite-anyone' ) ?></a>
-		</p>
+
 
 		<?php else : ?>
 
-		<p><?php _e( "You haven't sent any email invitations yet.", 'bp-invite-anyone' ) ?></p>
+		<p id="sent-invites-intro"><?php _e( "You haven't sent any email invitations yet.", 'bp-invite-anyone' ) ?></p>
 
 		<?php endif; ?>
 	<?php
