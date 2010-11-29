@@ -32,8 +32,12 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 * Italian: Luca Camellini
 * French: Guillaume Coulon
 * Russian: Jettochkin
+* Norwegian: Stig Ulfsby
 
 == Changelog ==
+
+= 0.7.1 =
+* Norwegian translation added - props Stig Ulfsby
 
 = 0.7 =
 * Big markup improvements to email invitations screens - huge props hnla
