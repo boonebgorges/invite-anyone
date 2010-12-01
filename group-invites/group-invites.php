@@ -559,18 +559,19 @@ function invite_anyone_remove_group_creation_invites( $a ) {
 
 function invite_anyone_remove_invite_subnav() {
 	global $bp;
+	
+	if ( invite_anyone_group_invite_access_test() == 'friends' )
+		return;
 
 	if ( $bp->groups->group_creation_steps['group-invites'] )
 		unset( $bp->groups->group_creation_steps['group-invites'] );
 
 	bp_core_remove_subnav_item( $bp->groups->slug, 'send-invites' );
 }
+add_filter( 'groups_create_group_steps', 'invite_anyone_remove_group_creation_invites', 1 );
+add_action( 'wp', 'invite_anyone_remove_invite_subnav', 2 );
+add_action( 'admin_menu', 'invite_anyone_remove_invite_subnav', 2 );
 
-if ( invite_anyone_group_invite_access_test() != 'friends' ) {
-	add_filter( 'groups_create_group_steps', 'invite_anyone_remove_group_creation_invites', 1 );
-	add_action( 'wp', 'invite_anyone_remove_invite_subnav', 2 );
-	add_action( 'admin_menu', 'invite_anyone_remove_invite_subnav', 2 );
-}
 
 /* Utility function to test which members the current user can invite to a group */
 function invite_anyone_group_invite_access_test() {
