@@ -4,7 +4,7 @@ Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WP 2.8, BuddyPress 1.1
 Tested up to: WP 3.0.1, BuddyPress 1.2.7
-Stable tag: 0.7
+Stable tag: 0.7.1
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -32,8 +32,14 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 * Italian: Luca Camellini
 * French: Guillaume Coulon
 * Russian: Jettochkin
+* Norwegian: Stig Ulfsby
 
 == Changelog ==
+
+= 0.7.1 =
+* Norwegian translation added - props Stig Ulfsby
+* Fixed bug that made group creation bypass IA settings
+* Fixed bug that broke the way that the BP core (friends only) tab rendered
 
 = 0.7 =
 * Big markup improvements to email invitations screens - huge props hnla
