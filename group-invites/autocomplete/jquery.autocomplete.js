@@ -328,7 +328,7 @@ $.Autocompleter = function(input, options) {
 					action: 'invite_anyone_autocomplete_results',
 					'cookie': encodeURIComponent(document.cookie)
 				}, extraParams),
-				success: function(data) { 
+				success: function(data) {
 					var parsed = options.parse && options.parse(data) || parse(data);
 					cache.add(term, parsed);
 					success(term, parsed);

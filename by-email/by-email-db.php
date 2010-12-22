@@ -151,6 +151,4 @@ function invite_anyone_mark_as_opt_out( $email ) {
 	
 	return true;
 }
-
-
 ?>

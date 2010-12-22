@@ -67,7 +67,7 @@ function invite_anyone_activation() {
 
 	if ( !$iaoptions['can_send_group_invites_email'] )
 		$iaoptions['can_send_group_invites_email'] = 'yes';
-	
+		
 	if ( !$iaoptions['bypass_registration_lock'] )
 		$iaoptions['bypass_registration_lock'] = 'yes';
 

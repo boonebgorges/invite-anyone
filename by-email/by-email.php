@@ -410,6 +410,7 @@ function invite_anyone_screen_one() {
 
 	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 }
+
 /*
 function invite_anyone_screen_one_title() {
  
@@ -417,6 +418,7 @@ function invite_anyone_screen_one_title() {
   
 	}
 */
+
 function invite_anyone_screen_one_content() {
 		global $bp;
 
@@ -508,17 +510,20 @@ function invite_anyone_screen_one_content() {
 					<textarea name="invite_anyone_custom_subject" id="invite-anyone-custom-subject" rows="15" cols="10" disabled="disabled"><?php echo invite_anyone_invitation_subject( $returned_subject ) ?> </textarea>
 				
 				<input type="hidden" id="invite-anyone-customised-subject" name="invite_anyone_custom_subject" value="<?php echo invite_anyone_invitation_subject() ?>" />
+
 			<?php endif; ?>
 		</li>
 
 		<li>
 			<?php if ( $iaoptions['message_is_customizable'] == 'yes' ) : ?>
+
 				<label for="invite-anyone-custom-message"><?php _e( '(optional) Customize the text of the invitation.', 'bp-invite-anyone' ) ?></label>
 					<textarea name="invite_anyone_custom_message" id="invite-anyone-custom-message" cols="40" rows="10"><?php echo invite_anyone_invitation_message( $returned_message ) ?></textarea>
 			<?php else : ?>
 				<label for="invite-anyone-custom-message"><?php _e( 'Message:', 'bp-invite-anyone' ) ?></label>
 					<textarea name="invite_anyone_custom_message" id="invite-anyone-custom-message" disabled="disabled"><?php echo invite_anyone_invitation_message( $returned_message ) ?></textarea>
 				
+
 				<input type="hidden" name="invite_anyone_custom_message" value="<?php echo invite_anyone_invitation_message() ?>" />
 			<?php endif; ?>
 				<p><?php _e( 'The message will also contain a custom footer containing links to accept the invitation or opt out of further email invitations from this site.', 'bp-invite-anyone' ) ?></p>
@@ -536,11 +541,11 @@ function invite_anyone_screen_one_content() {
 						
 						<label for="invite_anyone_groups-<?php bp_group_id() ?>" class="invite-anyone-group-name"><?php bp_group_avatar_mini() ?> <span><?php bp_group_name() ?></span></label>
 
+
 						</li>
 					<?php endwhile; ?>
 
 				</ul>
-       
 			</li>
 			<?php endif; ?>
 
@@ -589,6 +594,7 @@ function invite_anyone_screen_two() {
 	 _e( 'Sent Invites', 'bp-invite-anyone' ); 
   }
 */  
+
 	function invite_anyone_screen_two_content() {
 		global $bp;
 
@@ -657,6 +663,7 @@ function invite_anyone_screen_two() {
 
 				$clear_url = ( $query_string ) ? $base_url . '?' . $query_string . '&clear=' . $invite->id : $base_url . '?clear=' . $invite->id;
 				$clear_url = wp_nonce_url( $clear_url, 'invite_anyone_clear' );
+
 				$clear_link = '<a class="clear-entry confirm" title="' . __( 'Clear this invitation', 'bp-invite-anyone' ) . '" href="' . $clear_url . '">x<span></span></a>';
 
 				if ( $invite->group_invitations ) {
@@ -955,6 +962,7 @@ function invite_anyone_process_invitations( $data ) {
 		
 		do_action( 'sent_email_invite', $bp->loggedin_user->id, $email, $groups );
 
+
 		unset( $message, $to );
 	}
 
@@ -1000,7 +1008,6 @@ function invite_anyone_bypass_registration_lock() {
 	}
 }
 add_action( 'wp', 'invite_anyone_bypass_registration_lock', 1 );
-
 
 function invite_anyone_validate_email( $user_email ) {
 
