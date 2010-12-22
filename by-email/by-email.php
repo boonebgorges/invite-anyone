@@ -1004,39 +1004,29 @@ add_action( 'wp', 'invite_anyone_bypass_registration_lock', 1 );
 
 function invite_anyone_validate_email( $user_email ) {
 
-	//if ( email_exists($user_email) )
-	//	return 'used';
-
-	if ( invite_anyone_check_is_opt_out( $user_email ) )
-		return 'opt_out';
-
-	if ( $user = get_user_by_email( $user_email ) )
-		return 'used';
-
-	// Many of he following checks can only be run on WPMU
-	if ( function_exists( 'is_email_address_unsafe' ) ) {
-		if ( is_email_address_unsafe( $user_email ) )
-			return 'unsafe';
+	if ( invite_anyone_check_is_opt_out( $user_email ) ) {
+		$status = 'opt_out';
+	} else if ( $user = get_user_by_email( $user_email ) ) {
+		$status = 'used';
+	} else if ( function_exists( 'is_email_address_unsafe' ) && is_email_address_unsafe( $user_email ) ) {
+		$status = 'unsafe';
+	} else if ( function_exists( 'validate_email' ) && !validate_email( $user_email ) ) {
+		$status = 'invalid';
 	}
-
-	if ( function_exists( 'validate_email' ) ) {
-		if ( !validate_email( $user_email ) )
-			return 'invalid';
-	}
-
-
+		
 	if ( function_exists( 'get_site_option' ) ) {
 		if ( $limited_email_domains = get_site_option( 'limited_email_domains' ) ) {
 			if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
 				$emaildomain = substr( $user_email, 1 + strpos( $user_email, '@' ) );
 				if( in_array( $emaildomain, $limited_email_domains ) == false ) {
-					return 'limited_domain';
+					$status = 'limited_domain';
 				}
+				
 			}
 		}
 	}
 
-	return 'safe';
+	return apply_filters( 'invite_anyone_validate_email', $status, $user_email );;
 }
 
 ?>
