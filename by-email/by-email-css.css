@@ -45,6 +45,7 @@
 	height: 30px;
 }
 
+
 label span.disabled-subject {
   font-style:italic;
   color:#8f8f8f;
@@ -63,6 +64,7 @@ label span.disabled-subject {
 	clear: both;
   overflow:hidden;
   width:100%;
+
 }
 
 #invite-anyone-group-list li {
@@ -72,6 +74,9 @@ label span.disabled-subject {
   height:60px;
 	min-height: 60px;
   font-size: 11px;
+	min-height: 60px;
+	line-height: 11pt;
+	font-size: 8pt;
 }
 
 #invite-anyone-group-list li img {

@@ -94,7 +94,6 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 
 		$this->enable_nav_item = $this->enable_nav_item();
 		$this->enable_create_step = $this->enable_nav_item();
-
 	}
 
 	function display() {
@@ -529,8 +528,10 @@ function invite_anyone_ajax_autocomplete_results() {
 	$friends = false;
 
 	// Get the friend ids based on the search terms
-	$friends = BP_Core_User::search_users( $_GET['q'], 500, 1 );
-		
+
+	if ( function_exists( 'invite_anyone_search_members' ) )
+		$friends = invite_anyone_search_members( $_GET['q'], 500, 1 );
+
 	$friends = apply_filters( 'bp_friends_autocomplete_list', $friends, $_GET['q'], $_GET['limit'] );
 
 	if ( $friends['users'] ) {
