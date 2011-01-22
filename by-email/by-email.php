@@ -462,7 +462,7 @@ function invite_anyone_screen_one_content() {
 	if ( ! empty( $returned_data['groups'] ) ) {
 		foreach( $returned_data['groups'] as $group_id ) {
 			$returned_groups[] = $group_id;
-
+		}
 	}
 
 
@@ -572,7 +572,7 @@ function invite_anyone_screen_one_content() {
 
 	</form>
 	<?php
-	}
+}
 
 /**
  * invite_anyone_screen_two()
@@ -986,7 +986,7 @@ function invite_anyone_process_invitations( $data ) {
 	} else {
 		$success_message = sprintf( __( "Please correct your errors and resubmit.", 'bp-invite-anyone' ) );
 		bp_core_add_message( $success_message, 'error' );
->>>>>>> Stashed changes
+
 	}
 	
 	// If there are errors, redirect to the Invite New Members page
@@ -1064,5 +1064,6 @@ function invite_anyone_validate_email( $user_email ) {
 
 	return apply_filters( 'invite_anyone_validate_email', $status, $user_email );;
 }
+
 
 ?>
