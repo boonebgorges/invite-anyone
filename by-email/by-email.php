@@ -418,72 +418,70 @@ function invite_anyone_screen_one_title() {
 	}
 */
 function invite_anyone_screen_one_content() {
-		global $bp;
+	global $bp;
 
-		if ( !$iaoptions = get_option( 'invite_anyone' ) )
-			$iaoptions = array();
+	if ( !$iaoptions = get_option( 'invite_anyone' ) )
+		$iaoptions = array();
 
-		if ( !$max_invites = $iaoptions['max_invites'] )
-			$max_invites = 5;
+	if ( !$max_invites = $iaoptions['max_invites'] )
+		$max_invites = 5;
 
-		$from_group = false;
-		if ( !empty( $bp->action_variables ) ) {
-			if ( 'group-invites' == $bp->action_variables[0] )
-				$from_group = $bp->action_variables[1];
-		}
+	$from_group = false;
+	if ( !empty( $bp->action_variables ) ) {
+		if ( 'group-invites' == $bp->action_variables[0] )
+			$from_group = $bp->action_variables[1];
+	}
 
-		/* This handles the email addresses sent back when there is an error */
-		$returned_emails = array();
-		$counter = 0;
 
-		if ( isset( $_GET['email0'] ) ) {
-			while ( $_GET['email' . $counter] ) {
-				$returned_emails[] = trim( urldecode( $_GET['email' . $counter] ) );
-				$counter++;
+	/* If the user is coming from the widget, $returned_emails is populated with those email addresses */
+	if ( isset( $_POST['invite_anyone_widget'] ) ) {
+		check_admin_referer( 'invite-anyone-widget_' . $bp->loggedin_user->id );
+
+		if ( is_array( $_POST['emails'] ) ) {
+			foreach( $_POST['emails'] as $email ) {
+				if ( trim( $email ) != '' && trim( $email ) != __( 'email address', 'bp-invite-anyone' ) )
+					$returned_emails[] = trim( $email );
 			}
 		}
 
-		$returned_groups = array( 0 );
+		/* If the widget appeared on a group page, the group ID should come along with it too */
+		if ( isset( $_POST['invite_anyone_widget_group'] ) )
+			$returned_groups[] = $_POST['invite_anyone_widget_group'];
 
-		/* If the user is coming from the widget, $returned_emails is populated with those email addresses */
-		if ( isset( $_POST['invite_anyone_widget'] ) ) {
-			check_admin_referer( 'invite-anyone-widget_' . $bp->loggedin_user->id );
+	}
 
-			if ( is_array( $_POST['emails'] ) ) {
-				foreach( $_POST['emails'] as $email ) {
-					if ( trim( $email ) != '' && trim( $email ) != __( 'email address', 'bp-invite-anyone' ) )
-						$returned_emails[] = trim( $email );
-				}
-			}
+	// Get any returned data out of the cookie. It will need to be unserialized before use
+	$returned_data = ! empty( $_COOKIE['invite-anyone-error-data'] ) ? maybe_unserialize( stripslashes( $_COOKIE['invite-anyone-error-data'] ) ) : array();
+	
+	// Unset the cookie right away so that you don't get old data when returning to the page
+	@setcookie( 'invite-anyone-error-data', '', time()-60*60*24, COOKIEPATH );
+	
+	// $returned_groups is padded so that array_search (below) returns true for first group */
+	$counter = 0;
+	$returned_groups = array( 0 );
+	if ( ! empty( $returned_data['groups'] ) ) {
+		foreach( $returned_data['groups'] as $group_id ) {
+			$returned_groups[] = $group_id;
 
-			/* If the widget appeared on a group page, the group ID should come along with it too */
-			if ( isset( $_POST['invite_anyone_widget_group'] ) )
-				$returned_groups[] = $_POST['invite_anyone_widget_group'];
+	}
 
-		}
 
-		/* $returned_groups is padded so that array_search (below) returns true for first group */
-		$counter = 0;
-
-		if ( isset( $_GET['group0'] ) ) {
-			while ( $_GET['group' . $counter] ) {
-				$returned_groups[] = urldecode( $_GET['group' . $counter] );
-				$counter++;
-			}
-		}
-
-		if ( isset( $_GET['subject'] ) )
-			$returned_subject = stripslashes( urldecode( $_GET['subject'] ) );
-		else
-			$returned_subject = '';
-
-		if ( isset( $_GET['message'] ) )
-			$returned_message = stripslashes( urldecode( $_GET['message'] ) );
-		else
-			$returned_message = '';
-
-		$blogname = get_bloginfo('name');
-		$welcome_message = sprintf( __( 'Invite friends to join %s by following these steps:', 'bp-invite-anyone' ), $blogname );
+	// Get the returned email subject, if there is one
+	$returned_subject = ! empty( $returned_data['subject'] ) ? $returned_data['subject'] : false;
+	
+	// Get the returned email message, if there is one
+	$returned_message = ! empty( $returned_data['message'] ) ? $returned_data['message'] : false;
+	
+	if ( ! empty( $returned_data['error_message'] ) ) {
+		?>
+		<div class="invite-anyone-error error">
+			<p><?php _e( "Some of your invitations were not sent. Please see the errors below and resubmit the failed invitations.", 'bp-invite-anyone' ) ?></p> 
+		</div>
+		<?php
+	}
+	
+	$blogname = get_bloginfo('name');
+	$welcome_message = sprintf( __( 'Invite friends to join %s by following these steps:', 'bp-invite-anyone' ), $blogname );
 	  
   ?>
 	<form id="invite-anyone-by-email" action="<?php echo $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/send/' ?>" method="post">
@@ -495,6 +493,23 @@ function invite_anyone_screen_one_content() {
 		
 		<li>
 			<p><?php _e( 'Enter email addresses in the fields below.', 'bp-invite-anyone' ) ?> <?php if( invite_anyone_allowed_domains() ) : ?> <?php _e( 'You can only invite people whose email addresses end in one of the following domains:', 'bp-invite-anyone' ) ?> <?php echo invite_anyone_allowed_domains(); ?><?php endif; ?></p>
+			<p><?php _e( 'Enter email addresses in the fields below.', 'bp-invite-anyone' ) ?></p>
+			
+			<?php if ( ! empty( $returned_data['error_message'] ) ) : ?>
+				<div class="invite-anyone-error error">
+					<p><?php echo $returned_data['error_message'] ?></p> 
+				</div>
+			<?php endif ?>
+			
+			<div class="manual-email">
+				<p><?php if( invite_anyone_allowed_domains() ) : ?> <?php _e( 'You can only invite people whose email addresses end in one of the following domains:', 'bp-invite-anyone' ) ?> <?php echo invite_anyone_allowed_domains(); ?><?php endif; ?></p>
+			
+				<?php invite_anyone_email_fields( $returned_data['error_emails'] ) ?>
+			</div>
+			
+			<?php do_action( 'invite_anyone_after_addresses' ) ?>
+
+		</li>
 		
 			<?php invite_anyone_email_fields( $returned_emails ) ?>
 		</li>
@@ -565,11 +580,9 @@ function invite_anyone_screen_one_content() {
  */
 function invite_anyone_screen_two() {
 	global $bp;
-
+	
 	if ( $bp->current_component == $bp->invite_anyone->slug && $bp->current_action == 'sent-invites' && $bp->action_variables[0] == 'send' ) {
-		if ( invite_anyone_process_invitations( $_POST ) )
-			bp_core_add_message( __( 'Your invitations were sent successfully!', 'bp-invite-anyone' ), 'success' );
-		else
+		if ( ! invite_anyone_process_invitations( $_POST ) )
 			bp_core_add_message( __( 'Sorry, there was a problem sending your invitations. Please try again.', 'bp-invite-anyone' ), 'error' );
 	}
 
@@ -705,27 +718,19 @@ function invite_anyone_screen_two() {
 	}
 
 /**
- * invite_anyone_email_fields()
+ * Displays the field where email addresses are entered on the Send Invites page
  *
+ * In version 0.8, this field was changed to be a textarea rather than individual fields.
+ * 
+ * @package Invite Anyone
+ *
+ * @param array $returned_emails Optional. Emails returned because of a processing error
  */
 function invite_anyone_email_fields( $returned_emails = false ) {
-	if ( !$iaoptions = get_option( 'invite_anyone' ) )
-		$iaoptions = array();
-
-	if ( !$max_invites = $iaoptions['max_invites'] )
-		$max_invites = 5;
-
-	if ( count( $returned_emails  ) > $max_invites  )
-		$max_invites = count( $returned_emails );
-
+	if ( is_array( $returned_emails ) )
+		$returned_emails = implode( "\n", $returned_emails );
 ?>
-	<ol id="invite-anyone-email-fields">
-	<?php for( $i = 0; $i < $max_invites; $i++ ) : ?>
-		<li>
-			<input type="text" name="invite_anyone_email[]" class="invite-anyone-email-field" <?php if ( isset( $returned_emails[$i] ) ) : ?>value="<?php echo $returned_emails[$i] ?>"<?php endif; ?> />
-		</li>
-	<?php endfor; ?>
-	</ol>
+	<textarea name="invite_anyone_email_addresses" class="invite-anyone-email-addresses"><?php echo $returned_emails ?></textarea>
 <?php
 }
 
@@ -851,115 +856,143 @@ function invite_anyone_format_date( $date ) {
 function invite_anyone_process_invitations( $data ) {
 	global $bp;
 
+	// Parse out the individual email addresses
 	$emails = array();
-	if ( is_array( $data['invite_anyone_email'] ) ) {
-		foreach ( $data['invite_anyone_email'] as $email ) {
-			if ( $email != '' )
-				$emails[] = trim( $email );
+	if ( ! empty( $data['invite_anyone_email_addresses'] ) ) {
+		// First, split by line breaks
+		$rows = explode( "\n", $data['invite_anyone_email_addresses'] );
+		
+		// Then look through each row to split by comma
+		foreach( $rows as $row ) {
+			$row_addresses = explode( ',', $row );
+			
+			// Then walk through and add each address to the array
+			foreach( $row_addresses as $row_address ) {
+				$row_address_trimmed = trim( $row_address );
+				
+				// We also have to make sure that the email address isn't empty
+				if ( ! empty( $row_address_trimmed ) && ! in_array( $row_address_trimmed, $emails ) )
+					$emails[] = $row_address_trimmed;
+			}
 		}
 	}
+	
+	// Filter the email addresses so that plugins can have a field day
+	$emails = apply_filters( 'invite_anyone_submitted_email_addresses', $emails, $data );
 
-	if ( empty($emails) ) {
+	if ( empty( $emails ) ) {
 		bp_core_add_message( __( 'You didn\'t include any email addresses!', 'bp-invite-anyone' ), 'error' );
 		bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members' );
 	}
 
-	/* validate email addresses */
-	foreach( $emails as $email ) {
+	// Set up a wrapper for any data to return to the Send Invites screen in case of error
+	$returned_data = array(
+		'error_message' => false,
+		'error_emails' => array(),
+		'subject' => $data['invite_anyone_custom_subject'],
+		'message' => $data['invite_anyone_custom_message'],
+		'groups' => $data['invite_anyone_groups']
+	);
+	
+	// validate email addresses
+	
+	foreach( $emails as $key => $email ) {
 		$check = invite_anyone_validate_email( $email );
 		switch ( $check ) {
 
 			case 'opt_out' :
-				$error_message = sprintf( __( 'Sorry, %s has opted out of email invitations from this site.', 'bp-invite-anyone' ), $email );
-				$is_error = 1;
+				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> has opted out of email invitations from this site.', 'bp-invite-anyone' ), $email );
 				break;
 
 			case 'used' :
-				$error_message = sprintf( __( 'Sorry, %s is already a registered user of the site. ', 'bp-invite-anyone' ), $email );
-				$is_error = 1;
+				$returned_data['error_message'] .= sprintf( __( "<strong>%s</strong> is already a registered user of the site.", 'bp-invite-anyone' ), $email );
 				break;
 
 			case 'unsafe' :
-				$error_message = sprintf( __( 'Sorry, %s is not a permitted email address.', 'bp-invite-anyone' ), $email );
-				$is_error = 1;
+				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> is not a permitted email address.', 'bp-invite-anyone' ), $email );
 				break;
 
 			case 'invalid' :
-				$error_message = sprintf( __( 'Sorry, %s is not a valid email address. Please make sure that you have typed it correctly.', 'bp-invite-anyone' ), $email );
-				$is_error = 1;
+				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> is not a valid email address. Please make sure that you have typed it correctly.', 'bp-invite-anyone' ), $email );
 				break;
 
 			case 'limited_domain' :
-				$error_message = sprintf( __( 'Sorry, %s is not a permitted email address. Please make sure that you have typed the domain name correctly.', 'bp-invite-anyone' ), $email );
-				$is_error = 1;
+				$returned_data['error_message'] = sprintf( __( '<strong>%s</strong> is not a permitted email address. Please make sure that you have typed the domain name correctly.', 'bp-invite-anyone' ), $email );
 				break;
 		}
-
-		if ( $is_error ) {
-			$error_message .= " " . __( 'Please remove the email address and try again.', 'bp-invite-anyone' );
-			bp_core_add_message( $error_message, 'error' );
-
-			$d = '';
-			if ( $emails ) {
-				foreach ( $emails as $key => $email )
-					$d .= "email$key=" . urlencode($email) . '&';
-			}
-
-			if ( $data['invite_anyone_groups'] ) {
-				foreach ( $data['invite_anyone_groups'] as $key => $group )
-					$d .= "group$key=" . $group . '&';
-			}
-
-			if ( $data['invite_anyone_custom_subject'] )
-				$d .= 'subject=' . urlencode( stripslashes( $data['invite_anyone_custom_subject'] ) ) . '&';
-
-			if ( $data['invite_anyone_custom_message'] )
-				$d .= 'message=' . urlencode( stripslashes( $data['invite_anyone_custom_message'] ) );
-
-			bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members?' . $d  );
+		
+		// If there was an error in validation, we won't process this email
+		if ( $check != 'okay' ) {		
+			$returned_data['error_message'] .= '<br />';
+			$returned_data['error_emails'][] = $email;
+			unset( $emails[$key] );
 		}
 	}
-
-	/* send and record invitations */
-
-	do_action( 'invite_anyone_process_addl_fields' );
-
-	$groups = $data['invite_anyone_groups'];
-	$is_error = 0;
-
-	foreach( $emails as $email ) {
-		$subject = stripslashes( strip_tags( $data['invite_anyone_custom_subject'] ) );
-
-		$message = stripslashes( strip_tags( $data['invite_anyone_custom_message'] ) );
-
-		$footer = invite_anyone_process_footer( $email );
-		$footer = invite_anyone_wildcard_replace( $footer, $email );
-
-		$message .= '
-
-================
-';
-		$message .= $footer;
-
-		$to = apply_filters( 'invite_anyone_invitee_email', $email );
-		$subject = apply_filters( 'invite_anyone_invitation_subject', $subject );
-		$message = apply_filters( 'invite_anyone_invitation_message', $message, $accept_link );
-
-		wp_mail( $to, $subject, $message );
-
-		/* todo: isolate which email(s) cause problems, and send back to user */
-	/*	if ( !invite_anyone_send_invitation( $bp->loggedin_user->id, $email, $message, $groups ) )
-			$is_error = 1; */
-
-		invite_anyone_record_invitation( $bp->loggedin_user->id, $email, $message, $groups );
+	// Stash error info in cookies so we can use it after a redirect
+	@setcookie( 'invite-anyone-error-data', maybe_serialize( $returned_data ), time()+60*60*24, COOKIEPATH );
+	
+	if ( ! empty( $emails ) ) {
 		
 		do_action( 'sent_email_invite', $bp->loggedin_user->id, $email, $groups );
 
 		unset( $message, $to );
+
+		/* send and record invitations */
+	
+		do_action( 'invite_anyone_process_addl_fields' );
+	
+		$groups = ! empty( $data['invite_anyone_groups'] ) ? $data['invite_anyone_groups'] : array();
+		$is_error = 0;
+	
+		foreach( $emails as $email ) {
+			$subject = stripslashes( strip_tags( $data['invite_anyone_custom_subject'] ) );
+	
+			$message = stripslashes( strip_tags( $data['invite_anyone_custom_message'] ) );
+	
+			$footer = invite_anyone_process_footer( $email );
+			$footer = invite_anyone_wildcard_replace( $footer, $email );
+	
+			$message .= '
+	
+	================
+	';
+			$message .= $footer;
+	
+			$to = apply_filters( 'invite_anyone_invitee_email', $email );
+			$subject = apply_filters( 'invite_anyone_invitation_subject', $subject );
+			$message = apply_filters( 'invite_anyone_invitation_message', $message, $accept_link );
+	
+			wp_mail( $to, $subject, $message );
+	
+			/* todo: isolate which email(s) cause problems, and send back to user */
+		/*	if ( !invite_anyone_send_invitation( $bp->loggedin_user->id, $email, $message, $groups ) )
+				$is_error = 1; */
+	
+			invite_anyone_record_invitation( $bp->loggedin_user->id, $email, $message, $groups );
+			
+			do_action( 'sent_email_invite', $bp->loggedin_user->id, $email, $groups );
+	
+	
+			unset( $message, $to );
+		}
+	
+		// Set a success message
+	
+		$success_message = sprintf( __( "Invitations were sent successfully to the following email addresses: %s", 'bp-invite-anyone' ), implode( ", ", $emails ) );
+		bp_core_add_message( $success_message );
+	
+		do_action( 'sent_email_invites', $bp->loggedin_user->id, $emails, $groups );
+	
+	} else {
+		$success_message = sprintf( __( "Please correct your errors and resubmit.", 'bp-invite-anyone' ) );
+		bp_core_add_message( $success_message, 'error' );
+>>>>>>> Stashed changes
 	}
-
-	do_action( 'sent_email_invites', $bp->loggedin_user->id, $emails, $groups );
-
+	
+	// If there are errors, redirect to the Invite New Members page
+	if ( ! empty( $returned_data['error_emails'] ) )
+		bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members'  );
+	
 	return true;
 }
 
@@ -1004,6 +1037,8 @@ add_action( 'wp', 'invite_anyone_bypass_registration_lock', 1 );
 
 function invite_anyone_validate_email( $user_email ) {
 
+	$status = 'okay';
+
 	if ( invite_anyone_check_is_opt_out( $user_email ) ) {
 		$status = 'opt_out';
 	} else if ( $user = get_user_by_email( $user_email ) ) {
@@ -1013,6 +1048,7 @@ function invite_anyone_validate_email( $user_email ) {
 	} else if ( function_exists( 'validate_email' ) && !validate_email( $user_email ) ) {
 		$status = 'invalid';
 	}
+		
 		
 	if ( function_exists( 'get_site_option' ) ) {
 		if ( $limited_email_domains = get_site_option( 'limited_email_domains' ) ) {

@@ -208,3 +208,28 @@ ul#invite-anyone-clear-links li.last a {
   padding-left:10px;
   border:none;
 }
+
+#invite-anyone-steps div.invite-anyone-error p,
+div.invite-anyone-error p {
+	display: inline-block;
+	font-weight: normal;
+	border-bottom: 1px solid #FFE8C4;
+	border-right: 1px solid #FFE8C4;
+	margin: 15px 0;
+	text-decoration: none;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	padding: 10px 15px;
+	font-size: 12px;
+	display: block;
+	background: #e41717;
+	color: #fff;
+	border-color: #a71a1a;
+	clear: left;
+}
+
+textarea.invite-anyone-email-addresses {
+	width: 400px;
+	height: 130px;
+}
