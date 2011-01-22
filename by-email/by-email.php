@@ -2,6 +2,8 @@
 
 require( WP_PLUGIN_DIR . '/invite-anyone/by-email/by-email-db.php' );
 require( WP_PLUGIN_DIR . '/invite-anyone/widgets/widgets.php' );
+// todo: make this conditional
+require( WP_PLUGIN_DIR . '/invite-anyone/by-email/cloudsponge-integration.php' );
 
 
 // Temporary function until bp_is_active is fully integrated
@@ -286,7 +288,7 @@ function invite_anyone_setup_nav() {
 
 	$invite_anyone_link = $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/';
 
-	/* Create two sub nav items for this component */
+	/* Create sub nav items for this component */
 	bp_core_new_subnav_item( array(
 		'name' => __( 'Invite New Members', 'bp-invite-anyone' ),
 		'slug' => 'invite-new-members',
@@ -306,6 +308,8 @@ function invite_anyone_setup_nav() {
 		'position' => 20,
 		'user_has_access' => invite_anyone_access_test()
 	) );
+	
+	do_action( 'invite_anyone_setup_nav' );	
 }
 
 if ( invite_anyone_access_test() ) {
@@ -406,7 +410,15 @@ function invite_anyone_screen_one() {
 	and run a conditional check on template tag true to hide empty element markup or not
 	add_action( 'bp_template_title', 'invite_anyone_screen_one_title' );
 	*/
-	add_action( 'bp_template_content', 'invite_anyone_screen_one_content' );
+	
+	// Todo: abstract CS stuff
+	if ( !empty( $_GET['complete'] ) ) {
+		add_action( 'bp_template_content', 'invite_anyone_import_contacts_content_complete' );
+	} else if ( !empty( $_GET['import_id'] ) ) {
+		add_action( 'bp_template_content', 'invite_anyone_import_contacts_content' );
+	} else {
+		add_action( 'bp_template_content', 'invite_anyone_screen_one_content' );
+	}
 
 	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 }
@@ -418,72 +430,72 @@ function invite_anyone_screen_one_title() {
 	}
 */
 function invite_anyone_screen_one_content() {
-		global $bp;
+	global $bp;
 
-		if ( !$iaoptions = get_option( 'invite_anyone' ) )
-			$iaoptions = array();
+	if ( !$iaoptions = get_option( 'invite_anyone' ) )
+		$iaoptions = array();
 
-		if ( !$max_invites = $iaoptions['max_invites'] )
-			$max_invites = 5;
+	if ( !$max_invites = $iaoptions['max_invites'] )
+		$max_invites = 5;
 
-		$from_group = false;
-		if ( !empty( $bp->action_variables ) ) {
-			if ( 'group-invites' == $bp->action_variables[0] )
-				$from_group = $bp->action_variables[1];
+	$from_group = false;
+	if ( !empty( $bp->action_variables ) ) {
+		if ( 'group-invites' == $bp->action_variables[0] )
+			$from_group = $bp->action_variables[1];
+	}
+
+	/* This handles the email addresses sent back when there is an error */
+	$returned_emails = array();
+	$counter = 0;
+
+	if ( isset( $_GET['email0'] ) ) {
+		while ( $_GET['email' . $counter] ) {
+			$returned_emails[] = trim( urldecode( $_GET['email' . $counter] ) );
+			$counter++;
 		}
+	}
 
-		/* This handles the email addresses sent back when there is an error */
-		$returned_emails = array();
-		$counter = 0;
+	$returned_groups = array( 0 );
 
-		if ( isset( $_GET['email0'] ) ) {
-			while ( $_GET['email' . $counter] ) {
-				$returned_emails[] = trim( urldecode( $_GET['email' . $counter] ) );
-				$counter++;
+	/* If the user is coming from the widget, $returned_emails is populated with those email addresses */
+	if ( isset( $_POST['invite_anyone_widget'] ) ) {
+		check_admin_referer( 'invite-anyone-widget_' . $bp->loggedin_user->id );
+
+		if ( is_array( $_POST['emails'] ) ) {
+			foreach( $_POST['emails'] as $email ) {
+				if ( trim( $email ) != '' && trim( $email ) != __( 'email address', 'bp-invite-anyone' ) )
+					$returned_emails[] = trim( $email );
 			}
 		}
 
-		$returned_groups = array( 0 );
+		/* If the widget appeared on a group page, the group ID should come along with it too */
+		if ( isset( $_POST['invite_anyone_widget_group'] ) )
+			$returned_groups[] = $_POST['invite_anyone_widget_group'];
 
-		/* If the user is coming from the widget, $returned_emails is populated with those email addresses */
-		if ( isset( $_POST['invite_anyone_widget'] ) ) {
-			check_admin_referer( 'invite-anyone-widget_' . $bp->loggedin_user->id );
+	}
 
-			if ( is_array( $_POST['emails'] ) ) {
-				foreach( $_POST['emails'] as $email ) {
-					if ( trim( $email ) != '' && trim( $email ) != __( 'email address', 'bp-invite-anyone' ) )
-						$returned_emails[] = trim( $email );
-				}
-			}
+	/* $returned_groups is padded so that array_search (below) returns true for first group */
+	$counter = 0;
 
-			/* If the widget appeared on a group page, the group ID should come along with it too */
-			if ( isset( $_POST['invite_anyone_widget_group'] ) )
-				$returned_groups[] = $_POST['invite_anyone_widget_group'];
-
+	if ( isset( $_GET['group0'] ) ) {
+		while ( $_GET['group' . $counter] ) {
+			$returned_groups[] = urldecode( $_GET['group' . $counter] );
+			$counter++;
 		}
+	}
 
-		/* $returned_groups is padded so that array_search (below) returns true for first group */
-		$counter = 0;
+	if ( isset( $_GET['subject'] ) )
+		$returned_subject = stripslashes( urldecode( $_GET['subject'] ) );
+	else
+		$returned_subject = '';
 
-		if ( isset( $_GET['group0'] ) ) {
-			while ( $_GET['group' . $counter] ) {
-				$returned_groups[] = urldecode( $_GET['group' . $counter] );
-				$counter++;
-			}
-		}
+	if ( isset( $_GET['message'] ) )
+		$returned_message = stripslashes( urldecode( $_GET['message'] ) );
+	else
+		$returned_message = '';
 
-		if ( isset( $_GET['subject'] ) )
-			$returned_subject = stripslashes( urldecode( $_GET['subject'] ) );
-		else
-			$returned_subject = '';
-
-		if ( isset( $_GET['message'] ) )
-			$returned_message = stripslashes( urldecode( $_GET['message'] ) );
-		else
-			$returned_message = '';
-
-		$blogname = get_bloginfo('name');
-		$welcome_message = sprintf( __( 'Invite friends to join %s by following these steps:', 'bp-invite-anyone' ), $blogname );
+	$blogname = get_bloginfo('name');
+	$welcome_message = sprintf( __( 'Invite friends to join %s by following these steps:', 'bp-invite-anyone' ), $blogname );
 	  
   ?>
 	<form id="invite-anyone-by-email" action="<?php echo $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/send/' ?>" method="post">
@@ -494,10 +506,17 @@ function invite_anyone_screen_one_content() {
 	<ol id="invite-anyone-steps">
 		
 		<li>
-			<p><?php _e( 'Enter email addresses in the fields below.', 'bp-invite-anyone' ) ?> <?php if( invite_anyone_allowed_domains() ) : ?> <?php _e( 'You can only invite people whose email addresses end in one of the following domains:', 'bp-invite-anyone' ) ?> <?php echo invite_anyone_allowed_domains(); ?><?php endif; ?></p>
-		
-			<?php invite_anyone_email_fields( $returned_emails ) ?>
+			<p><?php _e( 'Enter email addresses in the fields below.', 'bp-invite-anyone' ) ?></p>
+			<div class="manual-email">
+				<p><?php if( invite_anyone_allowed_domains() ) : ?> <?php _e( 'You can only invite people whose email addresses end in one of the following domains:', 'bp-invite-anyone' ) ?> <?php echo invite_anyone_allowed_domains(); ?><?php endif; ?></p>
+			
+				<?php invite_anyone_email_fields( $returned_emails ) ?>
+			</div>
+			
+			<?php do_action( 'invite_anyone_after_addresses' ) ?>
+
 		</li>
+		
 
 		<li>
 			<?php if ( $iaoptions['subject_is_customizable'] == 'yes' ) : ?>
@@ -557,7 +576,15 @@ function invite_anyone_screen_one_content() {
 
 	</form>
 	<?php
-	}
+}
+
+function invite_anyone_import_contacts_content() {
+	require_once ( WP_PLUGIN_DIR . '/invite-anyone/lib/cloudsponge-lib-php/step_2_events.php' );
+}
+
+function invite_anyone_import_contacts_content_complete() {
+	require_once ( WP_PLUGIN_DIR . '/invite-anyone/lib/cloudsponge-lib-php/step_3_contacts.php' );
+}
 
 /**
  * invite_anyone_screen_two()
