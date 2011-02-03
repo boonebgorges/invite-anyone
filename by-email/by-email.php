@@ -3,6 +3,7 @@
 require( WP_PLUGIN_DIR . '/invite-anyone/by-email/by-email-db.php' );
 require( WP_PLUGIN_DIR . '/invite-anyone/widgets/widgets.php' );
 
+require( WP_PLUGIN_DIR . '/invite-anyone/by-email/cloudsponge-integration.php' );
 
 // Temporary function until bp_is_active is fully integrated
 function invite_anyone_are_groups_running() {
@@ -492,9 +493,6 @@ function invite_anyone_screen_one_content() {
 	<ol id="invite-anyone-steps">
 		
 		<li>
-			<p><?php _e( 'Enter email addresses in the fields below.', 'bp-invite-anyone' ) ?> <?php if( invite_anyone_allowed_domains() ) : ?> <?php _e( 'You can only invite people whose email addresses end in one of the following domains:', 'bp-invite-anyone' ) ?> <?php echo invite_anyone_allowed_domains(); ?><?php endif; ?></p>
-			<p><?php _e( 'Enter email addresses in the fields below.', 'bp-invite-anyone' ) ?></p>
-			
 			<?php if ( ! empty( $returned_data['error_message'] ) ) : ?>
 				<div class="invite-anyone-error error">
 					<p><?php echo $returned_data['error_message'] ?></p> 
@@ -502,16 +500,13 @@ function invite_anyone_screen_one_content() {
 			<?php endif ?>
 			
 			<div class="manual-email">
-				<p><?php if( invite_anyone_allowed_domains() ) : ?> <?php _e( 'You can only invite people whose email addresses end in one of the following domains:', 'bp-invite-anyone' ) ?> <?php echo invite_anyone_allowed_domains(); ?><?php endif; ?></p>
+				<p><?php _e( 'Enter email addresses below, one per line.', 'bp-invite-anyone' ) ?><?php if( invite_anyone_allowed_domains() ) : ?> <?php _e( 'You can only invite people whose email addresses end in one of the following domains:', 'bp-invite-anyone' ) ?> <?php echo invite_anyone_allowed_domains(); ?><?php endif; ?></p>
 			
 				<?php invite_anyone_email_fields( $returned_data['error_emails'] ) ?>
 			</div>
 			
 			<?php do_action( 'invite_anyone_after_addresses' ) ?>
 
-		</li>
-		
-			<?php invite_anyone_email_fields( $returned_emails ) ?>
 		</li>
 
 		<li>
@@ -730,7 +725,7 @@ function invite_anyone_email_fields( $returned_emails = false ) {
 	if ( is_array( $returned_emails ) )
 		$returned_emails = implode( "\n", $returned_emails );
 ?>
-	<textarea name="invite_anyone_email_addresses" class="invite-anyone-email-addresses"><?php echo $returned_emails ?></textarea>
+	<textarea name="invite_anyone_email_addresses" class="invite-anyone-email-addresses" id="invite-anyone-email-addresses"><?php echo $returned_emails ?></textarea>
 <?php
 }
 
