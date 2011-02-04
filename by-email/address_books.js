@@ -201,9 +201,9 @@ function addCss(cssname, pos) {
 
 function formatRecipient(name, email) { 
 //  if (name && name.trim().length > 0)
-  if (name && name.replace(/^\s+/, "").replace(/\s+$/, "").length > 0)
-    return '"' + name.replace('"', "&quot;") + '" <' + email + '>';
-  else
+//  if (name && name.replace(/^\s+/, "").replace(/\s+$/, "").length > 0)
+//    return '"' + name.replace('"', "&quot;") + '" <' + email + '>';
+//  else
     return email;
 }
 

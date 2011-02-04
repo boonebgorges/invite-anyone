@@ -21,6 +21,12 @@ class Cloudsponge_Integration {
 		add_action( 'invite_anyone_after_addresses', array( $this, 'import_markup' ) );
 	}
 
+	/**
+	 * Inserts the Cloudsponge markup into the Send Invites front end page
+	 *
+	 * @package Invite Anyone
+	 * @since 0.8
+	 */
 	function import_markup() {
 		?>		
 		
@@ -29,13 +35,6 @@ class Cloudsponge_Integration {
 
 <script type="text/javascript" src="<?php echo plugins_url( 'invite-anyone/by-email/address_books.js' ) ?>"></script>
 <script type="text/javascript" charset="utf-8">csInit({domain_key:"D8UDAPCEKMULKJE83EPN", textarea_id:'invite-anyone-email-addresses'});</script>
-<script type="text/javascript">
-jQuery(document).ready(function($){
-	$('#contact_list').change(function(){
-		alert('htntnh');
-	});
-},(jQuery));
-</script>
 
 <!-- Any link with a class="cs_import" will start the import process -->
 <?php _e( 'You can also add email addresses <a class="cs_import">from your Address Book</a>.', 'bp-invite-anyone' ) ?>
@@ -43,8 +42,6 @@ jQuery(document).ready(function($){
 		
 		<?php
 	}
-
-
 }
 $cloudsponge_integration = new Cloudsponge_Integration;
 

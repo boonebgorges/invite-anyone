@@ -583,12 +583,12 @@ function invite_anyone_screen_two() {
 
 	do_action( 'invite_anyone_sent_invites_screen' );
   
-  /* bp_template_title ought to be used - bp-default needs to markup the template tag
-  and run a conditional check on template tag true to hide empty element markup or not  
-  add_action( 'bp_template_title', 'invite_anyone_screen_two_title' );
-  */
+	/* bp_template_title ought to be used - bp-default needs to markup the template tag
+	and run a conditional check on template tag true to hide empty element markup or not  
+	add_action( 'bp_template_title', 'invite_anyone_screen_two_title' );
+	*/
 	
-  add_action( 'bp_template_content', 'invite_anyone_screen_two_content' );
+	add_action( 'bp_template_content', 'invite_anyone_screen_two_content' );
 
 	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 }
