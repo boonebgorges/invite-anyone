@@ -33,10 +33,13 @@ class Cloudsponge_Integration {
 		if ( empty( $options['cloudsponge_enabled'] ) )
 			return false;
 		
+		if ( empty( $options['cloudsponge_key'] ) && !$key = $options['cloudsponge_key'] )
+			return false;
+		
 		?>		
 		
 <script type="text/javascript" src="<?php echo plugins_url( 'invite-anyone/by-email/address_books.js' ) ?>"></script>
-<script type="text/javascript" charset="utf-8">csInit({domain_key:"D8UDAPCEKMULKJE83EPN", textarea_id:'invite-anyone-email-addresses'});</script>
+<script type="text/javascript" charset="utf-8">csInit({domain_key:"<?php echo esc_attr( $key ) ?>", textarea_id:'invite-anyone-email-addresses'});</script>
 
 <!-- Any link with a class="cs_import" will start the import process -->
 <?php _e( 'You can also add email addresses <a class="cs_import">from your Address Book</a>.', 'bp-invite-anyone' ) ?>
