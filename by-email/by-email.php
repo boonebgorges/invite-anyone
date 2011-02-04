@@ -2,7 +2,6 @@
 
 require( WP_PLUGIN_DIR . '/invite-anyone/by-email/by-email-db.php' );
 require( WP_PLUGIN_DIR . '/invite-anyone/widgets/widgets.php' );
-
 require( WP_PLUGIN_DIR . '/invite-anyone/by-email/cloudsponge-integration.php' );
 
 // Temporary function until bp_is_active is fully integrated
@@ -505,7 +504,8 @@ function invite_anyone_screen_one_content() {
 				<?php invite_anyone_email_fields( $returned_data['error_emails'] ) ?>
 			</div>
 			
-			<?php do_action( 'invite_anyone_after_addresses' ) ?>
+			<?php /* invite_anyone_after_addresses gets $iaoptions so that Cloudsponge etc can tell whether certain components are activated, without an additional lookup */ ?>
+			<?php do_action( 'invite_anyone_after_addresses', $iaoptions ) ?>
 
 		</li>
 

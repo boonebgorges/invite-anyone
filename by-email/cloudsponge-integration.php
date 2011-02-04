@@ -26,13 +26,15 @@ class Cloudsponge_Integration {
 	 *
 	 * @package Invite Anyone
 	 * @since 0.8
+	 *
+	 * @param array $options Invite Anyone settings. Check em so we can bail if necessary
 	 */
-	function import_markup() {
+	function import_markup( $options ) {
+		if ( empty( $options['cloudsponge_enabled'] ) )
+			return false;
+		
 		?>		
 		
-		
-		<!-- Include these scripts to import address books with CloudSponge -->
-
 <script type="text/javascript" src="<?php echo plugins_url( 'invite-anyone/by-email/address_books.js' ) ?>"></script>
 <script type="text/javascript" charset="utf-8">csInit({domain_key:"D8UDAPCEKMULKJE83EPN", textarea_id:'invite-anyone-email-addresses'});</script>
 
