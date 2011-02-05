@@ -4,6 +4,7 @@
 class Invite_Anyone_Data {
 	var $post_type_name;
 	var $invitee_tax_name;
+	var $invited_groups_tax_name;
 	
 	/**
 	 * PHP4 Constructor
@@ -28,12 +29,32 @@ class Invite_Anyone_Data {
 		// Define the invitee tax name used throughout
 		$this->invitee_tax_name = apply_filters( 'invite_anyone_invitee_tax_name', 'ia_invitees' );
 		
+		// Define the invited group tax name used throughout
+		$this->invited_groups_tax_name = apply_filters( 'invite_anyone_invited_group_tax_name', 'ia_invited_groups' );
+		
 		// Hooks into the 'init' action to register our WP custom post type and tax
 		add_action( 'init', array( $this, 'register_post_type' ) );	
 	}
 
 	/**
-	 * Registers Invite Anyone's post type
+	 * Registers Invite Anyone's post type and taxonomies
+	 *
+	 * Data schema:
+	 * - The ia_invites post type represents individual invitations, with post data divvied up
+	 *   as follows:
+	 *     	- post_title is the subject of the email sent
+	 *     	- post_content is the content of the email
+	 *     	- post_author is the person sending the invitation
+	 *     	- post_date is the date/time when the invitation is sent
+	 *     	- post_status represents 'is_hidden' on the old custom table schema:
+	 *      	- Default is 'publish' - i.e. the user sees the invitation on Sent Invites
+	 *     		- When the invitation is hidden, it is switched to 'draft'
+	 *     	- date_modified is the date when the user joins the site (makes for easy sorting)
+	 * - The ia_invitees taxonomy represents invited email addresses
+	 * - The ia_invited_groups taxonomy represents the groups that a user has been invited to
+	 *   when the group invitation is sent
+	 * - The following data is stored in postmeta:
+	 * 	- opt_out (corresponds to old is_opt_out) is stored at opt_out time
 	 *
 	 * @package BuddyPress Docs
 	 * @since 1.0
@@ -82,6 +103,27 @@ class Invite_Anyone_Data {
 		register_taxonomy( $this->invitee_tax_name, $this->post_type_name, apply_filters( 'invite_anyone_invitee_tax_args', array(
 			'label'		=> __( 'Invitees', 'bp-invite-anyone' ),
 			'labels' 	=> $invitee_labels,
+			'hierarchical' 	=> false,
+			'show_ui' 	=> true,
+		), &$this ) );
+		
+		// Define the labels to be used by the invited groups taxonomy
+		$invited_groups_labels = apply_filters( 'invite_anyone_invited_groups_labels', array(
+			'name' 		=> __( 'Invited Groups', 'bp-invite-anyone' ),
+			'singular_name' => __( 'Invited Group', 'bp-invite-anyone' ),
+			'search_items' 	=>  __( 'Search Invited Groups', 'bp-invite-anyone' ),
+			'all_items' 	=> __( 'All Invited Groups', 'bp-invite-anyone' ),
+			'edit_item' 	=> __( 'Edit Invited Group', 'bp-invite-anyone' ), 
+			'update_item' 	=> __( 'Update Invited Group', 'bp-invite-anyone' ),
+			'add_new_item' 	=> __( 'Add New Invited Group', 'bp-invite-anyone' ),
+			'new_item_name' => __( 'New Invited Group Name', 'bp-invite-anyone' ),
+			'menu_name' 	=> __( 'Invited Group' ),
+		), &$this );
+		
+		// Register the invited groups taxonomy
+		register_taxonomy( $this->invited_groups_tax_name, $this->post_type_name, apply_filters( 'invite_anyone_invited_group_tax_args', array(
+			'label'		=> __( 'Invited Groups', 'bp-invite-anyone' ),
+			'labels' 	=> $invited_groups_labels,
 			'hierarchical' 	=> false,
 			'show_ui' 	=> true,
 		), &$this ) );
