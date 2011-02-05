@@ -963,7 +963,7 @@ function invite_anyone_process_invitations( $data ) {
 		/*	if ( !invite_anyone_send_invitation( $bp->loggedin_user->id, $email, $message, $groups ) )
 				$is_error = 1; */
 	
-			invite_anyone_record_invitation( $bp->loggedin_user->id, $email, $message, $groups );
+			invite_anyone_record_invitation( $bp->loggedin_user->id, $email, $message, $groups, $subject );
 			
 			do_action( 'sent_email_invite', $bp->loggedin_user->id, $email, $groups );
 	

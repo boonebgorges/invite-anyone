@@ -253,32 +253,22 @@ class Invite_Anyone_Invitation {
 }
 
 
-function invite_anyone_record_invitation( $inviter_id, $email, $message, $groups ) {
+function invite_anyone_record_invitation( $inviter_id, $email, $message, $groups, $subject = false ) {
 	global $wpdb, $bp;
 	
 	$args = array(
-			'inviter_id' 	=> $inviter_id,
-			'invitee_email'	=> $email,
-			'message'	=> $message,
-			'subject'	=> 'Phat yo',
-			'groups'	=> $groups
-		);
+		'inviter_id' 	=> $inviter_id,
+		'invitee_email'	=> $email,
+		'message'	=> $message,
+		'subject'	=> $subject,
+		'groups'	=> $groups
+	);
 	
 	$invite = new Invite_Anyone_Invitation;
+	
 	$id = $invite->create( $args );
-	return true;
 	
-	
-	$group_invitations = maybe_serialize( $groups );
-	$date_invited = gmdate( "Y-m-d H:i:s" );
-	$is_joined = 0;
-	
-	$sql = $wpdb->prepare( "INSERT INTO {$bp->invite_anyone->table_name} ( inviter_id, email, message,  group_invitations, date_invited, is_joined ) VALUES ( %d, %s, %s, %s, %s, %d )", $inviter_id, $email, $message, $group_invitations, $date_invited, $is_joined );
-			
-	if ( !$wpdb->query($sql) )
-		return false;
-	
-	return true;
+	return $id;
 }
 
 function invite_anyone_get_invitations_by_inviter_id( $id, $sort_by = false, $order = false ) {
