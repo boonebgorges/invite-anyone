@@ -1,7 +1,13 @@
 <?php
 /* Invite Anyone database functions */
 
-class Invite_Anyone_Data {
+/**
+ * Defines the data schema for IA Invitations
+ *
+ * @package Invite Anyone
+ * @since 0.8
+ */
+class Invite_Anyone_Schema {
 	var $post_type_name;
 	var $invitee_tax_name;
 	var $invited_groups_tax_name;
@@ -12,7 +18,7 @@ class Invite_Anyone_Data {
 	 * @package Invite Anyone
 	 * @since 0.8
 	 */
-	function bpgr_settings() {
+	function invite_anyone_schema() {
 		$this->construct();
 	}
 	
@@ -130,33 +136,122 @@ class Invite_Anyone_Data {
 	}
 }
 
-$invite_anyone_data = new Invite_Anyone_Data;
+$invite_anyone_data = new Invite_Anyone_Schema;
 
-function invite_anyone_create_table() {
-	global $wpdb;
+/**
+ * Defines the invitation object and its methods
+ *
+ * @package Invite Anyone
+ * @since 0.8
+ */
+class Invite_Anyone_Invitation {
+	var $id;
 	
-	$table_name = $wpdb->base_prefix . 'bp_invite_anyone';  
-  
-	if ( get_option('bp_invite_anyone_ver') != BP_INVITE_ANYONE_VER ) {
-		$sql = "CREATE TABLE {$table_name} (
-			id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			inviter_id bigint(20) NOT NULL,
-			email varchar(75) NOT NULL,
-			message longtext NOT NULL,
-			group_invitations longtext,
-			date_invited datetime NOT NULL,
-			is_joined tinyint(1) NOT NULL,
-			date_joined datetime,
-			is_opt_out tinyint(1) NOT NULL,
-			is_hidden tinyint(1) NOT NULL
-			) {$charset_collate};";   		
+	/**
+	 * PHP4 Constructor
+	 *
+	 * @package Invite Anyone
+	 * @since 0.8
+	 *
+	 * @param int $id Optional. The unique id of the invitation post
+	 */
+	function invite_anyone_schema( $id = false ) {
+		$this->construct( $id );
+	}
 	
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-		dbDelta($sql);
-
-		update_option( 'bp_invite_anyone_ver', BP_INVITE_ANYONE_VER );
+	/**
+	 * PHP5 Constructor
+	 *
+	 * @package Invite Anyone
+	 * @since 0.8
+	 *
+	 * @param int $id Optional. The unique id of the invitation post
+	 */
+	 function __construct( $id = false ) {
+	 	if ( $id ) {
+	 		$this->id = $id;
+	 		$this->populate( $id );
+	 	}
+	 
+	 	// Define the post type name used throughout
+		$this->post_type_name = apply_filters( 'invite_anyone_post_type_name', 'ia_invites' );
+		
+		// Define the invitee tax name used throughout
+		$this->invitee_tax_name = apply_filters( 'invite_anyone_invitee_tax_name', 'ia_invitees' );
+		
+		// Define the invited group tax name used throughout
+		$this->invited_groups_tax_name = apply_filters( 'invite_anyone_invited_group_tax_name', 'ia_invited_groups' );
+	}
+	
+	/**
+	 * Populates the data for an existing invitation invitation
+	 *
+	 * @package Invite Anyone
+	 * @since 0.8
+	 */
+	function populate( $id ) {
+		
+	}
+	
+	/**
+	 * Creates a new invitation
+	 *
+	 * See the $defaults array for the potential values of $args
+	 *
+	 * @package Invite Anyone
+	 * @since 0.8
+	 *
+	 * @param array $args
+	 */
+	function create( $args = false ) {
+		// Set up the default arguments
+		$defaults = apply_filters( 'invite_anyone_create_invite_defaults', array(
+			'inviter_id' 	=> bp_loggedin_user_id(),
+			'invitee_email'	=> false,
+			'message'	=> false,
+			'subject'	=> false,
+			'groups'	=> false,
+			'status'	=> 'publish', // i.e., visible on Sent Invites
+			'date_created'	=> bp_core_current_time()
+		) );
+		
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r );
+		
+		// Let plugins stop this process if they want
+		do_action( 'invite_anyone_before_invitation_create', $r, $args );
+		
+		// We can't record an invitation without a few key pieces of data
+		if ( empty( $inviter_id ) || empty( $invitee_email ) || empty( $message ) || empty( $subject ) )
+			return false;
+		
+		// Set the arguments and create the post
+		$insert_post_args = array(
+			'post_author'	=> $inviter_id,
+			'post_content'	=> $message,
+			'post_title'	=> $subject,
+			'post_status'	=> $status,
+			'post_type'	=> $this->post_type_name
+		);
+		
+		if ( !$this->id = wp_insert_post( $insert_post_args ) )
+			return false;
+	
+		// Now set up the taxonomy terms
+		
+		// Invitee
+		wp_set_post_terms( $this->id, $invitee_email, $this->invitee_tax_name );
+	
+		// Groups included in the invitation
+		if ( !empty( $groups ) )
+			wp_set_post_terms( $this->id, $groups, $this->invited_groups_tax_name );
+	
+		do_action( 'invite_anyone_after_invitation_create', $this->id, $r, $args );
+		
+		return $this->id;		
 	}
 }
+
 
 function invite_anyone_record_invitation( $inviter_id, $email, $message, $groups ) {
 	global $wpdb, $bp;
