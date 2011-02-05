@@ -256,6 +256,19 @@ class Invite_Anyone_Invitation {
 function invite_anyone_record_invitation( $inviter_id, $email, $message, $groups ) {
 	global $wpdb, $bp;
 	
+	$args = array(
+			'inviter_id' 	=> $inviter_id,
+			'invitee_email'	=> $email,
+			'message'	=> $message,
+			'subject'	=> 'Phat yo',
+			'groups'	=> $groups
+		);
+	
+	$invite = new Invite_Anyone_Invitation;
+	$id = $invite->create( $args );
+	return true;
+	
+	
 	$group_invitations = maybe_serialize( $groups );
 	$date_invited = gmdate( "Y-m-d H:i:s" );
 	$is_joined = 0;
