@@ -38,8 +38,23 @@ class Cloudsponge_Integration {
 		
 		?>		
 		
-<script type="text/javascript" src="<?php echo plugins_url( 'invite-anyone/by-email/address_books.js' ) ?>"></script>
-<script type="text/javascript" charset="utf-8">csInit({domain_key:"<?php echo esc_html( $options['cloudsponge_key'] ) ?>", textarea_id:'invite-anyone-email-addresses'});</script>
+<script type="text/javascript" src="https://api.cloudsponge.com/address_books.js"></script>
+<script type="text/javascript" charset="utf-8">
+	csInit( { 	
+		domain_key:"<?php echo esc_html( $options['cloudsponge_key'] ) ?>",
+		referer: 'invite_anyone',
+		afterSubmitContacts:function(contacts) {
+			emails = [];
+			for(var i=0; i < contacts.length; i++) {
+				var contact = contacts[i];
+				var name = contact.name;
+				var email = contact.email;
+				emails.push(email);
+			}
+			document.getElementById('invite-anyone-email-addresses').value = emails.join("\n");
+		}
+	} );
+</script>
 
 <!-- Any link with a class="cs_import" will start the import process -->
 <?php _e( 'You can also add email addresses <a class="cs_import">from your Address Book</a>.', 'bp-invite-anyone' ) ?>
