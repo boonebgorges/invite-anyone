@@ -33,11 +33,13 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 * French: Guillaume Coulon
 * Russian: Jettochkin
 * Norwegian: Stig Ulfsby
+* Greek: Lena Stergatou
 
 == Changelog ==
 
 = 0.7.1 =
 * Norwegian translation added - props Stig Ulfsby
+* Greek translation added - props Lena Stergatou
 * Fixed bug that made group creation bypass IA settings
 * Fixed bug that broke the way that the BP core (friends only) tab rendered
 
