@@ -457,12 +457,11 @@ function invite_anyone_screen_one_content() {
 		}
 	}
 
-
 	// Get the returned email subject, if there is one
-	$returned_subject = ! empty( $returned_data['subject'] ) ? $returned_data['subject'] : false;
+	$returned_subject = ! empty( $returned_data['subject'] ) ? stripslashes( $returned_data['subject'] ) : false;
 	
 	// Get the returned email message, if there is one
-	$returned_message = ! empty( $returned_data['message'] ) ? $returned_data['message'] : false;
+	$returned_message = ! empty( $returned_data['message'] ) ? stripslashes( $returned_data['message'] ) : false;
 	
 	if ( ! empty( $returned_data['error_message'] ) ) {
 		?>
