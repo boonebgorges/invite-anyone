@@ -130,13 +130,13 @@ add_action( 'wp', 'invite_anyone_opt_out_screen', 1 );
 
 function invite_anyone_register_screen_message() {
 	global $bp;
+	
 ?>
 	<?php if ( $bp->current_action == 'accept-invitation' && !$bp->action_variables[0] ) : ?>
 		<div id="message" class="error"><p><?php _e( "It looks like you're trying to accept an invitation to join the site, but some information is missing. Please try again by clicking on the link in the invitation email.", 'bp-invite-anyone' ) ?></p></div>
 	<?php endif; ?>
 
-
-	<?php if ( $bp->current_action == 'accept-invitation' && $email = urldecode( $bp->action_variables[0] ) ) : ?>
+	<?php if ( $bp->signup->step == 'request-details' && $bp->current_action == 'accept-invitation' && $email = urldecode( $bp->action_variables[0] ) ) : ?>
 
 		<?php do_action( 'accept_email_invite_before' ) ?>
 
@@ -149,13 +149,17 @@ function invite_anyone_register_screen_message() {
 
 
 		<?php
-			$invites = invite_anyone_get_invitations_by_invited_email( $email );
+			invite_anyone_get_invitations_by_invited_email( $email );
+			
 			$inviters = array();
-			foreach ( $invites as $invite ) {
-				if ( !in_array( $invite->inviter_id, $inviters ) )
-					$inviters[] = $invite->inviter_id;
+			if ( have_posts() ) {
+				while ( have_posts() ) {
+					the_post();
+					$inviters[] = get_the_author_meta( 'ID' );
+				}
 			}
-
+			$inviters = array_unique( $inviters );
+			
 			$inviters_text = '';
 			if ( count( $inviters ) == 0 ) {
 				$inviters_text = '';
@@ -191,18 +195,22 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 
 	$email = bp_core_get_user_email( $user_id );
 
-	if ( $invites = invite_anyone_get_invitations_by_invited_email( $email ) ) {
+	// Fire the query
+	invite_anyone_get_invitations_by_invited_email( $email );
+	if ( have_posts() ) {
+		// From the posts returned by the query, get a list of unique inviters
+		$inviters = array();
+		while ( have_posts() ) {
+			the_post();
+			$inviters[] = get_the_author_meta( 'ID' );
+		}
+		$inviters = array_unique( $inviters );
+	
 		// Mark as "is_joined"
 		invite_anyone_mark_as_joined( $email );
 
 		// Friendship requests
-		if ( bp_is_active( 'friends' ) ) {
-			$inviters = array();
-			foreach ( $invites as $invite ) {
-				if ( !in_array( $invite->inviter_id, $inviters ) )
-					$inviters[] = $invite->inviter_id;
-			}
-	
+		if ( bp_is_active( 'friends' ) ) {	
 			if ( function_exists( 'friends_add_friend' ) ) {
 				foreach ( $inviters as $inviter ) {
 					friends_add_friend( $inviter, $user_id );
@@ -211,13 +219,7 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 		}
 		
 		// BuddyPress Followers support
-		if ( function_exists( 'bp_follow_start_following' ) ) {
-			$inviters = array();
-			foreach ( $invites as $invite ) {
-				if ( !in_array( $invite->inviter_id, $inviters ) )
-					$inviters[] = $invite->inviter_id;
-			}
-	
+		if ( function_exists( 'bp_follow_start_following' ) ) {	
 			foreach ( $inviters as $inviter ) {
 				bp_follow_start_following( array( 'leader_id' => $user_id, 'follower_id' => $inviter ) );
 				bp_follow_start_following( array( 'leader_id' => $inviter, 'follower_id' => $user_id ) );
@@ -225,13 +227,7 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 		}
 		
 		// BuddyPress Followers support
-		if ( function_exists( 'bp_follow_start_following' ) ) {
-			$inviters = array();
-			foreach ( $invites as $invite ) {
-				if ( !in_array( $invite->inviter_id, $inviters ) )
-					$inviters[] = $invite->inviter_id;
-			}
-	
+		if ( function_exists( 'bp_follow_start_following' ) ) {	
 			foreach ( $inviters as $inviter ) {
 				bp_follow_start_following( array( 'leader_id' => $user_id, 'follower_id' => $inviter ) );
 				bp_follow_start_following( array( 'leader_id' => $inviter, 'follower_id' => $user_id ) );
@@ -239,6 +235,7 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 		}
 		
 		// Group invitations
+		// todo: fix this!
 		if ( bp_is_active( 'groups' ) ) {
 			$groups = array();
 			foreach ( $invites as $invite ) {
@@ -628,81 +625,86 @@ function invite_anyone_screen_two() {
 
 		<h4><?php _e( 'Sent Invites', 'bp-invite-anyone' ); ?></h4>
     
-		<?php if ( $invites = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id(), $sort_by, $order ) ) : ?>
-
-		<p id="sent-invites-intro"><?php _e( 'You have sent invitations to the following people.', 'bp-invite-anyone' ) ?></p>
-
-		<table class="invite-anyone-sent-invites zebra" 
-		summary="<?php _e( 'This table displays a list of all your sent invites.
-		Invites that have been accepted are highlighted in the listings.
-		You may clear any individual invites, all accepted invites or all of the invite 
-		from the list.', 'bp-invite-anyone' ) ?>">
-			<thead>
-				<tr>
-				  <th scope="col"></th>
-				  <th scope="col" <?php if ( !empty( $_GET['sort_by'] ) && $_GET['sort_by'] == 'email' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=email&amp;order=<?php if ( $_GET['sort_by'] == 'email' && $_GET['order'] == 'ASC' ) : $order = 'DESC' ?>DESC<?php else : $order = 'ASC' ?>ASC<?php endif; ?>"><?php _e( 'Invited email address', 'bp-invite-anyone' ) ?></a></th>
-				  <th scope="col"><?php _e( 'Group invitations', 'bp-invite-anyone' ) ?></th>
-				  <th scope="col" <?php if ( !empty( $_GET['sort_by'] ) && $_GET['sort_by'] == 'date_invited' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_invited&amp;order=<?php if ( $_GET['sort_by'] == 'date_invited' && $_GET['order'] == 'DESC' ) : $order = 'ASC' ?>ASC<?php else : $order = 'DESC' ?>DESC<?php endif; ?>"><?php _e( 'Sent', 'bp-invite-anyone' ) ?></a></th>
-				  <th scope="col" <?php if ( !empty( $_GET['sort_by'] ) && $_GET['sort_by'] == 'date_joined' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_joined&amp;order=<?php if ( $_GET['sort_by'] == 'date_joined' && $_GET['order'] == 'DESC' ) : $order = 'ASC' ?>ASC<?php else : $order = 'DESC' ?>DESC<?php endif; ?>"><?php _e( 'Accepted', 'bp-invite-anyone' ) ?></a></th>
+		<?php invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id(), $sort_by, $order ) ?>
+		
+		<?php if ( have_posts() ) : ?>
+			<p id="sent-invites-intro"><?php _e( 'You have sent invitations to the following people.', 'bp-invite-anyone' ) ?></p>
+	
+			<table class="invite-anyone-sent-invites zebra" 
+			summary="<?php _e( 'This table displays a list of all your sent invites.
+			Invites that have been accepted are highlighted in the listings.
+			You may clear any individual invites, all accepted invites or all of the invite 
+			from the list.', 'bp-invite-anyone' ) ?>">
+				<thead>
+					<tr>
+					  <th scope="col"></th>
+					  <th scope="col" <?php if ( !empty( $_GET['sort_by'] ) && $_GET['sort_by'] == 'email' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=email&amp;order=<?php if ( $_GET['sort_by'] == 'email' && $_GET['order'] == 'ASC' ) : $order = 'DESC' ?>DESC<?php else : $order = 'ASC' ?>ASC<?php endif; ?>"><?php _e( 'Invited email address', 'bp-invite-anyone' ) ?></a></th>
+					  <th scope="col"><?php _e( 'Group invitations', 'bp-invite-anyone' ) ?></th>
+					  <th scope="col" <?php if ( !empty( $_GET['sort_by'] ) && $_GET['sort_by'] == 'date_invited' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_invited&amp;order=<?php if ( $_GET['sort_by'] == 'date_invited' && $_GET['order'] == 'DESC' ) : $order = 'ASC' ?>ASC<?php else : $order = 'DESC' ?>DESC<?php endif; ?>"><?php _e( 'Sent', 'bp-invite-anyone' ) ?></a></th>
+					  <th scope="col" <?php if ( !empty( $_GET['sort_by'] ) && $_GET['sort_by'] == 'date_joined' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_joined&amp;order=<?php if ( $_GET['sort_by'] == 'date_joined' && $_GET['order'] == 'DESC' ) : $order = 'ASC' ?>ASC<?php else : $order = 'DESC' ?>DESC<?php endif; ?>"><?php _e( 'Accepted', 'bp-invite-anyone' ) ?></a></th>
+					</tr>
+				</thead>
+	
+				<tfoot>
+				<tr id="batch-clear">
+				  <td colspan="5" >		
+				   <ul id="invite-anyone-clear-links">
+				      <li> <a title="<?php _e( 'Clear all accepted invites from the list', 'bp-invite-anyone' ) ?>" class="confirm" href="<?php echo wp_nonce_url( $base_url . '?clear=accepted', 'invite_anyone_clear' ) ?>"><?php _e( 'Clear all accepted invitations', 'bp-invite-anyone' ) ?></a></li>
+				      <li class="last"><a title="<?php _e( 'Clear all your listed invites', 'bp-invite-anyone' ) ?>" class="confirm" href="<?php echo wp_nonce_url( $base_url . '?clear=all', 'invite_anyone_clear' ) ?>"><?php _e( 'Clear all invitations', 'bp-invite-anyone' ) ?></a></li>
+				  </ul>
+				 </td>
 				</tr>
-			</thead>
-
-			<tfoot>
-			<tr id="batch-clear">
-			  <td colspan="5" >		
-			   <ul id="invite-anyone-clear-links">
-			      <li> <a title="<?php _e( 'Clear all accepted invites from the list', 'bp-invite-anyone' ) ?>" class="confirm" href="<?php echo wp_nonce_url( $base_url . '?clear=accepted', 'invite_anyone_clear' ) ?>"><?php _e( 'Clear all accepted invitations', 'bp-invite-anyone' ) ?></a></li>
-			      <li class="last"><a title="<?php _e( 'Clear all your listed invites', 'bp-invite-anyone' ) ?>" class="confirm" href="<?php echo wp_nonce_url( $base_url . '?clear=all', 'invite_anyone_clear' ) ?>"><?php _e( 'Clear all invitations', 'bp-invite-anyone' ) ?></a></li>
-		       	  </ul>
-			 </td>
-			</tr>
-      			</tfoot>
-      
-      			<tbody>
-			<?php foreach( $invites as $invite ) : ?>
-			<?php
-				$query_string = preg_replace( "|clear=[0-9]+|", '', $_SERVER['QUERY_STRING'] );
-
-				$clear_url = ( $query_string ) ? $base_url . '?' . $query_string . '&clear=' . $invite->id : $base_url . '?clear=' . $invite->id;
-				$clear_url = wp_nonce_url( $clear_url, 'invite_anyone_clear' );
-				$clear_link = '<a class="clear-entry confirm" title="' . __( 'Clear this invitation', 'bp-invite-anyone' ) . '" href="' . $clear_url . '">x<span></span></a>';
-
-				if ( $invite->group_invitations ) {
-					$groups = unserialize( $invite->group_invitations );
-					$group_names = '<ul>';
-					foreach( $groups as $group_id ) {
-						$group = new BP_Groups_Group( $group_id );
-						$group_names .= '<li>' . bp_get_group_name( $group ) . '</li>';
+				</tfoot>
+	      
+				<tbody>
+				<?php while ( have_posts() ) : the_post() ?>
+				
+				<?php
+					$emails = wp_get_post_terms( get_the_ID(), invite_anyone_get_invitee_tax_name() );
+					$email	= $emails[0]->name;
+				
+					$query_string = preg_replace( "|clear=[0-9]+|", '', $_SERVER['QUERY_STRING'] );
+	
+					$clear_url = ( $query_string ) ? $base_url . '?' . $query_string . '&clear=' . $invite->id : $base_url . '?clear=' . $invite->id;
+					$clear_url = wp_nonce_url( $clear_url, 'invite_anyone_clear' );
+					$clear_link = '<a class="clear-entry confirm" title="' . __( 'Clear this invitation', 'bp-invite-anyone' ) . '" href="' . $clear_url . '">x<span></span></a>';
+	
+					if ( $invite->group_invitations ) {
+						$groups = unserialize( $invite->group_invitations );
+						$group_names = '<ul>';
+						foreach( $groups as $group_id ) {
+							$group = new BP_Groups_Group( $group_id );
+							$group_names .= '<li>' . bp_get_group_name( $group ) . '</li>';
+						}
+						$group_names .= '</ul>';
+					} else {
+						$group_names = '-';
 					}
-					$group_names .= '</ul>';
-				} else {
-					$group_names = '-';
-				}
-
-				$date_invited = invite_anyone_format_date( $invite->date_invited );
-
-				if ( $invite->date_joined ):
-					$date_joined = invite_anyone_format_date( $invite->date_joined );
-					$accepted = true;
-				else:
-					$date_joined = '-';
-					$accepted = false;
-				endif;
-          
-				?>
-      
-				<tr <?php if($accepted){ ?> class="accepted" <?php } ?>>
-					<td><?php echo $clear_link ?></td>
-					<td><?php echo $invite->email ?></td>
-					<td><?php echo $group_names ?></td>
-					<td><?php echo $date_invited ?></td>
-					<td class="date-joined"><?php echo $date_joined ?></td>
-				</tr>
-			<?php endforeach; ?>
-    		 </tbody>
-		</table>
-
-
+	
+					global $post;
+	
+					$date_invited = invite_anyone_format_date( $post->post_date );
+					
+					if ( $post->post_modified != $post->post_date ):
+						$date_joined = invite_anyone_format_date( $post->post_modified );
+						$accepted = true;
+					else:
+						$date_joined = '-';
+						$accepted = false;
+					endif;
+		  
+					?>
+	      
+					<tr <?php if($accepted){ ?> class="accepted" <?php } ?>>
+						<td><?php echo $clear_link ?></td>
+						<td><?php echo esc_html( $email ) ?></td>
+						<td><?php echo $group_names ?></td>
+						<td><?php echo $date_invited ?></td>
+						<td class="date-joined"><?php echo $date_joined ?></td>
+					</tr>
+				<?php endwhile ?>
+			 </tbody>
+			</table>
 
 		<?php else : ?>
 
@@ -840,6 +842,24 @@ function invite_anyone_allowed_domains() {
 	return $domains;
 }
 
+/**
+ * Fetches the invitee taxonomy name out of the $bp global so it can be queried in the template
+ *
+ * @package Invite Anyone
+ * @since 0.8
+ *
+ * @return str $tax_name
+ */
+function invite_anyone_get_invitee_tax_name() {
+	global $bp;
+	
+	$tax_name = '';
+	
+	if ( !empty( $bp->invite_anyone->invitee_tax_name ) )
+		$tax_name = $bp->invite_anyone->invitee_tax_name;
+	
+	return $tax_name;
+}
 
 function invite_anyone_format_date( $date ) {
 	$thetime = strtotime( $date );
@@ -1011,9 +1031,6 @@ function invite_anyone_bypass_registration_lock() {
 		return;
 		
 	if ( empty( $options['bypass_registration_lock'] ) || $options['bypass_registration_lock'] != 'yes' )
-		return;
-		
-	if ( !$invites = invite_anyone_get_invitations_by_invited_email( $email ) )
 		return;
 	
 	// This is a royal hack until there is a filter on bp_get_signup_allowed()

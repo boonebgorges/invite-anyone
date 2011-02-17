@@ -168,6 +168,8 @@ class Invite_Anyone_Invitation {
 	 * @param int $id Optional. The unique id of the invitation post
 	 */
 	 function __construct( $id = false ) {
+	 	global $bp;
+	 	
 	 	if ( $id ) {
 	 		$this->id = $id;
 	 		$this->populate( $id );
@@ -178,6 +180,9 @@ class Invite_Anyone_Invitation {
 		
 		// Define the invitee tax name used throughout
 		$this->invitee_tax_name = apply_filters( 'invite_anyone_invitee_tax_name', 'ia_invitees' );
+		
+		// Stash in $bp because of template tags that need it
+		$bp->invite_anyone->invitee_tax_name = $this->invitee_tax_name;
 		
 		// Define the invited group tax name used throughout
 		$this->invited_groups_tax_name = apply_filters( 'invite_anyone_invited_group_tax_name', 'ia_invited_groups' );
@@ -250,12 +255,87 @@ class Invite_Anyone_Invitation {
 		
 		return $this->id;		
 	}
+	
+	/**
+	 * Pulls up a list of existing invitations, based on a set of arguments provided
+	 *
+	 * See the $defaults array for the potential values of $args
+	 *
+	 * @package Invite Anyone
+	 * @since 0.8
+	 *
+	 * @param array $args
+	 */
+	function get( $args = false ) {
+		// Set up the default arguments
+		$defaults = apply_filters( 'invite_anyone_get_invite_defaults', array(
+			'inviter_id' 		=> false,
+			'invitee_email'		=> false,
+			'message'		=> false,
+			'subject'		=> false,
+			'groups'		=> false,
+			'status'		=> 'publish', // i.e., visible on Sent Invites
+			'date_created'		=> false,
+			'orderby'		=> 'post_date',
+			'order'			=> 'DESC'
+		) );
+		
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r );
+				
+		// Backward compatibility, and to keep the URL args clean
+		if ( $orderby == 'email' ) {
+			$orderby	= $this->invitee_tax_name;
+		} else if ( $orderby == 'date_joined' ) {
+			$orderby	= 'date_modified';
+		}
+		
+		// Let plugins stop this process if they want
+		do_action( 'invite_anyone_before_invitation_get', $r, $args );
+		
+		// Set the arguments and get the posts
+		$query_post_args = array(
+			'post_author'	=> $inviter_id,
+			'post_status'	=> $status,
+			'post_type'	=> $this->post_type_name,
+			'orderby'	=> $orderby,
+			'order'		=> $order
+		);
+		
+		// Add optional arguments, if provided
+		$optional_args = array(
+			'message' 	=> 'post_content',
+			'subject'	=> 'post_title',
+			'date_created'	=> 'date_created',
+			'invitee_email'	=> $this->invitee_tax_name
+		);
+		
+		foreach ( $optional_args as $key => $value ) {
+			if ( !empty( $r[$key] ) ) {
+				$query_post_args[$value] = $r[$key];
+			}
+		}
+		
+		query_posts( $query_post_args );
+	}
+	
+	/**
+	 * Mark an invitation as accepted
+	 *
+	 * See the $defaults array for the potential values of $args
+	 *
+	 * @package Invite Anyone
+	 * @since 0.8
+	 *
+	 * @param array $args
+	 */
+	function accept( $args = false ) {
+	
+	}
 }
 
-
+// done
 function invite_anyone_record_invitation( $inviter_id, $email, $message, $groups, $subject = false ) {
-	global $wpdb, $bp;
-	
 	$args = array(
 		'inviter_id' 	=> $inviter_id,
 		'invitee_email'	=> $email,
@@ -271,38 +351,29 @@ function invite_anyone_record_invitation( $inviter_id, $email, $message, $groups
 	return $id;
 }
 
-function invite_anyone_get_invitations_by_inviter_id( $id, $sort_by = false, $order = false ) {
-	global $wpdb, $bp;
-		
-	$sql = $wpdb->prepare( "SELECT * FROM {$bp->invite_anyone->table_name} WHERE inviter_id = %s AND is_hidden = 0", $id );
+// done
+function invite_anyone_get_invitations_by_inviter_id( $inviter_id, $orderby = false, $order = false ) {
+	$args = array(
+		'inviter_id'	=> $inviter_id,
+		'orderby'	=> $orderby,
+		'order'		=> $order
+	);
 	
-	switch ( $sort_by ) {
-		case 'date_invited' :
-			$sql .= ' ORDER BY date_invited';
-			break;
-		case 'date_joined' :
-			$sql .= ' ORDER BY date_joined';
-			break;
-		case 'email' :
-			$sql .= ' ORDER BY email';
-			break;	
-	}
+	$invite = new Invite_Anyone_Invitation;
 	
-	if ( $order )
-		$sql .= ' ' . $order;
-	
-	$results = $wpdb->get_results($sql);
-	return $results;	
-
+	$invite->get( $args );
 }
 
 function invite_anyone_get_invitations_by_invited_email( $email ) {
 	global $wpdb, $bp;
-		
-	$sql = $wpdb->prepare( "SELECT * FROM {$bp->invite_anyone->table_name} WHERE email = %s", $email );
 	
-	$results = $wpdb->get_results($sql);
-	return $results;	
+	$args = array(
+		'invitee_email'	=> $email
+	);
+	
+	$invite = new Invite_Anyone_Invitation;
+	
+	$invite->get( $args );
 }
 
 function invite_anyone_clear_sent_invite( $args ) {
