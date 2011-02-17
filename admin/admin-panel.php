@@ -253,10 +253,10 @@ function invite_anyone_settings_cs_content() {
 
 ?>
 	<div class="cs">
-		<img class="cs-logo" src="<?php echo plugins_url( 'invite-anyone/images/cloudsponge_logo.png' ) ?>" />
+		<a href="http://www.cloudsponge.com/?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator"><img class="cs-logo" src="<?php echo plugins_url( 'invite-anyone/images/cloudsponge_logo.png' ) ?>" /></a>
 		
 		<div class="cs-explain">
-			<p><?php _e( '<a href="http://www.cloudsponge.com/">CloudSponge</a> is a cool service that gives your users easy and secure access to their address books (Gmail, Yahoo, and a number of other online and desktop email clients), so that they can more easily invite friends to your site. In order to enable CloudSponge support in Invite Anyone and BuddyPress, you\'ll need to <a href="https://www.cloudsponge.com/signup">register for a CloudSponge account</a>.', 'bp-invite-anyone' ) ?></p>
+			<p><?php _e( '<a href="http://www.cloudsponge.com/?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator">CloudSponge</a> is a cool service that gives your users easy and secure access to their address books (Gmail, Yahoo, and a number of other online and desktop email clients), so that they can more easily invite friends to your site. In order to enable CloudSponge support in Invite Anyone and BuddyPress, you\'ll need to <a href="http://www.cloudsponge.com/signup?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator">register for a CloudSponge account</a>.', 'bp-invite-anyone' ) ?></p>
 			
 			<label for="invite_anyone[cloudsponge_enabled]"><input type="checkbox" name="invite_anyone[cloudsponge_enabled]" id="cloudsponge-enabled" <?php checked( $options['cloudsponge_enabled'], 'on' ) ?>/> <strong><?php _e( 'Enable CloudSponge?', 'bp-invite-anyone' ) ?></strong></label>
 		
@@ -265,6 +265,8 @@ function invite_anyone_settings_cs_content() {
 		
 		<div class="cs-settings">
 			<label for="invite_anyone[cloudsponge_key]"><?php _e( 'CloudSponge Domain Key', 'bp-invite-anyone' ) ?></label> <input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_key]" value="<?php echo esc_html( $domain_key ) ?>" /> <span class="description"><?php _e( 'CloudSponge integration will not work without a valid domain key.', 'bp-invite-anyone' ) ?></span>
+		
+			<p class="description"><?php _e( 'When you use CloudSponge with Invite Anyone, part of your CloudSponge monthly payment goes to the author of Invite Anyone. This is a great way to support future development of the plugin. Thanks for your support!', 'bp-invite-anyone' ) ?></p>
 		</div>
 	</div>
 	

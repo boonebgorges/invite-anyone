@@ -68,9 +68,7 @@ class Cloudsponge_Integration {
 	} );
 </script>
 
-<!-- Any link with a class="cs_import" will start the import process -->
 <?php _e( 'You can also add email addresses <a class="cs_import">from your Address Book</a>.', 'bp-invite-anyone' ) ?>
-		
 		
 		<?php
 	}
