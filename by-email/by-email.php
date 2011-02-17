@@ -381,7 +381,32 @@ function invite_anyone_access_test() {
 }
 add_action( 'wp_head', 'invite_anyone_access_test' );
 
+function invite_anyone_catch_clear() {
+	global $bp;
+	
+	if ( isset( $_GET['clear'] ) ) {
+		$clear_id = $_GET['clear'];
+		
+		$inviter_id = bp_loggedin_user_id();
+		
+		check_admin_referer( 'invite_anyone_clear' );
 
+		if ( (int)$clear_id ) {
+			if ( invite_anyone_clear_sent_invite( array( 'inviter_id' => $inviter_id, 'clear_id' => $clear_id ) ) )
+				bp_core_add_message( __( 'Invitation cleared', 'bp-invite-anyone' ) );
+			else
+				bp_core_add_message( __( 'There was a problem clearing the invitation.', 'bp-invite-anyone' ), 'error' );
+		} else {
+			if ( invite_anyone_clear_sent_invite( array( 'inviter_id' => $inviter_id, 'type' => $clear_id ) ) )
+				bp_core_add_message( __( 'Invitations cleared', 'bp-invite-anyone' ) );
+			else
+				bp_core_add_message( __( 'There was a problem clearing the invitations.', 'bp-invite-anyone' ), 'error' );
+		}
+		
+		bp_core_redirect( $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/' );
+	}
+}
+add_action( 'wp', 'invite_anyone_catch_clear', 1 );
 
 function invite_anyone_screen_one() {
 	global $bp;
@@ -593,16 +618,6 @@ function invite_anyone_screen_two() {
 
 		$inviter_id = bp_loggedin_user_id();
 
-		if ( isset( $_GET['clear'] ) ) {
-			$clear_id = $_GET['clear'];
-			check_admin_referer( 'invite_anyone_clear' );
-
-			if ( (int)$clear_id )
-				invite_anyone_clear_sent_invite( array( 'inviter_id' => $inviter_id, 'clear_id' => $clear_id ) );
-			else
-				invite_anyone_clear_sent_invite( array( 'inviter_id' => $inviter_id, 'type' => $clear_id ) );
-		}
-
 		if ( isset( $_GET['sort_by'] ) )
 			$sort_by = $_GET['sort_by'];
 		else
@@ -653,13 +668,16 @@ function invite_anyone_screen_two() {
 				<tbody>
 				<?php while ( have_posts() ) : the_post() ?>
 				
+				
 				<?php
 					$emails = wp_get_post_terms( get_the_ID(), invite_anyone_get_invitee_tax_name() );
 					$email	= $emails[0]->name;
 				
+					$post_id = get_the_ID();
+				
 					$query_string = preg_replace( "|clear=[0-9]+|", '', $_SERVER['QUERY_STRING'] );
 	
-					$clear_url = ( $query_string ) ? $base_url . '?' . $query_string . '&clear=' . $invite->id : $base_url . '?clear=' . $invite->id;
+					$clear_url = ( $query_string ) ? $base_url . '?' . $query_string . '&clear=' . $post_id : $base_url . '?clear=' . $post_id;
 					$clear_url = wp_nonce_url( $clear_url, 'invite_anyone_clear' );
 					$clear_link = '<a class="clear-entry confirm" title="' . __( 'Clear this invitation', 'bp-invite-anyone' ) . '" href="' . $clear_url . '">x<span></span></a>';
 	

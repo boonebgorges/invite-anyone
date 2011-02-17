@@ -333,6 +333,40 @@ class Invite_Anyone_Invitation {
 	function accept( $args = false ) {
 	
 	}
+	
+	/**
+	 * Clear (unpublish) an invitation
+	 *
+	 * See the $defaults array for the potential values of $args
+	 *
+	 * @package Invite Anyone
+	 * @since 0.8
+	 *
+	 * @param array $args
+	 */
+	function clear() {
+		if ( wp_delete_post( $this->id ) )
+			return true;
+		
+		return false;
+	}
+	
+	/**
+	 * Clear (unpublish) an invitation
+	 *
+	 * See the $defaults array for the potential values of $args
+	 *
+	 * @package Invite Anyone
+	 * @since 0.8
+	 *
+	 * @param array $args
+	 */
+	function cccc() {
+		if ( wp_update_post( $this->id ) )
+			return true;
+		
+		return false;
+	}
 }
 
 // done
@@ -378,6 +412,7 @@ function invite_anyone_get_invitations_by_invited_email( $email ) {
 	$invite->get( $args );
 }
 
+
 function invite_anyone_clear_sent_invite( $args ) {
 	global $wpdb, $bp;
 	
@@ -385,24 +420,29 @@ function invite_anyone_clear_sent_invite( $args ) {
 		'inviter_id' => id number of the inviter, (required)
 		'clear_id' => id number of the item to be cleared,
 		'type' => accepted, unaccepted, or all
-		
-			); */
+	); */
 	
 	extract( $args );
 	
-	if ( !$inviter_id )
+	if ( empty( $inviter_id ) )
 		return false;
 	
-	if ( $clear_id )
-		$sql = $wpdb->prepare( "UPDATE {$bp->invite_anyone->table_name} SET is_hidden = 1 WHERE id = %d", $clear_id );
-	else if ( $type == 'accepted' )
+	$success = false;
+	
+	if ( $clear_id ) {
+		$invite 	= new Invite_Anyone_Invitation( $clear_id );
+		if ( $invite->clear() )
+			return true;
+		return $success;
+	} else if ( $type == 'accepted' ) {
 		$sql = $wpdb->prepare( "UPDATE {$bp->invite_anyone->table_name} SET is_hidden = 1 WHERE inviter_id = %d AND is_joined = 1", $inviter_id );
-	else if ( $type == 'unaccepted' )
+	} else if ( $type == 'unaccepted' ) {
 		$sql = $wpdb->prepare( "UPDATE {$bp->invite_anyone->table_name} SET is_hidden = 1 WHERE inviter_id = %d AND is_joined = 0", $inviter_id );
-	else if ( $type == 'all' )
+	} else if ( $type == 'all' ) {
 		$sql = $wpdb->prepare( "UPDATE {$bp->invite_anyone->table_name} SET is_hidden = 1 WHERE inviter_id = %d", $inviter_id );
-	else
+	} else {
 		return false;	
+	}
 	
 	if ( !$wpdb->query($sql) )
 		return false;
