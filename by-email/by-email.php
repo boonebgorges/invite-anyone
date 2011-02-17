@@ -199,12 +199,22 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 	invite_anyone_get_invitations_by_invited_email( $email );
 	if ( have_posts() ) {
 		// From the posts returned by the query, get a list of unique inviters
-		$inviters = array();
+		$inviters 	= array();
+		$groups		= array();
 		while ( have_posts() ) {
 			the_post();
-			$inviters[] = get_the_author_meta( 'ID' );
+			$inviter_id	= get_the_author_meta( 'ID' );
+			$inviters[] 	= $inviter_id;
+				
+			$groups_data	= wp_get_post_terms( get_the_ID(), invite_anyone_get_invited_groups_tax_name() );
+			foreach ( $groups_data as $group_data ) {
+				if ( !isset( $groups[$group_data->name] ) ) {
+					// Keyed by inviter, which means they'll only get one invite per group
+					$groups[$group_data->name] = $inviter_id;
+				}
+			}
 		}
-		$inviters = array_unique( $inviters );
+		$inviters 	= array_unique( $inviters );
 	
 		// Mark as "is_joined"
 		invite_anyone_mark_as_joined( $email );
@@ -235,22 +245,7 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 		}
 		
 		// Group invitations
-		// todo: fix this!
 		if ( bp_is_active( 'groups' ) ) {
-			$groups = array();
-			foreach ( $invites as $invite ) {
-				if ( !$invite->group_invitations[0] )
-					continue;
-				else
-					$group_invitations = unserialize( $invite->group_invitations );
-	
-				foreach ( $group_invitations as $group ) {
-					if ( !in_array( $group, array_keys($groups) ) )
-						$groups[$group] = $invite->inviter_id;
-				}
-			}
-	
-	
 			foreach ( $groups as $group_id => $inviter_id ) {
 				$args = array(
 					'user_id' => $user_id,
@@ -857,6 +852,25 @@ function invite_anyone_get_invitee_tax_name() {
 	
 	if ( !empty( $bp->invite_anyone->invitee_tax_name ) )
 		$tax_name = $bp->invite_anyone->invitee_tax_name;
+	
+	return $tax_name;
+}
+
+/**
+ * Fetches the groups taxonomy name out of the $bp global so it can be queried in the template
+ *
+ * @package Invite Anyone
+ * @since 0.8
+ *
+ * @return str $tax_name
+ */
+function invite_anyone_get_invited_groups_tax_name() {
+	global $bp;
+	
+	$tax_name = '';
+	
+	if ( !empty( $bp->invite_anyone->invited_groups_tax_name ) )
+		$tax_name = $bp->invite_anyone->invited_groups_tax_name;
 	
 	return $tax_name;
 }

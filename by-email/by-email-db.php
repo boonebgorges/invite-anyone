@@ -181,11 +181,12 @@ class Invite_Anyone_Invitation {
 		// Define the invitee tax name used throughout
 		$this->invitee_tax_name = apply_filters( 'invite_anyone_invitee_tax_name', 'ia_invitees' );
 		
-		// Stash in $bp because of template tags that need it
-		$bp->invite_anyone->invitee_tax_name = $this->invitee_tax_name;
-		
 		// Define the invited group tax name used throughout
 		$this->invited_groups_tax_name = apply_filters( 'invite_anyone_invited_group_tax_name', 'ia_invited_groups' );
+		
+		// Stash in $bp because of template tags that need it
+		$bp->invite_anyone->invitee_tax_name = $this->invitee_tax_name;
+		$bp->invite_anyone->invited_groups_tax_name = $this->invited_groups_tax_name;
 	}
 	
 	/**
@@ -295,7 +296,7 @@ class Invite_Anyone_Invitation {
 		
 		// Set the arguments and get the posts
 		$query_post_args = array(
-			'post_author'	=> $inviter_id,
+			'author'	=> $inviter_id,
 			'post_status'	=> $status,
 			'post_type'	=> $this->post_type_name,
 			'orderby'	=> $orderby,
@@ -364,6 +365,7 @@ function invite_anyone_get_invitations_by_inviter_id( $inviter_id, $orderby = fa
 	$invite->get( $args );
 }
 
+// done
 function invite_anyone_get_invitations_by_invited_email( $email ) {
 	global $wpdb, $bp;
 	
