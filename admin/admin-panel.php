@@ -6,6 +6,7 @@ function invite_anyone_admin_add() {
 	add_action( "admin_print_styles-$plugin_page", 'invite_anyone_admin_styles' );
 }
 add_action( 'admin_menu', 'invite_anyone_admin_add', 80 );
+add_action( 'network_admin_menu', 'invite_anyone_admin_add', 80 );
 
 /* Stolen from Welcome Pack - thanks, Paul! */
 function invite_anyone_admin_add_action_link( $links, $file ) {
@@ -68,10 +69,7 @@ function invite_anyone_settings_setup() {
 	
 	add_settings_field('invite_anyone_settings_can_send_group_invites_email', __('Allow users to send group invitations along with email invitations', 'bp-invite-anyone'), 'invite_anyone_settings_can_send_group_invites_email', 'invite_anyone', 'invite_anyone_general_settings');
 	
-	add_settings_field('invite_anyone_settings_bypass_registration_lock', __('Allow email invitations to be accepted even when site registration is disabled', 'bp-invite-anyone'), 'invite_anyone_settings_bypass_registration_lock', 'invite_anyone', 'invite_anyone_general_settings');
-	
-	add_settings_field('invite_anyone_settings_cloudsponge', __( 'Allow email invitations to be accepted even when site registration is disabled', 'bp-invite-anyone' ), 'invite_anyone_settings_bypass_registration_lock', 'invite_anyone', 'invite_anyone_general_settings');
-	
+	add_settings_field('invite_anyone_settings_bypass_registration_lock', __('Allow email invitations to be accepted even when site registration is disabled', 'bp-invite-anyone'), 'invite_anyone_settings_bypass_registration_lock', 'invite_anyone', 'invite_anyone_general_settings');	
 
 	/* Cloudsponge Settings */
 	add_settings_section( 'invite_anyone_cs', __( 'CloudSponge', 'bp-invite-anyone' ), 'invite_anyone_settings_cs_content', 'invite_anyone' );

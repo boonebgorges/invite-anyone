@@ -9,7 +9,7 @@ Author: Boone Gorges
 Author URI: http://teleogistic.net
 */
 
-define( 'BP_INVITE_ANYONE_VER', '0.7' );
+define( 'BP_INVITE_ANYONE_VER', '0.8' );
 define( 'BP_INVITE_ANYONE_DB_VER', '0.8' );
 
 if ( !defined( 'BP_INVITE_ANYONE_SLUG' ) )
