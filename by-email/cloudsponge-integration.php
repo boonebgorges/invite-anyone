@@ -42,7 +42,7 @@ class Cloudsponge_Integration {
 <script type="text/javascript" charset="utf-8">
 	csInit( { 	
 		domain_key:"<?php echo esc_html( $options['cloudsponge_key'] ) ?>",
-		referer: 'invite-anyone',
+		referrer: 'invite-anyone',
 		afterSubmitContacts:function(contacts) {
 			var emails = [];
 			var contact, name, email;
