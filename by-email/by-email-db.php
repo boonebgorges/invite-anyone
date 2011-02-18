@@ -39,7 +39,7 @@ class Invite_Anyone_Schema {
 		$this->invited_groups_tax_name = apply_filters( 'invite_anyone_invited_group_tax_name', 'ia_invited_groups' );
 		
 		// Hooks into the 'init' action to register our WP custom post type and tax
-		add_action( 'init', array( $this, 'register_post_type' ) );	
+		add_action( 'init', array( $this, 'register_post_type' ), 1 );	
 	}
 
 	/**
@@ -164,7 +164,7 @@ class Invite_Anyone_Invitation {
 	 *
 	 * @param int $id Optional. The unique id of the invitation post
 	 */
-	function invite_anyone_schema( $id = false ) {
+	function invite_anyone_invitation( $id = false ) {
 		$this->construct( $id );
 	}
 	
@@ -210,7 +210,8 @@ class Invite_Anyone_Invitation {
 			'subject'	=> false,
 			'groups'	=> false,
 			'status'	=> 'publish', // i.e., visible on Sent Invites
-			'date_created'	=> bp_core_current_time()
+			'date_created'	=> bp_core_current_time(),
+			'date_modified'	=> bp_core_current_time(),
 		) );
 		
 		$r = wp_parse_args( $args, $defaults );
@@ -223,13 +224,20 @@ class Invite_Anyone_Invitation {
 		if ( empty( $inviter_id ) || empty( $invitee_email ) || empty( $message ) || empty( $subject ) )
 			return false;
 		
+		// When no date_modified is provided (the user has not accepted) set it to the
+		// date created
+		if ( !$date_modified )
+			$date_modified	= $date_created;
+		
 		// Set the arguments and create the post
 		$insert_post_args = array(
 			'post_author'	=> $inviter_id,
 			'post_content'	=> $message,
 			'post_title'	=> $subject,
 			'post_status'	=> $status,
-			'post_type'	=> $this->post_type_name
+			'post_type'	=> $this->post_type_name,
+			'post_date'	=> $date_created,
+			'post_modified'	=> $date_modified
 		);
 		
 		if ( !$this->id = wp_insert_post( $insert_post_args ) )
@@ -581,6 +589,70 @@ function invite_anyone_mark_as_opt_out( $email ) {
 	}
 	
 	return true;
+}
+
+/**
+ * Move old table data into custom post types, if necessary
+ *
+ * @package Invite Anyone
+ * @since {@internal Version Unknown}
+ */
+ function invite_anyone_data_migration() {
+ 	global $wpdb;
+ 	
+ 	$iaoptions 	= get_option( 'invite_anyone' );
+ 	$maybe_version	= !empty( $iaoptions['version'] ) ? $iaoptions['version'] : '0.7';
+ 
+ 	// Don't run this migrator if coming from IA 0.8 or greater
+ 	if ( version_compare( $maybe_version, '0.8', '>=' ) )
+ 		return;
+	
+	// First, check to see whether the data table exists
+	$table_name 	= $wpdb->base_prefix . 'bp_invite_anyone';  
+	
+	$table_contents = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table_name}" ) );
+	
+	// If the resulting array is empty, either there's nothing in the table or the table does
+	// not exist (this is probably a new installation
+	if ( empty( $table_contents ) )
+		return;
+	
+	$record_count = 0;
+	foreach( $table_contents as $invite ) {
+		$success = false;
+		
+		// First, record the invitation
+		$new_invite	= new Invite_Anyone_Invitation;
+		$args		= array(
+			'inviter_id' 	=> $invite->inviter_id,
+			'invitee_email'	=> $invite->email,
+			'message'	=> $invite->message,
+			'subject'	=> __( 'Migrated Invitation', 'bp-invite-anyone' ),
+			'groups'	=> maybe_unserialize( $invite->group_invitations ),
+			'status'	=> 'publish',
+			'date_created'	=> $invite->date_invited,
+			'date_modified'	=> $invite->date_joined,
+		);
+		
+		if ( $new_invite_id = $new_invite->create( $args ) ) {	
+			// Now look to see whether the item should be opt out
+			if ( $invite->is_opt_out )
+				update_post_meta( $new_invite_id, 'opt_out', 'yes' );
+			
+			$success = true;
+		}
+		
+		if ( $success )
+			$record_count++;
+	}
+
+	// Now, record results of the migration for future reference
+	$migration = array(
+		'total_old_records'	=> count( $table_contents ),
+		'total_new_records'	=> $record_count
+	);
+	
+	update_option( 'invite_anyone_migration', $migration );
 }
 
 
