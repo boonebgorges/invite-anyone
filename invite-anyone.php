@@ -10,6 +10,7 @@ Author URI: http://teleogistic.net
 */
 
 define( 'BP_INVITE_ANYONE_VER', '0.7' );
+define( 'BP_INVITE_ANYONE_DB_VER', '0.8' );
 
 if ( !defined( 'BP_INVITE_ANYONE_SLUG' ) )
 	define( 'BP_INVITE_ANYONE_SLUG', 'invite-anyone' );
@@ -45,16 +46,6 @@ function invite_anyone_locale_init () {
 add_action ('plugins_loaded', 'invite_anyone_locale_init');
 
 function invite_anyone_activation() {
-	global $invite_anyone_data;
-	
-	require( dirname( __FILE__ ) . '/by-email/by-email-db.php' );
-	
-	// register post types manually. This is necessary because post types aren't registered
-	// in the normal way by this point
-	$invite_anyone_data->register_post_type();
-	
-	invite_anyone_data_migration();
-	
 	if ( !$iaoptions = get_option( 'invite_anyone' ) )
 		$iaoptions = array();
 

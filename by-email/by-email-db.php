@@ -597,16 +597,16 @@ function invite_anyone_mark_as_opt_out( $email ) {
  * @package Invite Anyone
  * @since {@internal Version Unknown}
  */
- function invite_anyone_data_migration() {
+function invite_anyone_data_migration() {
  	global $wpdb;
  	
  	$iaoptions 	= get_option( 'invite_anyone' );
- 	$maybe_version	= !empty( $iaoptions['version'] ) ? $iaoptions['version'] : '0.7';
+ 	$maybe_version	= !empty( $iaoptions['db_version'] ) ? $iaoptions['db_version'] : '0.7';
  
  	// Don't run this migrator if coming from IA 0.8 or greater
  	if ( version_compare( $maybe_version, '0.8', '>=' ) )
  		return;
-	
+ 	
 	// First, check to see whether the data table exists
 	$table_name 	= $wpdb->base_prefix . 'bp_invite_anyone';  
 	
@@ -653,7 +653,12 @@ function invite_anyone_mark_as_opt_out( $email ) {
 	);
 	
 	update_option( 'invite_anyone_migration', $migration );
+	
+	// Finally, update the Invite Anyone DB version so this doesn't run again
+	$iaoptions['db_version'] = BP_INVITE_ANYONE_DB_VER;
+	update_option( 'invite_anyone', $iaoptions );
 }
+add_action( 'admin_init', 'invite_anyone_data_migration' );
 
 
 ?>

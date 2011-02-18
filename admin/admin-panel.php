@@ -7,7 +7,6 @@ function invite_anyone_admin_add() {
 }
 add_action( 'admin_menu', 'invite_anyone_admin_add', 80 );
 
-
 /* Stolen from Welcome Pack - thanks, Paul! */
 function invite_anyone_admin_add_action_link( $links, $file ) {
 	if ( 'invite-anyone/invite-anyone.php' != $file )
