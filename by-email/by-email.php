@@ -398,7 +398,7 @@ function invite_anyone_catch_clear() {
 				bp_core_add_message( __( 'There was a problem clearing the invitation.', 'bp-invite-anyone' ), 'error' );
 		} else {
 			if ( invite_anyone_clear_sent_invite( array( 'inviter_id' => $inviter_id, 'type' => $clear_id ) ) )
-				bp_core_add_message( __( 'Invitations cleared', 'bp-invite-anyone' ) );
+				bp_core_add_message( __( 'Invitations cleared.', 'bp-invite-anyone' ) );
 			else
 				bp_core_add_message( __( 'There was a problem clearing the invitations.', 'bp-invite-anyone' ), 'error' );
 		}
@@ -1091,7 +1091,6 @@ function invite_anyone_validate_email( $user_email ) {
 	} else if ( function_exists( 'validate_email' ) && !validate_email( $user_email ) ) {
 		$status = 'invalid';
 	}
-		
 		
 	if ( function_exists( 'get_site_option' ) ) {
 		if ( $limited_email_domains = get_site_option( 'limited_email_domains' ) ) {

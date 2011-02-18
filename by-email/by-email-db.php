@@ -66,6 +66,8 @@ class Invite_Anyone_Schema {
 	 * @since 1.0
 	 */
 	function register_post_type() {
+		global $bp;
+	
 		// Define the labels to be used by the post type		
 		$post_type_labels = apply_filters( 'invite_anyone_post_type_labels', array(
 			'name' 			=> _x( 'BuddyPress Invitations', 'post type general name', 'bp-invite-anyone' ),
@@ -89,7 +91,7 @@ class Invite_Anyone_Schema {
 			'_builtin' 	=> false,
 			'show_ui' 	=> true,
 			'hierarchical' 	=> false,
-			'supports' 	=> array( 'title', 'editor' )
+			'supports' 	=> array( 'title', 'editor', 'custom-fields' )
 		), &$this ) );
 		
 		// Define the labels to be used by the invitee taxonomy
@@ -133,6 +135,10 @@ class Invite_Anyone_Schema {
 			'hierarchical' 	=> false,
 			'show_ui' 	=> true,
 		), &$this ) );
+		
+		// Stash in $bp because of template tags that need it
+		$bp->invite_anyone->invitee_tax_name = $this->invitee_tax_name;
+		$bp->invite_anyone->invited_groups_tax_name = $this->invited_groups_tax_name;
 	}
 }
 
@@ -146,6 +152,9 @@ $invite_anyone_data = new Invite_Anyone_Schema;
  */
 class Invite_Anyone_Invitation {
 	var $id;
+	var $invitee_tax_name;
+	var $post_type_name;
+	var $invited_groups_tax_name;
 	
 	/**
 	 * PHP4 Constructor
@@ -168,11 +177,8 @@ class Invite_Anyone_Invitation {
 	 * @param int $id Optional. The unique id of the invitation post
 	 */
 	 function __construct( $id = false ) {
-	 	global $bp;
-	 	
 	 	if ( $id ) {
 	 		$this->id = $id;
-	 		$this->populate( $id );
 	 	}
 	 
 	 	// Define the post type name used throughout
@@ -183,20 +189,6 @@ class Invite_Anyone_Invitation {
 		
 		// Define the invited group tax name used throughout
 		$this->invited_groups_tax_name = apply_filters( 'invite_anyone_invited_group_tax_name', 'ia_invited_groups' );
-		
-		// Stash in $bp because of template tags that need it
-		$bp->invite_anyone->invitee_tax_name = $this->invitee_tax_name;
-		$bp->invite_anyone->invited_groups_tax_name = $this->invited_groups_tax_name;
-	}
-	
-	/**
-	 * Populates the data for an existing invitation invitation
-	 *
-	 * @package Invite Anyone
-	 * @since 0.8
-	 */
-	function populate( $id ) {
-		
 	}
 	
 	/**
@@ -283,7 +275,7 @@ class Invite_Anyone_Invitation {
 		
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r );
-				
+		
 		// Backward compatibility, and to keep the URL args clean
 		if ( $orderby == 'email' ) {
 			$orderby	= $this->invitee_tax_name;
@@ -304,11 +296,14 @@ class Invite_Anyone_Invitation {
 		);
 		
 		// Add optional arguments, if provided
+		// Todo: The tax and meta stuff needs to be updated for 3.1 queries
 		$optional_args = array(
 			'message' 	=> 'post_content',
 			'subject'	=> 'post_title',
 			'date_created'	=> 'date_created',
-			'invitee_email'	=> $this->invitee_tax_name
+			'invitee_email'	=> $this->invitee_tax_name,
+			'meta_key'	=> 'meta_key',
+			'meta_value'	=> 'meta_value'
 		);
 		
 		foreach ( $optional_args as $key => $value ) {
@@ -323,21 +318,25 @@ class Invite_Anyone_Invitation {
 	/**
 	 * Mark an invitation as accepted
 	 *
-	 * See the $defaults array for the potential values of $args
-	 *
 	 * @package Invite Anyone
 	 * @since 0.8
 	 *
 	 * @param array $args
 	 */
-	function accept( $args = false ) {
-	
+	function mark_accepted() {
+		$args = array(
+			'ID'		=> $this->id,
+			'post_modified'	=> current_time('mysql')
+		);
+		
+		if ( wp_update_post( $args ) )
+			return true;
+			
+		return false;
 	}
 	
 	/**
 	 * Clear (unpublish) an invitation
-	 *
-	 * See the $defaults array for the potential values of $args
 	 *
 	 * @package Invite Anyone
 	 * @since 0.8
@@ -352,20 +351,18 @@ class Invite_Anyone_Invitation {
 	}
 	
 	/**
-	 * Clear (unpublish) an invitation
-	 *
-	 * See the $defaults array for the potential values of $args
+	 * Mark an invite as being opt-out
 	 *
 	 * @package Invite Anyone
 	 * @since 0.8
 	 *
 	 * @param array $args
 	 */
-	function cccc() {
-		if ( wp_update_post( $this->id ) )
+	function mark_opt_out() {
+		if ( update_post_meta( $this->id, 'opt_out', 'yes' ) )
 			return true;
 		
-		return false;
+		return false;		
 	}
 }
 
@@ -401,7 +398,8 @@ function invite_anyone_get_invitations_by_inviter_id( $inviter_id, $orderby = fa
 
 // done
 function invite_anyone_get_invitations_by_invited_email( $email ) {
-	global $wpdb, $bp;
+	// hack to make sure that gmail + email addresses work
+	$email	= str_replace( ' ', '+', $email );
 	
 	$args = array(
 		'invitee_email'	=> $email
@@ -412,9 +410,9 @@ function invite_anyone_get_invitations_by_invited_email( $email ) {
 	$invite->get( $args );
 }
 
-
+// done
 function invite_anyone_clear_sent_invite( $args ) {
-	global $wpdb, $bp;
+	global $post;
 	
 	/* Accepts arguments: array(
 		'inviter_id' => id number of the inviter, (required)
@@ -430,66 +428,101 @@ function invite_anyone_clear_sent_invite( $args ) {
 	$success = false;
 	
 	if ( $clear_id ) {
-		$invite 	= new Invite_Anyone_Invitation( $clear_id );
+		$invite = new Invite_Anyone_Invitation( $clear_id );
 		if ( $invite->clear() )
-			return true;
-		return $success;
-	} else if ( $type == 'accepted' ) {
-		$sql = $wpdb->prepare( "UPDATE {$bp->invite_anyone->table_name} SET is_hidden = 1 WHERE inviter_id = %d AND is_joined = 1", $inviter_id );
-	} else if ( $type == 'unaccepted' ) {
-		$sql = $wpdb->prepare( "UPDATE {$bp->invite_anyone->table_name} SET is_hidden = 1 WHERE inviter_id = %d AND is_joined = 0", $inviter_id );
-	} else if ( $type == 'all' ) {
-		$sql = $wpdb->prepare( "UPDATE {$bp->invite_anyone->table_name} SET is_hidden = 1 WHERE inviter_id = %d", $inviter_id );
+			$success = true;
 	} else {
-		return false;	
+		array(
+			'inviter_id'	=> $inviter_id
+		);
+		
+		$invite = new Invite_Anyone_Invitation;
+		
+		$invite->get( $args );
+		
+		if ( have_posts() ) {
+			while ( have_posts() ) {
+				the_post();
+
+				$clearme = false;				
+				switch ( $type ) {
+					case 'accepted' :	
+						if ( $post->post_modified != $post->post_date ) {
+							$clearme = true;
+						}	
+						break;
+					case 'unaccepted' :	
+						if ( $post->post_modified == $post->post_date ) {
+							$clearme = true;
+						}	
+						break;
+					case 'all' :
+					default :
+						$clearme = true;	
+						break;
+				}
+				
+				if ( $clearme ) {
+					$this_invite = new Invite_Anyone_Invitation( get_the_ID() );
+					$this_invite->clear();
+				}
+			}
+		}
 	}
 	
-	if ( !$wpdb->query($sql) )
-		return false;
-	
 	return true;
 
 }
 
+// done
 function invite_anyone_mark_as_joined( $email ) {
-	global $wpdb, $bp;
+	invite_anyone_get_invitations_by_invited_email( $email );
 	
-	$is_joined = 1;
-	$date_joined = gmdate( "Y-m-d H:i:s" );
-		
-	$sql = $wpdb->prepare( "UPDATE {$bp->invite_anyone->table_name} SET is_hidden = 0, is_joined = %d, date_joined = %s WHERE email = %s", $is_joined, $date_joined, $email ); 
-	
-	if ( !$wpdb->query($sql) )
-		return false;
+	if ( have_posts() ) {
+		while ( have_posts() ) {
+			the_post();
+			
+			$invite = new Invite_Anyone_Invitation( get_the_ID() );
+			$invite->mark_accepted();
+		}
+	}
 	
 	return true;
 }
 
+// done
 function invite_anyone_check_is_opt_out( $email ) {
-	global $wpdb, $bp;
+	$email = str_replace( ' ', '+', $email );
+
+	$args = array(
+		'invitee_email'		=> $email,
+		'posts_per_page' 	=> 1,
+		'meta_key'		=> 'opt_out',
+		'meta_value'		=> 'yes'
+	);
 	
-	$sql = $wpdb->prepare( "SELECT * FROM {$bp->invite_anyone->table_name} WHERE email = %s AND is_opt_out = 1", $email );
+	$invite = new Invite_Anyone_Invitation;
 	
-	$results = $wpdb->get_results($sql);
+	$invite->get( $args );
 	
-	if ( !$results )
+	if ( have_posts() ) 
+		return true;
+	else
 		return false;
-	
-	return true;
 }
 
-
+// done
 function invite_anyone_mark_as_opt_out( $email ) {
-	global $wpdb, $bp;
+	invite_anyone_get_invitations_by_invited_email( $email );
 	
-	$is_opt_out = 1;
-	
-	$table_name = $wpdb->base_prefix . 'bp_invite_anyone';  
-	
-	$sql = $wpdb->prepare( "UPDATE {$table_name} SET is_opt_out = %d WHERE email = %s", $is_opt_out, $email );
-	
-	if ( !$wpdb->query($sql) )
-		return false;
+	if ( have_posts() ) {
+		while ( have_posts() ) {
+			the_post();
+			
+			$invite = new Invite_Anyone_Invitation( get_the_ID() );
+			$invite->mark_opt_out();
+		}
+	}
 	
 	return true;
 }
