@@ -366,7 +366,18 @@ class Invite_Anyone_Invitation {
 	}
 }
 
-// done
+/**
+ * Records an invitation
+ *
+ * @package Invite Anyone
+ * @since {@internal Version Unknown}
+ *
+ * @param int $inviter_id
+ * @param str $email The email address of the individual receiving the invitation
+ * @param str $message The content of the email message
+ * @param array $groups An array of group ids that the invitation invites the user to join
+ * @param str $subject Optional The subject line of the email
+ */
 function invite_anyone_record_invitation( $inviter_id, $email, $message, $groups, $subject = false ) {
 	$args = array(
 		'inviter_id' 	=> $inviter_id,
@@ -383,7 +394,17 @@ function invite_anyone_record_invitation( $inviter_id, $email, $message, $groups
 	return $id;
 }
 
-// done
+
+/**
+ * Get the invitations that a user has sent
+ *
+ * @package Invite Anyone
+ * @since {@internal Version Unknown}
+ *
+ * @param int $inviter_id
+ * @param str $orderby Optional The column being ordered by
+ * @param str $order Optional ASC or DESC
+ */
 function invite_anyone_get_invitations_by_inviter_id( $inviter_id, $orderby = false, $order = false ) {
 	$args = array(
 		'inviter_id'	=> $inviter_id,
@@ -396,7 +417,14 @@ function invite_anyone_get_invitations_by_inviter_id( $inviter_id, $orderby = fa
 	$invite->get( $args );
 }
 
-// done
+/**
+ * Get the invitations that have been sent to a given email address
+ *
+ * @package Invite Anyone
+ * @since {@internal Version Unknown}
+ *
+ * @param str $email The email address being checked
+ */
 function invite_anyone_get_invitations_by_invited_email( $email ) {
 	// hack to make sure that gmail + email addresses work
 	$email	= str_replace( ' ', '+', $email );
@@ -410,7 +438,14 @@ function invite_anyone_get_invitations_by_invited_email( $email ) {
 	$invite->get( $args );
 }
 
-// done
+/**
+ * Clears invitations from the Sent Invites list
+ *
+ * @package Invite Anyone
+ * @since {@internal Version Unknown}
+ *
+ * @param array $args See below for the definition
+ */
 function invite_anyone_clear_sent_invite( $args ) {
 	global $post;
 	
@@ -474,7 +509,14 @@ function invite_anyone_clear_sent_invite( $args ) {
 
 }
 
-// done
+/**
+ * Mark all of the invitations associated with a given address as joined 
+ *
+ * @package Invite Anyone
+ * @since {@internal Version Unknown}
+ *
+ * @param str $email The email address being checked
+ */
 function invite_anyone_mark_as_joined( $email ) {
 	invite_anyone_get_invitations_by_invited_email( $email );
 	
@@ -490,7 +532,14 @@ function invite_anyone_mark_as_joined( $email ) {
 	return true;
 }
 
-// done
+/**
+ * Check to see whether a user has opted out of email invitations from the site
+ *
+ * @package Invite Anyone
+ * @since {@internal Version Unknown}
+ *
+ * @param str $email The email address being checked
+ */
 function invite_anyone_check_is_opt_out( $email ) {
 	$email = str_replace( ' ', '+', $email );
 
@@ -511,7 +560,14 @@ function invite_anyone_check_is_opt_out( $email ) {
 		return false;
 }
 
-// done
+/**
+ * Mark all of an address's invitations as opt_out so that no others are sent
+ *
+ * @package Invite Anyone
+ * @since {@internal Version Unknown}
+ *
+ * @param str $email The email address being checked
+ */
 function invite_anyone_mark_as_opt_out( $email ) {
 	invite_anyone_get_invitations_by_invited_email( $email );
 	
