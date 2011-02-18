@@ -1,7 +1,7 @@
 <?php
 
 function invite_anyone_admin_add() {
-	$plugin_page = add_submenu_page( 'bp-general-settings', __('Invite Anyone','bp-invite-anyone'), __('Invite Anyone','bp-invite-anyone'), 'manage_options', __FILE__, 'invite_anyone_admin_panel' );
+	$plugin_page = add_submenu_page( 'bp-general-settings', __( 'Invite Anyone', 'bp-invite-anyone' ), __( 'Invite Anyone', 'bp-invite-anyone' ), 'manage_options', __FILE__, 'invite_anyone_admin_panel' );
 	add_action( "admin_print_scripts-$plugin_page", 'invite_anyone_admin_scripts' );
 	add_action( "admin_print_styles-$plugin_page", 'invite_anyone_admin_styles' );
 }
@@ -30,16 +30,27 @@ function invite_anyone_admin_styles() {
 }
 
 function invite_anyone_admin_panel() {
+	
+	// Get the proper URL for submitting the settings form. (Settings API workaround)
+	$url_base = function_exists( 'is_network_admin' ) && is_network_admin() ? network_admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) : admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' );
+	
+	// Catch and save settings being saved (Settings API workaround)
+	if ( !empty( $_POST['invite-anyone-settings-submit'] ) ) {
+		update_option( 'invite_anyone', $_POST['invite_anyone'] );
+	}
+
 ?>
 	<div class="wrap">
     	<h2><?php _e( 'Invite Anyone Settings', 'bp-invite-anyone' ) ?></h2>
     
-    	<form action="options.php" method="post">
-        	<?php settings_fields( 'invite_anyone' ); ?>
-            <?php do_settings_sections( 'invite_anyone' ); ?>
-            
-            <input id="invite-anyone-settings-submit" name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />           
-		</form>
+    	<form action="<?php echo $url_base ?>" method="post">
+	
+	<?php /* The Settings API does not work with WP 3.1 Network Admin, but these functions still work to create the markup */ ?>
+	<?php settings_fields( 'invite_anyone' ); ?>
+	<?php do_settings_sections( 'invite_anyone' ); ?>
+	
+	<input id="invite-anyone-settings-submit" name="invite-anyone-settings-submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />           
+	</form>
     
     </div>
 <?php 
@@ -83,12 +94,11 @@ function invite_anyone_settings_setup() {
 
 
 }
-add_action('admin_init', 'invite_anyone_settings_setup');
+add_action( 'admin_init', 'invite_anyone_settings_setup' );
 
 
 function invite_anyone_settings_main_content() {
 
-global $current_user;
 ?>
 	<p><?php _e( 'Control the default behavior of Invite Anyone.', 'bp-invite-anyone' ) ?></p>
 
@@ -131,16 +141,16 @@ function invite_anyone_settings_bypass_registration_lock() {
 }
 
 function invite_anyone_settings_default_invitation_subject() {
-	echo "<textarea name='invite_anyone[default_invitation_subject]' cols=60 rows=2 >" . invite_anyone_invitation_subject() . "</textarea>";
+	echo "<textarea name='invite_anyone[default_invitation_subject]' cols=60 rows=2 >" . esc_html( invite_anyone_invitation_subject() ) . "</textarea>";
 }
 
 function invite_anyone_settings_default_invitation_message() {
-	echo "<textarea name='invite_anyone[default_invitation_message]' cols=60 rows=5 >" . invite_anyone_invitation_message() . "</textarea>";
+	echo "<textarea name='invite_anyone[default_invitation_message]' cols=60 rows=5 >" . esc_html( invite_anyone_invitation_message() ) . "</textarea>";
 }
 
 function invite_anyone_settings_addl_invitation_message() {
 ?>
-	<textarea name='invite_anyone[addl_invitation_message]' cols=60 rows=5 ><?php echo invite_anyone_process_footer( '[email]' ) ?></textarea>
+	<textarea name='invite_anyone[addl_invitation_message]' cols=60 rows=5 ><?php echo esc_html( invite_anyone_process_footer( '[email]' ) ) ?></textarea>
 <?php
 }
 

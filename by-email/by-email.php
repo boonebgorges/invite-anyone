@@ -764,7 +764,7 @@ function invite_anyone_invitation_subject( $returned_message = false ) {
 		$text = $returned_message;
 	}
 
-	return $text;
+	return stripslashes( $text );
 }
 
 function invite_anyone_invitation_message( $returned_message = false ) {
@@ -790,7 +790,7 @@ Visit %%INVITERNAME%%\'s profile at %%INVITERURL%%.', 'bp-invite-anyone' ), $blo
 		$text = $returned_message;
 	}
 
-	return $text;
+	return stripslashes( $text );
 }
 
 function invite_anyone_process_footer( $email ) {
@@ -807,7 +807,7 @@ function invite_anyone_process_footer( $email ) {
 		$footer .= __( 'To opt out of future invitations to this site, please visit %%OPTOUTURL%%', 'bp-invite-anyone' );
 	}
 
-	return $footer;
+	return stripslashes( $footer );
 }
 
 function invite_anyone_wildcard_replace( $text, $email = false ) {
