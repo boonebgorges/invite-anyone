@@ -926,11 +926,6 @@ function invite_anyone_process_invitations( $data ) {
 	// Filter the email addresses so that plugins can have a field day
 	$emails = apply_filters( 'invite_anyone_submitted_email_addresses', $emails, $data );
 
-	if ( empty( $emails ) ) {
-		bp_core_add_message( __( 'You didn\'t include any email addresses!', 'bp-invite-anyone' ), 'error' );
-		bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members' );
-	}
-
 	// Set up a wrapper for any data to return to the Send Invites screen in case of error
 	$returned_data = array(
 		'error_message' => false,
@@ -939,9 +934,28 @@ function invite_anyone_process_invitations( $data ) {
 		'message' => $data['invite_anyone_custom_message'],
 		'groups' => $data['invite_anyone_groups']
 	);
+
+	// Check against the max number of invites. Send back right away if there are too many
+	$options 	= get_option( 'invite_anyone' );
+	$max_invites 	= !empty( $options['max_invites'] ) ? $options['max_invites'] : 5;
+	
+	if ( count( $emails ) > $max_invites ) {
+
+		$returned_data['error_message']	= sprintf( __( 'You are only allowed to invite up to %s people at a time. Please remove some addresses and try again', 'bp-invite-anyone' ), $max_invites );
+		$returned_data['error_emails'] 	= $emails;
+		
+		// Stash error info in cookies so we can use it after a redirect
+		@setcookie( 'invite-anyone-error-data', maybe_serialize( $returned_data ), time()+60*60*24, COOKIEPATH );
+
+		bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members' );
+	}
+
+	if ( empty( $emails ) ) {
+		bp_core_add_message( __( 'You didn\'t include any email addresses!', 'bp-invite-anyone' ), 'error' );
+		bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members' );
+	}
 	
 	// validate email addresses
-	
 	foreach( $emails as $key => $email ) {
 		$check = invite_anyone_validate_email( $email );
 		switch ( $check ) {
