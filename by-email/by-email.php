@@ -384,6 +384,15 @@ add_action( 'wp_head', 'invite_anyone_access_test' );
 function invite_anyone_catch_clear() {
 	global $bp;
 	
+	// We'll take a moment nice and early in the loading process to get returned_data
+	// out of the cookie.
+	
+	// Get any returned data out of the cookie. It will need to be unserialized before use
+	$bp->invite_anyone->returned_data = ! empty( $_COOKIE['invite-anyone-error-data'] ) ? maybe_unserialize( stripslashes( $_COOKIE['invite-anyone-error-data'] ) ) : array();
+	
+	// Unset the cookie right away so that you don't get old data when returning to the page
+	setcookie( 'invite-anyone-error-data', ' ', time() - 360000, COOKIEPATH, COOKIE_DOMAIN );
+	
 	if ( isset( $_GET['clear'] ) ) {
 		$clear_id = $_GET['clear'];
 		
@@ -449,6 +458,7 @@ function invite_anyone_screen_one_content() {
 			$from_group = $bp->action_variables[1];
 	}
 
+	$returned_data = !empty( $bp->invite_anyone->returned_data ) ? $bp->invite_anyone->returned_data : false;
 
 	/* If the user is coming from the widget, $returned_emails is populated with those email addresses */
 	if ( isset( $_POST['invite_anyone_widget'] ) ) {
@@ -457,23 +467,19 @@ function invite_anyone_screen_one_content() {
 		if ( is_array( $_POST['emails'] ) ) {
 			foreach( $_POST['emails'] as $email ) {
 				if ( trim( $email ) != '' && trim( $email ) != __( 'email address', 'bp-invite-anyone' ) )
-					$returned_emails[] = trim( $email );
+					$returned_data['error_emails'] = trim( $email );
 			}
 		}
 
 		/* If the widget appeared on a group page, the group ID should come along with it too */
 		if ( isset( $_POST['invite_anyone_widget_group'] ) )
-			$returned_groups[] = $_POST['invite_anyone_widget_group'];
+			$returned_data['groups'] = $_POST['invite_anyone_widget_group'];
 
 	}
 
-	// Get any returned data out of the cookie. It will need to be unserialized before use
-	$returned_data = ! empty( $_COOKIE['invite-anyone-error-data'] ) ? maybe_unserialize( stripslashes( $_COOKIE['invite-anyone-error-data'] ) ) : array();
-	
-	// Unset the cookie right away so that you don't get old data when returning to the page
-	@setcookie( 'invite-anyone-error-data', '', time()-60*60*24, COOKIEPATH );
 	
 	// $returned_groups is padded so that array_search (below) returns true for first group */
+	
 	$counter = 0;
 	$returned_groups = array( 0 );
 	if ( ! empty( $returned_data['groups'] ) ) {
@@ -945,7 +951,7 @@ function invite_anyone_process_invitations( $data ) {
 		$returned_data['error_emails'] 	= $emails;
 		
 		// Stash error info in cookies so we can use it after a redirect
-		@setcookie( 'invite-anyone-error-data', maybe_serialize( $returned_data ), time()+60*60*24, COOKIEPATH );
+		setcookie( 'invite-anyone-error-data', maybe_serialize( $returned_data ), time()+60*60*24, COOKIEPATH, COOKIE_DOMAIN  );
 
 		bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members' );
 	}
@@ -989,7 +995,7 @@ function invite_anyone_process_invitations( $data ) {
 		}
 	}
 	// Stash error info in cookies so we can use it after a redirect
-	@setcookie( 'invite-anyone-error-data', maybe_serialize( $returned_data ), time()+60*60*24, COOKIEPATH );
+	setcookie( 'invite-anyone-error-data', maybe_serialize( $returned_data ), time()+60*60*24, COOKIEPATH, COOKIE_DOMAIN );
 	
 	if ( ! empty( $emails ) ) {
 		
