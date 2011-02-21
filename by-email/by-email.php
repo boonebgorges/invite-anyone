@@ -66,14 +66,14 @@ function invite_anyone_opt_out_screen() {
 		bp_core_redirect( site_url( BP_REGISTER_SLUG ) . '/accept-invitation/' . urlencode( $_POST['opt_out_email'] ) );
 	}
 
-	$opt_out_button_text = __('Opt Out', 'bp-invite-anyone');
-	$oops_button_text =  __('Accept Invitation', 'bp-invite-anyone');
+	$opt_out_button_text 	= __( 'Opt Out', 'bp-invite-anyone' );
+	$oops_button_text 	= __( 'Accept Invitation', 'bp-invite-anyone' );
 
-	$sitename = get_bloginfo('name');
+	$sitename 		= get_bloginfo( 'name' );
 
-	$opt_out_message = sprintf( __( 'To opt out of future invitations to %s, make sure that your email is entered in the field below and click "Opt Out".', 'bp-invite-anyone' ), $sitename );
+	$opt_out_message 	= sprintf( __( 'To opt out of future invitations to %s, make sure that your email is entered in the field below and click "Opt Out".', 'bp-invite-anyone' ), $sitename );
 
-	$oops_message = sprintf( __( 'If you are here by mistake and would like to accept your invitation to %s, click "Accept Invitation" instead.', 'bp-invite-anyone' ), $sitename );
+	$oops_message 		= sprintf( __( 'If you are here by mistake and would like to accept your invitation to %s, click "Accept Invitation" instead.', 'bp-invite-anyone' ), $sitename );
 
 	if ( $bp->current_component == BP_REGISTER_SLUG && $bp->current_action == 'opt-out' ) {
 		get_header();
