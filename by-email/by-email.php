@@ -1020,8 +1020,8 @@ function invite_anyone_process_invitations( $data ) {
 	
 			$message .= '
 	
-	================
-	';
+================
+';
 			$message .= $footer;
 	
 			$to = apply_filters( 'invite_anyone_invitee_email', $email );
