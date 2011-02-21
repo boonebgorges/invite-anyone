@@ -806,11 +806,11 @@ function invite_anyone_process_footer( $email ) {
 
 	if ( !$footer = $iaoptions['addl_invitation_message'] ) {
 
-		$footer = __( 'To accept this invitation, please visit %%ACCEPTURL%%', 'bp-invite-anyone' );
+		$footer = apply_filters( 'invite_anyone_accept_invite_footer_message', __( 'To accept this invitation, please visit %%ACCEPTURL%%', 'bp-invite-anyone' ) );
 		$footer .= '
 
 ';
-		$footer .= __( 'To opt out of future invitations to this site, please visit %%OPTOUTURL%%', 'bp-invite-anyone' );
+		$footer .= apply_filters( 'invite_anyone_opt_out_footer_message', __( 'To opt out of future invitations to this site, please visit %%OPTOUTURL%%', 'bp-invite-anyone' ) );
 	}
 
 	return stripslashes( $footer );
