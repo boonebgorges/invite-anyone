@@ -105,10 +105,15 @@ function invite_anyone_opt_out_screen() {
 			<?php endif; ?>
 
 			<form action="<?php echo $email ?>/submit" method="post">
+				
+				<?php do_action( 'invite_anyone_before_optout_messages' ) ?>
+				
 				<p><?php echo $opt_out_message ?></p>
 
 				<p><?php echo $oops_message ?></p>
 
+				<?php do_action( 'invite_anyone_after_optout_messages' ) ?>
+				
 				<?php wp_nonce_field( 'invite_anyone_opt_out' ) ?>
 				<p><?php _e( 'Email:', 'bp-invite-anyone' ) ?> <input type="text" id="opt_out_email" name="opt_out_email" size="50" /></p>
 
