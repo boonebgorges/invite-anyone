@@ -91,8 +91,6 @@ function invite_anyone_settings_setup() {
 	add_settings_field('invite_anyone_settings_email_visibility', __('Allow email invitations to be sent by', 'bp-invite-anyone'), 'invite_anyone_settings_email_visibility', 'invite_anyone', 'invite_anyone_access_settings');
 	
 	add_settings_field( 'invite_anyone_settings_group_invite_visibility', __( 'Limit group invitations', 'bp-invite-anyone' ), 'invite_anyone_settings_group_invite_visibility', 'invite_anyone', 'invite_anyone_access_settings' );
-
-
 }
 add_action( 'admin_init', 'invite_anyone_settings_setup' );
 
@@ -281,6 +279,7 @@ function invite_anyone_settings_cs_content() {
 	
 <?php
 }
+
 
 function invite_anyone_settings_check($input) {
 	return $input;
