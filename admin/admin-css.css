@@ -1,3 +1,31 @@
 .invite-anyone-admin-limited ul {
 	padding-left: 30px;
 }
+
+div.cs-explain {
+	padding-left: 200px;
+}
+
+div.cs-settings {
+	padding-top: 20px;
+}
+
+div.cs-settings label {
+	width: 200px;
+	display: block;
+	float: left;
+}
+
+div.cs-settings input {
+	padding: 5px auto;
+	width: 200px;
+}
+
+div.cs p {
+	padding-top: 15px;
+	padding-right: 200px;
+}
+
+.cs-logo {
+	float: left;
+}

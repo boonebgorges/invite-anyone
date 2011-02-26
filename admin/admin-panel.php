@@ -1,11 +1,13 @@
 <?php
 
 function invite_anyone_admin_add() {
-	$plugin_page = add_submenu_page( 'bp-general-settings', __('Invite Anyone','bp-invite-anyone'), __('Invite Anyone','bp-invite-anyone'), 'manage_options', __FILE__, 'invite_anyone_admin_panel' );
+
+	$plugin_page = add_submenu_page( 'bp-general-settings', __( 'Invite Anyone', 'bp-invite-anyone' ), __( 'Invite Anyone', 'bp-invite-anyone' ), 'manage_options', __FILE__, 'invite_anyone_admin_panel' );
+	
 	add_action( "admin_print_scripts-$plugin_page", 'invite_anyone_admin_scripts' );
 	add_action( "admin_print_styles-$plugin_page", 'invite_anyone_admin_styles' );
 }
-add_action( 'admin_menu', 'invite_anyone_admin_add', 80 );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'invite_anyone_admin_add', 80 );
 
 /* Stolen from Welcome Pack - thanks, Paul! */
 function invite_anyone_admin_add_action_link( $links, $file ) {
@@ -29,16 +31,28 @@ function invite_anyone_admin_styles() {
 }
 
 function invite_anyone_admin_panel() {
+
+	// Get the proper URL for submitting the settings form. (Settings API workaround)
+	$url_base = function_exists( 'is_network_admin' ) && is_network_admin() ? network_admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) : admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' );
+	
+	// Catch and save settings being saved (Settings API workaround)
+	if ( !empty( $_POST['invite-anyone-settings-submit'] ) ) {
+		update_option( 'invite_anyone', $_POST['invite_anyone'] );
+	}
+
 ?>
 	<div class="wrap">
     	<h2><?php _e( 'Invite Anyone Settings', 'bp-invite-anyone' ) ?></h2>
     
-    	<form action="options.php" method="post">
-        	<?php settings_fields( 'invite_anyone' ); ?>
-            <?php do_settings_sections( 'invite_anyone' ); ?>
-            
-            <input id="invite-anyone-settings-submit" name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />           
-		</form>
+    	<form action="<?php echo $url_base ?>" method="post">
+	
+	<?php /* The Settings API does not work with WP 3.1 Network Admin, but these functions still work to create the markup */ ?>
+	<?php settings_fields( 'invite_anyone' ); ?>
+	<?php do_settings_sections( 'invite_anyone' ); ?>
+	
+	<input id="invite-anyone-settings-submit" name="invite-anyone-settings-submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />           
+	</form>
+
     
     </div>
 <?php 
@@ -68,7 +82,10 @@ function invite_anyone_settings_setup() {
 	
 	add_settings_field('invite_anyone_settings_can_send_group_invites_email', __('Allow users to send group invitations along with email invitations', 'bp-invite-anyone'), 'invite_anyone_settings_can_send_group_invites_email', 'invite_anyone', 'invite_anyone_general_settings');
 	
-	add_settings_field('invite_anyone_settings_bypass_registration_lock', __('Allow email invitations to be accepted even when site registration is disabled', 'bp-invite-anyone'), 'invite_anyone_settings_bypass_registration_lock', 'invite_anyone', 'invite_anyone_general_settings');
+	add_settings_field('invite_anyone_settings_bypass_registration_lock', __('Allow email invitations to be accepted even when site registration is disabled', 'bp-invite-anyone'), 'invite_anyone_settings_bypass_registration_lock', 'invite_anyone', 'invite_anyone_general_settings');	
+
+	/* Cloudsponge Settings */
+	add_settings_section( 'invite_anyone_cs', __( 'CloudSponge', 'bp-invite-anyone' ), 'invite_anyone_settings_cs_content', 'invite_anyone' );
 	
 	/* Access Settings */
 	add_settings_section('invite_anyone_access_settings', __('Access Settings', 'bp-invite-anyone'), 'invite_anyone_settings_access_content', 'invite_anyone');
@@ -76,31 +93,28 @@ function invite_anyone_settings_setup() {
 	add_settings_field('invite_anyone_settings_email_visibility', __('Allow email invitations to be sent by', 'bp-invite-anyone'), 'invite_anyone_settings_email_visibility', 'invite_anyone', 'invite_anyone_access_settings');
 	
 	add_settings_field( 'invite_anyone_settings_group_invite_visibility', __( 'Limit group invitations', 'bp-invite-anyone' ), 'invite_anyone_settings_group_invite_visibility', 'invite_anyone', 'invite_anyone_access_settings' );
-
 }
-add_action('admin_init', 'invite_anyone_settings_setup');
+add_action( 'admin_init', 'invite_anyone_settings_setup' );
+
 
 
 function invite_anyone_settings_main_content() {
 
-global $current_user;
 ?>
 	<p><?php _e( 'Control the default behavior of Invite Anyone.', 'bp-invite-anyone' ) ?></p>
-
 
 <?php
 }
 
 function invite_anyone_settings_replacement_patterns() {
 ?>
-
-		<ul>
-			<li><strong>%%SITENAME%%</strong> - <?php _e( 'name of your website', 'bp-invite-anyone' ) ?></li>
-			<li><strong>%%INVITERNAME%%</strong> - <?php _e( 'display name of the inviter', 'bp-invite-anyone' ) ?></li>
-			<li><strong>%%INVITERURL%%</strong> - <?php _e( 'URL to the profile of the inviter', 'bp-invite-anyone' ) ?></li>
-			<li><strong>%%ACCEPTURL%%</strong> - <?php _e( 'Link that invited users can click to accept the invitation', 'bp-invite-anyone' ) ?></li>
-			<li><strong>%%OPTOUTURL%%</strong> - <?php _e( 'Link that invited users can click to opt out of future invitations', 'bp-invite-anyone' ) ?></li>
-		</ul>
+	<ul>
+		<li><strong>%%SITENAME%%</strong> - <?php _e( 'name of your website', 'bp-invite-anyone' ) ?></li>
+		<li><strong>%%INVITERNAME%%</strong> - <?php _e( 'display name of the inviter', 'bp-invite-anyone' ) ?></li>
+		<li><strong>%%INVITERURL%%</strong> - <?php _e( 'URL to the profile of the inviter', 'bp-invite-anyone' ) ?></li>
+		<li><strong>%%ACCEPTURL%%</strong> - <?php _e( 'Link that invited users can click to accept the invitation', 'bp-invite-anyone' ) ?></li>
+		<li><strong>%%OPTOUTURL%%</strong> - <?php _e( 'Link that invited users can click to opt out of future invitations', 'bp-invite-anyone' ) ?></li>
+	</ul>
 <?php
 }
 
@@ -127,16 +141,16 @@ function invite_anyone_settings_bypass_registration_lock() {
 }
 
 function invite_anyone_settings_default_invitation_subject() {
-	echo "<textarea name='invite_anyone[default_invitation_subject]' cols=60 rows=2 >" . invite_anyone_invitation_subject() . "</textarea>";
+	echo "<textarea name='invite_anyone[default_invitation_subject]' cols=60 rows=2 >" . esc_html( invite_anyone_invitation_subject() ) . "</textarea>";
 }
 
 function invite_anyone_settings_default_invitation_message() {
-	echo "<textarea name='invite_anyone[default_invitation_message]' cols=60 rows=5 >" . invite_anyone_invitation_message() . "</textarea>";
+	echo "<textarea name='invite_anyone[default_invitation_message]' cols=60 rows=5 >" . esc_html( invite_anyone_invitation_message() ) . "</textarea>";
 }
 
 function invite_anyone_settings_addl_invitation_message() {
 ?>
-	<textarea name='invite_anyone[addl_invitation_message]' cols=60 rows=5 ><?php echo invite_anyone_process_footer( '[email]' ) ?></textarea>
+	<textarea name='invite_anyone[addl_invitation_message]' cols=60 rows=5 ><?php echo esc_html( invite_anyone_process_footer( '[email]' ) ) ?></textarea>
 <?php
 }
 
@@ -240,13 +254,36 @@ function invite_anyone_settings_group_invite_visibility() {
 <?php
 }
 
+function invite_anyone_settings_cs_content() {
+	
+	$options 	= get_option( 'invite_anyone' );
+	$domain_key 	= !empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : '';
+
+?>
+	<div class="cs">
+		<a href="http://www.cloudsponge.com/?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator"><img class="cs-logo" src="<?php echo plugins_url( 'invite-anyone/images/cloudsponge_logo.png' ) ?>" /></a>
+		
+		<div class="cs-explain">
+			<p><?php _e( '<a href="http://www.cloudsponge.com/?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator">CloudSponge</a> is a cool service that gives your users easy and secure access to their address books (Gmail, Yahoo, and a number of other online and desktop email clients), so that they can more easily invite friends to your site. In order to enable CloudSponge support in Invite Anyone and BuddyPress, you\'ll need to <a href="http://www.cloudsponge.com/signup?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator">register for a CloudSponge account</a>.', 'bp-invite-anyone' ) ?></p>
+			
+			<label for="invite_anyone[cloudsponge_enabled]"><input type="checkbox" name="invite_anyone[cloudsponge_enabled]" id="cloudsponge-enabled" <?php checked( $options['cloudsponge_enabled'], 'on' ) ?>/> <strong><?php _e( 'Enable CloudSponge?', 'bp-invite-anyone' ) ?></strong></label>
+		
+			
+		</div>
+		
+		<div class="cs-settings">
+			<label for="invite_anyone[cloudsponge_key]"><?php _e( 'CloudSponge Domain Key', 'bp-invite-anyone' ) ?></label> <input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_key]" value="<?php echo esc_html( $domain_key ) ?>" /> <span class="description"><?php _e( 'CloudSponge integration will not work without a valid domain key.', 'bp-invite-anyone' ) ?></span>
+		
+			<p class="description"><?php _e( 'When you use CloudSponge with Invite Anyone, part of your CloudSponge monthly payment goes to the author of Invite Anyone. This is a great way to support future development of the plugin. Thanks for your support!', 'bp-invite-anyone' ) ?></p>
+		</div>
+	</div>
+	
+	
+<?php
+}
 
 function invite_anyone_settings_check($input) {
 	return $input;
-/*print_r($input);
-	$newinput['number_of_invitations'] = trim($input['number_of_invitations']);
-	$newinput['groups_per_page'] = trim($input['groups_per_page']);
-	return $newinput;*/
 }
 
 

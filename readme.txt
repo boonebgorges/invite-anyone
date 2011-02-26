@@ -3,7 +3,7 @@ Contributors: boonebgorges, cuny-academic-commons
 Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WP 2.8, BuddyPress 1.1
-Tested up to: WP 3.0.1, BuddyPress 1.2.7
+Tested up to: WP 3.1, BuddyPress 1.2.8
 Stable tag: 0.7.1
 
 Makes BuddyPress's invitation features more powerful.
@@ -23,8 +23,8 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 == Installation ==
 
 * Upload the directory '/invite-anyone/' to your WP plugins directory and activate from the Dashboard of the main blog. Some users have reported problems when activating the plugin sitewide, so consider activating it on the BP blog only.
-* Configure the plugin at Dashboard > BuddyPress > Invite Anyone, where you can customize the default invitation message, determine which members are allowed to invite by email, and more.
-
+* Configure the plugin at Dashboard > BuddyPress > Invite Anyone, where you can customize the default invitation message, determine which members are allowed to invite by email, and more. If you are running WordPress Multisite version 3.1 or greater, BuddyPress Dashboard panels are found in the Network Admin area.
+* If you are upgrading from a version of Invite Anyone older than 0.8, your data will be migrated from a custom database table (usually wp_bp_invite_anyone) to WordPress custom post types. After upgrading, if you are satisfied that the automatic migration has gone successfully, you can safely archive and remove the wp_bp_invite_anyone table from your database.
 
 == Translation credits ==
 
@@ -36,6 +36,10 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 * Greek: Lena Stergatou
 
 == Changelog ==
+
+= 0.8 =
+* Integration with CloudSponge, which allows users to pull email addresses from their address books for sending email invitations
+* Sent invitation data has been converted to custom post types, which gives admins an easy way to manage invitations from the WP Dashboard
 
 = 0.7.1 =
 * Norwegian translation added - props Stig Ulfsby
