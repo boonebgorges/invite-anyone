@@ -1,6 +1,18 @@
 jQuery(document).ready( function() {
 	var j = jQuery;
 	
+	/* Cloudsponge */
+	var cstoggle = j("input#cloudsponge-enabled");
+	var cstable = j("div.cs-settings");
+	if ( j(cstoggle).attr('checked') == false ) {
+		j(cstable).hide();
+	}
+	
+	j(cstoggle).click(function(){
+		j(cstable).slideToggle(300);
+	});	
+	
+	/* Access settings */
 	var toggle = j("input#invite_anyone_toggle_email_limit");
 	var offtoggle = j("input#invite_anyone_toggle_email_no_limit");	
 	var submitbutton = j("#invite-anyone-settings-submit");

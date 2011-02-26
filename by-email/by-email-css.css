@@ -45,7 +45,6 @@
 	height: 30px;
 }
 
-
 label span.disabled-subject {
   font-style:italic;
   color:#8f8f8f;
@@ -64,25 +63,25 @@ label span.disabled-subject {
 	clear: both;
   overflow:hidden;
   width:100%;
+<<<<<<< HEAD
 
+=======
+>>>>>>> ef3663091faf6e7c70fbaa3f1639e5febef8d0f0
 }
 
 #invite-anyone-group-list li {
 	width: 200px;
 	margin: 5px 10px 10px 10px;
 	float: left;
-  height:60px;
+	height:60px;
 	min-height: 60px;
-  font-size: 11px;
-	min-height: 60px;
-	line-height: 11pt;
-	font-size: 8pt;
+	font-size: 11px;
 }
 
 #invite-anyone-group-list li img {
 	margin-right: 5px;
 	float: left;
-  vertical-align:center;
+	vertical-align:center;
 }
 
 #invite-anyone-group-list label {margin-bottom:0;}
@@ -100,7 +99,7 @@ label span.disabled-subject {
 #invite-anyone-group-list li input {
 	float: left;
 	margin:10px 6px;
-  width:20px;
+	width:20px;
 }
 
 .invite-anyone-group-name {
@@ -212,4 +211,29 @@ ul#invite-anyone-clear-links li a {
 ul#invite-anyone-clear-links li.last a {
   padding-left:10px;
   border:none;
+}
+
+#invite-anyone-steps div.invite-anyone-error p,
+div.invite-anyone-error p {
+	display: inline-block;
+	font-weight: normal;
+	border-bottom: 1px solid #FFE8C4;
+	border-right: 1px solid #FFE8C4;
+	margin: 15px 0;
+	text-decoration: none;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	padding: 10px 15px;
+	font-size: 12px;
+	display: block;
+	background: #e41717;
+	color: #fff;
+	border-color: #a71a1a;
+	clear: left;
+}
+
+textarea.invite-anyone-email-addresses {
+	width: 400px;
+	height: 130px;
 }
