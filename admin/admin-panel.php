@@ -7,7 +7,7 @@ function invite_anyone_admin_add() {
 	add_action( "admin_print_scripts-$plugin_page", 'invite_anyone_admin_scripts' );
 	add_action( "admin_print_styles-$plugin_page", 'invite_anyone_admin_styles' );
 }
-add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'invite_anyone_admin_add', 80 );
+add_action( is_multisite() && function_exists( 'is_network_admin' ) ? 'network_admin_menu' : 'admin_menu', 'invite_anyone_admin_add', 80 );
 
 /* Stolen from Welcome Pack - thanks, Paul! */
 function invite_anyone_admin_add_action_link( $links, $file ) {
