@@ -692,11 +692,11 @@ function invite_anyone_screen_two() {
 					$clear_url = wp_nonce_url( $clear_url, 'invite_anyone_clear' );
 					$clear_link = '<a class="clear-entry confirm" title="' . __( 'Clear this invitation', 'bp-invite-anyone' ) . '" href="' . $clear_url . '">x<span></span></a>';
 	
-					if ( $invite->group_invitations ) {
-						$groups = unserialize( $invite->group_invitations );
+					$groups = wp_get_post_terms( get_the_ID(), invite_anyone_get_invited_groups_tax_name() );
+					if ( !empty( $groups ) ) {
 						$group_names = '<ul>';
-						foreach( $groups as $group_id ) {
-							$group = new BP_Groups_Group( $group_id );
+						foreach( $groups as $group_term ) {
+							$group = new BP_Groups_Group( $group_term->name );
 							$group_names .= '<li>' . bp_get_group_name( $group ) . '</li>';
 						}
 						$group_names .= '</ul>';

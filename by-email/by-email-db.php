@@ -224,11 +224,6 @@ class Invite_Anyone_Invitation {
 		if ( empty( $inviter_id ) || empty( $invitee_email ) || empty( $message ) || empty( $subject ) )
 			return false;
 		
-		// When no date_modified is provided (the user has not accepted) set it to the
-		// date created
-		if ( !$date_modified )
-			$date_modified	= $date_created;
-		
 		// Set the arguments and create the post
 		$insert_post_args = array(
 			'post_author'	=> $inviter_id,
@@ -236,12 +231,21 @@ class Invite_Anyone_Invitation {
 			'post_title'	=> $subject,
 			'post_status'	=> $status,
 			'post_type'	=> $this->post_type_name,
-			'post_date'	=> $date_created,
-			'post_modified'	=> $date_modified
+			'post_date'	=> $date_created
 		);
 		
 		if ( !$this->id = wp_insert_post( $insert_post_args ) )
 			return false;
+		
+		// If a date_modified has been passed, update it manually
+		if ( $date_modified ) {
+			$post_modified_args = array(
+				'ID'		=> $this->id,
+				'post_modified'	=> $date_modified
+			);
+			
+			wp_update_post( $post_modified_args );
+		}
 	
 		// Now set up the taxonomy terms
 		
