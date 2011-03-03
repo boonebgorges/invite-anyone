@@ -596,58 +596,173 @@ function invite_anyone_mark_as_opt_out( $email ) {
 }
 
 /**
- * Move old table data into custom post types, if necessary
+ * Checks to see whether a migration is necessary, and if so, prompts the user for it.
  *
  * @package Invite Anyone
- * @since {@internal Version Unknown}
+ * @since 0.8.3
  */
-function invite_anyone_data_migration() {
- 	global $wpdb;
- 	
- 	$iaoptions 	= get_option( 'invite_anyone' );
+function invite_anyone_migrate_nag() {
+	global $wpdb;
+	
+	// only show the nag to the network admin
+	if ( !is_super_admin() )
+		return;
+	
+	$iaoptions 	= get_option( 'invite_anyone' );
  	$maybe_version	= !empty( $iaoptions['db_version'] ) ? $iaoptions['db_version'] : '0.7';
+ 
+ 	// If you're on the Migrate page, no need to show the message
+ 	if ( !empty( $_GET['migrate'] ) && $_GET['migrate'] == '1' )
+ 		return;
  
  	// Don't run this migrator if coming from IA 0.8 or greater
  	if ( version_compare( $maybe_version, '0.8', '>=' ) )
  		return;
- 	
+	
 	// First, check to see whether the data table exists
 	$table_name 	= $wpdb->base_prefix . 'bp_invite_anyone';  
+	$invite_count	= $wpdb->get_var( "SELECT COUNT(*) FROM {$table_name}" );
 	
-	$table_contents = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table_name}" ) );
+	// The auto-script can usually handle a migration of 5 or less
+	if ( (int)$invite_count <= 5 ) {
+		invite_anyone_data_migration();
+		return;
+	} else {
+		$url = is_multisite() && function_exists( 'network_admin_url' ) ? network_admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) : admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' );
+		$url = add_query_arg( 'migrate', '1', $url );
+		?>
+		
+		<div class="error">
+			<p>Invite Anyone has been updated. <a href="<?php echo $url ?>">Click here</a> to migrate your invitation data and complete the upgrade.</p>
+		</div>
+		
+		<?php
+	}
+	
+}
+add_action( 'admin_notices', 'invite_anyone_migrate_nag' );
+add_action( 'network_admin_notices', 'invite_anyone_migrate_nag' );
+
+
+/**
+ * Move old table data into custom post types.
+ *
+ * This function was originally written in such a way as to move everthing at once. Subsequent tests
+ * showed that this caused timeout problems with large migrations, so the code has been retrofitted
+ * to work in sets of 5, with 1s JS timeouts between pages. Some of that code has been borrowed from
+ * Ron Rennick's Shardb - thanks Ron.
+ *
+ * As a result of the retrofitting, this code, and its related functions, are a terrible spaghetti 
+ * mess. They should not be used to model anything, except possibly how to write crappy code that
+ * cannot be reused.
+ *
+ * @package Invite Anyone
+ * @since 0.8
+ *
+ * @see invite_anyone_migration_step()
+ * @param str $type 'full' means that it will silently attempt to transfer all records
+ * @param int $start The record id to start with (offset)
+ */
+function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
+ 	global $wpdb;
+ 	
+ 	$is_partial = $type != 'full' ? true : false;
+ 	
+	$table_name = $wpdb->base_prefix . 'bp_invite_anyone';  
+	$table_contents_sql = $wpdb->prepare( "SELECT * FROM {$table_name}" );
+	
+	$table_contents_sql .= "  ORDER BY id ASC LIMIT 5";
+	
+	if ( $is_partial ) {
+		$table_contents_sql .= " OFFSET $start";
+	}
+	
+	$table_contents = $wpdb->get_results( $table_contents_sql ); 
+	
+	// If this is a stepwise migration, and the start number is too high or the table_contents
+	// query is empty, it means we've gotten to the end of the migration.
+	if ( $is_partial && ( (int)$start > count( $table_contents ) || empty( $table_contents ) ) ) {
+		$url = is_multisite() && function_exists( 'network_admin_url' ) ? network_admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) : admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' );
+		?>
+		
+		<p><?php _e( 'All done!', 'bp-invite-anyone' ) ?></p>
+		
+		<a href="<?php echo $url ?>" class="button"><?php _e( 'Finish', 'bp-invite-anyone' ) ?></a>
+		
+		<?php
+		
+		return;
+	}
 	
 	// If the resulting array is empty, either there's nothing in the table or the table does
-	// not exist (this is probably a new installation
+	// not exist (this is probably a new installation)
 	if ( empty( $table_contents ) )
 		return;
 	
 	$record_count = 0;
-	foreach( $table_contents as $invite ) {
+	foreach( $table_contents as $key => $invite ) {
 		$success = false;
 		
-		// First, record the invitation
-		$new_invite	= new Invite_Anyone_Invitation;
-		$args		= array(
-			'inviter_id' 	=> $invite->inviter_id,
-			'invitee_email'	=> $invite->email,
-			'message'	=> $invite->message,
-			'subject'	=> __( 'Migrated Invitation', 'bp-invite-anyone' ),
-			'groups'	=> maybe_unserialize( $invite->group_invitations ),
-			'status'	=> 'publish',
+		$invite_exists_args = array(
+			'author' 	=> $invite->inviter_id,
+			'ia_invitees'	=> $invite->email,
 			'date_created'	=> $invite->date_invited,
-			'date_modified'	=> $invite->date_joined,
+			'post_type'	=> 'ia_invites'
 		);
 		
-		if ( $new_invite_id = $new_invite->create( $args ) ) {	
-			// Now look to see whether the item should be opt out
-			if ( $invite->is_opt_out )
-				update_post_meta( $new_invite_id, 'opt_out', 'yes' );
-			
-			$success = true;
-		}
+		$maybe_invite = get_posts( $invite_exists_args );
 		
-		if ( $success )
-			$record_count++;
+		if ( empty( $maybe_invite ) ) {					
+			// First, record the invitation
+			$new_invite	= new Invite_Anyone_Invitation;
+			$args		= array(
+				'inviter_id' 	=> $invite->inviter_id,
+				'invitee_email'	=> $invite->email,
+				'message'	=> $invite->message,
+				'subject'	=> __( 'Migrated Invitation', 'bp-invite-anyone' ),
+				'groups'	=> maybe_unserialize( $invite->group_invitations ),
+				'status'	=> 'publish',
+				'date_created'	=> $invite->date_invited,
+				'date_modified'	=> $invite->date_joined,
+			);
+			
+			if ( $new_invite_id = $new_invite->create( $args ) ) {
+				// Now look to see whether the item should be opt out
+				if ( $invite->is_opt_out )
+					update_post_meta( $new_invite_id, 'opt_out', 'yes' );
+				
+				$success = true;
+			}
+			
+			if ( $success )
+				$record_count++;
+			
+			if ( $is_partial ) {
+				$inviter = bp_core_get_user_displayname( $invite->inviter_id );
+				printf( __( 'Importing: %1$s invited %2$s<br />', 'bp-invite-anyone' ), $inviter, $invite->email );
+			}
+		}
+	}
+	
+	if ( $is_partial ) {			
+		$url = is_multisite() && function_exists( 'network_admin_url' ) ? network_admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) : admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' );
+		$url = add_query_arg( 'migrate', '1', $url );
+		$url = add_query_arg( 'start', $start + 5, $url );
+	
+		?>
+		<p><?php _e( 'If your browser doesn&#8217;t start loading the next page automatically, click this link:', 'bp-invite-anyone' ); ?> <a class="button" href="<?php echo $url ?>"><?php _e( "Next Invitations", 'bp-invite-anyone' ); ?></a></p>
+		
+		<script type='text/javascript'>
+			<!--
+			function nextpage() {
+				location.href = "<?php echo $url ?>";
+			}
+			setTimeout( "nextpage()", 1000 );
+			//-->
+		</script>
+		
+		<?php
+		return;
 	}
 
 	// Now, record results of the migration for future reference
@@ -662,6 +777,33 @@ function invite_anyone_data_migration() {
 	$iaoptions['db_version'] = BP_INVITE_ANYONE_DB_VER;
 	update_option( 'invite_anyone', $iaoptions );
 }
-add_action( 'admin_init', 'invite_anyone_data_migration' );
+
+/**
+ * Loads the markup for the migration process. Called from invite_anyone_admin_panel()
+ *
+ * @package Invite Anyone
+ * @since 0.8.3
+ */
+function invite_anyone_migration_step() {
+	$url = is_multisite() && function_exists( 'network_admin_url' ) ? network_admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) : admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' );
+	$url = add_query_arg( 'migrate', '1', $url );
+	$url = add_query_arg( 'start', '0', $url );
+
+	?>
+	<div class="wrap">
+		<h2><?php _e( 'Invite Anyone Upgrade', 'bp-invite-anyone' ) ?></h2>
+		
+		<?php if ( !isset( $_GET['start'] ) ) : ?>
+			<p><?php _e( 'Invite Anyone has just been updated, and needs to move some old invitation data in order to complete the upgrade. Click GO to start the process.', 'bp-invite-anyone' ) ?></p>
+		
+			<a class="button" href="<?php echo $url ?>">GO</a>
+		<?php else : ?>
+			<?php invite_anyone_data_migration( 'partial', (int)$_GET['start'] ) ?>
+			
+		<?php endif ?>
+	</div>
+	
+	<?php
+}
 
 ?>

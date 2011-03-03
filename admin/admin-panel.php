@@ -31,6 +31,18 @@ function invite_anyone_admin_styles() {
 }
 
 function invite_anyone_admin_panel() {
+	
+	if ( !empty( $_GET['migrate'] ) && $_GET['migrate'] == '1' ) {
+		$iaoptions 	= get_option( 'invite_anyone' );
+		$maybe_version	= !empty( $iaoptions['db_version'] ) ? $iaoptions['db_version'] : '0.7';
+ 
+		// Don't run this migrator if coming from IA 0.8 or greater
+		if ( !version_compare( $maybe_version, '0.8', '>=' ) ) {
+			invite_anyone_migration_step();
+			return;
+		}
+	}
+
 
 	// Get the proper URL for submitting the settings form. (Settings API workaround)
 	$url_base = function_exists( 'is_network_admin' ) && is_network_admin() ? network_admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) : admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' );
@@ -285,9 +297,5 @@ function invite_anyone_settings_cs_content() {
 function invite_anyone_settings_check($input) {
 	return $input;
 }
-
-
-
-
 
 ?>
