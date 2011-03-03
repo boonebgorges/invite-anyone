@@ -668,8 +668,11 @@ function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
  	
  	$is_partial = $type != 'full' ? true : false;
  	
-	$table_name = $wpdb->base_prefix . 'bp_invite_anyone';  
-	$table_contents_sql = $wpdb->prepare( "SELECT * FROM {$table_name}" );
+	$table_name = $wpdb->base_prefix . 'bp_invite_anyone';
+ 	
+ 	$total_table_contents = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$table_name}" ) );
+ 	
+ 	$table_contents_sql = $wpdb->prepare( "SELECT * FROM {$table_name}" );
 	
 	$table_contents_sql .= "  ORDER BY id ASC LIMIT 5";
 	
@@ -681,7 +684,11 @@ function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
 	
 	// If this is a stepwise migration, and the start number is too high or the table_contents
 	// query is empty, it means we've gotten to the end of the migration.
-	if ( $is_partial && ( (int)$start > count( $table_contents ) || empty( $table_contents ) ) ) {
+	if ( $is_partial && ( (int)$start > $total_table_contents ) ) {
+		// Finally, update the Invite Anyone DB version so this doesn't run again
+		$iaoptions['db_version'] = BP_INVITE_ANYONE_DB_VER;
+		update_option( 'invite_anyone', $iaoptions );
+	
 		$url = is_multisite() && function_exists( 'network_admin_url' ) ? network_admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) : admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' );
 		?>
 		
@@ -762,20 +769,7 @@ function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
 		</script>
 		
 		<?php
-		return;
 	}
-
-	// Now, record results of the migration for future reference
-	$migration = array(
-		'total_old_records'	=> count( $table_contents ),
-		'total_new_records'	=> $record_count
-	);
-	
-	update_option( 'invite_anyone_migration', $migration );
-	
-	// Finally, update the Invite Anyone DB version so this doesn't run again
-	$iaoptions['db_version'] = BP_INVITE_ANYONE_DB_VER;
-	update_option( 'invite_anyone', $iaoptions );
 }
 
 /**
