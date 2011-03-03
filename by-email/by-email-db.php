@@ -710,11 +710,16 @@ function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
 	foreach( $table_contents as $key => $invite ) {
 		$success = false;
 		
+		// Instead of grabbing these from a global or something, I'm just filtering them
+		// in the same way that they are in the data schema
+		$post_type = apply_filters( 'invite_anyone_post_type_name', 'ia_invites' );
+		$tax_name = apply_filters( 'invite_anyone_invitee_tax_name', 'ia_invitees' );
+		
 		$invite_exists_args = array(
 			'author' 	=> $invite->inviter_id,
-			'ia_invitees'	=> $invite->email,
+			$tax_name	=> $invite->email,
 			'date_created'	=> $invite->date_invited,
-			'post_type'	=> 'ia_invites'
+			'post_type'	=> $post_type
 		);
 		
 		$maybe_invite = get_posts( $invite_exists_args );
