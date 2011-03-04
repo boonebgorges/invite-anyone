@@ -31,8 +31,6 @@ function invite_anyone_admin_styles() {
 }
 
 function invite_anyone_admin_panel() {
-<<<<<<< HEAD
-=======
 	
 	if ( !empty( $_GET['migrate'] ) && $_GET['migrate'] == '1' ) {
 		$iaoptions 	= get_option( 'invite_anyone' );
@@ -45,7 +43,6 @@ function invite_anyone_admin_panel() {
 		}
 	}
 
->>>>>>> 0.8-branch
 
 	// Get the proper URL for submitting the settings form. (Settings API workaround)
 	$url_base = function_exists( 'is_network_admin' ) && is_network_admin() ? network_admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) : admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' );
