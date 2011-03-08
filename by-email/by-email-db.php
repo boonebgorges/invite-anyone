@@ -608,9 +608,13 @@ function invite_anyone_migrate_nag() {
 	if ( !is_super_admin() )
 		return;
 	
-	$iaoptions 	= get_option( 'invite_anyone' );
- 	$maybe_version	= !empty( $iaoptions['db_version'] ) ? $iaoptions['db_version'] : '0.7';
- 
+	// Some backward compatibility crap
+	$maybe_version = get_option( 'invite_anyone_db_version' );
+	if ( empty( $maybe_version ) ) {
+		$iaoptions 	= get_option( 'invite_anyone' );
+	 	$maybe_version	= !empty( $iaoptions['db_version'] ) ? $iaoptions['db_version'] : '0.7';
+	}
+	
  	// If you're on the Migrate page, no need to show the message
  	if ( !empty( $_GET['migrate'] ) && $_GET['migrate'] == '1' )
  		return;
@@ -686,8 +690,7 @@ function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
 	// query is empty, it means we've gotten to the end of the migration.
 	if ( $is_partial && ( (int)$start > $total_table_contents ) ) {
 		// Finally, update the Invite Anyone DB version so this doesn't run again
-		$iaoptions['db_version'] = BP_INVITE_ANYONE_DB_VER;
-		update_option( 'invite_anyone', $iaoptions );
+		update_option( 'invite_anyone_db_version', BP_INVITE_ANYONE_DB_VER );
 	
 		$url = is_multisite() && function_exists( 'network_admin_url' ) ? network_admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) : admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' );
 		?>
