@@ -647,8 +647,7 @@ function invite_anyone_migrate_nag() {
 	}
 	
 }
-add_action( 'admin_notices', 'invite_anyone_migrate_nag' );
-add_action( 'network_admin_notices', 'invite_anyone_migrate_nag' );
+add_action( is_multisite() && function_exists( 'is_network_admin' ) ? 'network_admin_notices' : 'admin_notices', 'invite_anyone_migrate_nag' );
 
 
 /**
