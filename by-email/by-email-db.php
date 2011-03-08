@@ -627,6 +627,9 @@ function invite_anyone_migrate_nag() {
 	$table_name 	= $wpdb->base_prefix . 'bp_invite_anyone';  
 	$invite_count	= $wpdb->get_var( "SELECT COUNT(*) FROM {$table_name}" );
 	
+	if ( !$invite_count )
+		return;
+	
 	// The auto-script can usually handle a migration of 5 or less
 	if ( (int)$invite_count <= 5 ) {
 		invite_anyone_data_migration();
