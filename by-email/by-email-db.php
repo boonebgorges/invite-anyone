@@ -29,6 +29,11 @@ class Invite_Anyone_Schema {
 	 * @since 0.8
 	 */
 	function __construct() {
+		// There's no reason for the CPT to be loaded on non-root-blogs
+		if ( is_multisite() && $current_blog->blog_id != BP_ROOT_BLOG ) {
+			return;
+		}
+		
 		// Define the post type name used throughout
 		$this->post_type_name = apply_filters( 'invite_anyone_post_type_name', 'ia_invites' );
 		
