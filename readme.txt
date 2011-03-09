@@ -4,7 +4,7 @@ Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WP 2.8, BuddyPress 1.1
 Tested up to: WP 3.1, BuddyPress 1.2.8
-Stable tag: 0.8.6
+Stable tag: 0.8.7
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -38,6 +38,9 @@ Because member lists can get very long and hard to navigate, this plugin adds a 
 
 
 == Changelog ==
+
+= 0.8.7 =
+* Fixed bug where an undeclared global was causing the custom post type not to be loaded on multisite installations
 
 = 0.8.6 =
 * Fixed bug that made update nav appear on non-root-blogs of Multisite installations
