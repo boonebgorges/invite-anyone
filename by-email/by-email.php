@@ -1120,7 +1120,7 @@ function invite_anyone_validate_email( $user_email ) {
 		}
 	}
 
-	return apply_filters( 'invite_anyone_validate_email', $status, $user_email );;
+	return apply_filters( 'invite_anyone_validate_email', $status, $user_email );
 }
 
 ?>
