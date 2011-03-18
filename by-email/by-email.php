@@ -462,20 +462,16 @@ function invite_anyone_screen_one_content() {
 	if ( isset( $_POST['invite_anyone_widget'] ) ) {
 		check_admin_referer( 'invite-anyone-widget_' . $bp->loggedin_user->id );
 
-		if ( is_array( $_POST['emails'] ) ) {
-			foreach( $_POST['emails'] as $email ) {
-				if ( trim( $email ) != '' && trim( $email ) != __( 'email address', 'bp-invite-anyone' ) )
-					$returned_data['error_emails'][] = trim( $email );
-			}
+		if ( !empty( $_POST['invite_anyone_email_addresses'] ) ) {
+			$returned_data['error_emails'] = invite_anyone_parse_addresses( $_POST['invite_anyone_email_addresses'] );
 		}
-
+		
 		/* If the widget appeared on a group page, the group ID should come along with it too */
 		if ( isset( $_POST['invite_anyone_widget_group'] ) )
 			$returned_data['groups'] = $_POST['invite_anyone_widget_group'];
 
 	}
 
-	
 	// $returned_groups is padded so that array_search (below) returns true for first group */
 	
 	$counter = 0;
@@ -902,28 +898,46 @@ function invite_anyone_format_date( $date ) {
 	return $thetime;
 }
 
+/**
+ * Parses email addresses, comma-separated or line-separated, into an array
+ *
+ * @package Invite Anyone
+ * @since 0.8.8
+ *
+ * @param str $address_string The raw string from the input box
+ * @return array $emails An array of addresses
+ */
+function invite_anyone_parse_addresses( $address_string ) {
+	
+	$emails = array();
+
+	// First, split by line breaks
+	$rows = explode( "\n", $address_string );
+	
+	// Then look through each row to split by comma
+	foreach( $rows as $row ) {
+		$row_addresses = explode( ',', $row );
+		
+		// Then walk through and add each address to the array
+		foreach( $row_addresses as $row_address ) {
+			$row_address_trimmed = trim( $row_address );
+			
+			// We also have to make sure that the email address isn't empty
+			if ( ! empty( $row_address_trimmed ) && ! in_array( $row_address_trimmed, $emails ) )
+				$emails[] = $row_address_trimmed;
+		}
+	}
+
+	return apply_filters( 'invite_anyone_parse_addresses', $emails, $address_string );
+}
+
 function invite_anyone_process_invitations( $data ) {
 	global $bp;
 
+	$emails = false;
 	// Parse out the individual email addresses
-	$emails = array();
-	if ( ! empty( $data['invite_anyone_email_addresses'] ) ) {
-		// First, split by line breaks
-		$rows = explode( "\n", $data['invite_anyone_email_addresses'] );
-		
-		// Then look through each row to split by comma
-		foreach( $rows as $row ) {
-			$row_addresses = explode( ',', $row );
-			
-			// Then walk through and add each address to the array
-			foreach( $row_addresses as $row_address ) {
-				$row_address_trimmed = trim( $row_address );
-				
-				// We also have to make sure that the email address isn't empty
-				if ( ! empty( $row_address_trimmed ) && ! in_array( $row_address_trimmed, $emails ) )
-					$emails[] = $row_address_trimmed;
-			}
-		}
+	if ( !empty( $data['invite_anyone_email_addresses'] ) ) {
+		$emails = invite_anyone_parse_addresses( $data['invite_anyone_email_addresses'] );
 	}
 	
 	// Filter the email addresses so that plugins can have a field day
