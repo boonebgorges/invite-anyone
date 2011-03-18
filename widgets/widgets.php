@@ -36,10 +36,7 @@ class InviteAnyoneWidget extends WP_Widget {
                 
         if ( !$title = apply_filters('widget_title', $instance['title'] ) )
         	$title = __( 'Invite Anyone', 'bp-invite-anyone' );
-        
-        if ( !$email_fields = $instance['email_fields'] )
-        	$email_fields = 3;
-           
+         
         if ( !$instruction_text = esc_attr( $instance['instruction_text'] ) )
         	$instruction_text = __( 'Invite friends to join the site by entering their email addresses below.', 'bp-invite-anyone' );
         ?>
@@ -50,33 +47,25 @@ class InviteAnyoneWidget extends WP_Widget {
                   <?php if ( $title )
                         echo $before_title . $title . $after_title; ?>
 					
-					<p><?php echo $instruction_text ?></p>
-					
-					<form class="standard-form" action="<?php echo bp_loggedin_user_domain() . $bp->invite_anyone->slug ?>" method="post">
-					
-					<?php if ( $email_fields ) : ?>
-						<ul class="invite-anyone-widget-email-fields">
-						<?php for( $i = 0; $i < $email_fields; $i++ ) : ?>
-							<li>							
-							<input type="text" name="emails[<?php echo $i ?>]" value="<?php _e( 'email address', 'bp-invite-anyone') ?>" onfocus="if (this.value == '<?php _e( 'email address', 'bp-invite-anyone' ) ?>' ) { this.value = ''; }" />						
-							</li>
-						<?php endfor; ?>
-						</ul>
-					<?php endif; ?>
-					
-					<?php /* If we're on a group page, send the group_id as well */ ?>
-					<?php if ( bp_is_group() ) : ?>
-						<?php global $bp;  ?>
-						<input type="hidden" name="invite_anyone_widget_group" id="invite_anyone_widget_group" value="<?php echo $bp->groups->current_group->id ?>" />
-					<?php endif; ?>
-					
-					<input type="hidden" name="invite_anyone_widget" id="invite_anyone_widget" value="1" />
-					
-					<?php wp_nonce_field( 'invite-anyone-widget_' . $bp->loggedin_user->id ) ?> 
-					<p id="invite-anyone-widget-submit" >
-						<input class="button" type="submit" value="<?php _e( 'Continue', 'bp-invite-anyone' ) ?>" />
-					</p>
-					</form>
+				<p><?php echo $instruction_text ?></p>
+				
+				<form class="standard-form" action="<?php echo bp_loggedin_user_domain() . $bp->invite_anyone->slug ?>" method="post">
+				
+				<?php invite_anyone_email_fields() ?>
+				
+				<?php /* If we're on a group page, send the group_id as well */ ?>
+				<?php if ( bp_is_group() ) : ?>
+					<?php global $bp;  ?>
+					<input type="hidden" name="invite_anyone_widget_group" id="invite_anyone_widget_group" value="<?php echo $bp->groups->current_group->id ?>" />
+				<?php endif; ?>
+				
+				<input type="hidden" name="invite_anyone_widget" id="invite_anyone_widget" value="1" />
+				
+				<?php wp_nonce_field( 'invite-anyone-widget_' . $bp->loggedin_user->id ) ?> 
+				<p id="invite-anyone-widget-submit" >
+					<input class="button" type="submit" value="<?php _e( 'Continue', 'bp-invite-anyone' ) ?>" />
+				</p>
+				</form>
 					
               <?php echo $after_widget; ?>
         <?php endif; ?>
