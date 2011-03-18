@@ -61,6 +61,8 @@ class InviteAnyoneWidget extends WP_Widget {
 				
 				<input type="hidden" name="invite_anyone_widget" id="invite_anyone_widget" value="1" />
 				
+				<?php do_action( 'invite_anyone_after_addresses' ) ?>
+				
 				<?php wp_nonce_field( 'invite-anyone-widget_' . $bp->loggedin_user->id ) ?> 
 				<p id="invite-anyone-widget-submit" >
 					<input class="button" type="submit" value="<?php _e( 'Continue', 'bp-invite-anyone' ) ?>" />

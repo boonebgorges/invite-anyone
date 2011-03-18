@@ -19,6 +19,21 @@ class Cloudsponge_Integration {
 	 */
 	function __construct() {
 		add_action( 'invite_anyone_after_addresses', array( $this, 'import_markup' ) );
+		
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_script' ) );
+	}
+
+	/**
+	 * Registers and loads CS JS.
+	 *
+	 * For now, this is overly generous to account for the fact that people can have the IA
+	 * widget installed on any page. In the future I'll try to clean it up a bit.
+	 *
+	 * @package Invite Anyone
+	 * @since 0.8.8
+	 */
+	function enqueue_script() {
+		wp_enqueue_script( 'ia_cloudsponge', 'https://api.cloudsponge.com/address_books.js', array(), false, true );
 	}
 
 	/**
@@ -29,7 +44,11 @@ class Cloudsponge_Integration {
 	 *
 	 * @param array $options Invite Anyone settings. Check em so we can bail if necessary
 	 */
-	function import_markup( $options ) {
+	function import_markup( $options = false ) {
+		
+		if ( empty( $options ) )
+			$options = get_option( 'invite_anyone' );
+		
 		if ( empty( $options['cloudsponge_enabled'] ) )
 			return false;
 		
@@ -38,7 +57,6 @@ class Cloudsponge_Integration {
 		
 		?>		
 		
-<script type="text/javascript" src="https://api.cloudsponge.com/address_books.js"></script>
 <script type="text/javascript" charset="utf-8">
 	csInit( { 	
 		domain_key:"<?php echo esc_html( $options['cloudsponge_key'] ) ?>",
