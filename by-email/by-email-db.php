@@ -218,8 +218,8 @@ class Invite_Anyone_Invitation {
 			'subject'	=> false,
 			'groups'	=> false,
 			'status'	=> 'publish', // i.e., visible on Sent Invites
-			'date_created'	=> bp_core_current_time(),
-			'date_modified'	=> bp_core_current_time(),
+			'date_created'	=> bp_core_current_time( false ),
+			'date_modified'	=> bp_core_current_time( false ),
 		) );
 		
 		$r = wp_parse_args( $args, $defaults );
