@@ -1,6 +1,9 @@
 <?php
 
 class Cloudsponge_Integration {
+	var $enabled;
+	var $key;
+
 	/**
 	 * PHP 4 Constructor
 	 *
@@ -18,9 +21,17 @@ class Cloudsponge_Integration {
 	 * @since 0.8
 	 */
 	function __construct() {
-		add_action( 'invite_anyone_after_addresses', array( $this, 'import_markup' ) );
+
+		if ( empty( $options ) )
+			$options = get_option( 'invite_anyone' );
 		
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_script' ) );
+		$this->enabled = !empty( $options['cloudsponge_enabled'] ) ? $options['cloudsponge_enabled'] : false;
+		$this->key     = !empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : false;
+		
+		if ( $this->enabled && $this->key ) {
+			add_action( 'invite_anyone_after_addresses', array( $this, 'import_markup' ) );	
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_script' ) );
+		}
 	}
 
 	/**
@@ -45,21 +56,11 @@ class Cloudsponge_Integration {
 	 * @param array $options Invite Anyone settings. Check em so we can bail if necessary
 	 */
 	function import_markup( $options = false ) {
-		
-		if ( empty( $options ) )
-			$options = get_option( 'invite_anyone' );
-		
-		if ( empty( $options['cloudsponge_enabled'] ) )
-			return false;
-		
-		if ( empty( $options['cloudsponge_key'] ) )
-			return false;
-		
 		?>		
 		
 <script type="text/javascript" charset="utf-8">
 	csInit( { 	
-		domain_key:"<?php echo esc_html( $options['cloudsponge_key'] ) ?>",
+		domain_key:"<?php echo esc_html( $this->key ) ?>",
 		referrer: 'invite-anyone',
 		afterSubmitContacts:function(contacts) {
 			var emails = [];
