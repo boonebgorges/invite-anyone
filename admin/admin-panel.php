@@ -141,14 +141,14 @@ function invite_anyone_settings_number_of_invitations() {
 function invite_anyone_settings_can_send_group_invites_email() {
 	$options = get_option( 'invite_anyone' );
 ?>
-	<input type="checkbox" name="invite_anyone[can_send_group_invites_email]" value="yes" <?php if ( $options['can_send_group_invites_email'] == 'yes' ) : ?>checked="checked"<?php endif; ?> />
+	<input type="checkbox" name="invite_anyone[can_send_group_invites_email]" value="yes" <?php checked( $options['can_send_group_invites_email'], 'yes' ) ?> />
 <?php
 }
 
 function invite_anyone_settings_bypass_registration_lock() {
 	$options = get_option( 'invite_anyone' );
 ?>
-	<input type="checkbox" name="invite_anyone[bypass_registration_lock]" value="yes" <?php if ( $options['bypass_registration_lock'] == 'yes' ) : ?>checked="checked"<?php endif; ?> />
+	<input type="checkbox" name="invite_anyone[bypass_registration_lock]" value="yes" <?php checked( $options['bypass_registration_lock'], 'yes' ) ?> />
 <?php
 }
 
@@ -171,11 +171,11 @@ function invite_anyone_settings_is_customizable() {
 ?>
 	<ul>
 		<li>
-			<input type="checkbox" name="invite_anyone[subject_is_customizable]" value="yes" <?php if( $options['subject_is_customizable'] == 'yes' ) : ?>checked="checked"<?php endif; ?> /> <?php _e( 'Subject line', 'bp-invite-anyone' ) ?>
+			<input type="checkbox" name="invite_anyone[subject_is_customizable]" value="yes" <?php checked( $options['subject_is_customizable'], 'yes' ) ?> /> <?php _e( 'Subject line', 'bp-invite-anyone' ) ?>
 		</li>
 		
 		<li>
-			<input type="checkbox" name="invite_anyone[message_is_customizable]" value="yes" <?php if( $options['message_is_customizable'] == 'yes' ) : ?>checked="checked"<?php endif; ?> /> <?php _e( 'Message body', 'bp-invite-anyone' ) ?>
+			<input type="checkbox" name="invite_anyone[message_is_customizable]" value="yes" <?php checked( $options['message_is_customizable'], 'yes' ) ?> /> <?php _e( 'Message body', 'bp-invite-anyone' ) ?>
 		</li>
 	</ul>
 <?php
@@ -192,29 +192,29 @@ function invite_anyone_settings_email_visibility() {
 ?>
 
 	<ul>
-		<li><input type='radio' name='invite_anyone[email_visibility_toggle]' id='invite_anyone_toggle_email_no_limit' value='no_limit' <?php if( $options['email_visibility_toggle'] != 'limit' ) : ?>checked="checked"<?php endif; ?> /> <?php _e( 'All users', 'bp-invite-anyone' ) ?></li>
+		<li><input type='radio' name='invite_anyone[email_visibility_toggle]' id='invite_anyone_toggle_email_no_limit' value='no_limit' <?php if( $options['email_visibility_toggle'] != 'limit' ) : ?>checked="checked"<?php endif ?> /> <?php _e( 'All users', 'bp-invite-anyone' ) ?></li>
 		
-		<li><input type='radio' name='invite_anyone[email_visibility_toggle]' id='invite_anyone_toggle_email_limit' value='limit' <?php if( $options['email_visibility_toggle'] == 'limit' ) : ?>checked="checked"<?php endif; ?> /> <?php _e( 'A limited set of users', 'bp-invite-anyone' ) ?>
+		<li><input type='radio' name='invite_anyone[email_visibility_toggle]' id='invite_anyone_toggle_email_limit' value='limit' <?php checked( $options['email_visibility_toggle'], 'limit' ) ?> /> <?php _e( 'A limited set of users', 'bp-invite-anyone' ) ?>
 			<div class="invite-anyone-admin-limited">
 			<ul>
 				<li>
-					<input type="checkbox" name="invite_anyone[email_since_toggle]" value="yes" <?php if( $options['email_since_toggle'] == 'yes' ) : ?>checked="checked"<?php endif; ?> /> <?php _e( 'Only users who have been members of the site for a minimum number of days:', 'bp-invite-anyone' ) ?> 
+					<input type="checkbox" name="invite_anyone[email_since_toggle]" value="yes" <?php checked( $options['email_since_toggle'], 'yes' ) ?> /> <?php _e( 'Only users who have been members of the site for a minimum number of days:', 'bp-invite-anyone' ) ?> 
 					<input name='invite_anyone[days_since]' size='10' type='text' value='<?php echo $options['days_since'] ?>' />			
 				</li>
 				
 				<li>
-					<input type="checkbox" name="invite_anyone[email_role_toggle]" value="yes"  <?php if( $options['email_role_toggle'] == 'yes' ) : ?>checked="checked"<?php endif; ?> /> <?php _e( 'Only users who have at least the following role on this blog:', 'bp-invite-anyone' ) ?> 
+					<input type="checkbox" name="invite_anyone[email_role_toggle]" value="yes"  <?php checked( $options['email_role_toggle'], 'yes' ) ?> /> <?php _e( 'Only users who have at least the following role on this blog:', 'bp-invite-anyone' ) ?> 
 					<select name="invite_anyone[minimum_role]">
-						<option value="Subscriber" <?php if( $options['minimum_role'] == 'Subscriber' ) : ?>selected="selected"<?php endif; ?> ><?php _e( 'Subscriber' ) ?></option>
-						<option value="Contributor" <?php if( $options['minimum_role'] == 'Contributor' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Contributor' ) ?></option>
-						<option value="Author" <?php if( $options['minimum_role'] == 'Author' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Author' ) ?></option>
-						<option value="Editor" <?php if( $options['minimum_role'] == 'Editor' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Editor' ) ?></option>
-						<option value="Administrator" <?php if( $options['minimum_role'] == 'Administrator' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Administrator' ) ?></option>
+						<option value="Subscriber" <?php selected( $options['minimum_role'], 'Subscriber' ) ?>><?php _e( 'Subscriber' ) ?></option>
+						<option value="Contributor" <?php selected( $options['minimum_role'], 'Contributor' ) ?>><?php _e( 'Contributor' ) ?></option>
+						<option value="Author" <?php selected( $options['minimum_role'], 'Author' ) ?>><?php _e( 'Author' ) ?></option>
+						<option value="Editor" <?php selected( $options['minimum_role'], 'Editor' ) ?>><?php _e( 'Editor' ) ?></option>
+						<option value="Administrator" <?php selected( $options['minimum_role'], 'Administrator' ) ?>><?php _e( 'Administrator' ) ?></option>
 					</select>					
 				</li>		
 				
 				<li>
-					<input type="checkbox" name="invite_anyone[email_blacklist_toggle]" value="yes"  <?php if( $options['email_blacklist_toggle'] == 'yes' ) : ?>checked="checked"<?php endif; ?> /> <?php _e( 'Provide a comma-separated list of users (identified by their numerical user ids) who <strong>cannot</strong> send invitations by email:', 'bp-invite-anyone' ) ?>
+					<input type="checkbox" name="invite_anyone[email_blacklist_toggle]" value="yes"  <?php checked( $options['email_blacklist_toggle'], 'yes' ) ?> /> <?php _e( 'Provide a comma-separated list of users (identified by their numerical user ids) who <strong>cannot</strong> send invitations by email:', 'bp-invite-anyone' ) ?>
 					<input name='invite_anyone[email_blacklist]' size='40' type='text' value='<?php echo $options['email_blacklist'] ?>' />
 				</li>		
 			</ul>
