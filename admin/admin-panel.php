@@ -229,7 +229,7 @@ function invite_anyone_settings_group_invite_visibility() {
 	$options = get_option( 'invite_anyone' );
 ?>
 	<ul>	
-	<?php _e( 'Invite Anyone extends BuddyPress\'s default group invitation settings. Instead of allowing you to invite only friends to a group, this plugin allows you to invite any member of the site. Use these settings to limit possible invitees for different group roles.', 'bp-invite-anyone' ) ?>
+	<p><?php _e( 'Invite Anyone extends BuddyPress\'s default group invitation settings. Instead of allowing you to invite only friends to a group, this plugin allows you to invite any member of the site. Use these settings to limit possible invitees for different group roles.', 'bp-invite-anyone' ) ?></p>
 	<br />
 		<li><?php _e( "<strong>Site admins</strong> can send group invitations to: ", 'bp-invite-anyone' ) ?> 
 			<select name="invite_anyone[group_invites_can_admin]">
