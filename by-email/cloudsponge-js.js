@@ -1,5 +1,5 @@
 csInit( { 	
-	domain_key:"<?php echo esc_html( $this->key ) ?>",
+	domain_key: ia_cloudsponge.domain.key,
 	referrer: 'invite-anyone',
 	afterSubmitContacts:function(contacts) {
 		var emails = [];
