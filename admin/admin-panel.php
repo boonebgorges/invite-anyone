@@ -233,33 +233,33 @@ function invite_anyone_settings_group_invite_visibility() {
 	<br />
 		<li><?php _e( "<strong>Site admins</strong> can send group invitations to: ", 'bp-invite-anyone' ) ?> 
 			<select name="invite_anyone[group_invites_can_admin]">
-				<option value="anyone" <?php if( $options['group_invites_can_admin'] == 'anyone' ) : ?>selected="selected"<?php endif; ?> ><?php _e( 'Anyone', 'bp-invite-anyone' ) ?></option>
-				<option value="friends" <?php if( $options['group_invites_can_admin'] == 'friends' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Friends', 'bp-invite-anyone' ) ?></option>
-				<option value="noone" <?php if( $options['group_invites_can_admin'] == 'noone' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'No one', 'bp-invite-anyone' ) ?></option>
+				<option value="anyone" <?php selected( $options['group_invites_can_admin'], 'anyone' ) ?>><?php _e( 'Anyone', 'bp-invite-anyone' ) ?></option>
+				<option value="friends" <?php selected( $options['group_invites_can_admin'], 'friends' ) ?>><?php _e( 'Friends', 'bp-invite-anyone' ) ?></option>
+				<option value="noone" <?php selected( $options['group_invites_can_admin'], 'noone' ) ?>><?php _e( 'No one', 'bp-invite-anyone' ) ?></option>
 			</select>		
 		</li>
 
 		<li><?php _e( "<strong>Group admins</strong> can send group invitations to: ", 'bp-invite-anyone' ) ?> 
 			<select name="invite_anyone[group_invites_can_group_admin]">
-				<option value="anyone" <?php if( $options['group_invites_can_group_admin'] == 'anyone' ) : ?>selected="selected"<?php endif; ?> ><?php _e( 'Anyone', 'bp-invite-anyone' ) ?></option>
-				<option value="friends" <?php if( $options['group_invites_can_group_admin'] == 'friends' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Friends', 'bp-invite-anyone' ) ?></option>
-				<option value="noone" <?php if( $options['group_invites_can_group_admin'] == 'noone' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'No one', 'bp-invite-anyone' ) ?></option>
+				<option value="anyone" <?php selected( $options['group_invites_can_group_admin'], 'anyone' ) ?>><?php _e( 'Anyone', 'bp-invite-anyone' ) ?></option>
+				<option value="friends" <?php selected( $options['group_invites_can_group_admin'], 'friends' ) ?>><?php _e( 'Friends', 'bp-invite-anyone' ) ?></option>
+				<option value="noone" <?php selected( $options['group_invites_can_group_admin'], 'noone' ) ?>><?php _e( 'No one', 'bp-invite-anyone' ) ?></option>
 			</select>		
 		</li>
 
 		<li><?php _e( "<strong>Group mods</strong> can send group invitations to: ", 'bp-invite-anyone' ) ?> 
 			<select name="invite_anyone[group_invites_can_group_mod]">
-				<option value="anyone" <?php if( $options['group_invites_can_group_mod'] == 'anyone' ) : ?>selected="selected"<?php endif; ?> ><?php _e( 'Anyone', 'bp-invite-anyone' ) ?></option>
-				<option value="friends" <?php if( $options['group_invites_can_group_mod'] == 'friends' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Friends', 'bp-invite-anyone' ) ?></option>
-				<option value="noone" <?php if( $options['group_invites_can_group_mod'] == 'noone' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'No one', 'bp-invite-anyone' ) ?></option>
+				<option value="anyone" <?php selected( $options['group_invites_can_group_mod'], 'anyone' ) ?>><?php _e( 'Anyone', 'bp-invite-anyone' ) ?></option>
+				<option value="friends" <?php selected( $options['group_invites_can_group_mod'], 'friends' ) ?>><?php _e( 'Friends', 'bp-invite-anyone' ) ?></option>
+				<option value="noone" <?php selected( $options['group_invites_can_group_mod'], 'noone' ) ?>><?php _e( 'No one', 'bp-invite-anyone' ) ?></option>
 			</select>		
 		</li>
 
 		<li><?php _e( "<strong>Group members</strong> can send group invitations to: ", 'bp-invite-anyone' ) ?> 
 			<select name="invite_anyone[group_invites_can_group_member]">
-				<option value="anyone" <?php if( $options['group_invites_can_group_member'] == 'anyone' ) : ?>selected="selected"<?php endif; ?> ><?php _e( 'Anyone', 'bp-invite-anyone' ) ?></option>
-				<option value="friends" <?php if( $options['group_invites_can_group_member'] == 'friends' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Friends', 'bp-invite-anyone' ) ?></option>
-				<option value="noone" <?php if( $options['group_invites_can_group_member'] == 'noone' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'No one', 'bp-invite-anyone' ) ?></option>
+				<option value="anyone" <?php selected( $options['group_invites_can_group_member'], 'anyone' ) ?>><?php _e( 'Anyone', 'bp-invite-anyone' ) ?></option>
+				<option value="friends" <?php selected( $options['group_invites_can_group_member'], 'friends' ) ?>><?php _e( 'Friends', 'bp-invite-anyone' ) ?></option>
+				<option value="noone" <?php selected( $options['group_invites_can_group_member'], 'noone' ) ?>><?php _e( 'No one', 'bp-invite-anyone' ) ?></option>
 			</select>		
 		</li>	
 	</ul>
