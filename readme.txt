@@ -20,6 +20,8 @@ The email invitation part of the plugin is customizable by the BP administrator,
 
 Because member lists can get very long and hard to navigate, this plugin adds a autosuggest search box to the Send Invites screen - the same one that appears on the Compose Message screen - which allows inviters to navigate directly to the members they want to invite.
 
+Invite Anyone features optional integration with CloudSponge http://cloudsponge.com, a premium address book service, that allows your users to invite their friends to the site in a way that's easy and fun. Enable it at Dashboard > BuddyPress > Invite Anyone.
+
 == Installation ==
 
 * Upload the directory '/invite-anyone/' to your WP plugins directory and activate from the Dashboard of the main blog. Some users have reported problems when activating the plugin sitewide, so consider activating it on the BP blog only.
