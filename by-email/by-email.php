@@ -634,9 +634,9 @@ function invite_anyone_screen_two() {
 
 		<h4><?php _e( 'Sent Invites', 'bp-invite-anyone' ); ?></h4>
     
-		<?php invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id(), $sort_by, $order ) ?>
+		<?php $invites = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id(), $sort_by, $order ) ?>
 		
-		<?php if ( have_posts() ) : ?>
+		<?php if ( $invites->have_posts() ) : ?>
 			<p id="sent-invites-intro"><?php _e( 'You have sent invitations to the following people.', 'bp-invite-anyone' ) ?></p>
 	
 			<table class="invite-anyone-sent-invites zebra" 
@@ -665,7 +665,7 @@ function invite_anyone_screen_two() {
 				</tfoot>
 	      
 				<tbody>
-				<?php while ( have_posts() ) : the_post() ?>
+				<?php while ( $invites->have_posts() ) : $invites->the_post() ?>
 				
 				
 				<?php
