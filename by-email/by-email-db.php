@@ -448,11 +448,13 @@ function invite_anyone_record_invitation( $inviter_id, $email, $message, $groups
  * @param str $orderby Optional The column being ordered by
  * @param str $order Optional ASC or DESC
  */
-function invite_anyone_get_invitations_by_inviter_id( $inviter_id, $orderby = false, $order = false ) {
+function invite_anyone_get_invitations_by_inviter_id( $inviter_id, $orderby = false, $order = false, $posts_per_page = false, $paged = false ) {
 	$args = array(
 		'inviter_id'	=> $inviter_id,
 		'orderby'	=> $orderby,
-		'order'		=> $order
+		'order'		=> $order,
+		'posts_per_page'=> $posts_per_page,
+		'paged'		=> $paged
 	);
 	
 	$invite = new Invite_Anyone_Invitation;

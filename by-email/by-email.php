@@ -616,6 +616,11 @@ function invite_anyone_screen_two() {
 	function invite_anyone_screen_two_content() {
 		global $bp;
 
+		// Load the pagination helper
+		if ( !class_exists( 'BBG_CPT_Pag' ) )
+			require_once( dirname( __FILE__ ) . '/../lib/bbg-cpt-pag.php' );
+		$pagination = new BBG_CPT_Pag;
+
 		$inviter_id = bp_loggedin_user_id();
 
 		if ( isset( $_GET['sort_by'] ) )
@@ -634,10 +639,22 @@ function invite_anyone_screen_two() {
 
 		<h4><?php _e( 'Sent Invites', 'bp-invite-anyone' ); ?></h4>
     
-		<?php $invites = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id(), $sort_by, $order ) ?>
+		<?php $invites = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id(), $sort_by, $order, $pagination->get_per_page, $pagination->get_paged ) ?>
+		
+		<?php $pagination->setup_query( $invites ) ?>
 		
 		<?php if ( $invites->have_posts() ) : ?>
 			<p id="sent-invites-intro"><?php _e( 'You have sent invitations to the following people.', 'bp-invite-anyone' ) ?></p>
+	
+			<div class="ia-pagination">
+				<div class="currently-viewing">
+					<?php $pagination->currently_viewing_text() ?>
+				</div>
+				
+				<div class="pag-links">
+					<?php $pagination->paginate_links() ?>
+				</div>
+			</div>
 	
 			<table class="invite-anyone-sent-invites zebra" 
 			summary="<?php _e( 'This table displays a list of all your sent invites.
@@ -716,6 +733,17 @@ function invite_anyone_screen_two() {
 				<?php endwhile ?>
 			 </tbody>
 			</table>
+				
+			<div class="ia-pagination">
+				<div class="currently-viewing">
+					<?php $pagination->currently_viewing_text() ?>
+				</div>
+				
+				<div class="pag-links">
+					<?php $pagination->paginate_links() ?>
+				</div>
+			</div>
+
 
 		<?php else : ?>
 

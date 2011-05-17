@@ -237,3 +237,25 @@ textarea.invite-anyone-email-addresses {
 	width: 400px;
 	height: 130px;
 }
+
+.ia-pagination {
+	position: relative;
+	height: 30px;
+	margin-top: 10px;
+	color: #555;
+	font-size: 11px;
+}
+	.ia-pagination .currently-viewing {
+		position: absolute;
+		top: 0;
+		left: 0;
+		font-style: italic;
+	}
+	.ia-pagination .pag-links {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+	.ia-pagination .page-numbers {
+		margin-left: 8px;
+	}
