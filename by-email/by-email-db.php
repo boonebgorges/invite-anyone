@@ -74,12 +74,12 @@ class Invite_Anyone_Schema {
 	 *     	- post_status represents 'is_hidden' on the old custom table schema:
 	 *      	- Default is 'publish' - i.e. the user sees the invitation on Sent Invites
 	 *     		- When the invitation is hidden, it is switched to 'draft'
-	 *     	- date_modified is the date when the user joins the site (makes for easy sorting)
 	 * - The ia_invitees taxonomy represents invited email addresses
 	 * - The ia_invited_groups taxonomy represents the groups that a user has been invited to
 	 *   when the group invitation is sent
 	 * - The following data is stored in postmeta:
 	 * 	- opt_out (corresponds to old is_opt_out) is stored at opt_out time
+	 *	- The invitation accepted date is stored in a post_meta called bp_ia_accepted
 	 *
 	 * @package BuddyPress Docs
 	 * @since 1.0
@@ -353,6 +353,9 @@ class Invite_Anyone_Invitation {
 			
 			wp_update_post( $post_modified_args );
 		}
+		
+		// Save a blank bp_ia_accepted post_meta
+		update_post_meta( $this->id, 'bp_ia_accepted', '' );
 	
 		// Now set up the taxonomy terms
 		
