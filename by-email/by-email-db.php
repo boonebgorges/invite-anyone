@@ -233,6 +233,7 @@ class Invite_Anyone_Schema {
 				while ( $invites->have_posts() ) {
 					$invites->the_post();
 					
+					// Migrate the accepted data from date_modified to a meta
 					if ( !get_post_meta( get_the_ID(), 'bp_ia_accepted', true ) ) {						
 						// When the dates are different, it's been accepted
 						if ( $post->post_date != $post->post_modified ) {
@@ -268,6 +269,7 @@ class Invite_Anyone_Invitation {
 	var $invitee_tax_name;
 	var $post_type_name;
 	var $invited_groups_tax_name;
+	var $email_order;
 	
 	/**
 	 * PHP4 Constructor
@@ -414,6 +416,30 @@ class Invite_Anyone_Invitation {
 			$r['meta_key']	= 'bp_ia_accepted';
 		}
 		
+		// Todo: move all of this business to metadata
+		if ( 'ia_invitees' == $orderby ) {
+			// Filtering the query so that it's possible to sort by taxonomy terms
+			// This is not a recommended technique, as it's likely to break
+			add_filter( 'posts_fields', array( $this, 'filter_fields_emails' ), 10, 2 );
+			add_filter( 'posts_join_paged', array( $this, 'filter_join_emails' ), 10, 2 );
+			add_filter( 'posts_orderby', array( $this, 'filter_orderby_emails' ), 10, 2 );
+			
+			$this->email_order = $order;			
+			
+			// Limitations in the WP_Tax_Query class mean I have to assemble a tax term
+			// list first
+			$emails = get_terms( $this->invitee_tax_name, array( 'fields' => 'names' ) );
+			
+			$r['tax_query'] = array(
+				array(
+					'taxonomy' 	=> $this->invitee_tax_name,
+					'terms' 	=> $emails,
+					'field' 	=> 'slug',
+					'operator'	=> 'IN'
+				)
+			);
+		}
+		
 		// Let plugins stop this process if they want
 		do_action( 'invite_anyone_before_invitation_get', $r, $args );
 		
@@ -436,7 +462,8 @@ class Invite_Anyone_Invitation {
 			'meta_key'		=> 'meta_key',
 			'meta_value'		=> 'meta_value',
 			'posts_per_page'	=> 'posts_per_page',
-			'paged'			=> 'paged'
+			'paged'			=> 'paged',
+			'tax_query'		=> 'tax_query'
 		);
 		
 		foreach ( $optional_args as $key => $value ) {
@@ -446,6 +473,50 @@ class Invite_Anyone_Invitation {
 		}
 		
 		return new WP_Query( $query_post_args );
+	}
+	
+	/**
+	 * Filters the join section of the query when sorting by invited email address
+	 *
+	 * This is a hack and should be removed. Migrate this data to metadata.
+	 *
+	 * @package Invite Anyone
+	 * @since 0.9
+	 */
+	function filter_join_emails( $join, $query ) {
+		global $wpdb;
+		
+		$join .= $wpdb->prepare( " INNER JOIN {$wpdb->term_taxonomy} wp_term_taxonomy_ia ON (wp_term_taxonomy_ia.term_taxonomy_id = wp_term_relationships.term_taxonomy_id) INNER JOIN {$wpdb->terms} wp_terms_ia ON ( wp_terms_ia.term_id = wp_term_taxonomy_ia.term_id )" );
+		
+		return $join;
+	}
+	
+	/**
+	 * Filters the fields section of the query when sorting by invited email address
+	 *
+	 * This is a hack and should be removed. Migrate this data to metadata.
+	 *
+	 * @package Invite Anyone
+	 * @since 0.9
+	 */
+	function filter_fields_emails( $fields, $query ) {
+		$fields .= ' ,wp_terms_ia.name, wp_term_taxonomy_ia.term_taxonomy_id';
+		
+		return $fields;
+	}
+	
+	/**
+	 * Filters the orderby section of the query when sorting by invited email address
+	 *
+	 * This is a hack and should be removed. Migrate this data to metadata.
+	 *
+	 * @package Invite Anyone
+	 * @since 0.9
+	 */
+	function filter_orderby_emails( $orderby, $query ) {
+		$orderby = 'wp_terms_ia.name ' . $this->email_order;
+		
+		return $orderby;
 	}
 	
 	/**
