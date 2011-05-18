@@ -47,6 +47,8 @@ function invite_anyone_admin_panel() {
 	// Get the proper URL for submitting the settings form. (Settings API workaround)
 	$url_base = function_exists( 'is_network_admin' ) && is_network_admin() ? network_admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) : admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' );
 	
+	$form_action = isset( $_GET['subpage'] ) ? add_query_arg( 'subpage', $_GET['subpage'], $url_base ) : $url_base;
+	
 	// Catch and save settings being saved (Settings API workaround)
 	if ( !empty( $_POST['invite-anyone-settings-submit'] ) ) {
 		update_option( 'invite_anyone', $_POST['invite_anyone'] );
@@ -54,9 +56,29 @@ function invite_anyone_admin_panel() {
 
 ?>
 	<div class="wrap">
-    	<h2><?php _e( 'Invite Anyone Settings', 'bp-invite-anyone' ) ?></h2>
+    	<h2><?php _e( 'Invite Anyone', 'bp-invite-anyone' ) ?></h2>
     
-    	<form action="<?php echo $url_base ?>" method="post">
+    	<ul class="ia-tabs">
+    		<li>
+    			<a href="<?php echo add_query_arg( 'subpage', 'general-settings', $url_base ) ?>"><?php _e( 'General Settings', 'bp-invite-anyone' ) ?></a>
+    		</li>
+    		
+    		<li>
+    			<a href="<?php echo add_query_arg( 'subpage', 'access-control', $url_base ) ?>"><?php _e( 'Access Control', 'bp-invite-anyone' ) ?></a>
+    		</li>
+    		
+    		<li>
+    			<a href="<?php echo add_query_arg( 'subpage', 'cloudsponge', $url_base ) ?>"><?php _e( 'CloudSponge', 'bp-invite-anyone' ) ?></a>
+    		</li>
+    		
+    		<li>
+    			<a href="<?php echo add_query_arg( 'subpage', 'manage-invitations', $url_base ) ?>"><?php _e( 'Manage Invitations', 'bp-invite-anyone' ) ?></a>
+    		</li>
+    		
+    		
+    	</ul>
+    
+    	<form action="<?php echo $form_action ?>" method="post">
 	
 	<?php /* The Settings API does not work with WP 3.1 Network Admin, but these functions still work to create the markup */ ?>
 	<?php settings_fields( 'invite_anyone' ); ?>
@@ -73,38 +95,50 @@ function invite_anyone_admin_panel() {
 
 
 function invite_anyone_settings_setup() {
+	$subpage = isset( $_GET['subpage' ] ) ? $_GET['subpage'] : 'general-settings';
+	
 	register_setting( 'invite_anyone', 'invite_anyone', 'invite_anyone_settings_check' );
-	
-	/* General Settings */
-	add_settings_section('invite_anyone_general_settings', __('General Settings', 'bp-invite-anyone'), 'invite_anyone_settings_main_content', 'invite_anyone');
 
-	add_settings_field('invite_anyone_settings_replacement_patterns', __('Replacement patterns for email text fields', 'bp-invite-anyone'), 'invite_anyone_settings_replacement_patterns', 'invite_anyone', 'invite_anyone_general_settings');
+	switch ( $subpage ) {
+		case 'access-control' :
+			/* Access Settings */
+			add_settings_section('invite_anyone_access_settings', __('Access Settings', 'bp-invite-anyone'), 'invite_anyone_settings_access_content', 'invite_anyone');
+			
+			add_settings_field('invite_anyone_settings_email_visibility', __('Allow email invitations to be sent by', 'bp-invite-anyone'), 'invite_anyone_settings_email_visibility', 'invite_anyone', 'invite_anyone_access_settings');
+			
+			add_settings_field( 'invite_anyone_settings_group_invite_visibility', __( 'Limit group invitations', 'bp-invite-anyone' ), 'invite_anyone_settings_group_invite_visibility', 'invite_anyone', 'invite_anyone_access_settings' );
+			
+			break;
 		
-	add_settings_field('invite_anyone_settings_default_invitation_subject', __('Text of email invitation subject line', 'bp-invite-anyone'), 'invite_anyone_settings_default_invitation_subject', 'invite_anyone', 'invite_anyone_general_settings');
-	
-	add_settings_field('invite_anyone_settings_default_invitation_message', __('Main text of email invitation message', 'bp-invite-anyone'), 'invite_anyone_settings_default_invitation_message', 'invite_anyone', 'invite_anyone_general_settings');
-	
-	add_settings_field('invite_anyone_settings_addl_invitation_message', __('Footer text of email invitation message (not editable by users)', 'bp-invite-anyone'), 'invite_anyone_settings_addl_invitation_message', 'invite_anyone', 'invite_anyone_general_settings');
+		case 'cloudsponge' :
+			/* Cloudsponge Settings */
+			add_settings_section( 'invite_anyone_cs', __( 'CloudSponge', 'bp-invite-anyone' ), 'invite_anyone_settings_cs_content', 'invite_anyone' );
+			
+			break;
+
+		case 'general-settings' :
+		default :	
+			/* General Settings */
+			add_settings_section('invite_anyone_general_settings', __('General Settings', 'bp-invite-anyone'), 'invite_anyone_settings_main_content', 'invite_anyone');
 		
-	
-	add_settings_field('invite_anyone_settings_is_customizable', __('Allow users to customize invitation', 'bp-invite-anyone'), 'invite_anyone_settings_is_customizable', 'invite_anyone', 'invite_anyone_general_settings');	
-
-	
-	add_settings_field('invite_anyone_settings_number_of_invitations', __('Number of email invitations users are permitted to send at a time', 'bp-invite-anyone'), 'invite_anyone_settings_number_of_invitations', 'invite_anyone', 'invite_anyone_general_settings');
-	
-	add_settings_field('invite_anyone_settings_can_send_group_invites_email', __('Allow users to send group invitations along with email invitations', 'bp-invite-anyone'), 'invite_anyone_settings_can_send_group_invites_email', 'invite_anyone', 'invite_anyone_general_settings');
-	
-	add_settings_field('invite_anyone_settings_bypass_registration_lock', __('Allow email invitations to be accepted even when site registration is disabled', 'bp-invite-anyone'), 'invite_anyone_settings_bypass_registration_lock', 'invite_anyone', 'invite_anyone_general_settings');	
-
-	/* Cloudsponge Settings */
-	add_settings_section( 'invite_anyone_cs', __( 'CloudSponge', 'bp-invite-anyone' ), 'invite_anyone_settings_cs_content', 'invite_anyone' );
-	
-	/* Access Settings */
-	add_settings_section('invite_anyone_access_settings', __('Access Settings', 'bp-invite-anyone'), 'invite_anyone_settings_access_content', 'invite_anyone');
-	
-	add_settings_field('invite_anyone_settings_email_visibility', __('Allow email invitations to be sent by', 'bp-invite-anyone'), 'invite_anyone_settings_email_visibility', 'invite_anyone', 'invite_anyone_access_settings');
-	
-	add_settings_field( 'invite_anyone_settings_group_invite_visibility', __( 'Limit group invitations', 'bp-invite-anyone' ), 'invite_anyone_settings_group_invite_visibility', 'invite_anyone', 'invite_anyone_access_settings' );
+			add_settings_field('invite_anyone_settings_replacement_patterns', __('Replacement patterns for email text fields', 'bp-invite-anyone'), 'invite_anyone_settings_replacement_patterns', 'invite_anyone', 'invite_anyone_general_settings');
+				
+			add_settings_field('invite_anyone_settings_default_invitation_subject', __('Text of email invitation subject line', 'bp-invite-anyone'), 'invite_anyone_settings_default_invitation_subject', 'invite_anyone', 'invite_anyone_general_settings');
+			
+			add_settings_field('invite_anyone_settings_default_invitation_message', __('Main text of email invitation message', 'bp-invite-anyone'), 'invite_anyone_settings_default_invitation_message', 'invite_anyone', 'invite_anyone_general_settings');
+			
+			add_settings_field('invite_anyone_settings_addl_invitation_message', __('Footer text of email invitation message (not editable by users)', 'bp-invite-anyone'), 'invite_anyone_settings_addl_invitation_message', 'invite_anyone', 'invite_anyone_general_settings');
+				
+			add_settings_field('invite_anyone_settings_is_customizable', __('Allow users to customize invitation', 'bp-invite-anyone'), 'invite_anyone_settings_is_customizable', 'invite_anyone', 'invite_anyone_general_settings');	
+		
+			add_settings_field('invite_anyone_settings_number_of_invitations', __('Number of email invitations users are permitted to send at a time', 'bp-invite-anyone'), 'invite_anyone_settings_number_of_invitations', 'invite_anyone', 'invite_anyone_general_settings');
+			
+			add_settings_field('invite_anyone_settings_can_send_group_invites_email', __('Allow users to send group invitations along with email invitations', 'bp-invite-anyone'), 'invite_anyone_settings_can_send_group_invites_email', 'invite_anyone', 'invite_anyone_general_settings');
+			
+			add_settings_field('invite_anyone_settings_bypass_registration_lock', __('Allow email invitations to be accepted even when site registration is disabled', 'bp-invite-anyone'), 'invite_anyone_settings_bypass_registration_lock', 'invite_anyone', 'invite_anyone_general_settings');	
+			
+			break;
+	}
 }
 add_action( 'admin_init', 'invite_anyone_settings_setup' );
 

@@ -1,3 +1,9 @@
+.ia-tabs li {
+	display: inline-block;
+	padding: 10px 20px;
+	background: #fff;
+}
+
 .invite-anyone-admin-limited ul {
 	padding-left: 30px;
 }
