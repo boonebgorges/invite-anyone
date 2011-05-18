@@ -219,7 +219,7 @@ class Invite_Anyone_Stats {
 						
 						if ( ( $u['overall']['accepted'] / $u['overall']['sent'] ) >= $leader_val_pct ) {
 							$leader_user_id_pct = $user_id;
-							$leader_val_pct = $u['overall']['accepted'] / $u['overall']['sent'];
+							$leader_val_pct = $u['overall']['accepted'] / $u['overall']['sent'] * 100;
 						}
 					}
 					
@@ -232,7 +232,7 @@ class Invite_Anyone_Stats {
 						
 						if ( ( $u['cloudsponge']['accepted'] / $u['cloudsponge']['sent'] ) >= $leader_val_pct_cs ) {
 							$leader_user_id_pct_cs = $user_id;
-							$leader_val_pct_cs = $u['cloudsponge']['accepted'] / $u['cloudsponge']['sent'];
+							$leader_val_pct_cs = $u['cloudsponge']['accepted'] / $u['cloudsponge']['sent'] * 100;
 						}
 					}
 				}
@@ -244,7 +244,7 @@ class Invite_Anyone_Stats {
 				
 				$period['top_users']['top_user_pct'] = array(
 					'user_id' => $leader_user_id_pct ? $leader_user_id_pct : false,
-					'accepted' => $leader_user_id_pct ? round( $leader_val_pct ) . '%' : '-'
+					'accepted' => $leader_val_pct ? round( $leader_val_pct ) . '%' : '-'
 				);
 				
 				$period['top_users']['top_user_num_cs'] = array(
@@ -254,7 +254,7 @@ class Invite_Anyone_Stats {
 				
 				$period['top_users']['top_user_pct_cs'] = array(
 					'user_id' => $leader_user_id_pct_cs ? $leader_user_id_pct_cs : false,
-					'accepted' => $leader_user_id_pct_cs ? round( $leader_val_pct_cs ) . '%' : '-'
+					'accepted' => $leader_val_pct_cs ? round( $leader_val_pct_cs ) . '%' : '-'
 				);
 				
 				// Fetch userlinks
