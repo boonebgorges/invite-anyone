@@ -482,6 +482,10 @@ function invite_anyone_settings_mi_content() {
 		</tbody>
 		</table>	
 		
+		<?php if ( defined( 'INVITE_ANYONE_CS_ENABLED' ) && INVITE_ANYONE_CS_ENABLED ) : ?>
+			<p class="description"><strong>Note:</strong> CloudSponge data has only been recorded since Invite Anyone v0.9.</p> 
+		<?php endif ?>
+		
 		<div class="ia-admin-pagination">
 			<div class="currently-viewing">
 				<?php $pagination->currently_viewing_text() ?>
