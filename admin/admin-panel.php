@@ -332,25 +332,155 @@ function invite_anyone_settings_cs_content() {
 }
 
 function invite_anyone_settings_mi_content() {
-	$args = array(
-		'orderby'	=> $orderby,
-		'order'		=> $order
+	// Load the pagination helper
+	if ( !class_exists( 'BBG_CPT_Pag' ) )
+		require_once( dirname( __FILE__ ) . '/../lib/bbg-cpt-pag.php' );
+	$pagination = new BBG_CPT_Pag;
+	
+	// Load the sortable helper
+	if ( !class_exists( 'BBG_CPT_Sort' ) )
+		require_once( dirname( __FILE__ ) . '/../lib/bbg-cpt-sort.php' );
+	
+	$cols = array(
+		array(
+			'name'		=> 'author',
+			'title'		=> 'Inviter',
+			'css_class'	=> 'ia-inviter'
+		),
+		array(
+			'name'		=> 'ia_invitees',
+			'title'		=> 'Invited Email',
+			'css_class'	=> 'ia-invited-email',
+			'is_sortable'	=> false
+		),
+		array(
+			'name'		=> 'sent',
+			'title'		=> 'Sent',
+			'css_class'	=> 'ia-sent',
+			'default_order'	=> 'desc',
+			'posts_column'	=> 'post_date',
+			'is_default'	=> true
+		),
+		array(
+			'name'		=> 'accepted',
+			'title'		=> 'Accepted',
+			'css_class'	=> 'ia-accepted',
+			'default_order'	=> 'desc'
+		),
+		array(
+			'name'		=> 'cloudsponge',
+			'title'		=> 'CloudSponge',
+			'css_class'	=> 'ia-cloudsponge'
+		),
 	);
 	
-	$invite = new Invite_Anyone_Invitation;
+	$sortable = new BBG_CPT_Sort( $cols );
 	
+	$args = array(
+		'orderby'		=> $sortable->get_orderby,
+		'order'			=> $sortable->get_order,
+		'posts_per_page'	=> $pagination->get_per_page,
+		'paged'			=> $pagination->get_paged
+	);
+	
+	// Get the invites
+	$invite = new Invite_Anyone_Invitation;	
 	$invites = $invite->get( $args );
-	
+
+	// Complete the pagination setup
+	$pagination->setup_query( $invites );
 	?>
 	
 	<?php if ( $invites->have_posts() ) : ?>
-		<table class="ia-invite-list">
-		<?php while ( $invites->have_posts() ) : $invites->the_post() ?>
+		<div class="ia-admin-pagination">
+			<div class="currently-viewing">
+				<?php $pagination->currently_viewing_text() ?>
+			</div>
+			
+			<div class="pag-links">
+				<?php $pagination->paginate_links() ?>
+			</div>
+		</div>
+		
+		<table class="wp-list-table widefat ia-invite-list">
+		
+		<thead>
 			<tr>
-				<td><?php the_title() ?></td>
+				<th scope="col" id="cb" class="check-column">
+					<input type="checkbox" />
+				</th>
+				
+				<?php if ( $sortable->have_columns() ) : while ( $sortable->have_columns() ) : $sortable->the_column() ?>
+					<?php $sortable->the_column_th() ?>
+				<?php endwhile; endif ?>
+				
 			</tr>
-		<?php endwhile ?>
-		</table>
+		</thead>
+
+		<tbody>
+			<?php while ( $invites->have_posts() ) : $invites->the_post() ?>
+			<tr>
+				<th scope="row" class="check-column">
+					<input type="checkbox" />
+				</th>
+				
+				<td class="ia-inviter">
+					<?php echo bp_core_get_userlink( get_the_author_ID() ) ?>
+				</td>
+				
+				<td class="ia-invited-email">
+					<?php
+					$emails = wp_get_post_terms( get_the_ID(), invite_anyone_get_invitee_tax_name() );
+					$email	= $emails[0]->name;
+					?>
+					<?php echo esc_html( $email ) ?>
+				</td>
+				
+				<td class="ia-sent">
+					<?php
+					global $post;
+					$date_invited = invite_anyone_format_date( $post->post_date );
+					?>
+					<?php echo esc_html( $date_invited ) ?>
+				</td>
+				
+				<td class="ia-accepted">
+					<?php
+					if ( $post->post_modified != $post->post_date ):
+						$date_joined = invite_anyone_format_date( $post->post_modified );
+						$accepted = true;
+					else:
+						$date_joined = '-';
+						$accepted = false;
+					endif;
+					?>
+					<?php echo esc_html( $date_joined ) ?>
+				</td>
+				
+				<td class="ia-cloudsponge">
+					<?php
+					$is_cloudsponge = get_post_meta( get_the_ID(), 'ia_is_cloudsponge' );
+					
+					if ( !$is_cloudsponge )
+						$is_cloudsponge = __( '(no data)', 'ia-invite-anyone' );
+					?>
+					<?php echo esc_html( $is_cloudsponge ) ?>
+				</td>
+			</tr>
+			<?php endwhile ?>
+		</tbody>
+		</table>	
+		
+		<div class="ia-admin-pagination">
+			<div class="currently-viewing">
+				<?php $pagination->currently_viewing_text() ?>
+			</div>
+			
+			<div class="pag-links">
+				<?php $pagination->paginate_links() ?>
+			</div>
+		</div>
+		
 	<?php endif ?>
 	
 	<?php
