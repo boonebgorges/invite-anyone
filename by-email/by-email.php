@@ -221,8 +221,9 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 			}
 			
 			// Mark as accepted
-			update_post_meta( get_the_ID(), 'bp_ia_accepted', $args['post_modified'] );
+			update_post_meta( get_the_ID(), 'bp_ia_accepted', date( 'Y-m-d H:i:s' ) );
 		}
+		
 		$inviters 	= array_unique( $inviters );
 
 		// Friendship requests
@@ -714,8 +715,10 @@ function invite_anyone_screen_two() {
 	
 					$date_invited = invite_anyone_format_date( $post->post_date );
 					
-					if ( $post->post_modified != $post->post_date ):
-						$date_joined = invite_anyone_format_date( $post->post_modified );
+					$accepted = get_post_meta( get_the_ID(), 'bp_ia_accepted', true );
+					
+					if ( $accepted ):
+						$date_joined = invite_anyone_format_date( $accepted );
 						$accepted = true;
 					else:
 						$date_joined = '-';

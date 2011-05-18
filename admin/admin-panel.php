@@ -457,8 +457,8 @@ function invite_anyone_settings_mi_content() {
 				
 				<td class="ia-accepted">
 					<?php
-					if ( $post->post_modified != $post->post_date ):
-						$date_joined = invite_anyone_format_date( $post->post_modified );
+					if ( $accepted = get_post_meta( get_the_ID(), 'bp_ia_accepted', true ) ):
+						$date_joined = invite_anyone_format_date( $accepted );
 						$accepted = true;
 					else:
 						$date_joined = '-';

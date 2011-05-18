@@ -480,7 +480,7 @@ class Invite_Anyone_Invitation {
 				$query_post_args[$value] = $r[$key];
 			}
 		}
-		//var_dump( $query_post_args );
+		
 		return new WP_Query( $query_post_args );
 	}
 	
@@ -680,7 +680,8 @@ function invite_anyone_clear_sent_invite( $args ) {
 			$success = true;
 	} else {
 		array(
-			'inviter_id'	=> $inviter_id
+			'inviter_id'	=> $inviter_id,
+			'posts_per_page' => -1
 		);
 		
 		$invite = new Invite_Anyone_Invitation;
@@ -694,12 +695,12 @@ function invite_anyone_clear_sent_invite( $args ) {
 				$clearme = false;				
 				switch ( $type ) {
 					case 'accepted' :	
-						if ( $post->post_modified != $post->post_date ) {
+						if ( get_post_meta( get_the_ID(), 'bp_ia_accepted', true ) ) {
 							$clearme = true;
 						}	
 						break;
 					case 'unaccepted' :	
-						if ( $post->post_modified == $post->post_date ) {
+						if ( !get_post_meta( get_the_ID(), 'bp_ia_accepted', true ) ) {
 							$clearme = true;
 						}	
 						break;

@@ -400,7 +400,7 @@ class Invite_Anyone_Stats {
 			<?php endforeach ?>
 			</tbody>
 		</table>
-<?php	var_dump( $this );
+<?php
 	}
 }
  
