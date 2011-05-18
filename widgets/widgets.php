@@ -38,7 +38,7 @@ class InviteAnyoneWidget extends WP_Widget {
         	$title = __( 'Invite Anyone', 'bp-invite-anyone' );
          
         if ( !$instruction_text = esc_attr( $instance['instruction_text'] ) )
-        	$instruction_text = __( 'Invite friends to join the site by entering their email addresses below.', 'bp-invite-anyone' );
+        	$instruction_text = __( 'Enter one email address per line to invite friends to join this site.', 'bp-invite-anyone' );
         ?>
         
         <?php /* Non-logged-in and unauthorized users should not see the widget */ ?>
