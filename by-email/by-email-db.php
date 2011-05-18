@@ -403,8 +403,8 @@ class Invite_Anyone_Invitation {
 			'groups'		=> false,
 			'status'		=> 'publish', // i.e., visible on Sent Invites
 			'date_created'		=> false,
-			'posts_per_page'	=> '10',
-			'paged'			=> '1',
+			'posts_per_page'	=> false,
+			'paged'			=> false,
 			'orderby'		=> 'post_date',
 			'order'			=> 'DESC'
 		) );
@@ -418,6 +418,11 @@ class Invite_Anyone_Invitation {
 		} else if ( $orderby == 'date_joined' || $orderby == 'accepted' ) {
 			$orderby	= 'meta_value';
 			$r['meta_key']	= 'bp_ia_accepted';
+		}
+		
+		if ( !$posts_per_page && !$paged ) {
+			$r['posts_per_page'] 	= '10';
+			$r['paged']		= '1';
 		}
 		
 		// Todo: move all of this business to metadata
@@ -475,7 +480,7 @@ class Invite_Anyone_Invitation {
 				$query_post_args[$value] = $r[$key];
 			}
 		}
-		
+		//var_dump( $query_post_args );
 		return new WP_Query( $query_post_args );
 	}
 	
@@ -532,18 +537,9 @@ class Invite_Anyone_Invitation {
 	 * @param array $args
 	 */
 	function mark_accepted() {
-		$args = array(
-			'ID'		=> $this->id,
-			'post_modified'	=> current_time('mysql')
-		);
-		
-		if ( wp_update_post( $args ) ) {
-			update_post_meta( $this->id, 'bp_ia_accepted', $args['post_modified'] );
-		
-			return true;
-		}
-		
-		return false;
+		update_post_meta( $this->id, 'bp_ia_accepted', $args['post_modified'] );
+	
+		return true;
 	}
 	
 	/**
@@ -645,7 +641,8 @@ function invite_anyone_get_invitations_by_invited_email( $email ) {
 	$email	= str_replace( ' ', '+', $email );
 	
 	$args = array(
-		'invitee_email'	=> $email
+		'invitee_email'	=> $email,
+		'posts_per_page' => -1
 	);
 	
 	$invite = new Invite_Anyone_Invitation;
@@ -784,11 +781,11 @@ function invite_anyone_check_is_opt_out( $email ) {
  * @param str $email The email address being checked
  */
 function invite_anyone_mark_as_opt_out( $email ) {
-	invite_anyone_get_invitations_by_invited_email( $email );
+	$invites = invite_anyone_get_invitations_by_invited_email( $email );
 	
-	if ( have_posts() ) {
-		while ( have_posts() ) {
-			the_post();
+	if ( $invites->have_posts() ) {
+		while ( $invites->have_posts() ) {
+			$invites->the_post();
 			
 			$invite = new Invite_Anyone_Invitation( get_the_ID() );
 			$invite->mark_opt_out();

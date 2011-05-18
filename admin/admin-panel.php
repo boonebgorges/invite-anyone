@@ -76,6 +76,10 @@ function invite_anyone_admin_panel() {
     			<a href="<?php echo add_query_arg( 'subpage', 'manage-invitations', $url_base ) ?>"><?php _e( 'Manage Invitations', 'bp-invite-anyone' ) ?></a>
     		</li>
     		
+    		<li<?php if ( 'stats' == $subpage ) : ?> class="current"<?php endif ?>>
+    			<a href="<?php echo add_query_arg( 'subpage', 'stats', $url_base ) ?>"><?php _e( 'Stats', 'bp-invite-anyone' ) ?></a>
+    		</li>
+    		
     		
     	</ul>
     
@@ -120,6 +124,12 @@ function invite_anyone_settings_setup() {
 		case 'manage-invitations' :
 			/* Manage Invitations */
 			add_settings_section( 'invite_anyone_manage_invitations', __( 'Manage Invitations', 'bp-invite-anyone' ), 'invite_anyone_settings_mi_content', 'invite_anyone' );
+			
+			break;
+		
+		case 'stats' :
+			/* Stats */
+			add_settings_section( 'invite_anyone_stats', __( 'Stats', 'bp-invite-anyone' ), 'invite_anyone_settings_stats_content', 'invite_anyone' );
 			
 			break;
 
@@ -486,6 +496,12 @@ function invite_anyone_settings_mi_content() {
 	
 	<?php
 	
+}
+
+function invite_anyone_settings_stats_content() {
+	require( dirname( __FILE__ ) . '/admin-stats.php' );
+	$stats = new Invite_Anyone_Stats;
+	$stats->display();	
 }
 
 function invite_anyone_settings_check($input) {
