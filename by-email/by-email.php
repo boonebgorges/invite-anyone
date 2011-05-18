@@ -153,12 +153,12 @@ function invite_anyone_register_screen_message() {
 
 
 		<?php
-			invite_anyone_get_invitations_by_invited_email( $email );
-			
+			$ia_obj = invite_anyone_get_invitations_by_invited_email( $email );
+			//var_dump( $ia_obj );
 			$inviters = array();
-			if ( have_posts() ) {
-				while ( have_posts() ) {
-					the_post();
+			if ( $ia_obj->have_posts() ) {
+				while ( $ia_obj->have_posts() ) {
+					$ia_obj->the_post();
 					$inviters[] = get_the_author_meta( 'ID' );
 				}
 			}
@@ -198,15 +198,20 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 	global $bp;
 
 	$email = bp_core_get_user_email( $user_id );
+	
+	// Mark as "is_joined"
+	invite_anyone_mark_as_joined( $email );
 
 	// Fire the query
-	invite_anyone_get_invitations_by_invited_email( $email );
-	if ( have_posts() ) {
+	$invites = invite_anyone_get_invitations_by_invited_email( $email );
+	
+	if ( $invites->have_posts() ) {
 		// From the posts returned by the query, get a list of unique inviters
 		$inviters 	= array();
 		$groups		= array();
-		while ( have_posts() ) {
-			the_post();
+		while ( $invites->have_posts() ) {
+			$invites->the_post();
+			
 			$inviter_id	= get_the_author_meta( 'ID' );
 			$inviters[] 	= $inviter_id;
 				
@@ -219,9 +224,6 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 			}
 		}
 		$inviters 	= array_unique( $inviters );
-	
-		// Mark as "is_joined"
-		invite_anyone_mark_as_joined( $email );
 
 		// Friendship requests
 		if ( bp_is_active( 'friends' ) ) {	

@@ -4,11 +4,12 @@
 }
 	.ia-tabs li {
 		display: inline-block;
-		padding: 6px 12px;
+		padding: 4px 10px;
 		background: #f9f9f9;
-		margin: 0 10px;
+		margin: 0 7px;
 		border: 1px solid #f9f9f9;
 		border-bottom: none;
+		border-radius: 5px 5px 0 0;
 	}
 	.ia-tabs li.current {
 		border-color: #666;
@@ -80,3 +81,13 @@ div.cs p {
 .widefat .ia-cloudsponge {
 	width: 100px;
 }
+
+.ia-stats th, .ia-stats td {
+	width: 50px;
+}
+	.ia-stats .in-the-last {
+		width: 80px;
+	}
+	.ia-stats .description {
+		font-size: 9px;
+	}
