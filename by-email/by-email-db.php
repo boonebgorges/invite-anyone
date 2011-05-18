@@ -210,6 +210,9 @@ class Invite_Anyone_Schema {
 		unset( $invites );
 		unset( $args );
 		
+		// WP bug
+		$old_wp_query = $wp_query;
+		
 		$paged = 0;
 		while ( $paged * 30 <= $total_invites ) {
 			$paged++;
@@ -246,6 +249,9 @@ class Invite_Anyone_Schema {
 			unset( $invites );
 			unset( $args );			
 		}
+		
+		// WP bug
+		$wp_query = $old_wp_query;
 	}
 }
 
