@@ -84,9 +84,13 @@ div.cs p {
 
 .ia-stats th, .ia-stats td {
 	width: 50px;
+	vertical-align: middle;
 }
 	.ia-stats .in-the-last {
 		width: 80px;
+	}
+	.ia-stats .top-inviter {
+		width: 90px;
 	}
 	.ia-stats .description {
 		font-size: 9px;
