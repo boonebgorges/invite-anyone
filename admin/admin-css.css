@@ -1,8 +1,18 @@
-.ia-tabs li {
-	display: inline-block;
-	padding: 10px 20px;
-	background: #fff;
+.ia-tabs {
+	background: #d7d7d7;
+	padding-top: 10px;
 }
+	.ia-tabs li {
+		display: inline-block;
+		padding: 6px 12px;
+		background: #f9f9f9;
+		margin: 0 10px;
+		border: 1px solid #f9f9f9;
+		border-bottom: none;
+	}
+	.ia-tabs li.current {
+		border-color: #666;
+	}
 
 .invite-anyone-admin-limited ul {
 	padding-left: 30px;
@@ -34,4 +44,9 @@ div.cs p {
 
 .cs-logo {
 	float: left;
+}
+
+#invite-anyone-settings-submit {
+	margin-top: 30px;
+	clear: both;
 }

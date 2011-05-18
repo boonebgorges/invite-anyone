@@ -31,6 +31,7 @@ function invite_anyone_admin_styles() {
 }
 
 function invite_anyone_admin_panel() {
+	$subpage = isset( $_GET['subpage' ] ) ? $_GET['subpage'] : 'general-settings';
 	
 	if ( !empty( $_GET['migrate'] ) && $_GET['migrate'] == '1' ) {
 		$iaoptions 	= get_option( 'invite_anyone' );
@@ -59,19 +60,19 @@ function invite_anyone_admin_panel() {
     	<h2><?php _e( 'Invite Anyone', 'bp-invite-anyone' ) ?></h2>
     
     	<ul class="ia-tabs">
-    		<li>
+    		<li<?php if ( 'general-settings' == $subpage ) : ?> class="current"<?php endif ?>>
     			<a href="<?php echo add_query_arg( 'subpage', 'general-settings', $url_base ) ?>"><?php _e( 'General Settings', 'bp-invite-anyone' ) ?></a>
     		</li>
     		
-    		<li>
+    		<li<?php if ( 'access-control' == $subpage ) : ?> class="current"<?php endif ?>>
     			<a href="<?php echo add_query_arg( 'subpage', 'access-control', $url_base ) ?>"><?php _e( 'Access Control', 'bp-invite-anyone' ) ?></a>
     		</li>
     		
-    		<li>
+    		<li<?php if ( 'cloudsponge' == $subpage ) : ?> class="current"<?php endif ?>>
     			<a href="<?php echo add_query_arg( 'subpage', 'cloudsponge', $url_base ) ?>"><?php _e( 'CloudSponge', 'bp-invite-anyone' ) ?></a>
     		</li>
     		
-    		<li>
+    		<li<?php if ( 'manage-invitations' == $subpage ) : ?> class="current"<?php endif ?>>
     			<a href="<?php echo add_query_arg( 'subpage', 'manage-invitations', $url_base ) ?>"><?php _e( 'Manage Invitations', 'bp-invite-anyone' ) ?></a>
     		</li>
     		
@@ -113,6 +114,12 @@ function invite_anyone_settings_setup() {
 		case 'cloudsponge' :
 			/* Cloudsponge Settings */
 			add_settings_section( 'invite_anyone_cs', __( 'CloudSponge', 'bp-invite-anyone' ), 'invite_anyone_settings_cs_content', 'invite_anyone' );
+			
+			break;
+		
+		case 'manage-invitations' :
+			/* Manage Invitations */
+			add_settings_section( 'invite_anyone_manage_invitations', __( 'Manage Invitations', 'bp-invite-anyone' ), 'invite_anyone_settings_mi_content', 'invite_anyone' );
 			
 			break;
 
@@ -323,9 +330,11 @@ function invite_anyone_settings_cs_content() {
 			<p class="description"><?php _e( 'When you use CloudSponge with Invite Anyone, part of your CloudSponge monthly payment goes to the author of Invite Anyone. This is a great way to support future development of the plugin. Thanks for your support!', 'bp-invite-anyone' ) ?></p>
 		</div>
 	</div>
-	
-	
 <?php
+}
+
+function invite_anyone_settings_mi_content() {
+	echo 'yeah';
 }
 
 function invite_anyone_settings_check($input) {
