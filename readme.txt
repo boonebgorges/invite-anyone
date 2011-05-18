@@ -41,7 +41,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 == Changelog ==
 
 = 0.9 =
-* Revamped admin screens, including admin view of all sent invites
+* Revamped admin screens, including admin view of all sent invites and stats about invitations
 * Improved support for sorting by accepted date and by email address
 * Pagination added to Sent Invites screen
 * Fixed bug that caused Send Invites button to appear incorrectly on group create screen in some cases
