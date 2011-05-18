@@ -350,8 +350,7 @@ function invite_anyone_settings_mi_content() {
 		array(
 			'name'		=> 'ia_invitees',
 			'title'		=> 'Invited Email',
-			'css_class'	=> 'ia-invited-email',
-			'is_sortable'	=> false
+			'css_class'	=> 'ia-invited-email'
 		),
 		array(
 			'name'		=> 'sent',
@@ -386,7 +385,7 @@ function invite_anyone_settings_mi_content() {
 	// Get the invites
 	$invite = new Invite_Anyone_Invitation;	
 	$invites = $invite->get( $args );
-
+	
 	// Complete the pagination setup
 	$pagination->setup_query( $invites );
 	?>
@@ -431,9 +430,11 @@ function invite_anyone_settings_mi_content() {
 				<td class="ia-invited-email">
 					<?php
 					$emails = wp_get_post_terms( get_the_ID(), invite_anyone_get_invitee_tax_name() );
-					$email	= $emails[0]->name;
+					
+					foreach( $emails as $email ) {
+						echo esc_html( $email->name );
+					}
 					?>
-					<?php echo esc_html( $email ) ?>
 				</td>
 				
 				<td class="ia-sent">

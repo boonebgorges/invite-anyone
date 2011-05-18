@@ -684,7 +684,6 @@ function invite_anyone_screen_two() {
 				<tbody>
 				<?php while ( $invites->have_posts() ) : $invites->the_post() ?>
 				
-				
 				<?php
 					$emails = wp_get_post_terms( get_the_ID(), invite_anyone_get_invitee_tax_name() );
 					$email	= $emails[0]->name;
