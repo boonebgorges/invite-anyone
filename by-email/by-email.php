@@ -999,6 +999,11 @@ function invite_anyone_process_invitations( $data ) {
 		bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members' );
 	}
 	
+	// Turn the CS emails into an array so that they can be matched against the main list
+	if ( isset( $_POST['cloudsponge-emails'] ) ) {
+		$cs_emails = explode( ',', $_POST['cloudsponge-emails'] );
+	}
+	
 	// validate email addresses
 	foreach( $emails as $key => $email ) {
 		$check = invite_anyone_validate_email( $email );
@@ -1072,7 +1077,10 @@ function invite_anyone_process_invitations( $data ) {
 		/*	if ( !invite_anyone_send_invitation( $bp->loggedin_user->id, $email, $message, $groups ) )
 				$is_error = 1; */
 	
-			invite_anyone_record_invitation( $bp->loggedin_user->id, $email, $message, $groups, $subject );
+			// Determine whether this address came from CloudSponge
+			$is_cloudsponge = isset( $cs_emails ) && in_array( $email, $cs_emails ) ? true : false;
+	
+			invite_anyone_record_invitation( $bp->loggedin_user->id, $email, $message, $groups, $subject, $is_cloudsponge );
 			
 			do_action( 'sent_email_invite', $bp->loggedin_user->id, $email, $groups );
 	

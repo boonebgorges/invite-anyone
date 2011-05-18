@@ -319,14 +319,15 @@ class Invite_Anyone_Invitation {
 	function create( $args = false ) {
 		// Set up the default arguments
 		$defaults = apply_filters( 'invite_anyone_create_invite_defaults', array(
-			'inviter_id' 	=> bp_loggedin_user_id(),
-			'invitee_email'	=> false,
-			'message'	=> false,
-			'subject'	=> false,
-			'groups'	=> false,
-			'status'	=> 'publish', // i.e., visible on Sent Invites
-			'date_created'	=> bp_core_current_time( false ),
-			'date_modified'	=> bp_core_current_time( false ),
+			'inviter_id' 	 => bp_loggedin_user_id(),
+			'invitee_email'	 => false,
+			'message'	 => false,
+			'subject'	 => false,
+			'groups'	 => false,
+			'status'	 => 'publish', // i.e., visible on Sent Invites
+			'date_created'	 => bp_core_current_time( false ),
+			'date_modified'	 => bp_core_current_time( false ),
+			'is_cloudsponge' => false
 		) );
 		
 		$r = wp_parse_args( $args, $defaults );
@@ -364,6 +365,9 @@ class Invite_Anyone_Invitation {
 		
 		// Save a blank bp_ia_accepted post_meta
 		update_post_meta( $this->id, 'bp_ia_accepted', '' );
+		
+		// Save a meta item about whether this is a CloudSponge email
+		update_post_meta( $this->id, 'bp_ia_is_cloudsponge', $is_cloudsponge ? __( 'Yes', 'bp-invite-anyone' ) : __( 'No', 'bp-invite-anyone' ) );
 	
 		// Now set up the taxonomy terms
 		
@@ -584,14 +588,16 @@ class Invite_Anyone_Invitation {
  * @param str $message The content of the email message
  * @param array $groups An array of group ids that the invitation invites the user to join
  * @param str $subject Optional The subject line of the email
+ * @param bool $is_cloudsponge Did this email address originate with CloudSponge?
  */
-function invite_anyone_record_invitation( $inviter_id, $email, $message, $groups, $subject = false ) {
+function invite_anyone_record_invitation( $inviter_id, $email, $message, $groups, $subject = false, $is_cloudsponge = false ) {
 	$args = array(
-		'inviter_id' 	=> $inviter_id,
-		'invitee_email'	=> $email,
-		'message'	=> $message,
-		'subject'	=> $subject,
-		'groups'	=> $groups
+		'inviter_id' 	 => $inviter_id,
+		'invitee_email'	 => $email,
+		'message'	 => $message,
+		'subject'	 => $subject,
+		'groups'	 => $groups,
+		'is_cloudsponge' => $is_cloudsponge
 	);
 	
 	$invite = new Invite_Anyone_Invitation;
