@@ -551,7 +551,11 @@ class Invite_Anyone_Invitation {
 	 * @param array $args
 	 */
 	function clear() {
-		if ( wp_delete_post( $this->id ) )
+		$args = array(
+			'ID'		=> $this->id,
+			'post_status' 	=> 'draft'
+		);
+		if ( wp_update_post( $args ) )
 			return true;
 		
 		return false;

@@ -389,7 +389,8 @@ function invite_anyone_settings_mi_content() {
 		'orderby'		=> $sortable->get_orderby,
 		'order'			=> $sortable->get_order,
 		'posts_per_page'	=> $pagination->get_per_page,
-		'paged'			=> $pagination->get_paged
+		'paged'			=> $pagination->get_paged,
+		'status' 		=> array( 'trash', 'publish', 'pending', 'draft', 'future' ) 
 	);
 	
 	// Get the invites

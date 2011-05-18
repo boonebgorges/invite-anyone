@@ -64,7 +64,13 @@ class Invite_Anyone_Stats {
 	 * @since 0.9
 	 */
 	function setup_get_params() {
+		$params = array();
 		
+		if ( isset( $_REQUEST['user_id'] ) ) {
+			$params['user_id'] = (int)$_REQUEST['user_id'];	
+		}
+		
+		$this->params = $params;
 	}
 	
 	/**
@@ -84,7 +90,8 @@ class Invite_Anyone_Stats {
 			
 			// Will be populated out of $this->params. Defaults to none?
 			$args = array(
-				'posts_per_page' => '-1'
+				'posts_per_page' => '-1',
+				'status'    => array( 'pending', 'draft', 'future', 'publish', 'trash' ) 
 			);
 
 			// Create the date filter
@@ -290,6 +297,7 @@ class Invite_Anyone_Stats {
 	 */
 	function display() {
 ?>
+		
 		<table class="widefat ia-stats">
 			<thead><tr>
 				<th scope="col" class="in-the-last">
