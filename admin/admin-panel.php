@@ -435,6 +435,10 @@ function invite_anyone_settings_mi_content() {
 				
 				<td class="ia-inviter">
 					<?php echo bp_core_get_userlink( get_the_author_ID() ) ?>
+					
+					<div class="row-actions">
+						<span class="edit"><a href="<?php echo add_query_arg( array( 'post' => get_the_ID(), 'action' => 'edit' ), admin_url( 'post.php' ) ) ?>"><?php _e( 'View Invitation', 'bp-invite-anyone' ) ?></a></span>
+					</div>
 				</td>
 				
 				<td class="ia-invited-email">
