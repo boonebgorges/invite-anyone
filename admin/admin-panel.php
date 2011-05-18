@@ -320,8 +320,6 @@ function invite_anyone_settings_cs_content() {
 			<p><?php _e( '<a href="http://www.cloudsponge.com/?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator">CloudSponge</a> is a cool service that gives your users easy and secure access to their address books (Gmail, Yahoo, and a number of other online and desktop email clients), so that they can more easily invite friends to your site. In order to enable CloudSponge support in Invite Anyone and BuddyPress, you\'ll need to <a href="http://www.cloudsponge.com/signup?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator">register for a CloudSponge account</a>.', 'bp-invite-anyone' ) ?></p>
 			
 			<label for="invite_anyone[cloudsponge_enabled]"><input type="checkbox" name="invite_anyone[cloudsponge_enabled]" id="cloudsponge-enabled" <?php checked( $options['cloudsponge_enabled'], 'on' ) ?>/> <strong><?php _e( 'Enable CloudSponge?', 'bp-invite-anyone' ) ?></strong></label>
-		
-			
 		</div>
 		
 		<div class="cs-settings">
@@ -334,7 +332,29 @@ function invite_anyone_settings_cs_content() {
 }
 
 function invite_anyone_settings_mi_content() {
-	echo 'yeah';
+	$args = array(
+		'orderby'	=> $orderby,
+		'order'		=> $order
+	);
+	
+	$invite = new Invite_Anyone_Invitation;
+	
+	$invites = $invite->get( $args );
+	
+	?>
+	
+	<?php if ( $invites->have_posts() ) : ?>
+		<table class="ia-invite-list">
+		<?php while ( $invites->have_posts() ) : $invites->the_post() ?>
+			<tr>
+				<td><?php the_title() ?></td>
+			</tr>
+		<?php endwhile ?>
+		</table>
+	<?php endif ?>
+	
+	<?php
+	
 }
 
 function invite_anyone_settings_check($input) {

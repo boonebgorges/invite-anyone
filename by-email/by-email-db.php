@@ -172,7 +172,7 @@ class Invite_Anyone_Invitation {
 	 *
 	 * @param int $id Optional. The unique id of the invitation post
 	 */
-	function invite_anyone_invitation( $id = false ) {
+	function invite_anyone_invitation( $id = false, $user_id ) {
 		$this->construct( $id );
 	}
 	
@@ -289,6 +289,7 @@ class Invite_Anyone_Invitation {
 			'groups'		=> false,
 			'status'		=> 'publish', // i.e., visible on Sent Invites
 			'date_created'		=> false,
+			'posts_per_page'	=> '-1',
 			'orderby'		=> 'post_date',
 			'order'			=> 'DESC'
 		) );
@@ -318,12 +319,13 @@ class Invite_Anyone_Invitation {
 		// Add optional arguments, if provided
 		// Todo: The tax and meta stuff needs to be updated for 3.1 queries
 		$optional_args = array(
-			'message' 	=> 'post_content',
-			'subject'	=> 'post_title',
-			'date_created'	=> 'date_created',
-			'invitee_email'	=> $this->invitee_tax_name,
-			'meta_key'	=> 'meta_key',
-			'meta_value'	=> 'meta_value'
+			'message' 		=> 'post_content',
+			'subject'		=> 'post_title',
+			'date_created'		=> 'date_created',
+			'invitee_email'		=> $this->invitee_tax_name,
+			'meta_key'		=> 'meta_key',
+			'meta_value'		=> 'meta_value',
+			'posts_per_page'	=> 'posts_per_page'
 		);
 		
 		foreach ( $optional_args as $key => $value ) {
@@ -332,7 +334,7 @@ class Invite_Anyone_Invitation {
 			}
 		}
 		
-		query_posts( $query_post_args );
+		return new WP_Query( $query_post_args );
 	}
 	
 	/**
@@ -434,7 +436,7 @@ function invite_anyone_get_invitations_by_inviter_id( $inviter_id, $orderby = fa
 	
 	$invite = new Invite_Anyone_Invitation;
 	
-	$invite->get( $args );
+	return $invite->get( $args );
 }
 
 /**
@@ -455,7 +457,7 @@ function invite_anyone_get_invitations_by_invited_email( $email ) {
 	
 	$invite = new Invite_Anyone_Invitation;
 	
-	$invite->get( $args );
+	return $invite->get( $args );
 }
 
 /**
@@ -493,11 +495,11 @@ function invite_anyone_clear_sent_invite( $args ) {
 		
 		$invite = new Invite_Anyone_Invitation;
 		
-		$invite->get( $args );
+		$iobj = $invite->get( $args );
 		
-		if ( have_posts() ) {
-			while ( have_posts() ) {
-				the_post();
+		if ( $iobj->have_posts() ) {
+			while ( $iobj->have_posts() ) {
+				$iobj->the_post();
 
 				$clearme = false;				
 				switch ( $type ) {
@@ -538,10 +540,10 @@ function invite_anyone_clear_sent_invite( $args ) {
  * @param str $email The email address being checked
  */
 function invite_anyone_mark_as_joined( $email ) {
-	invite_anyone_get_invitations_by_invited_email( $email );
+	$invites = invite_anyone_get_invitations_by_invited_email( $email );
 	
-	if ( have_posts() ) {
-		while ( have_posts() ) {
+	if ( $invites->have_posts() ) {
+		while ( $invites->have_posts() ) {
 			the_post();
 			
 			$invite = new Invite_Anyone_Invitation( get_the_ID() );
@@ -572,9 +574,9 @@ function invite_anyone_check_is_opt_out( $email ) {
 	
 	$invite = new Invite_Anyone_Invitation;
 	
-	$invite->get( $args );
+	$invites = $invite->get( $args );
 	
-	if ( have_posts() ) 
+	if ( $invites->have_posts() ) 
 		return true;
 	else
 		return false;
