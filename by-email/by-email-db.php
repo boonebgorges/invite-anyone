@@ -36,6 +36,12 @@ class Invite_Anyone_Schema {
 			return;
 		}
 		
+		// Check the current db version and update if necessary
+		$db_version = get_option( 'invite_anyone_db_version' );
+		
+		if ( $db_version != BP_INVITE_ANYONE_DB_VER )
+			update_option( 'invite_anyone_db_version', BP_INVITE_ANYONE_DB_VER );
+		
 		// Define the post type name used throughout
 		$this->post_type_name = apply_filters( 'invite_anyone_post_type_name', 'ia_invites' );
 		
@@ -647,7 +653,12 @@ function invite_anyone_migrate_nag() {
  	// Don't run this migrator if coming from IA 0.8 or greater
  	if ( version_compare( $maybe_version, '0.8', '>=' ) )
  		return;
-	
+ 	
+ 	$table_exists = $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", "%{$wpdb->base_prefix}bp_invite_anyone%" ) );
+ 	
+ 	if ( !$table_exists )
+ 		return;
+ 	
 	// First, check to see whether the data table exists
 	$table_name 	= $wpdb->base_prefix . 'bp_invite_anyone';  
 	$invite_count	= $wpdb->get_var( "SELECT COUNT(*) FROM {$table_name}" );
