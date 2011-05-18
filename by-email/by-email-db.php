@@ -96,7 +96,7 @@ class Invite_Anyone_Schema {
 			'labels' 	=> $post_type_labels,
 			'public' 	=> false,
 			'_builtin' 	=> false,
-			'show_ui' 	=> true,
+			'show_ui' 	=> $this->show_dashboard_ui(),
 			'hierarchical' 	=> false,
 			'menu_icon'	=> WP_PLUGIN_URL . '/invite-anyone/images/smallest_buddypress_icon_ev.png',
 			'supports' 	=> array( 'title', 'editor', 'custom-fields' )
@@ -147,6 +147,19 @@ class Invite_Anyone_Schema {
 		// Stash in $bp because of template tags that need it
 		$bp->invite_anyone->invitee_tax_name = $this->invitee_tax_name;
 		$bp->invite_anyone->invited_groups_tax_name = $this->invited_groups_tax_name;
+	}
+	
+	/**
+	 * A filtered check for is_super_admin(), so plugins can mod who can see the Dashboard UI
+	 * for the custom post type
+	 *
+	 * @package Invite Anyone
+	 * @since 0.9
+	 *
+	 * @return bool
+	 */
+	function show_dashboard_ui() {
+		return apply_filters( 'show_dashboard_ui', is_super_admin() );
 	}
 }
 
