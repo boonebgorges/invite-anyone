@@ -40,6 +40,10 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Changelog ==
 
+= 0.8.10 =
+* Fixed bug that caused Send Invites button to appear incorrectly on group create screen in some cases
+* Fixed bug that caused group create form not to submit in some browsers
+
 = 0.8.9 =
 * Fixed bug that made Cloudsponge scripts load even when CS integration was turned off
 * Fixed bug that prevented Cloudsponge authorization to happen because of a problem in script loading order

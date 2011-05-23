@@ -107,7 +107,7 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 		<p><?php _e( 'Want to invite someone to the group who is not yet a member of the site?', 'bp-invite-anyone' ) ?> <a href="<?php echo bp_loggedin_user_domain() . BP_INVITE_ANYONE_SLUG . '/invite-new-members/group-invites/' . bp_get_group_id() ?>"><?php _e( 'Send invitations by email.', 'bp-invite-anyone' ) ?></a></p>
 	<?php endif; ?>
 
-	<?php if ( $event != 'create' ) : ?>
+	<?php if ( !bp_get_new_group_id() ) : ?>
 			<form action="send" method="post" id="send-invite-form">
 	<?php endif; ?>
 
@@ -171,7 +171,7 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 
 	<div class="clear"></div>
 
-	<?php if ( $event != 'create' ) : ?>
+	<?php if ( !bp_get_new_group_id() ) : ?>
 	<div class="submit">
 		<input type="submit" name="submit" id="submit" value="<?php _e( 'Send Invites', 'buddypress' ) ?>" />
 	</div>
@@ -188,7 +188,7 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 	}
 	?>
 
-	<?php if ( $event != 'create' ) : ?>
+	<?php if ( !bp_get_new_group_id() ) : ?>
 		</form>
 	<?php endif; ?>
 
