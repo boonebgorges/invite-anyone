@@ -7,7 +7,7 @@ Tested up to: WP 3.1.2, BuddyPress 1.2.8
 Stable tag: 0.9.1
 
 Makes BuddyPress's invitation features more powerful.
-
+ 
 == Description ==
 
 Invite Anyone has two components:
