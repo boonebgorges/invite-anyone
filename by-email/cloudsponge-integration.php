@@ -46,6 +46,12 @@ class Cloudsponge_Integration {
 	function enqueue_script() {
 		wp_enqueue_script( 'ia_cloudsponge_address_books', 'https://api.cloudsponge.com/address_books.js', array(), false, true );
 		wp_enqueue_script( 'ia_cloudsponge', WP_PLUGIN_URL . '/invite-anyone/by-email/cloudsponge-js.js', array( 'ia_cloudsponge_address_books' ), false, true );
+		
+		// The domain key must be printed as a javascript object so it's accessible to the
+		// script
+		wp_localize_script( 'ia_cloudsponge', 'ia_cloudsponge', array(
+			'domain_key' => $this->key
+		) );
 	}
 
 	/**
