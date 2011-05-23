@@ -44,7 +44,8 @@ class Cloudsponge_Integration {
 	 * @since 0.8.8
 	 */
 	function enqueue_script() {
-		wp_enqueue_script( 'ia_cloudsponge', 'https://api.cloudsponge.com/address_books.js', array(), false, true );
+		wp_enqueue_script( 'ia_cloudsponge_address_books', 'https://api.cloudsponge.com/address_books.js', array(), false, true );
+		wp_enqueue_script( 'ia_cloudsponge', WP_PLUGIN_URL . '/invite-anyone/by-email/cloudsponge-js.js', array( 'ia_cloudsponge_address_books' ), false, true );
 	}
 
 	/**
@@ -56,36 +57,7 @@ class Cloudsponge_Integration {
 	 * @param array $options Invite Anyone settings. Check em so we can bail if necessary
 	 */
 	function import_markup( $options = false ) {
-		?>		
-		
-<script type="text/javascript" charset="utf-8">
-	csInit( { 	
-		domain_key:"<?php echo esc_html( $this->key ) ?>",
-		referrer: 'invite-anyone',
-		afterSubmitContacts:function(contacts) {
-			var emails = [];
-			var contact, name, email;
-			for(var i=0; i < contacts.length; i++) {
-				contact = contacts[i];
-				name = contact.fullName();
-				email = contact.selectedEmail();
-				emails.push(email);
-			}
-			
-			var textarea = document.getElementById('invite-anyone-email-addresses');
-			/* Strip any manually entered whitespace */
-			var already_emails = textarea.value.replace(/^\s+|\s+$/g,"");
-			
-			var new_emails;
-			if ( already_emails == false ) {
-				new_emails = emails.join("\n");
-			} else {
-				new_emails = already_emails + "\n" + emails.join("\n")
-			}
-			document.getElementById('invite-anyone-email-addresses').value = new_emails;
-		}
-	} );
-</script>
+		?>
 
 <input type="hidden" id="cloudsponge-emails" name="cloudsponge-emails" value="" />
 
