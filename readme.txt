@@ -40,6 +40,9 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Changelog ==
 
+= 0.8.8 =
+* Added an icon to the custom post type. Props Bowe for whipping it up
+
 = 0.8.7 =
 * Fixed bug where an undeclared global was causing the custom post type not to be loaded on multisite installations
 
