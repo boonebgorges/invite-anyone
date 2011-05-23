@@ -233,6 +233,7 @@ class Invite_Anyone_Schema {
 				while ( $invites->have_posts() ) {
 					$invites->the_post();
 					
+					// Migrate the accepted data from date_modified to a meta
 					if ( !get_post_meta( get_the_ID(), 'bp_ia_accepted', true ) ) {						
 						// When the dates are different, it's been accepted
 						if ( $post->post_date != $post->post_modified ) {
@@ -415,11 +416,6 @@ class Invite_Anyone_Invitation {
 			$r['meta_key']	= 'bp_ia_accepted';
 		}
 		
-		if ( !$posts_per_page && !$paged ) {
-			$r['posts_per_page'] 	= '10';
-			$r['paged']		= '1';
-		}
-		
 		// Todo: move all of this business to metadata
 		if ( 'ia_invitees' == $orderby ) {
 			// Filtering the query so that it's possible to sort by taxonomy terms
@@ -466,7 +462,8 @@ class Invite_Anyone_Invitation {
 			'meta_key'		=> 'meta_key',
 			'meta_value'		=> 'meta_value',
 			'posts_per_page'	=> 'posts_per_page',
-			'paged'			=> 'paged'
+			'paged'			=> 'paged',
+			'tax_query'		=> 'tax_query'
 		);
 		
 		foreach ( $optional_args as $key => $value ) {
