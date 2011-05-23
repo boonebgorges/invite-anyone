@@ -332,7 +332,29 @@ function invite_anyone_settings_cs_content() {
 }
 
 function invite_anyone_settings_mi_content() {
-	echo 'yeah';
+	$args = array(
+		'orderby'	=> $orderby,
+		'order'		=> $order
+	);
+	
+	$invite = new Invite_Anyone_Invitation;
+	
+	$invites = $invite->get( $args );
+	
+	?>
+	
+	<?php if ( $invites->have_posts() ) : ?>
+		<table class="ia-invite-list">
+		<?php while ( $invites->have_posts() ) : $invites->the_post() ?>
+			<tr>
+				<td><?php the_title() ?></td>
+			</tr>
+		<?php endwhile ?>
+		</table>
+	<?php endif ?>
+	
+	<?php
+	
 }
 
 function invite_anyone_settings_check($input) {
