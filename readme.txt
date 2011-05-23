@@ -4,7 +4,7 @@ Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WP 2.8, BuddyPress 1.1
 Tested up to: WP 3.1, BuddyPress 1.2.8
-Stable tag: 0.8.8
+Stable tag: 0.8.9
 
 Makes BuddyPress's invitation features more powerful.
  
@@ -39,6 +39,11 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Russian: Jettochkin
 
 == Changelog ==
+
+= 0.8.9 =
+* Fixed bug that made Cloudsponge scripts load even when CS integration was turned off
+* Fixed bug that prevented Cloudsponge authorization to happen because of a problem in script loading order
+* Cleaned up markup in the admin panel
 
 = 0.8.8 =
 * Added an icon to the custom post type. Props Bowe for whipping it up
