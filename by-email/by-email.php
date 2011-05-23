@@ -154,7 +154,7 @@ function invite_anyone_register_screen_message() {
 
 		<?php
 			$ia_obj = invite_anyone_get_invitations_by_invited_email( $email );
-			//var_dump( $ia_obj );
+			
 			$inviters = array();
 			if ( $ia_obj->have_posts() ) {
 				while ( $ia_obj->have_posts() ) {
