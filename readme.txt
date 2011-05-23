@@ -42,6 +42,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 = 0.8.8 =
 * Added an icon to the custom post type. Props Bowe for whipping it up
+* Fixed bug that caused sent invites to be recorded as sent at GMT rather than properly offset for time zone
 
 = 0.8.7 =
 * Fixed bug where an undeclared global was causing the custom post type not to be loaded on multisite installations
