@@ -400,6 +400,10 @@ class Invite_Anyone_Stats {
 			<?php endforeach ?>
 			</tbody>
 		</table>
+		
+		<?php if ( defined( 'INVITE_ANYONE_CS_ENABLED' ) && INVITE_ANYONE_CS_ENABLED ) : ?>
+			<p class="description"><strong>Note:</strong> CloudSponge data has only been recorded since Invite Anyone v0.9.</p> 
+		<?php endif ?>
 <?php
 	}
 }
