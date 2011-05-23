@@ -60,24 +60,20 @@ function invite_anyone_admin_panel() {
     	<h2><?php _e( 'Invite Anyone', 'bp-invite-anyone' ) ?></h2>
     
     	<ul class="ia-tabs">
-    		<li<?php if ( 'general-settings' == $subpage ) : ?> class="current"<?php endif ?>>
+    		<li>
     			<a href="<?php echo add_query_arg( 'subpage', 'general-settings', $url_base ) ?>"><?php _e( 'General Settings', 'bp-invite-anyone' ) ?></a>
     		</li>
     		
-    		<li<?php if ( 'access-control' == $subpage ) : ?> class="current"<?php endif ?>>
+    		<li>
     			<a href="<?php echo add_query_arg( 'subpage', 'access-control', $url_base ) ?>"><?php _e( 'Access Control', 'bp-invite-anyone' ) ?></a>
     		</li>
     		
-    		<li<?php if ( 'cloudsponge' == $subpage ) : ?> class="current"<?php endif ?>>
+    		<li>
     			<a href="<?php echo add_query_arg( 'subpage', 'cloudsponge', $url_base ) ?>"><?php _e( 'CloudSponge', 'bp-invite-anyone' ) ?></a>
     		</li>
     		
-    		<li<?php if ( 'manage-invitations' == $subpage ) : ?> class="current"<?php endif ?>>
+    		<li>
     			<a href="<?php echo add_query_arg( 'subpage', 'manage-invitations', $url_base ) ?>"><?php _e( 'Manage Invitations', 'bp-invite-anyone' ) ?></a>
-    		</li>
-    		
-    		<li<?php if ( 'stats' == $subpage ) : ?> class="current"<?php endif ?>>
-    			<a href="<?php echo add_query_arg( 'subpage', 'stats', $url_base ) ?>"><?php _e( 'Stats', 'bp-invite-anyone' ) ?></a>
     		</li>
     		
     		
@@ -118,18 +114,6 @@ function invite_anyone_settings_setup() {
 		case 'cloudsponge' :
 			/* Cloudsponge Settings */
 			add_settings_section( 'invite_anyone_cs', __( 'CloudSponge', 'bp-invite-anyone' ), 'invite_anyone_settings_cs_content', 'invite_anyone' );
-			
-			break;
-		
-		case 'manage-invitations' :
-			/* Manage Invitations */
-			add_settings_section( 'invite_anyone_manage_invitations', __( 'Manage Invitations', 'bp-invite-anyone' ), 'invite_anyone_settings_mi_content', 'invite_anyone' );
-			
-			break;
-		
-		case 'stats' :
-			/* Stats */
-			add_settings_section( 'invite_anyone_stats', __( 'Stats', 'bp-invite-anyone' ), 'invite_anyone_settings_stats_content', 'invite_anyone' );
 			
 			break;
 

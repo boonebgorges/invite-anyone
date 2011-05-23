@@ -1,19 +1,8 @@
-.ia-tabs {
-	background: #d7d7d7;
-	padding-top: 10px;
+.ia-tabs li {
+	display: inline-block;
+	padding: 10px 20px;
+	background: #fff;
 }
-	.ia-tabs li {
-		display: inline-block;
-		padding: 4px 10px;
-		background: #f9f9f9;
-		margin: 0 7px;
-		border: 1px solid #f9f9f9;
-		border-bottom: none;
-		border-radius: 5px 5px 0 0;
-	}
-	.ia-tabs li.current {
-		border-color: #666;
-	}
 
 .invite-anyone-admin-limited ul {
 	padding-left: 30px;
