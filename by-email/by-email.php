@@ -199,9 +199,6 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 
 	$email = bp_core_get_user_email( $user_id );
 	
-	// Mark as "is_joined"
-	invite_anyone_mark_as_joined( $email );
-
 	// Fire the query
 	$invites = invite_anyone_get_invitations_by_invited_email( $email );
 	
@@ -224,7 +221,7 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 			}
 			
 			// Mark as accepted
-			update_post_meta( get_the_ID(), 'bp_ia_accepted', date( 'Y-m-d H:i:s' ) );
+			update_post_meta( get_the_ID(), 'bp_ia_accepted', $args['post_modified'] );
 		}
 		
 		$inviters 	= array_unique( $inviters );
