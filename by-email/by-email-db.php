@@ -308,15 +308,14 @@ class Invite_Anyone_Invitation {
 	function create( $args = false ) {
 		// Set up the default arguments
 		$defaults = apply_filters( 'invite_anyone_create_invite_defaults', array(
-			'inviter_id' 	 => bp_loggedin_user_id(),
-			'invitee_email'	 => false,
-			'message'	 => false,
-			'subject'	 => false,
-			'groups'	 => false,
-			'status'	 => 'publish', // i.e., visible on Sent Invites
-			'date_created'	 => bp_core_current_time( false ),
-			'date_modified'	 => bp_core_current_time( false ),
-			'is_cloudsponge' => false
+			'inviter_id' 	=> bp_loggedin_user_id(),
+			'invitee_email'	=> false,
+			'message'	=> false,
+			'subject'	=> false,
+			'groups'	=> false,
+			'status'	=> 'publish', // i.e., visible on Sent Invites
+			'date_created'	=> bp_core_current_time( false ),
+			'date_modified'	=> bp_core_current_time( false ),
 		) );
 		
 		$r = wp_parse_args( $args, $defaults );

@@ -30,35 +30,12 @@ class Invite_Anyone_Schema {
 	 * @since 0.8
 	 */
 	function __construct() {
-<<<<<<< HEAD
 		global $current_blog;
 		
-=======
->>>>>>> Keeps CPT from loading on non-root-blogs. Fixes #39
 		// There's no reason for the CPT to be loaded on non-root-blogs
 		if ( is_multisite() && $current_blog->blog_id != BP_ROOT_BLOG ) {
 			return;
 		}
-<<<<<<< HEAD
-	
-		// Check the current db version and update if necessary
-		$this->db_version = get_option( 'invite_anyone_db_version' );
-		
-		// Check for necessary updates to data schema
-		$this->update();
-		
-		if ( $this->db_version != BP_INVITE_ANYONE_DB_VER ) {
-			update_option( 'invite_anyone_db_version', BP_INVITE_ANYONE_DB_VER );
-			$this->db_version = BP_INVITE_ANYONE_DB_VER;
-		}
-		
-		// Check the current db version and update if necessary
-		$db_version = get_option( 'invite_anyone_db_version' );
-		
-		if ( $db_version != BP_INVITE_ANYONE_DB_VER )
-			update_option( 'invite_anyone_db_version', BP_INVITE_ANYONE_DB_VER );
-=======
->>>>>>> Keeps CPT from loading on non-root-blogs. Fixes #39
 		
 		// Define the post type name used throughout
 		$this->post_type_name = apply_filters( 'invite_anyone_post_type_name', 'ia_invites' );
@@ -331,6 +308,7 @@ class Invite_Anyone_Invitation {
 	function create( $args = false ) {
 		// Set up the default arguments
 		$defaults = apply_filters( 'invite_anyone_create_invite_defaults', array(
+<<<<<<< HEAD
 			'inviter_id' 	 => bp_loggedin_user_id(),
 			'invitee_email'	 => false,
 			'message'	 => false,
@@ -340,6 +318,16 @@ class Invite_Anyone_Invitation {
 			'date_created'	 => bp_core_current_time( false ),
 			'date_modified'	 => bp_core_current_time( false ),
 			'is_cloudsponge' => false
+=======
+			'inviter_id' 	=> bp_loggedin_user_id(),
+			'invitee_email'	=> false,
+			'message'	=> false,
+			'subject'	=> false,
+			'groups'	=> false,
+			'status'	=> 'publish', // i.e., visible on Sent Invites
+			'date_created'	=> bp_core_current_time( false ),
+			'date_modified'	=> bp_core_current_time( false ),
+>>>>>>> Fixes recorded invite sent time so that it is not in GMT
 		) );
 		
 		$r = wp_parse_args( $args, $defaults );
