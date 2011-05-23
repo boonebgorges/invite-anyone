@@ -460,7 +460,7 @@ function invite_anyone_settings_mi_content() {
 				
 				<td class="ia-cloudsponge">
 					<?php
-					$is_cloudsponge = get_post_meta( get_the_ID(), 'ia_is_cloudsponge' );
+					$is_cloudsponge = get_post_meta( get_the_ID(), 'bp_ia_is_cloudsponge', true );
 					
 					if ( !$is_cloudsponge )
 						$is_cloudsponge = __( '(no data)', 'ia-invite-anyone' );
