@@ -50,3 +50,33 @@ div.cs p {
 	margin-top: 30px;
 	clear: both;
 }
+
+.ia-admin-pagination {
+	position: relative;
+	height: 30px;
+	margin-top: 10px;
+	color: #555;
+	font-size: 11px;
+}
+	.ia-admin-pagination .currently-viewing {
+		position: absolute;
+		top: 0;
+		left: 0;
+		font-style: italic;
+	}
+	.ia-admin-pagination .pag-links {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+	.ia-admin-pagination .page-numbers {
+		margin-left: 8px;
+	}
+
+
+.widefat .ia-inviter {
+	width: 100px;
+}
+.widefat .ia-cloudsponge {
+	width: 100px;
+}

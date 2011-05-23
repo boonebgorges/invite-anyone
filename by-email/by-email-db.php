@@ -391,7 +391,8 @@ class Invite_Anyone_Invitation {
 			'groups'		=> false,
 			'status'		=> 'publish', // i.e., visible on Sent Invites
 			'date_created'		=> false,
-			'posts_per_page'	=> '-1',
+			'posts_per_page'	=> '10',
+			'paged'			=> '1',
 			'orderby'		=> 'post_date',
 			'order'			=> 'DESC'
 		) );
@@ -457,7 +458,8 @@ class Invite_Anyone_Invitation {
 			'invitee_email'		=> $this->invitee_tax_name,
 			'meta_key'		=> 'meta_key',
 			'meta_value'		=> 'meta_value',
-			'posts_per_page'	=> 'posts_per_page'
+			'posts_per_page'	=> 'posts_per_page',
+			'paged'			=> 'paged'
 		);
 		
 		foreach ( $optional_args as $key => $value ) {
