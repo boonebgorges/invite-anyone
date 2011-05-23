@@ -308,11 +308,11 @@ class Invite_Anyone_Stats {
 					<?php _e( 'Acceptance Rate', 'bp-invite-anyone' ) ?>
 				</th>
 
-				<th scope="col">
+				<th scope="col" class="top-inviter">
 					<?php _e( 'Top Inviter (by #)', 'bp-invite-anyone' ) ?>
 				</th>
 				
-				<th scope="col">
+				<th scope="col" class="top-inviter">
 					<?php _e( 'Top Inviter (by % accepted)', 'bp-invite-anyone' ) ?>
 				</th>
 				
@@ -333,11 +333,11 @@ class Invite_Anyone_Stats {
 						<?php _e( 'CloudSponge Usage', 'bp-invite-anyone' ) ?>
 					</th>
 					
-					<th scope="col">
+					<th scope="col" class="top-inviter">
 						<?php _e( 'Top Inviter (by #) (CloudSponge)', 'bp-invite-anyone' ) ?>
 					</th>
 					
-					<th scope="col">
+					<th scope="col" class="top-inviter">
 						<?php _e( 'Top Inviter (by % accepted) (CloudSponge)', 'bp-invite-anyone' ) ?>
 					</th>
 				<?php endif ?>				
