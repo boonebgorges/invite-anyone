@@ -36,12 +36,17 @@ class Invite_Anyone_Schema {
 		if ( is_multisite() && $current_blog->blog_id != BP_ROOT_BLOG ) {
 			return;
 		}
-		
+	
 		// Check the current db version and update if necessary
-		$db_version = get_option( 'invite_anyone_db_version' );
+		$this->db_version = get_option( 'invite_anyone_db_version' );
 		
-		if ( $db_version != BP_INVITE_ANYONE_DB_VER )
+		// Check for necessary updates to data schema
+		$this->update();
+		
+		if ( $this->db_version != BP_INVITE_ANYONE_DB_VER ) {
 			update_option( 'invite_anyone_db_version', BP_INVITE_ANYONE_DB_VER );
+			$this->db_version = BP_INVITE_ANYONE_DB_VER;
+		}
 		
 		// Define the post type name used throughout
 		$this->post_type_name = apply_filters( 'invite_anyone_post_type_name', 'ia_invites' );
@@ -167,6 +172,80 @@ class Invite_Anyone_Schema {
 	 */
 	function show_dashboard_ui() {
 		return apply_filters( 'show_dashboard_ui', is_super_admin() );
+	}
+	
+	/**
+	 * Checks for necessary updates to data schema
+	 *
+	 * @package Invite Anyone
+	 * @since 0.9
+	 */
+	function update() {
+		if ( version_compare( $this->db_version, '0.9', '<' ) ) {
+			$this->upgrade_0_9();
+		}
+	}
+	
+	/**
+	 * Upgrade for pre-0.9
+	 *
+	 * @package Invite Anyone
+	 * @since 0.9
+	 */
+	function upgrade_0_9() {
+		global $wp_query, $post;
+		
+		$args = array(
+			'posts_per_page' => '30',
+			'paged'		 => '1'
+		);
+		
+		// Get the invites
+		$invite = new Invite_Anyone_Invitation;	
+		$invites = $invite->get( $args );
+		
+		// Get the total. We're going to loop through them in an attempt to save memory.
+		$total_invites = $invites->found_posts;
+		
+		unset( $invites );
+		unset( $args );
+		
+		$paged = 0;
+		while ( $paged * 30 <= $total_invites ) {
+			$paged++;
+			
+			$args = array(
+				'posts_per_page' => '30',
+				'paged'		 => $paged
+			);
+			
+			// Get the invites
+			$invite = new Invite_Anyone_Invitation;	
+			$invites = $invite->get( $args );
+			
+			// I don't understand why, but I have to do this to avoid errors. WP bug?
+			$wp_query = $invites;
+			
+			if ( $invites->have_posts() ) {
+				while ( $invites->have_posts() ) {
+					$invites->the_post();
+					
+					if ( !get_post_meta( get_the_ID(), 'bp_ia_accepted', true ) ) {						
+						// When the dates are different, it's been accepted
+						if ( $post->post_date != $post->post_modified ) {
+							update_post_meta( get_the_ID(), 'bp_ia_accepted', $post->post_modified );		
+						} else {
+							// We set this to null so it still comes up in the
+							// meta query
+							update_post_meta( get_the_ID(), 'bp_ia_accepted', '' );
+						}
+					}
+				}
+			}
+			
+			unset( $invites );
+			unset( $args );			
+		}
 	}
 }
 
@@ -449,9 +528,18 @@ class Invite_Anyone_Invitation {
 	 * @param array $args
 	 */
 	function mark_accepted() {
-		update_post_meta( $this->id, 'bp_ia_accepted', $args['post_modified'] );
-	
-		return true;
+		$args = array(
+			'ID'		=> $this->id,
+			'post_modified'	=> current_time('mysql')
+		);
+		
+		if ( wp_update_post( $args ) ) {
+			update_post_meta( $this->id, 'bp_ia_accepted', $args['post_modified'] );
+		
+			return true;
+		}
+		
+		return false;
 	}
 	
 	/**
