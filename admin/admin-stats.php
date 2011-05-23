@@ -64,13 +64,7 @@ class Invite_Anyone_Stats {
 	 * @since 0.9
 	 */
 	function setup_get_params() {
-		$params = array();
 		
-		if ( isset( $_REQUEST['user_id'] ) ) {
-			$params['user_id'] = (int)$_REQUEST['user_id'];	
-		}
-		
-		$this->params = $params;
 	}
 	
 	/**
@@ -90,8 +84,7 @@ class Invite_Anyone_Stats {
 			
 			// Will be populated out of $this->params. Defaults to none?
 			$args = array(
-				'posts_per_page' => '-1',
-				'status'    => array( 'pending', 'draft', 'future', 'publish', 'trash' ) 
+				'posts_per_page' => '-1'
 			);
 
 			// Create the date filter
@@ -226,7 +219,7 @@ class Invite_Anyone_Stats {
 						
 						if ( ( $u['overall']['accepted'] / $u['overall']['sent'] ) >= $leader_val_pct ) {
 							$leader_user_id_pct = $user_id;
-							$leader_val_pct = $u['overall']['accepted'] / $u['overall']['sent'] * 100;
+							$leader_val_pct = $u['overall']['accepted'] / $u['overall']['sent'];
 						}
 					}
 					
@@ -239,7 +232,7 @@ class Invite_Anyone_Stats {
 						
 						if ( ( $u['cloudsponge']['accepted'] / $u['cloudsponge']['sent'] ) >= $leader_val_pct_cs ) {
 							$leader_user_id_pct_cs = $user_id;
-							$leader_val_pct_cs = $u['cloudsponge']['accepted'] / $u['cloudsponge']['sent'] * 100;
+							$leader_val_pct_cs = $u['cloudsponge']['accepted'] / $u['cloudsponge']['sent'];
 						}
 					}
 				}
@@ -251,7 +244,7 @@ class Invite_Anyone_Stats {
 				
 				$period['top_users']['top_user_pct'] = array(
 					'user_id' => $leader_user_id_pct ? $leader_user_id_pct : false,
-					'accepted' => $leader_val_pct ? round( $leader_val_pct ) . '%' : '-'
+					'accepted' => $leader_user_id_pct ? round( $leader_val_pct ) . '%' : '-'
 				);
 				
 				$period['top_users']['top_user_num_cs'] = array(
@@ -261,7 +254,7 @@ class Invite_Anyone_Stats {
 				
 				$period['top_users']['top_user_pct_cs'] = array(
 					'user_id' => $leader_user_id_pct_cs ? $leader_user_id_pct_cs : false,
-					'accepted' => $leader_val_pct_cs ? round( $leader_val_pct_cs ) . '%' : '-'
+					'accepted' => $leader_user_id_pct_cs ? round( $leader_val_pct_cs ) . '%' : '-'
 				);
 				
 				// Fetch userlinks
@@ -297,7 +290,6 @@ class Invite_Anyone_Stats {
 	 */
 	function display() {
 ?>
-		
 		<table class="widefat ia-stats">
 			<thead><tr>
 				<th scope="col" class="in-the-last">
@@ -316,11 +308,11 @@ class Invite_Anyone_Stats {
 					<?php _e( 'Acceptance Rate', 'bp-invite-anyone' ) ?>
 				</th>
 
-				<th scope="col" class="top-inviter">
+				<th scope="col">
 					<?php _e( 'Top Inviter (by #)', 'bp-invite-anyone' ) ?>
 				</th>
 				
-				<th scope="col" class="top-inviter">
+				<th scope="col">
 					<?php _e( 'Top Inviter (by % accepted)', 'bp-invite-anyone' ) ?>
 				</th>
 				
@@ -341,11 +333,11 @@ class Invite_Anyone_Stats {
 						<?php _e( 'CloudSponge Usage', 'bp-invite-anyone' ) ?>
 					</th>
 					
-					<th scope="col" class="top-inviter">
+					<th scope="col">
 						<?php _e( 'Top Inviter (by #) (CloudSponge)', 'bp-invite-anyone' ) ?>
 					</th>
 					
-					<th scope="col" class="top-inviter">
+					<th scope="col">
 						<?php _e( 'Top Inviter (by % accepted) (CloudSponge)', 'bp-invite-anyone' ) ?>
 					</th>
 				<?php endif ?>				
@@ -408,11 +400,7 @@ class Invite_Anyone_Stats {
 			<?php endforeach ?>
 			</tbody>
 		</table>
-		
-		<?php if ( defined( 'INVITE_ANYONE_CS_ENABLED' ) && INVITE_ANYONE_CS_ENABLED ) : ?>
-			<p class="description"><strong>Note:</strong> CloudSponge data has only been recorded since Invite Anyone v0.9.</p> 
-		<?php endif ?>
-<?php
+<?php	var_dump( $this );
 	}
 }
  

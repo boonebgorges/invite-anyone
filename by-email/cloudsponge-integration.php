@@ -29,6 +29,7 @@ class Cloudsponge_Integration {
 		$this->key     = !empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : false;
 		
 		if ( $this->enabled && $this->key ) {
+			define( 'INVITE_ANYONE_CS_ENABLED', true );
 			add_action( 'invite_anyone_after_addresses', array( $this, 'import_markup' ) );	
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_script' ) );
 		}

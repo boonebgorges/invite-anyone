@@ -154,7 +154,7 @@ function invite_anyone_register_screen_message() {
 
 		<?php
 			$ia_obj = invite_anyone_get_invitations_by_invited_email( $email );
-			
+			//var_dump( $ia_obj );
 			$inviters = array();
 			if ( $ia_obj->have_posts() ) {
 				while ( $ia_obj->have_posts() ) {
@@ -199,6 +199,9 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 
 	$email = bp_core_get_user_email( $user_id );
 	
+	// Mark as "is_joined"
+	invite_anyone_mark_as_joined( $email );
+
 	// Fire the query
 	$invites = invite_anyone_get_invitations_by_invited_email( $email );
 	
