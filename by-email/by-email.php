@@ -642,7 +642,9 @@ function invite_anyone_screen_two() {
 
 		<h4><?php _e( 'Sent Invites', 'bp-invite-anyone' ); ?></h4>
     
-		<?php $invites = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id(), $sort_by, $order ) ?>
+		<?php $invites = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id(), $sort_by, $order, $pagination->get_per_page, $pagination->get_paged ) ?>
+		
+		<?php $pagination->setup_query( $invites ) ?>
 		
 		<?php if ( $invites->have_posts() ) : ?>
 			<p id="sent-invites-intro"><?php _e( 'You have sent invitations to the following people.', 'bp-invite-anyone' ) ?></p>
