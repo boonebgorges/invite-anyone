@@ -357,9 +357,6 @@ class Invite_Anyone_Invitation {
 		
 		// Save a blank bp_ia_accepted post_meta
 		update_post_meta( $this->id, 'bp_ia_accepted', '' );
-		
-		// Save a meta item about whether this is a CloudSponge email
-		update_post_meta( $this->id, 'bp_ia_is_cloudsponge', $is_cloudsponge ? __( 'Yes', 'bp-invite-anyone' ) : __( 'No', 'bp-invite-anyone' ) );
 	
 		// Now set up the taxonomy terms
 		
