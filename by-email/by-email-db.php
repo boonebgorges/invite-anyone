@@ -480,7 +480,7 @@ class Invite_Anyone_Invitation {
 				$query_post_args[$value] = $r[$key];
 			}
 		}
-		//var_dump( $query_post_args );
+		
 		return new WP_Query( $query_post_args );
 	}
 	

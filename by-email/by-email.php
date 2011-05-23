@@ -221,7 +221,7 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 			}
 			
 			// Mark as accepted
-			update_post_meta( get_the_ID(), 'bp_ia_accepted', $args['post_modified'] );
+			update_post_meta( get_the_ID(), 'bp_ia_accepted', date( 'Y-m-d H:i:s' ) );
 		}
 		
 		$inviters 	= array_unique( $inviters );
