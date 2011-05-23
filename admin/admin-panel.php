@@ -60,19 +60,19 @@ function invite_anyone_admin_panel() {
     	<h2><?php _e( 'Invite Anyone', 'bp-invite-anyone' ) ?></h2>
     
     	<ul class="ia-tabs">
-    		<li>
+    		<li<?php if ( 'general-settings' == $subpage ) : ?> class="current"<?php endif ?>>
     			<a href="<?php echo add_query_arg( 'subpage', 'general-settings', $url_base ) ?>"><?php _e( 'General Settings', 'bp-invite-anyone' ) ?></a>
     		</li>
     		
-    		<li>
+    		<li<?php if ( 'access-control' == $subpage ) : ?> class="current"<?php endif ?>>
     			<a href="<?php echo add_query_arg( 'subpage', 'access-control', $url_base ) ?>"><?php _e( 'Access Control', 'bp-invite-anyone' ) ?></a>
     		</li>
     		
-    		<li>
+    		<li<?php if ( 'cloudsponge' == $subpage ) : ?> class="current"<?php endif ?>>
     			<a href="<?php echo add_query_arg( 'subpage', 'cloudsponge', $url_base ) ?>"><?php _e( 'CloudSponge', 'bp-invite-anyone' ) ?></a>
     		</li>
     		
-    		<li>
+    		<li<?php if ( 'manage-invitations' == $subpage ) : ?> class="current"<?php endif ?>>
     			<a href="<?php echo add_query_arg( 'subpage', 'manage-invitations', $url_base ) ?>"><?php _e( 'Manage Invitations', 'bp-invite-anyone' ) ?></a>
     		</li>
     		
@@ -114,6 +114,12 @@ function invite_anyone_settings_setup() {
 		case 'cloudsponge' :
 			/* Cloudsponge Settings */
 			add_settings_section( 'invite_anyone_cs', __( 'CloudSponge', 'bp-invite-anyone' ), 'invite_anyone_settings_cs_content', 'invite_anyone' );
+			
+			break;
+		
+		case 'manage-invitations' :
+			/* Manage Invitations */
+			add_settings_section( 'invite_anyone_manage_invitations', __( 'Manage Invitations', 'bp-invite-anyone' ), 'invite_anyone_settings_mi_content', 'invite_anyone' );
 			
 			break;
 
@@ -326,175 +332,7 @@ function invite_anyone_settings_cs_content() {
 }
 
 function invite_anyone_settings_mi_content() {
-	// Load the pagination helper
-	if ( !class_exists( 'BBG_CPT_Pag' ) )
-		require_once( dirname( __FILE__ ) . '/../lib/bbg-cpt-pag.php' );
-	$pagination = new BBG_CPT_Pag;
-	
-	// Load the sortable helper
-	if ( !class_exists( 'BBG_CPT_Sort' ) )
-		require_once( dirname( __FILE__ ) . '/../lib/bbg-cpt-sort.php' );
-	
-	$cols = array(
-		array(
-			'name'		=> 'author',
-			'title'		=> 'Inviter',
-			'css_class'	=> 'ia-inviter'
-		),
-		array(
-			'name'		=> 'ia_invitees',
-			'title'		=> 'Invited Email',
-			'css_class'	=> 'ia-invited-email'
-		),
-		array(
-			'name'		=> 'sent',
-			'title'		=> 'Sent',
-			'css_class'	=> 'ia-sent',
-			'default_order'	=> 'desc',
-			'posts_column'	=> 'post_date',
-			'is_default'	=> true
-		),
-		array(
-			'name'		=> 'accepted',
-			'title'		=> 'Accepted',
-			'css_class'	=> 'ia-accepted',
-			'default_order'	=> 'desc'
-		),
-		array(
-			'name'		=> 'cloudsponge',
-			'title'		=> 'CloudSponge',
-			'css_class'	=> 'ia-cloudsponge'
-		),
-	);
-	
-	$sortable = new BBG_CPT_Sort( $cols );
-	
-	$args = array(
-		'orderby'		=> $sortable->get_orderby,
-		'order'			=> $sortable->get_order,
-		'posts_per_page'	=> $pagination->get_per_page,
-		'paged'			=> $pagination->get_paged,
-		'status' 		=> array( 'trash', 'publish', 'pending', 'draft', 'future' ) 
-	);
-	
-	// Get the invites
-	$invite = new Invite_Anyone_Invitation;	
-	$invites = $invite->get( $args );
-	
-	// Complete the pagination setup
-	$pagination->setup_query( $invites );
-	?>
-	
-	<?php if ( $invites->have_posts() ) : ?>
-		<div class="ia-admin-pagination">
-			<div class="currently-viewing">
-				<?php $pagination->currently_viewing_text() ?>
-			</div>
-			
-			<div class="pag-links">
-				<?php $pagination->paginate_links() ?>
-			</div>
-		</div>
-		
-		<table class="wp-list-table widefat ia-invite-list">
-		
-		<thead>
-			<tr>
-				<th scope="col" id="cb" class="check-column">
-					<input type="checkbox" />
-				</th>
-				
-				<?php if ( $sortable->have_columns() ) : while ( $sortable->have_columns() ) : $sortable->the_column() ?>
-					<?php $sortable->the_column_th() ?>
-				<?php endwhile; endif ?>
-				
-			</tr>
-		</thead>
-
-		<tbody>
-			<?php while ( $invites->have_posts() ) : $invites->the_post() ?>
-			<tr>
-				<th scope="row" class="check-column">
-					<input type="checkbox" />
-				</th>
-				
-				<td class="ia-inviter">
-					<?php echo bp_core_get_userlink( get_the_author_ID() ) ?>
-					
-					<div class="row-actions">
-						<span class="edit"><a href="<?php echo add_query_arg( array( 'post' => get_the_ID(), 'action' => 'edit' ), admin_url( 'post.php' ) ) ?>"><?php _e( 'View Invitation', 'bp-invite-anyone' ) ?></a></span>
-					</div>
-				</td>
-				
-				<td class="ia-invited-email">
-					<?php
-					$emails = wp_get_post_terms( get_the_ID(), invite_anyone_get_invitee_tax_name() );
-					
-					foreach( $emails as $email ) {
-						echo esc_html( $email->name );
-					}
-					?>
-				</td>
-				
-				<td class="ia-sent">
-					<?php
-					global $post;
-					$date_invited = invite_anyone_format_date( $post->post_date );
-					?>
-					<?php echo esc_html( $date_invited ) ?>
-				</td>
-				
-				<td class="ia-accepted">
-					<?php
-					if ( $accepted = get_post_meta( get_the_ID(), 'bp_ia_accepted', true ) ):
-						$date_joined = invite_anyone_format_date( $accepted );
-						$accepted = true;
-					else:
-						$date_joined = '-';
-						$accepted = false;
-					endif;
-					?>
-					<?php echo esc_html( $date_joined ) ?>
-				</td>
-				
-				<td class="ia-cloudsponge">
-					<?php
-					$is_cloudsponge = get_post_meta( get_the_ID(), 'bp_ia_is_cloudsponge', true );
-					
-					if ( !$is_cloudsponge )
-						$is_cloudsponge = __( '(no data)', 'ia-invite-anyone' );
-					?>
-					<?php echo esc_html( $is_cloudsponge ) ?>
-				</td>
-			</tr>
-			<?php endwhile ?>
-		</tbody>
-		</table>	
-		
-		<?php if ( defined( 'INVITE_ANYONE_CS_ENABLED' ) && INVITE_ANYONE_CS_ENABLED ) : ?>
-			<p class="description"><strong>Note:</strong> CloudSponge data has only been recorded since Invite Anyone v0.9.</p> 
-		<?php endif ?>
-		
-		<div class="ia-admin-pagination">
-			<div class="currently-viewing">
-				<?php $pagination->currently_viewing_text() ?>
-			</div>
-			
-			<div class="pag-links">
-				<?php $pagination->paginate_links() ?>
-			</div>
-		</div>
-		
-	<?php endif ?>
-	
-	<?php
-	
-}
-
-function invite_anyone_settings_stats_content() {
-	require( dirname( __FILE__ ) . '/admin-stats.php' );
-	$stats = new Invite_Anyone_Stats;
-	$stats->display();	
+	echo 'yeah';
 }
 
 function invite_anyone_settings_check($input) {
