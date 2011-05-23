@@ -37,6 +37,12 @@ class Invite_Anyone_Schema {
 			return;
 		}
 		
+		// Check the current db version and update if necessary
+		$db_version = get_option( 'invite_anyone_db_version' );
+		
+		if ( $db_version != BP_INVITE_ANYONE_DB_VER )
+			update_option( 'invite_anyone_db_version', BP_INVITE_ANYONE_DB_VER );
+		
 		// Define the post type name used throughout
 		$this->post_type_name = apply_filters( 'invite_anyone_post_type_name', 'ia_invites' );
 		
