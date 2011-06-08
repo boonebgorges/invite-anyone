@@ -40,6 +40,9 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Changelog ==
 
+= 0.9.2 =
+* Fixed bug that caused settings from being properly saved in some cases
+
 = 0.9.1 =
 * Updated .pot file for translators
 
