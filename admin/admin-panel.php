@@ -52,7 +52,46 @@ function invite_anyone_admin_panel() {
 	
 	// Catch and save settings being saved (Settings API workaround)
 	if ( !empty( $_POST['invite-anyone-settings-submit'] ) ) {
-		update_option( 'invite_anyone', $_POST['invite_anyone'] );
+		$iaoptions = get_option( 'invite_anyone' );
+		
+		// Here are the fields currently allowed in each section
+		$settings_fields = array(
+			'access-control' => array(
+				'email_visibility_toggle',
+				'email_since_toggle',
+				'email_role_toggle',
+				'minimum_role',
+				'email_blacklist_toggle',
+				'email_blacklist',
+				'group_invites_can_admin',
+				'group_invites_can_group_admin',
+				'group_invites_can_group_mod',
+				'group_invites_can_group_member',
+				'days_since'
+			),
+			'cloudsponge' => array(
+				'cloudsponge_enabled',
+				'cloudsponge_key'			
+			),
+			'general-settings' => array(
+				'can_send_group_invites_email',
+				'bypass_registration_lock',
+				'default_invitation_subject',
+				'default_invitation_message',
+				'addl_invitation_message',
+				'subject_is_customizable',
+				'message_is_customizable',
+				'max_invites'
+			)
+		);
+		
+		$current_fields = $settings_fields[$subpage];
+		
+		foreach( $current_fields as $cfield ) {
+			$iaoptions[$cfield] = isset( $_POST['invite_anyone'][$cfield] ) ? $_POST['invite_anyone'][$cfield] : false;
+		}
+		
+		update_option( 'invite_anyone', $iaoptions );
 	}
 
 ?>
@@ -88,6 +127,8 @@ function invite_anyone_admin_panel() {
 	<?php /* The Settings API does not work with WP 3.1 Network Admin, but these functions still work to create the markup */ ?>
 	<?php settings_fields( 'invite_anyone' ); ?>
 	<?php do_settings_sections( 'invite_anyone' ); ?>
+	
+	<input type="hidden" name="settings-section" value="<?php echo $subpage ?>" />
 	
 	<input id="invite-anyone-settings-submit" name="invite-anyone-settings-submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />           
 	</form>
