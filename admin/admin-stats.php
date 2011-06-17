@@ -91,7 +91,7 @@ class Invite_Anyone_Stats {
 			// Will be populated out of $this->params. Defaults to none?
 			$args = array(
 				'posts_per_page' => '-1',
-				'status'    => array( 'pending', 'draft', 'future', 'publish', 'trash' ) 
+				'status'    => 'pending,draft,future,publish,trash'
 			);
 
 			// Create the date filter

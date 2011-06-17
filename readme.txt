@@ -40,6 +40,10 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Changelog ==
 
+= 0.9.3 =
+* Fixed some PHP warnings on Manage Invitations and Stats panels
+* Added a 'no invitations' message to Manage Invitations when none have been sent yet
+
 = 0.9.2 =
 * Fixed bug that caused settings from being properly saved in some cases
 

@@ -431,7 +431,7 @@ function invite_anyone_settings_mi_content() {
 		'order'			=> $sortable->get_order,
 		'posts_per_page'	=> $pagination->get_per_page,
 		'paged'			=> $pagination->get_paged,
-		'status' 		=> array( 'trash', 'publish', 'pending', 'draft', 'future' ) 
+		'status' 		=> 'trash,publish,pending,draft,future' 
 	);
 	
 	// Get the invites
@@ -541,7 +541,10 @@ function invite_anyone_settings_mi_content() {
 				<?php $pagination->paginate_links() ?>
 			</div>
 		</div>
-		
+	
+	<?php else : ?>
+		<p><?php _e( 'No invitations have been sent yet.', 'bp-invite-anyone' ) ?></p>
+	
 	<?php endif ?>
 	
 	<?php
