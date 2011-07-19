@@ -393,7 +393,7 @@ function invite_anyone_group_invite_access_test() {
 	if ( !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
 		return 'noone';
 
-	if ( is_site_admin() ) {
+	if ( is_super_admin() ) {
 		if ( $iaoptions['group_invites_can_admin'] == 'anyone' || !$iaoptions['group_invites_can_admin'] )
 			return 'anyone';
 		if ( $iaoptions['group_invites_can_admin'] == 'friends' )
