@@ -264,6 +264,9 @@ add_action( 'bp_core_activated_user', 'invite_anyone_activate_user', 10, 3 );
 
 function invite_anyone_setup_nav() {
 	global $bp;
+	
+	if ( !invite_anyone_access_test() )
+		return;
 
 	/* Add 'Send Invites' to the main user profile navigation */
 	bp_core_new_nav_item( array(
@@ -298,11 +301,7 @@ function invite_anyone_setup_nav() {
 		'user_has_access' => invite_anyone_access_test()
 	) );
 }
-
-if ( invite_anyone_access_test() ) {
-	add_action( 'wp', 'invite_anyone_setup_nav', 2 );
-	add_action( 'admin_menu', 'invite_anyone_setup_nav', 2 );
-}
+add_action( 'bp_setup_nav', 'invite_anyone_setup_nav' );
 
 function invite_anyone_access_test() {
 	global $current_user, $bp;
