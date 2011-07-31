@@ -170,7 +170,7 @@ bp_register_group_extension( 'BP_Invite_Anyone' );
 function invite_anyone_catch_group_invites() {
 	global $bp;
 
-	if ( BP_INVITE_ANYONE_SLUG == $bp->current_action && 'send' == $bp->action_variables[0] ) {
+	if ( BP_INVITE_ANYONE_SLUG == $bp->current_action && isset( $bp->action_variables[0] ) && 'send' == $bp->action_variables[0] ) {
 		if ( !check_admin_referer( 'groups_send_invites', '_wpnonce_send_invites' ) )
 			return false;
 
@@ -181,12 +181,10 @@ function invite_anyone_catch_group_invites() {
 
 		do_action( 'groups_screen_group_invite', $bp->groups->current_group->id );
 
-		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
+		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . BP_INVITE_ANYONE_SLUG );
 	}
 }
-//add_action( 'wp', 'invite_anyone_catch_group_invites', 1 );
-
-
+add_action( 'wp', 'invite_anyone_catch_group_invites', 1 );
 
 function invite_anyone_create_screen_content( $event ) {
 	if ( !$template = locate_template( 'groups/single/invite-anyone.php', true ) ) {
@@ -232,40 +230,51 @@ function bp_new_group_invite_member_list() {
 		return implode( "\n", (array)$items );
 	}
 
+function invite_anyone_invite_query( $group_id = false, $search_terms = false ) {
+	// Get a list of group members to be excluded from the main query
+	$group_members = array();
+	$args = array(
+		'group_id'	      => $group_id,
+		'exclude_admins_mods' => false
+	);
+	if ( $search_terms )
+		$args['search'] = $search_terms;
+	
+	if ( bp_group_has_members( $args ) ) {
+		while ( bp_group_members() ) {
+			bp_group_the_member();
+			$group_members[] = bp_get_group_member_id();
+		}
+	}
+	
+	// Don't include the logged-in user, either
+	$group_members[] = bp_loggedin_user_id();
+	
+	// Now do a user query
+	$user_query = new WP_User_Query( array( 'exclude' => $group_members ) );
+	
+	return $user_query->results;
+}
 
 function get_members_invite_list( $user_id = false, $group_id ) {
 	global $bp, $wpdb;
 
-	if ( !$user_id )
-		$user_id = $bp->loggedin_user->id;
-
-	$query = "SELECT * FROM {$wpdb->users} WHERE spam=0";
-	$members = $wpdb->get_results( $query, ARRAY_A );
-
-	if ( !count($members) ) {
-		$query = "SELECT * FROM {$wpdb->users} WHERE user_status = 0";
-		$members = $wpdb->get_results( $query, ARRAY_A );
-	}
-
-	if ( !count($members) )
-		return false;
-
-	foreach( $members as $member ) {
-		$user_id = $member['ID'];
-
-		if ( groups_is_user_member( $user_id, $group_id ) )
-			continue;
-
-		$display_name = bp_core_get_user_displayname( $user_id );
-
-		if ( $display_name != '' ) {
-			$friends[] = array(
-				'id' => $user_id,
-				'full_name' => $display_name
-			);
+	if ( $users = invite_anyone_invite_query( $bp->groups->current_group->id ) ) {
+	
+		foreach( (array)$users as $member ) {
+			$user_id = $member->ID;
+			
+			$display_name = bp_core_get_user_displayname( $user_id );
+	
+			if ( $display_name != '' ) {
+				$friends[] = array(
+					'id' => $user_id,
+					'full_name' => $display_name
+				);
+			}
 		}
-	}
 
+	}
 
 	if ( !$friends )
 		return false;
@@ -318,7 +327,7 @@ function invite_anyone_ajax_autocomplete_results() {
 	$friends = false;
 
 	// Get the friend ids based on the search terms
-	$friends = BP_Core_User::search_users( $_REQUEST['query'], 500, 1 );
+	$friends = BP_Core_User::search_users( $_REQUEST['query'] );
 		
 	$friends = apply_filters( 'bp_friends_autocomplete_list', $friends, $_GET['query'], 25 );
 
@@ -327,18 +336,16 @@ function invite_anyone_ajax_autocomplete_results() {
 		'data' 		=> array(),
 		'suggestions' 	=> array()
 	);
+	
+	$users = invite_anyone_invite_query( $bp->groups->current_group->id, $_REQUEST['query'] );
 
-	if ( $friends['users'] ) {
+	if ( $users ) {
 		$suggestions = array();
 		$data 	     = array();
 		
-		foreach ( $friends['users'] as $user ) {
-			$user_id 	= $user->id;
-			$ud 		= get_userdata($user_id);
-			$username 	= $ud->user_login;
-			
-			$suggestions[] 	= $ud->display_name . ' (' . $username . ')';
-			$data[] 	= $user_id;
+		foreach ( $users as $user ) {
+			$suggestions[] 	= $user->display_name . ' (' . $user->user_login . ')';
+			$data[] 	= $user->ID;
 		}
 	
 		$return['suggestions'] = $suggestions;	
@@ -374,7 +381,7 @@ function invite_anyone_remove_invite_subnav() {
 	bp_core_remove_subnav_item( $parent_slug, 'send-invites' );
 }
 add_filter( 'groups_create_group_steps', 'invite_anyone_remove_group_creation_invites', 1 );
-//add_action( 'bp_setup_nav', 'invite_anyone_remove_invite_subnav', 15 );
+add_action( 'bp_setup_nav', 'invite_anyone_remove_invite_subnav', 15 );
 
 
 /* Utility function to test which members the current user can invite to a group */

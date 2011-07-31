@@ -18,7 +18,6 @@ jQuery(document).ready( function() {
 	
 	a = j('#send-invite-form #send-to-input').autocomplete(options);
 
-
 	j("div#invite-anyone-member-list input").click(function() {
 		j('.ajax-loader').toggle();
 
