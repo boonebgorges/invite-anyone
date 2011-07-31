@@ -2,7 +2,7 @@
 
 function invite_anyone_admin_add() {
 
-	$plugin_page = add_submenu_page( 'bp-general-settings', __( 'Invite Anyone', 'bp-invite-anyone' ), __( 'Invite Anyone', 'bp-invite-anyone' ), 'manage_options', __FILE__, 'invite_anyone_admin_panel' );
+	$plugin_page = add_submenu_page( 'bp-general-settings', __( 'Invite Anyone', 'bp-invite-anyone' ), __( 'Invite Anyone', 'bp-invite-anyone' ), 'manage_options', 'invite-anyone', 'invite_anyone_admin_panel' );
 	
 	add_action( "admin_print_scripts-$plugin_page", 'invite_anyone_admin_scripts' );
 	add_action( "admin_print_styles-$plugin_page", 'invite_anyone_admin_styles' );
@@ -31,10 +31,12 @@ function invite_anyone_admin_styles() {
 }
 
 function invite_anyone_admin_panel() {
+	global $iaoptions;
+	
 	$subpage = isset( $_GET['subpage' ] ) ? $_GET['subpage'] : 'general-settings';
 	
 	if ( !empty( $_GET['migrate'] ) && $_GET['migrate'] == '1' ) {
-		$iaoptions 	= get_option( 'invite_anyone' );
+		$iaoptions 	= invite_anyone_options();
 		$maybe_version	= !empty( $iaoptions['db_version'] ) ? $iaoptions['db_version'] : '0.7';
  
 		// Don't run this migrator if coming from IA 0.8 or greater
@@ -46,13 +48,13 @@ function invite_anyone_admin_panel() {
 
 
 	// Get the proper URL for submitting the settings form. (Settings API workaround)
-	$url_base = function_exists( 'is_network_admin' ) && is_network_admin() ? network_admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) : admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' );
+	$url_base = function_exists( 'is_network_admin' ) && is_network_admin() ? network_admin_url( 'admin.php?page=invite-anyone' ) : admin_url( 'admin.php?page=invite-anyone' );
 	
 	$form_action = isset( $_GET['subpage'] ) ? add_query_arg( 'subpage', $_GET['subpage'], $url_base ) : $url_base;
 	
 	// Catch and save settings being saved (Settings API workaround)
 	if ( !empty( $_POST['invite-anyone-settings-submit'] ) ) {
-		$iaoptions = get_option( 'invite_anyone' );
+		$options = invite_anyone_options();
 		
 		// Here are the fields currently allowed in each section
 		$settings_fields = array(
@@ -88,12 +90,14 @@ function invite_anyone_admin_panel() {
 		$current_fields = $settings_fields[$subpage];
 		
 		foreach( $current_fields as $cfield ) {
-			$iaoptions[$cfield] = isset( $_POST['invite_anyone'][$cfield] ) ? $_POST['invite_anyone'][$cfield] : false;
+			$options[$cfield] = isset( $_POST['invite_anyone'][$cfield] ) ? $_POST['invite_anyone'][$cfield] : false;
 		}
 		
-		update_option( 'invite_anyone', $iaoptions );
+		update_option( 'invite_anyone', $options );
+		
+		// A hack to make sure that the most recent options are available later on the page
+		$iaoptions = $options;
 	}
-
 ?>
 	<div class="wrap">
     	<h2><?php _e( 'Invite Anyone', 'bp-invite-anyone' ) ?></h2>
@@ -226,19 +230,19 @@ function invite_anyone_settings_replacement_patterns() {
 /* Max number of email invitations at a time */
 
 function invite_anyone_settings_number_of_invitations() {
-	$options = get_option( 'invite_anyone' );
+	$options = invite_anyone_options();
 	echo "<input id='invite_anyone_settings_number_of_invitations' name='invite_anyone[max_invites]' size='10' type='text' value='{$options['max_invites']}' />";
 }
 
 function invite_anyone_settings_can_send_group_invites_email() {
-	$options = get_option( 'invite_anyone' );
+	$options = invite_anyone_options();
 ?>
 	<input type="checkbox" name="invite_anyone[can_send_group_invites_email]" value="yes" <?php checked( $options['can_send_group_invites_email'], 'yes' ) ?> />
 <?php
 }
 
 function invite_anyone_settings_bypass_registration_lock() {
-	$options = get_option( 'invite_anyone' );
+	$options = invite_anyone_options();
 ?>
 	<input type="checkbox" name="invite_anyone[bypass_registration_lock]" value="yes" <?php checked( $options['bypass_registration_lock'], 'yes' ) ?> />
 <?php
@@ -259,7 +263,7 @@ function invite_anyone_settings_addl_invitation_message() {
 }
 
 function invite_anyone_settings_is_customizable() {
-	$options = get_option( 'invite_anyone' );
+	$options = invite_anyone_options();
 ?>
 	<ul>
 		<li>
@@ -280,11 +284,11 @@ function invite_anyone_settings_access_content() {
 }
 
 function invite_anyone_settings_email_visibility() {
-	$options = get_option( 'invite_anyone' );
+	$options = invite_anyone_options();
 ?>
 
 	<ul>
-		<li><input type='radio' name='invite_anyone[email_visibility_toggle]' id='invite_anyone_toggle_email_no_limit' value='no_limit' <?php if( $options['email_visibility_toggle'] != 'limit' ) : ?>checked="checked"<?php endif ?> /> <?php _e( 'All users', 'bp-invite-anyone' ) ?></li>
+		<li><input type='radio' name='invite_anyone[email_visibility_toggle]' id='invite_anyone_toggle_email_no_limit' value='no_limit' <?php if ( $options['email_visibility_toggle'] != 'limit' ) : ?>checked="checked"<?php endif ?> /> <?php _e( 'All users', 'bp-invite-anyone' ) ?></li>
 		
 		<li><input type='radio' name='invite_anyone[email_visibility_toggle]' id='invite_anyone_toggle_email_limit' value='limit' <?php checked( $options['email_visibility_toggle'], 'limit' ) ?> /> <?php _e( 'A limited set of users', 'bp-invite-anyone' ) ?>
 			<div class="invite-anyone-admin-limited">
@@ -318,7 +322,7 @@ function invite_anyone_settings_email_visibility() {
 }
 
 function invite_anyone_settings_group_invite_visibility() {
-	$options = get_option( 'invite_anyone' );
+	$options = invite_anyone_options();
 ?>
 	<ul>	
 	<p><?php _e( 'Invite Anyone extends BuddyPress\'s default group invitation settings. Instead of allowing you to invite only friends to a group, this plugin allows you to invite any member of the site. Use these settings to limit possible invitees for different group roles.', 'bp-invite-anyone' ) ?></p>
@@ -360,7 +364,7 @@ function invite_anyone_settings_group_invite_visibility() {
 
 function invite_anyone_settings_cs_content() {
 	
-	$options 	= get_option( 'invite_anyone' );
+	$options 	= invite_anyone_options();
 	$domain_key 	= !empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : '';
 
 ?>

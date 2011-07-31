@@ -15,6 +15,8 @@ define( 'BP_INVITE_ANYONE_DB_VER', 	'0.9.3' );
 if ( !defined( 'BP_INVITE_ANYONE_SLUG' ) )
 	define( 'BP_INVITE_ANYONE_SLUG', 'invite-anyone' );
 
+register_activation_hook( __FILE__, 'invite_anyone_activation' );
+
 /* Only load the BuddyPress plugin functions if BuddyPress is loaded and initialized. */
 function invite_anyone_init() {
 	if ( function_exists( 'bp_is_active' ) ) {
@@ -25,15 +27,13 @@ function invite_anyone_init() {
 	}
 
 	require( dirname( __FILE__ ) . '/by-email/by-email.php' );
+	
+	require( dirname( __FILE__ ) . '/functions.php' );
 
 	if ( is_admin() )
 		require( dirname( __FILE__ ) . '/admin/admin-panel.php' );
 }
 add_action( 'bp_include', 'invite_anyone_init' );
-
-if ( function_exists( 'bp_post_get_permalink' ) )
-	require( dirname( __FILE__ ) . '/group-invites/group-invites.php' );
-
 
 function invite_anyone_locale_init () {
 	$plugin_dir = basename(dirname(__FILE__));
@@ -71,6 +71,5 @@ function invite_anyone_activation() {
 
 	update_option( 'invite_anyone', $iaoptions );
 }
-register_activation_hook( __FILE__, 'invite_anyone_activation' );
 
 ?>

@@ -310,19 +310,19 @@ function invite_anyone_access_test() {
 	if ( !is_user_logged_in() )
 		return false;
 
-	if ( $bp->displayed_user->id && !bp_is_my_profile() )
+	if ( bp_displayed_user_id() && !bp_is_my_profile() )
 		return false;
 
 	if ( !$iaoptions = get_option( 'invite_anyone' ) )
 		$iaoptions = array();
 
 	/* This is the last of the general checks: logged in, looking at own profile, and finally admin has set to "All Users".*/
-	if ( $iaoptions['email_visibility_toggle'] == 'no_limit' )
+	if ( isset( $iaoptions['email_visibility_toggle'] ) && $iaoptions['email_visibility_toggle'] == 'no_limit' )
 		return true;
 
 	/* Minimum number of days since joined the site */
-	if ( $iaoptions['email_since_toggle'] == 'yes' ) {
-		if ( $since = $iaoptions['days_since'] ) {
+	if ( isset( $iaoptions['email_since_toggle'] ) && $iaoptions['email_since_toggle'] == 'yes' ) {
+		if ( isset( $iaoptions['days_since'] ) && $since = $iaoptions['days_since'] ) {
 			$since = $since * 86400;
 
 			$date_registered = strtotime($current_user->data->user_registered);
@@ -334,8 +334,8 @@ function invite_anyone_access_test() {
 	}
 
 	/* Minimum role on this blog. Users who are at the necessary role or higher should move right through this toward the 'return true' at the end of the function. */
-	if ( $iaoptions['email_role_toggle'] == 'yes' ) {
-		if ( $role = $iaoptions['minimum_role'] ) {
+	if ( isset( $iaoptions['email_role_toggle'] ) && $iaoptions['email_role_toggle'] == 'yes' ) {
+		if ( isset( $iaoptions['minimum_role'] ) && $role = $iaoptions['minimum_role'] ) {
 			switch ( $role ) {
 				case 'Subscriber' :
 					if ( !current_user_can( 'read' ) )
@@ -366,9 +366,9 @@ function invite_anyone_access_test() {
 	}
 
 	/* User blacklist */
-	if ( $iaoptions['email_blacklist_toggle'] == 'yes' ) {
-		if ( $blacklist = $iaoptions['email_blacklist'] ) {
-			$blacklist = explode( ",", $blacklist );
+	if ( isset( $iaoptions['email_blacklist_toggle'] ) && $iaoptions['email_blacklist_toggle'] == 'yes' ) {
+		if ( isset( $iaoptions['email_blacklist'] ) ) {
+			$blacklist = explode( ",", $iaoptions['email_blacklist'] );
 			$user_id = $current_user->ID;
 			if ( in_array( $user_id, $blacklist ) )
 				return false;
@@ -784,8 +784,10 @@ function invite_anyone_invitation_subject( $returned_message = false ) {
 		if ( !$iaoptions = get_option( 'invite_anyone' ) )
 			$iaoptions = array();
 
-		if ( !$text = $iaoptions['default_invitation_subject'] ) {
+		if ( empty( $iaoptions['default_invitation_subject'] ) ) {
 			$text = sprintf( __( 'An invitation to join the %s community.', 'bp-invite-anyone' ), $site_name );
+		} else {
+			$text = $iaoptions['default_invitation_subject'];
 		}
 
 		if ( !is_admin() ) {
@@ -808,10 +810,12 @@ function invite_anyone_invitation_message( $returned_message = false ) {
 		if ( !$iaoptions = get_option( 'invite_anyone' ) )
 			$iaoptions = array();
 
-		if ( !$text = $iaoptions['default_invitation_message'] ) {
+		if ( empty( $iaoptions['default_invitation_message'] ) ) {
 			$text = sprintf( __( 'You have been invited by %%INVITERNAME%% to join the %s community.
 
 Visit %%INVITERNAME%%\'s profile at %%INVITERURL%%.', 'bp-invite-anyone' ), $blogname ); /* Do not translate the strings embedded in %% ... %% ! */
+		} else {
+			$text = $iaoptions['default_invitation_message'];
 		}
 
 		if ( !is_admin() ) {
@@ -829,13 +833,15 @@ function invite_anyone_process_footer( $email ) {
 	if ( !$iaoptions = get_option( 'invite_anyone' ) )
 		$iaoptions = array();
 
-	if ( !$footer = $iaoptions['addl_invitation_message'] ) {
+	if ( empty( $iaoptions['addl_invitation_message'] ) ) {
 
 		$footer = apply_filters( 'invite_anyone_accept_invite_footer_message', __( 'To accept this invitation, please visit %%ACCEPTURL%%', 'bp-invite-anyone' ) );
 		$footer .= '
 
 ';
 		$footer .= apply_filters( 'invite_anyone_opt_out_footer_message', __( 'To opt out of future invitations to this site, please visit %%OPTOUTURL%%', 'bp-invite-anyone' ) );
+	} else {
+		$footer = $iaoptions['addl_invitation_message'];
 	}
 
 	return stripslashes( $footer );
