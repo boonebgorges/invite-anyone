@@ -230,6 +230,19 @@ function bp_new_group_invite_member_list() {
 		return implode( "\n", (array)$items );
 	}
 
+/**
+ * Fetch a list of site members eligible to be invited to a group.
+ *
+ * The list is essentially a list of everyone on the site, minus the logged in user and members
+ * of the current group.
+ *
+ * @package Invite Anyone
+ * @since 1.0
+ *
+ * @param int $group_id The group_id you want to exclude
+ * @param str $search_terms If you want to search on username/display name
+ * @return array $users An array of located users
+ */
 function invite_anyone_invite_query( $group_id = false, $search_terms = false ) {
 	// Get a list of group members to be excluded from the main query
 	$group_members = array();
