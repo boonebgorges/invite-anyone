@@ -313,8 +313,7 @@ function invite_anyone_access_test() {
 	if ( bp_displayed_user_id() && !bp_is_my_profile() )
 		return false;
 
-	if ( !$iaoptions = get_option( 'invite_anyone' ) )
-		$iaoptions = array();
+	$iaoptions = invite_anyone_options();
 
 	/* This is the last of the general checks: logged in, looking at own profile, and finally admin has set to "All Users".*/
 	if ( isset( $iaoptions['email_visibility_toggle'] ) && $iaoptions['email_visibility_toggle'] == 'no_limit' )
@@ -447,8 +446,7 @@ function invite_anyone_screen_one_title() {
 function invite_anyone_screen_one_content() {
 	global $bp;
 
-	if ( !$iaoptions = get_option( 'invite_anyone' ) )
-		$iaoptions = array();
+	$iaoptions = invite_anyone_options();
 
 	if ( !$max_invites = $iaoptions['max_invites'] )
 		$max_invites = 5;
@@ -781,8 +779,7 @@ function invite_anyone_invitation_subject( $returned_message = false ) {
 	if ( !$returned_message ) {
 		$site_name = get_bloginfo('name');
 
-		if ( !$iaoptions = get_option( 'invite_anyone' ) )
-			$iaoptions = array();
+		$iaoptions = invite_anyone_options();
 
 		if ( empty( $iaoptions['default_invitation_subject'] ) ) {
 			$text = sprintf( __( 'An invitation to join the %s community.', 'bp-invite-anyone' ), $site_name );
@@ -807,8 +804,7 @@ function invite_anyone_invitation_message( $returned_message = false ) {
 		$inviter_name = $bp->loggedin_user->userdata->display_name;
 		$blogname = get_bloginfo('name');
 
-		if ( !$iaoptions = get_option( 'invite_anyone' ) )
-			$iaoptions = array();
+		$iaoptions = invite_anyone_options();
 
 		if ( empty( $iaoptions['default_invitation_message'] ) ) {
 			$text = sprintf( __( 'You have been invited by %%INVITERNAME%% to join the %s community.
@@ -830,8 +826,7 @@ Visit %%INVITERNAME%%\'s profile at %%INVITERURL%%.', 'bp-invite-anyone' ), $blo
 
 function invite_anyone_process_footer( $email ) {
 
-	if ( !$iaoptions = get_option( 'invite_anyone' ) )
-		$iaoptions = array();
+	$iaoptions = invite_anyone_options();
 
 	if ( empty( $iaoptions['addl_invitation_message'] ) ) {
 
@@ -991,7 +986,7 @@ function invite_anyone_process_invitations( $data ) {
 	);
 
 	// Check against the max number of invites. Send back right away if there are too many
-	$options 	= get_option( 'invite_anyone' );
+	$options 	= invite_anyone_options();
 	$max_invites 	= !empty( $options['max_invites'] ) ? $options['max_invites'] : 5;
 	
 	if ( count( $emails ) > $max_invites ) {
@@ -1135,8 +1130,7 @@ function invite_anyone_bypass_registration_lock() {
 	if ( !$email = urldecode( $bp->action_variables[0] ) )
 		return;
 	
-	if ( !$options = get_option( 'invite_anyone' ) )
-		return;
+	$options = invite_anyone_options();
 		
 	if ( empty( $options['bypass_registration_lock'] ) || $options['bypass_registration_lock'] != 'yes' )
 		return;
