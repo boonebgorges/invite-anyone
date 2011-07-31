@@ -41,7 +41,9 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Changelog ==
 
-= 0.9.4 =
+= 1.0 =
+* Compatibility with BuddyPress 1.5
+* Rewritten autocomplete script for group invitations
 * Adds Spanish translation
 
 = 0.9.3 =
