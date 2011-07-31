@@ -6,22 +6,17 @@ function invite_anyone_add_js() {
 	global $bp;
 
 	if ( $bp->current_action == BP_INVITE_ANYONE_SLUG || ( isset( $bp->action_variables[1] ) && $bp->action_variables[1] == BP_INVITE_ANYONE_SLUG ) ) {
-		wp_register_script('invite-anyone-js', WP_PLUGIN_URL . '/invite-anyone/group-invites/group-invites-js.js');
+		
+		wp_enqueue_script( 'invite-anyone-autocomplete-js', WP_PLUGIN_URL . '/invite-anyone/group-invites/jquery.autocomplete/jquery.autocomplete-min.js', array( 'jquery' ) );
+		
+		wp_register_script( 'invite-anyone-js', WP_PLUGIN_URL . '/invite-anyone/group-invites/group-invites-js.js', array( 'invite-anyone-autocomplete-js' ) );
 		wp_enqueue_script( 'invite-anyone-js' );
 
 		add_action( 'wp_head', 'invite_anyone_autocomplete_init_jsblock' );
 
-		wp_enqueue_script( 'invite-anyone-autocomplete-js', WP_PLUGIN_URL . '/invite-anyone/group-invites/autocomplete/jquery.autocomplete.js', array( 'jquery' ) );
-		wp_enqueue_script( 'bp-jquery-autocomplete-fb', WP_PLUGIN_URL . '/invite-anyone/group-invites/autocomplete/jquery.autocompletefb.js' );
-		wp_enqueue_script( 'bp-jquery-bgiframe', BP_PLUGIN_URL . '/bp-messages/js/autocomplete/jquery.bgiframe.min.js' );
-		wp_enqueue_script( 'bp-jquery-dimensions', BP_PLUGIN_URL . '/bp-messages/js/autocomplete/jquery.dimensions.js' );
-
-		if ( !function_exists( 'bp_post_get_permalink' ) )
-			wp_enqueue_script( 'invite-anyone-livequery', WP_PLUGIN_URL . '/invite-anyone/group-invites/autocomplete/jquery.livequery.js' );
 	}
 }
 add_action( 'wp_head', 'invite_anyone_add_js', 1 );
-
 
 function invite_anyone_autocomplete_init_jsblock() {
 ?>
@@ -286,24 +281,21 @@ function invite_anyone_ajax_invite_user() {
 	if ( !$_POST['friend_id'] || !$_POST['friend_action'] || !$_POST['group_id'] )
 		return false;
 
-
-
-/*	if ( !groups_is_user_admin( $bp->loggedin_user->id, $_POST['group_id'] ) )
-		return false; */
-
 	if ( 'invite' == $_POST['friend_action'] ) {
 
 		if ( !groups_invite_user( array( 'user_id' => $_POST['friend_id'], 'group_id' => $_POST['group_id'] ) ) )
 			return false;
 
 		$user = new BP_Core_User( $_POST['friend_id'] );
+		
+		$group_slug = isset( $bp->groups->root_slug ) ? $bp->groups->root_slug : $bp->groups->slug;
 
 		echo '<li id="uid-' . $user->id . '">';
 		echo $user->avatar_thumb;
 		echo '<h4>' . $user->user_link . '</h4>';
-		echo '<span class="activity">' . attribute_escape( $user->last_active ) . '</span>';
+		echo '<span class="activity">' . esc_html( $user->last_active ) . '</span>';
 		echo '<div class="action">
-				<a class="remove" href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->groups->slug . '/' . $_POST['group_id'] . '/invites/remove/' . $user->id, 'groups_invite_uninvite_user' ) . '" id="uid-' . attribute_escape( $user->id ) . '">' . __( 'Remove Invite', 'buddypress' ) . '</a>
+				<a class="remove" href="' . wp_nonce_url( $bp->loggedin_user->domain . $group_slug . '/' . $_POST['group_id'] . '/invites/remove/' . $user->id, 'groups_invite_uninvite_user' ) . '" id="uid-' . esc_html( $user->id ) . '">' . __( 'Remove Invite', 'buddypress' ) . '</a>
 			  </div>';
 		echo '</li>';
 
@@ -326,24 +318,36 @@ function invite_anyone_ajax_autocomplete_results() {
 	$friends = false;
 
 	// Get the friend ids based on the search terms
-	$friends = BP_Core_User::search_users( $_GET['q'], 500, 1 );
+	$friends = BP_Core_User::search_users( $_REQUEST['query'], 500, 1 );
 		
-	$friends = apply_filters( 'bp_friends_autocomplete_list', $friends, $_GET['q'], $_GET['limit'] );
+	$friends = apply_filters( 'bp_friends_autocomplete_list', $friends, $_GET['query'], 25 );
+
+	$return = array(
+		'query' 	=> $_REQUEST['query'],
+		'data' 		=> array(),
+		'suggestions' 	=> array()
+	);
 
 	if ( $friends['users'] ) {
+		$suggestions = array();
+		$data 	     = array();
+		
 		foreach ( $friends['users'] as $user ) {
-			if ( $user->user_id ) // For BP < 1.2
-				$user_id = $user->user_id;
-			else
-				$user_id = $user->id;
-			$ud = get_userdata($user_id);
-			$username = $ud->user_login;
-			echo bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'thumb', 'width' => 25, 'height' => 25 ) ) . ' ' . bp_core_get_user_displayname( $user->user_id ) . ' (' . $username . ')
-			';
+			$user_id 	= $user->id;
+			$ud 		= get_userdata($user_id);
+			$username 	= $ud->user_login;
+			
+			$suggestions[] 	= $ud->display_name . ' (' . $username . ')';
+			$data[] 	= $user_id;
 		}
+	
+		$return['suggestions'] = $suggestions;	
+		$return['data']	       = $data;
 	}
+	
+	echo json_encode( $return );
 }
-add_action( 'wp_ajax_invite_anyone_autocomplete_results', 'invite_anyone_ajax_autocomplete_results' );
+add_action( 'wp_ajax_invite_anyone_autocomplete_ajax_handler', 'invite_anyone_ajax_autocomplete_results' );
 
 function invite_anyone_remove_group_creation_invites( $a ) {
 
@@ -360,17 +364,17 @@ function invite_anyone_remove_invite_subnav() {
 	
 	if ( invite_anyone_group_invite_access_test() == 'friends' )
 		return;
-
-	if ( $bp->groups->group_creation_steps['group-invites'] )
+		
+	if ( isset( $bp->groups->group_creation_steps['group-invites'] ) )
 		unset( $bp->groups->group_creation_steps['group-invites'] );
 
 	// BP 1.5 / BP 1.2
-	$parent_slug = isset( $bp->groups->root_slug ) ? $bp->groups->current_group->slug : $bp->groups->slug; 
+	$parent_slug = isset( $bp->groups->root_slug ) && isset( $bp->groups->current_group->slug ) ? $bp->groups->current_group->slug : $bp->groups->slug; 
 
 	bp_core_remove_subnav_item( $parent_slug, 'send-invites' );
 }
 add_filter( 'groups_create_group_steps', 'invite_anyone_remove_group_creation_invites', 1 );
-add_action( 'bp_setup_nav', 'invite_anyone_remove_invite_subnav', 15 );
+//add_action( 'bp_setup_nav', 'invite_anyone_remove_invite_subnav', 15 );
 
 
 /* Utility function to test which members the current user can invite to a group */
