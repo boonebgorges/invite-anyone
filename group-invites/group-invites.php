@@ -100,7 +100,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 	function display() {
 		global $bp;
 
-		if ( BP_INVITE_ANYONE_SLUG == $bp->current_action && 'send' == $bp->action_variables[0] ) {
+		if ( BP_INVITE_ANYONE_SLUG == $bp->current_action && isset( $bp->action_variables[0] ) && 'send' == $bp->action_variables[0] ) {
 			if ( !check_admin_referer( 'groups_send_invites', '_wpnonce_send_invites' ) )
 				return false;
 
@@ -215,7 +215,7 @@ function bp_new_group_invite_member_list() {
 		extract( $r, EXTR_SKIP );
 
 		if ( !$group_id )
-			$group_id = ( $bp->groups->new_group_id ) ? $bp->groups->new_group_id : $bp->groups->current_group->id;
+			$group_id = isset( $bp->groups->new_group_id ) ? $bp->groups->new_group_id : $bp->groups->current_group->id;
 
 		$friends = get_members_invite_list( $bp->loggedin_user->id, $group_id );
 
@@ -223,15 +223,14 @@ function bp_new_group_invite_member_list() {
 			$invites = groups_get_invites_for_group( $bp->loggedin_user->id, $group_id );
 
 			for ( $i = 0; $i < count( $friends ); $i++ ) {
+				$checked = '';
 				if ( $invites ) {
 					if ( in_array( $friends[$i]['id'], $invites ) ) {
 						$checked = ' checked="checked"';
-					} else {
-						$checked = '';
 					}
 				}
 
-				$items[] = '<' . $separator . '><input' . $checked . ' type="checkbox" name="friends[]" id="f-' . $friends[$i]['id'] . '" value="' . attribute_escape( $friends[$i]['id'] ) . '" /> ' . $friends[$i]['full_name'] . '</' . $separator . '>';
+				$items[] = '<' . $separator . '><input' . $checked . ' type="checkbox" name="friends[]" id="f-' . $friends[$i]['id'] . '" value="' . esc_html( $friends[$i]['id'] ) . '" /> ' . $friends[$i]['full_name'] . '</' . $separator . '>';
 			}
 		}
 
