@@ -1089,7 +1089,6 @@ function invite_anyone_process_invitations( $data ) {
 			
 			do_action( 'sent_email_invite', $bp->loggedin_user->id, $email, $groups );
 	
-	
 			unset( $message, $to );
 		}
 	
