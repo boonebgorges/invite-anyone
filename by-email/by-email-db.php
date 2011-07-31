@@ -671,6 +671,13 @@ function invite_anyone_clear_sent_invite( $args ) {
 		'type' => accepted, unaccepted, or all
 	); */
 	
+	$defaults = array(
+		'inviter_id' => false,
+		'clear_id' => false,
+		'type' => false
+	);
+	$args = wp_parse_args( $args, $defaults );
+	
 	extract( $args );
 	
 	if ( empty( $inviter_id ) )

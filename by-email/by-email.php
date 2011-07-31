@@ -591,7 +591,7 @@ function invite_anyone_screen_one_content() {
 function invite_anyone_screen_two() {
 	global $bp;
 	
-	if ( $bp->current_component == $bp->invite_anyone->slug && $bp->current_action == 'sent-invites' && $bp->action_variables[0] == 'send' ) {
+	if ( $bp->current_component == $bp->invite_anyone->slug && $bp->current_action == 'sent-invites' && isset( $bp->action_variables[0] ) && $bp->action_variables[0] == 'send' ) {
 		if ( ! invite_anyone_process_invitations( $_POST ) )
 			bp_core_add_message( __( 'Sorry, there was a problem sending your invitations. Please try again.', 'bp-invite-anyone' ), 'error' );
 	}
@@ -663,10 +663,10 @@ function invite_anyone_screen_two() {
 				<thead>
 					<tr>
 					  <th scope="col"></th>
-					  <th scope="col" <?php if ( !empty( $_GET['sort_by'] ) && $_GET['sort_by'] == 'email' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=email&amp;order=<?php if ( $_GET['sort_by'] == 'email' && $_GET['order'] == 'ASC' ) : $order = 'DESC' ?>DESC<?php else : $order = 'ASC' ?>ASC<?php endif; ?>"><?php _e( 'Invited email address', 'bp-invite-anyone' ) ?></a></th>
+					  <th scope="col" <?php if ( $sort_by == 'email' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=email&amp;order=<?php if ( $sort_by == 'email' && $order == 'ASC' ) : ?>DESC<?php else : ?>ASC<?php endif; ?>"><?php _e( 'Invited email address', 'bp-invite-anyone' ) ?></a></th>
 					  <th scope="col"><?php _e( 'Group invitations', 'bp-invite-anyone' ) ?></th>
-					  <th scope="col" <?php if ( !empty( $_GET['sort_by'] ) && $_GET['sort_by'] == 'date_invited' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_invited&amp;order=<?php if ( $_GET['sort_by'] == 'date_invited' && $_GET['order'] == 'DESC' ) : $order = 'ASC' ?>ASC<?php else : $order = 'DESC' ?>DESC<?php endif; ?>"><?php _e( 'Sent', 'bp-invite-anyone' ) ?></a></th>
-					  <th scope="col" <?php if ( !empty( $_GET['sort_by'] ) && $_GET['sort_by'] == 'date_joined' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_joined&amp;order=<?php if ( $_GET['sort_by'] == 'date_joined' && $_GET['order'] == 'DESC' ) : $order = 'ASC' ?>ASC<?php else : $order = 'DESC' ?>DESC<?php endif; ?>"><?php _e( 'Accepted', 'bp-invite-anyone' ) ?></a></th>
+					  <th scope="col" <?php if ( $sort_by == 'date_invited' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_invited&amp;order=<?php if ( $sort_by == 'date_invited' && $order == 'DESC' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Sent', 'bp-invite-anyone' ) ?></a></th>
+					  <th scope="col" <?php if ( $sort_by == 'date_joined' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_joined&amp;order=<?php if ( $order == 'DESC' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Accepted', 'bp-invite-anyone' ) ?></a></th>
 					</tr>
 				</thead>
 	
@@ -1047,7 +1047,7 @@ function invite_anyone_process_invitations( $data ) {
 	
 	if ( ! empty( $emails ) ) {
 		
-		do_action( 'sent_email_invite', $bp->loggedin_user->id, $email, $groups );
+		do_action( 'sent_email_invite', $bp->loggedin_user->id, $email );
 
 		unset( $message, $to );
 
@@ -1074,7 +1074,7 @@ function invite_anyone_process_invitations( $data ) {
 	
 			$to = apply_filters( 'invite_anyone_invitee_email', $email );
 			$subject = apply_filters( 'invite_anyone_invitation_subject', $subject );
-			$message = apply_filters( 'invite_anyone_invitation_message', $message, $accept_link );
+			$message = apply_filters( 'invite_anyone_invitation_message', $message );
 	
 			wp_mail( $to, $subject, $message );
 	
@@ -1158,7 +1158,7 @@ function invite_anyone_validate_email( $user_email ) {
 		$status = 'used';
 	} else if ( function_exists( 'is_email_address_unsafe' ) && is_email_address_unsafe( $user_email ) ) {
 		$status = 'unsafe';
-	} else if ( function_exists( 'validate_email' ) && !validate_email( $user_email ) ) {
+	} else if ( function_exists( 'is_email' ) && !is_email( $user_email ) ) {
 		$status = 'invalid';
 	}
 		
