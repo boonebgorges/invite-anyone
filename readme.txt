@@ -37,8 +37,12 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Italian: Luca Camellini
 * Norwegian: Stig Ulfsby
 * Russian: Jettochkin
+* Spanish: Mauricio Camayo
 
 == Changelog ==
+
+= 0.9.4 =
+* Adds Spanish translation
 
 = 0.9.3 =
 * Fixed some PHP warnings on Manage Invitations and Stats panels
