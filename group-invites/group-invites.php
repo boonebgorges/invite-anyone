@@ -5,7 +5,7 @@
 function invite_anyone_add_js() {
 	global $bp;
 
-	if ( $bp->current_action == BP_INVITE_ANYONE_SLUG || $bp->action_variables[1] == BP_INVITE_ANYONE_SLUG ) {
+	if ( $bp->current_action == BP_INVITE_ANYONE_SLUG || ( isset( $bp->action_variables[1] ) && $bp->action_variables[1] == BP_INVITE_ANYONE_SLUG ) ) {
 		wp_register_script('invite-anyone-js', WP_PLUGIN_URL . '/invite-anyone/group-invites/group-invites-js.js');
 		wp_enqueue_script( 'invite-anyone-js' );
 
@@ -43,14 +43,15 @@ function invite_anyone_autocomplete_init_jsblock() {
 function invite_anyone_add_group_invite_css() {
 	global $bp;
 
-	if ( $bp->current_action == BP_INVITE_ANYONE_SLUG || $bp->action_variables[1] == BP_INVITE_ANYONE_SLUG ) {
+	if ( $bp->current_action == BP_INVITE_ANYONE_SLUG || ( isset( $bp->action_variables[1] ) && $bp->action_variables[1] == BP_INVITE_ANYONE_SLUG ) ) {
    		$style_url = WP_PLUGIN_URL . '/invite-anyone/group-invites/group-invites-css.css';
-        $style_file = WP_PLUGIN_DIR . '/invite-anyone/group-invites/group-invites-css.css';
-        if (file_exists($style_file)) {
-            wp_register_style('invite-anyone-group-invites-style', $style_url);
-            wp_enqueue_style('invite-anyone-group-invites-style');
-        }
-    }
+		$style_file = WP_PLUGIN_DIR . '/invite-anyone/group-invites/group-invites-css.css';
+
+		if (file_exists($style_file)) {
+			wp_register_style('invite-anyone-group-invites-style', $style_url);
+			wp_enqueue_style('invite-anyone-group-invites-style');
+		}
+	}
 }
 add_action( 'wp_print_styles', 'invite_anyone_add_group_invite_css' );
 

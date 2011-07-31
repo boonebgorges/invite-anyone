@@ -62,7 +62,7 @@ add_action( 'bp_setup_globals', 'invite_anyone_setup_globals', 2 );
 function invite_anyone_opt_out_screen() {
 	global $bp;
 
-	if ( $_POST['oops_submit'] ) {
+	if ( isset( $_POST['oops_submit'] ) ) {
 		bp_core_redirect( site_url( BP_REGISTER_SLUG ) . '/accept-invitation/' . urlencode( $_POST['opt_out_email'] ) );
 	}
 
