@@ -176,102 +176,103 @@ class Invite_Anyone_Stats {
 						}
 					}
 				}
+			}
 						
-				// With all the data tallied, we can come up with some percentages
-				
-				// Overall acceptance rate
-				if ( $period['total_count'] ) {
-					$period['acceptance_rate'] = round( ( $period['accepted_count'] / $period['total_count'] ) * 100 );
-					$period['acceptance_rate'] .= '%';
-				} else {
-					$period['acceptance_rate'] = __( 'n/a', 'bp-invite-anyone' );
-				}
-				
-				// CS percentage
-				if ( $period['total_count'] ) {
-					$period['cs_percentage'] = round( ( $period['total_count_cs'] / $period['total_count'] ) * 100 );
-					$period['cs_percentage'] .= '%';
-				} else {
-					$period['cs_percentage'] = __( 'n/a', 'bp-invite-anyone' );
-				}
-				
-				// CS acceptance rate
-				if ( $period['total_count_cs'] ) {
-					$period['acceptance_rate_cs'] = round( ( $period['accepted_count_cs'] / $period['total_count_cs'] ) * 100 );
-					$period['acceptance_rate_cs'] .= '%';
-				} else {
-					$period['acceptance_rate_cs'] = __( 'n/a', 'bp-invite-anyone' );
-				}
-				
-				// Find the most active user
-				$leader_user_id_pct = 0;
-				$leader_val_pct     = 0;
-				
-				$leader_user_id_num = 0;
-				$leader_val_num     = 0;
-				
-				$leader_user_id_pct_cs = 0;
-				$leader_var_pct_cs     = 0;
-				
-				$leader_user_id_num_cs = 0;
-				$leader_var_num_cs     = 0;
-				
-				foreach ( $period['unique_inviters'] as $user_id => $u ) {
-					// Overall
-					if ( $u['overall']['sent'] ) {
-						if ( $u['overall']['sent'] >= $leader_val_num ) {
-							$leader_user_id_num = $user_id;
-							$leader_val_num = $u['overall']['sent'];
-						}
-						
-						if ( ( $u['overall']['accepted'] / $u['overall']['sent'] ) >= $leader_val_pct ) {
-							$leader_user_id_pct = $user_id;
-							$leader_val_pct = $u['overall']['accepted'] / $u['overall']['sent'] * 100;
-						}
+			// With all the data tallied, we can come up with some percentages
+			
+			// Overall acceptance rate
+			if ( $period['total_count'] ) {
+				$period['acceptance_rate'] = round( ( $period['accepted_count'] / $period['total_count'] ) * 100 );
+				$period['acceptance_rate'] .= '%';
+			} else {
+				$period['acceptance_rate'] = __( 'n/a', 'bp-invite-anyone' );
+			}
+			
+			// CS percentage
+			if ( $period['total_count'] ) {
+				$period['cs_percentage'] = round( ( $period['total_count_cs'] / $period['total_count'] ) * 100 );
+				$period['cs_percentage'] .= '%';
+			} else {
+				$period['cs_percentage'] = __( 'n/a', 'bp-invite-anyone' );
+			}
+			
+			// CS acceptance rate
+			if ( $period['total_count_cs'] ) {
+				$period['acceptance_rate_cs'] = round( ( $period['accepted_count_cs'] / $period['total_count_cs'] ) * 100 );
+				$period['acceptance_rate_cs'] .= '%';
+			} else {
+				$period['acceptance_rate_cs'] = __( 'n/a', 'bp-invite-anyone' );
+			}
+			
+			// Find the most active user
+			$leader_user_id_pct = 0;
+			$leader_val_pct     = 0;
+			
+			$leader_user_id_num = 0;
+			$leader_val_num     = 0;
+			
+			$leader_user_id_pct_cs = 0;
+			$leader_val_pct_cs     = 0;
+			
+			$leader_user_id_num_cs = 0;
+			$leader_val_num_cs     = 0;
+			
+			foreach ( $period['unique_inviters'] as $user_id => $u ) {
+				// Overall
+				if ( $u['overall']['sent'] ) {
+					if ( $u['overall']['sent'] >= $leader_val_num ) {
+						$leader_user_id_num = $user_id;
+						$leader_val_num = $u['overall']['sent'];
 					}
 					
-					// CloudSponge
-					if ( $u['cloudsponge']['sent'] ) {
-						if ( $u['cloudsponge']['sent'] >= $leader_val_num_cs ) {
-							$leader_user_id_num_cs = $user_id;
-							$leader_val_num_cs = $u['cloudsponge']['sent'];
-						}
-						
-						if ( ( $u['cloudsponge']['accepted'] / $u['cloudsponge']['sent'] ) >= $leader_val_pct_cs ) {
-							$leader_user_id_pct_cs = $user_id;
-							$leader_val_pct_cs = $u['cloudsponge']['accepted'] / $u['cloudsponge']['sent'] * 100;
-						}
+					if ( ( $u['overall']['accepted'] / $u['overall']['sent'] ) >= $leader_val_pct ) {
+						$leader_user_id_pct = $user_id;
+						$leader_val_pct = $u['overall']['accepted'] / $u['overall']['sent'] * 100;
 					}
 				}
 				
-				$period['top_users']['top_user_num'] = array(
-					'user_id' => $leader_user_id_num ? $leader_user_id_num : false,
-					'sent' => $leader_val_num ? $leader_val_num : false
-				);
-				
-				$period['top_users']['top_user_pct'] = array(
-					'user_id' => $leader_user_id_pct ? $leader_user_id_pct : false,
-					'accepted' => $leader_val_pct ? round( $leader_val_pct ) . '%' : '-'
-				);
-				
-				$period['top_users']['top_user_num_cs'] = array(
-					'user_id' => $leader_user_id_num_cs ? $leader_user_id_num_cs : false,
-					'sent' => $leader_val_num_cs ? $leader_val_num_cs : false
-				);
-				
-				$period['top_users']['top_user_pct_cs'] = array(
-					'user_id' => $leader_user_id_pct_cs ? $leader_user_id_pct_cs : false,
-					'accepted' => $leader_val_pct_cs ? round( $leader_val_pct_cs ) . '%' : '-'
-				);
-				
-				// Fetch userlinks
-				foreach( $period['top_users'] as $key => $top_user ) {
-					$link = bp_core_get_userlink( $top_user['user_id'] );
-					$period['top_users'][$key]['user_link'] = $link;
+				// CloudSponge
+				if ( $u['cloudsponge']['sent'] ) {
+					if ( $u['cloudsponge']['sent'] >= $leader_val_num_cs ) {
+						$leader_user_id_num_cs = $user_id;
+						$leader_val_num_cs = $u['cloudsponge']['sent'];
+					}
+					
+					if ( ( $u['cloudsponge']['accepted'] / $u['cloudsponge']['sent'] ) >= $leader_val_pct_cs ) {
+						$leader_user_id_pct_cs = $user_id;
+						$leader_val_pct_cs = $u['cloudsponge']['accepted'] / $u['cloudsponge']['sent'] * 100;
+					}
 				}
-				
-				$this->time_periods[$tp] = $period;
 			}
+			
+			$period['top_users']['top_user_num'] = array(
+				'user_id' => $leader_user_id_num ? $leader_user_id_num : false,
+				'sent' => $leader_val_num ? $leader_val_num : false
+			);
+			
+			$period['top_users']['top_user_pct'] = array(
+				'user_id' => $leader_user_id_pct ? $leader_user_id_pct : false,
+				'accepted' => $leader_val_pct ? round( $leader_val_pct ) . '%' : '-'
+			);
+			
+			$period['top_users']['top_user_num_cs'] = array(
+				'user_id' => $leader_user_id_num_cs ? $leader_user_id_num_cs : false,
+				'sent' => $leader_val_num_cs ? $leader_val_num_cs : false
+			);
+			
+			$period['top_users']['top_user_pct_cs'] = array(
+				'user_id' => $leader_user_id_pct_cs ? $leader_user_id_pct_cs : false,
+				'accepted' => $leader_val_pct_cs ? round( $leader_val_pct_cs ) . '%' : '-'
+			);
+			
+			// Fetch userlinks
+			foreach( $period['top_users'] as $key => $top_user ) {
+				$link = bp_core_get_userlink( $top_user['user_id'] );
+				$period['top_users'][$key]['user_link'] = $link;
+			}
+			
+							
+			$this->time_periods[$tp] = $period;
 		}
 	}
 	
@@ -353,7 +354,9 @@ class Invite_Anyone_Stats {
 			</tr></thead>
 			
 			<tbody>
+			
 			<?php foreach( $this->time_periods as $tp => $period ) : ?>
+		
 				<tr>
 					<th scope="row">
 						<?php echo esc_html( $period['name'] ) ?>

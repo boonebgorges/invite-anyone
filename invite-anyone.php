@@ -19,6 +19,9 @@ register_activation_hook( __FILE__, 'invite_anyone_activation' );
 
 /* Only load the BuddyPress plugin functions if BuddyPress is loaded and initialized. */
 function invite_anyone_init() {
+	
+	require( dirname( __FILE__ ) . '/functions.php' );
+	
 	if ( function_exists( 'bp_is_active' ) ) {
 		if ( bp_is_active( 'groups' ) )
 			require( dirname( __FILE__ ) . '/group-invites/group-invites.php' );
@@ -27,8 +30,6 @@ function invite_anyone_init() {
 	}
 
 	require( dirname( __FILE__ ) . '/by-email/by-email.php' );
-	
-	require( dirname( __FILE__ ) . '/functions.php' );
 
 	if ( is_admin() )
 		require( dirname( __FILE__ ) . '/admin/admin-panel.php' );
