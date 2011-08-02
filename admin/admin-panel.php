@@ -14,7 +14,13 @@ function invite_anyone_admin_add_action_link( $links, $file ) {
 	if ( 'invite-anyone/invite-anyone.php' != $file )
 		return $links;
 
-	$settings_link = '<a href="' . admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) . '">' . __( 'Settings', 'bp-invite-anyone' ) . '</a>';
+	if ( function_exists( 'bp_core_do_network_admin' ) ) {
+		$settings_url = add_query_arg( 'page', 'invite-anyone', bp_core_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' ) ); 
+	} else {
+		$settings_url = add_query_arg( 'page', 'invite-anyone', is_multisite() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' ) );
+	}
+	
+	$settings_link = '<a href="' . $settings_url . '">' . __( 'Settings', 'bp-invite-anyone' ) . '</a>';
 	array_unshift( $links, $settings_link );
 
 	return $links;
