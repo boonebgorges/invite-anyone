@@ -8,7 +8,7 @@ function invite_anyone_options() {
 	if ( !empty( $iaoptions ) ) {
 		$options = $iaoptions;
 	} else {		
-		if ( function_exists( 'bp_get_option' ) ) {
+		if ( function_exists( 'bp_update_option' ) ) {
 			$options = bp_get_option( 'invite_anyone' );
 		} else {
 			$options = get_option( 'invite_anyone' );
@@ -38,7 +38,7 @@ function invite_anyone_options() {
 		'group_invites_can_group_member' => 'anyone',
 		'cloudsponge_enabled'		=> 'off'
 	);
-	
+//	echo 'saved'; var_dump( $
 	foreach ( $defaults_array as $key => $value ) {
 		if ( !isset( $options[$key] ) )
 			$options[$key] = $value;
