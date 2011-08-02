@@ -41,6 +41,10 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Changelog ==
 
+= 1.0.1 =
+* Fixes problem that prevented settings from being saved properly on 1.2.x
+* Fixes Settings link on Plugins page
+
 = 1.0 =
 * Compatibility with BuddyPress 1.5
 * Rewritten autocomplete script for group invitations
