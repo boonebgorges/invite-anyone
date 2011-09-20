@@ -10,30 +10,11 @@ function invite_anyone_add_js() {
 		wp_enqueue_script( 'invite-anyone-autocomplete-js', WP_PLUGIN_URL . '/invite-anyone/group-invites/jquery.autocomplete/jquery.autocomplete-min.js', array( 'jquery' ) );
 		
 		wp_register_script( 'invite-anyone-js', WP_PLUGIN_URL . '/invite-anyone/group-invites/group-invites-js.js', array( 'invite-anyone-autocomplete-js' ) );
-		wp_enqueue_script( 'invite-anyone-js' );
-
-		add_action( 'wp_head', 'invite_anyone_autocomplete_init_jsblock' );
+		wp_enqueue_script( 'invite-anyone-js' );		
 
 	}
 }
 add_action( 'wp_head', 'invite_anyone_add_js', 1 );
-
-function invite_anyone_autocomplete_init_jsblock() {
-?>
-	<script type="text/javascript">
-		jQuery(document).ready(function() {
-			var acfb =
-			jQuery("ul.first").autoCompletefb({urlLookup:'<?php echo $bp->root_domain . str_replace( 'index.php', 'wp-load.php', $_SERVER['SCRIPT_NAME'] ) ?>'});
-
-			jQuery('#send_message_form').submit( function() {
-				var users = document.getElementById('send-to-usernames').className;
-				document.getElementById('send-to-usernames').value = String(users);
-			});
-		});
-	</script>
-<?php
-}
-
 
 function invite_anyone_add_group_invite_css() {
 	global $bp;
