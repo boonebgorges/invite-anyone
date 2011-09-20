@@ -1,5 +1,4 @@
 <?php
-
 /*
 Plugin Name: Invite Anyone
 Plugin URI: http://teleogistic.net/code/buddypress/invite-anyone/
