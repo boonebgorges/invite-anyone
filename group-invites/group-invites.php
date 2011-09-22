@@ -6,11 +6,11 @@ function invite_anyone_add_js() {
 	global $bp;
 
 	if ( $bp->current_action == BP_INVITE_ANYONE_SLUG || ( isset( $bp->action_variables[1] ) && $bp->action_variables[1] == BP_INVITE_ANYONE_SLUG ) ) {
-		
+
 		wp_enqueue_script( 'invite-anyone-autocomplete-js', WP_PLUGIN_URL . '/invite-anyone/group-invites/jquery.autocomplete/jquery.autocomplete-min.js', array( 'jquery' ) );
-		
+
 		wp_register_script( 'invite-anyone-js', WP_PLUGIN_URL . '/invite-anyone/group-invites/group-invites-js.js', array( 'invite-anyone-autocomplete-js' ) );
-		wp_enqueue_script( 'invite-anyone-js' );		
+		wp_enqueue_script( 'invite-anyone-js' );
 
 	}
 }
@@ -134,10 +134,8 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 			bp_core_add_message( __('Group created successfully.', 'buddypress') );
 	}
 
-	function enable_nav_item() {
-		global $bp;
-
-		if ( invite_anyone_group_invite_access_test() == 'anyone' )
+	function enable_nav_item() {	
+		if ( invite_anyone_group_invite_access_test() == 'anyone' || invite_anyone_group_invite_access_test() == 'friends')
 			return true;
 		else
 			return false;
@@ -162,7 +160,7 @@ function invite_anyone_catch_group_invites() {
 
 		do_action( 'groups_screen_group_invite', $bp->groups->current_group->id );
 
-		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . BP_INVITE_ANYONE_SLUG );
+		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . BP_INVITE_ANYONE_SLUG . '/' );
 	}
 }
 add_action( 'wp', 'invite_anyone_catch_group_invites', 1 );
@@ -225,6 +223,8 @@ function bp_new_group_invite_member_list() {
  * @return array $users An array of located users
  */
 function invite_anyone_invite_query( $group_id = false, $search_terms = false ) {
+	global $bp;
+	
 	// Get a list of group members to be excluded from the main query
 	$group_members = array();
 	$args = array(
@@ -233,33 +233,84 @@ function invite_anyone_invite_query( $group_id = false, $search_terms = false ) 
 	);
 	if ( $search_terms )
 		$args['search'] = $search_terms;
-	
+
 	if ( bp_group_has_members( $args ) ) {
 		while ( bp_group_members() ) {
 			bp_group_the_member();
 			$group_members[] = bp_get_group_member_id();
 		}
 	}
-	
+
 	// Don't include the logged-in user, either
 	$group_members[] = bp_loggedin_user_id();
 	
+	// If this user is set to friends only, only show their friends
+	$user_friends = array();
+	if( invite_anyone_group_invite_access_test() == 'friends' ) {		
+		$friends = friends_get_friends_invite_list( $bp->loggedin_user->id );
+		
+		foreach($friends as $friend){
+			$user_friends[] = $friend['id'];
+		}
+	}		
+
 	// Now do a user query
-	$user_query = new WP_User_Query( array( 'exclude' => $group_members ) );
-	
+	// Pass a null blog id so that the capabilities check is skipped. For BP blog_id doesn't
+	// matter anyway
+	$user_query = new Invite_Anyone_User_Query( array( 'blog_id' => NULL, 'exclude' => $group_members, 'search' => $search_terms, 'include' => $user_friends ) );
+
 	return $user_query->results;
+}
+
+/**
+ * Extends the WP_User_Query class to make it easier for us to search across different fields
+ *
+ * @package Invite Anyone
+ * @since 1.0.4
+ */
+class Invite_Anyone_User_Query extends WP_User_Query {
+	/**
+	 * @see WP_User_Query::get_search_sql()
+	 */
+	function get_search_sql( $string, $cols, $wild = false ) {
+		$string = esc_sql( $string );
+
+		// Always search all columns
+		$cols = array(
+			'user_email',
+			'user_login',
+			'user_nicename',
+			'user_url',
+			'display_name'
+		);
+
+		// Always do 'both' for trailing_wild
+		$wild = 'both';
+
+		$searches = array();
+		$leading_wild = ( 'leading' == $wild || 'both' == $wild ) ? '%' : '';
+		$trailing_wild = ( 'trailing' == $wild || 'both' == $wild ) ? '%' : '';
+		foreach ( $cols as $col ) {
+			if ( 'ID' == $col )
+				$searches[] = "$col = '$string'";
+			else
+				$searches[] = "$col LIKE '$leading_wild" . like_escape($string) . "$trailing_wild'";
+		}
+
+		return ' AND (' . implode(' OR ', $searches) . ')';
+	}
 }
 
 function get_members_invite_list( $user_id = false, $group_id ) {
 	global $bp, $wpdb;
 
 	if ( $users = invite_anyone_invite_query( $bp->groups->current_group->id ) ) {
-	
+
 		foreach( (array)$users as $member ) {
 			$user_id = $member->ID;
-			
+
 			$display_name = bp_core_get_user_displayname( $user_id );
-	
+
 			if ( $display_name != '' ) {
 				$friends[] = array(
 					'id' => $user_id,
@@ -290,7 +341,7 @@ function invite_anyone_ajax_invite_user() {
 			return false;
 
 		$user = new BP_Core_User( $_POST['friend_id'] );
-		
+
 		$group_slug = isset( $bp->groups->root_slug ) ? $bp->groups->root_slug : $bp->groups->slug;
 
 		echo '<li id="uid-' . $user->id . '">';
@@ -318,34 +369,27 @@ add_action( 'wp_ajax_invite_anyone_groups_invite_user', 'invite_anyone_ajax_invi
 function invite_anyone_ajax_autocomplete_results() {
 	global $bp;
 
-	$friends = false;
-
-	// Get the friend ids based on the search terms
-	$friends = BP_Core_User::search_users( $_REQUEST['query'] );
-		
-	$friends = apply_filters( 'bp_friends_autocomplete_list', $friends, $_GET['query'], 25 );
-
 	$return = array(
 		'query' 	=> $_REQUEST['query'],
 		'data' 		=> array(),
 		'suggestions' 	=> array()
 	);
-	
+
 	$users = invite_anyone_invite_query( $bp->groups->current_group->id, $_REQUEST['query'] );
 
 	if ( $users ) {
 		$suggestions = array();
 		$data 	     = array();
-		
+
 		foreach ( $users as $user ) {
 			$suggestions[] 	= $user->display_name . ' (' . $user->user_login . ')';
 			$data[] 	= $user->ID;
 		}
-	
-		$return['suggestions'] = $suggestions;	
+
+		$return['suggestions'] = $suggestions;
 		$return['data']	       = $data;
 	}
-	
+
 	echo json_encode( $return );
 }
 add_action( 'wp_ajax_invite_anyone_autocomplete_ajax_handler', 'invite_anyone_ajax_autocomplete_results' );
@@ -363,14 +407,11 @@ function invite_anyone_remove_group_creation_invites( $a ) {
 function invite_anyone_remove_invite_subnav() {
 	global $bp;
 	
-	if ( invite_anyone_group_invite_access_test() == 'friends' )
-		return;
-		
 	if ( isset( $bp->groups->group_creation_steps['group-invites'] ) )
 		unset( $bp->groups->group_creation_steps['group-invites'] );
 
 	// BP 1.5 / BP 1.2
-	$parent_slug = isset( $bp->groups->root_slug ) && isset( $bp->groups->current_group->slug ) ? $bp->groups->current_group->slug : $bp->groups->slug; 
+	$parent_slug = isset( $bp->groups->root_slug ) && isset( $bp->groups->current_group->slug ) ? $bp->groups->current_group->slug : $bp->groups->slug;
 
 	bp_core_remove_subnav_item( $parent_slug, 'send-invites' );
 }
@@ -394,10 +435,10 @@ function invite_anyone_group_invite_access_test() {
 		if ( $iaoptions['group_invites_can_group_admin'] == 'friends' )
 			return 'friends';
 		if ( $iaoptions['group_invites_can_group_admin'] == 'noone' )
-			return 'noone';	
-	}		
+			return 'noone';
+	}
 
-	if ( !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+	if ( !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) && (!is_super_admin()) )
 		return 'noone';
 
 	if ( is_super_admin() ) {
