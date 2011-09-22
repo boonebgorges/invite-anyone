@@ -6,7 +6,6 @@ Requires at least: WP 3.1, BuddyPress 1.2.6
 Tested up to: WP 3.2.1, BuddyPress 1.5
 Stable tag: 1.0.3
 
-
 Makes BuddyPress's invitation features more powerful.
 
 == Description ==
