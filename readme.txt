@@ -41,6 +41,13 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Changelog ==
 
+= 1.0.4 =
+* Prevents 404s for shadow image in autocomplet. Props defunctl
+* Fixes issue with Remove Invite link for items added with AJAX. Props defunctl
+
+= 1.0.3 =
+* Removes unneeded code block. Props defunctl
+
 = 1.0.2 =
 * Fixes syntax error that caused "invalid header" errors when activated on some setups
 
