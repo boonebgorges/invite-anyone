@@ -42,6 +42,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 == Changelog ==
 
 = 1.0.4 =
+* Fixes errant autocomplete for group invitations
 * Prevents 404s for shadow image in autocomplet. Props defunctl
 * Fixes issue with Remove Invite link for items added with AJAX. Props defunctl
 
