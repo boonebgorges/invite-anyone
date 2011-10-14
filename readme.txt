@@ -43,6 +43,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 = 1.0.5 =
 * Adds filters to some settings fields
+* Removes repeated sent_email_invite action
 
 = 1.0.4 =
 * Fixes errant autocomplete for group invitations

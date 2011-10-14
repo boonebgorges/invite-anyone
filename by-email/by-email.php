@@ -1047,8 +1047,6 @@ function invite_anyone_process_invitations( $data ) {
 
 	if ( ! empty( $emails ) ) {
 
-		do_action( 'sent_email_invite', $bp->loggedin_user->id, $email );
-
 		unset( $message, $to );
 
 		/* send and record invitations */
