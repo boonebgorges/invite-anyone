@@ -659,7 +659,7 @@ function invite_anyone_screen_two() {
 			<table class="invite-anyone-sent-invites zebra"
 			summary="<?php _e( 'This table displays a list of all your sent invites.
 			Invites that have been accepted are highlighted in the listings.
-			You may clear any individual invites, all accepted invites or all of the invite from the list.', 'bp-invite-anyone' ) ?>">
+			You may clear any individual invites, all accepted invites or all of the invites from the list.', 'bp-invite-anyone' ) ?>">
 				<thead>
 					<tr>
 					  <th scope="col"></th>
