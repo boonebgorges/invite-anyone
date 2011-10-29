@@ -136,7 +136,7 @@ add_action( 'wp', 'invite_anyone_opt_out_screen', 1 );
 function invite_anyone_register_screen_message() {
 	global $bp;
 ?>
-	<?php if ( $bp->current_action == 'accept-invitation' && !$bp->action_variables[0] ) : ?>
+	<?php if ( isset( $bp->current_action ) && $bp->current_action == 'accept-invitation' && empty( $bp->action_variables[0] ) ) : ?>
 		<div id="message" class="error"><p><?php _e( "It looks like you're trying to accept an invitation to join the site, but some information is missing. Please try again by clicking on the link in the invitation email.", 'bp-invite-anyone' ) ?></p></div>
 	<?php endif; ?>
 
@@ -1123,7 +1123,7 @@ function invite_anyone_bypass_registration_lock() {
 	if ( $bp->current_component != BP_REGISTER_SLUG || $bp->current_action != 'accept-invitation' )
 		return;
 
-	if ( !$email = urldecode( $bp->action_variables[0] ) )
+	if ( !isset( $bp->action_variables[0] ) || !$email = urldecode( $bp->action_variables[0] ) )
 		return;
 
 	$options = invite_anyone_options();
@@ -1131,8 +1131,16 @@ function invite_anyone_bypass_registration_lock() {
 	if ( empty( $options['bypass_registration_lock'] ) || $options['bypass_registration_lock'] != 'yes' )
 		return;
 
+	// Check to make sure that it's actually a valid email
+	$ia_obj = invite_anyone_get_invitations_by_invited_email( $email );
+
+	if ( !$ia_obj->have_posts() ) {
+		bp_core_add_message( __( "We couldn't find any invitations associated with this email address.", 'bp-invite-anyone' ), 'error' );
+		return;
+	}
+
 	// This is a royal hack until there is a filter on bp_get_signup_allowed()
-	if ( bp_core_is_multisite() ) {
+	if ( is_multisite() ) {
 		if ( !empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'blog' ) {
 			$bp->site_options['registration'] = 'all';
 		} else if ( !empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'none' ) {
