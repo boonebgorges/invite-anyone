@@ -181,13 +181,13 @@ function invite_anyone_register_screen_message() {
 				$inviters_text .= ' and ' . bp_core_get_user_displayname( $inviters[$counter] );
 			}
 
-
-
-
-			$message = sprintf( __( 'Welcome! You\'ve been invited %s to join the site. Please fill out the information below to create your account.', 'bp-invite-anyone' ), $inviters_text );
+			if ( !empty( $inviters_text ) ) {
+				$message = sprintf( __( 'Welcome! You\'ve been invited %s to join the site. Please fill out the information below to create your account.', 'bp-invite-anyone' ), $inviters_text );
+				echo '<div id="message" class="success"><p>' . $message . '</p></div>';
+			}
 
 		?>
-		<div id="message" class="success"><p><?php echo $message ?></p></div>
+		
 	<?php endif; ?>
 <?php
 }
