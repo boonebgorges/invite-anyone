@@ -686,6 +686,12 @@ function invite_anyone_screen_two() {
 
 				<?php
 					$emails = wp_get_post_terms( get_the_ID(), invite_anyone_get_invitee_tax_name() );
+					
+					// Should never happen, but was messing up my test env
+					if ( empty( $emails ) ) {
+						continue;
+					}
+					
 					$email	= $emails[0]->name;
 
 					$post_id = get_the_ID();
@@ -978,10 +984,10 @@ function invite_anyone_process_invitations( $data ) {
 	// Set up a wrapper for any data to return to the Send Invites screen in case of error
 	$returned_data = array(
 		'error_message' => false,
-		'error_emails' => array(),
-		'subject' => $data['invite_anyone_custom_subject'],
-		'message' => $data['invite_anyone_custom_message'],
-		'groups' => $data['invite_anyone_groups']
+		'error_emails'  => array(),
+		'subject' 	=> $data['invite_anyone_custom_subject'],
+		'message' 	=> $data['invite_anyone_custom_message'],
+		'groups' 	=> isset( $data['invite_anyone_groups'] ) ? $data['invite_anyone_groups'] : ''
 	);
 
 	// Check against the max number of invites. Send back right away if there are too many
