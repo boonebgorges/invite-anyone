@@ -4,7 +4,7 @@ Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WP 3.2, BuddyPress 1.2.9
 Tested up to: WP 3.2.1, BuddyPress 1.5
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -40,6 +40,11 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Spanish: Mauricio Camayo, Gregor Gimmy
 
 == Changelog ==
+
+= 1.0.6 =
+* Fixes bug that showed invitation message on registration screen when no invitation was found
+* Fixes bug that allowed users to bypass registration lock on some setups
+* Fixes some PHP notices
 
 = 1.0.5 =
 * Adds filters to some settings fields
