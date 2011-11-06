@@ -41,6 +41,9 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Changelog ==
 
+= 1.0.7 =
+* Another attempt at fixing problem that some users are having when activating plugin
+
 = 1.0.6 =
 * Fixes bug that showed invitation message on registration screen when no invitation was found
 * Fixes bug that allowed users to bypass registration lock on some setups

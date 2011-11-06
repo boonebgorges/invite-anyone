@@ -7,7 +7,6 @@ Version: 1.0.6
 Author: Boone Gorges
 Author URI: http://boonebgorges.com
 */
-
 define( 'BP_INVITE_ANYONE_VER', 	'1.0.6' );
 define( 'BP_INVITE_ANYONE_DB_VER', 	'1.0.6' );
 
