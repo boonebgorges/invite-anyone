@@ -42,6 +42,9 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Changelog ==
 
+= 1.0.8 =
+* Adds Belarussian translation. Props Alexander Ovsov
+
 = 1.0.7 =
 * Another attempt at fixing problem that some users are having when activating plugin
 
