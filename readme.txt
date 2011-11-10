@@ -38,6 +38,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Norwegian: Stig Ulfsby
 * Russian: Jettochkin
 * Spanish: Mauricio Camayo, Gregor Gimmy
+* Belarussian: Alexander Ovsov (<a href="http://webhostinggeeks.com/science">Web Geek Science</a>)
 
 == Changelog ==
 
