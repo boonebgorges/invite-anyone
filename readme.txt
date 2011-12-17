@@ -43,6 +43,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 == Changelog ==
 
 = 1.0.8 =
+* Yet another attempt at fixing activation problem
 * Adds Belarussian translation. Props Alexander Ovsov
 
 = 1.0.7 =
