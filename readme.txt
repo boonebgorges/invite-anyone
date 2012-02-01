@@ -31,7 +31,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 == Translation credits ==
 
 * Dutch: Jesper Popma
-* French: Guillaume Coulon
+* French: Guillaume Coulon, Nicolas Mollet
 * German: Lars Berning
 * Greek: Lena Stergatou
 * Italian: Luca Camellini
@@ -41,6 +41,9 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Belarussian: Alexander Ovsov (<a href="http://webhostinggeeks.com/science">Web Geek Science</a>)
 
 == Changelog ==
+
+= 1.0.10 =
+* Updates French translation. Props Nicolas Mollet
 
 = 1.0.9 =
 * Fixes some annoying PHP notices
