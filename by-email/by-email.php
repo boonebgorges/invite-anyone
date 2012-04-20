@@ -382,13 +382,28 @@ function invite_anyone_catch_clear() {
 	global $bp;
 
 	// We'll take a moment nice and early in the loading process to get returned_data
-	// out of the cookie.
+	$keys = array(
+		'error_message',
+		'error_emails',
+		'subject',
+		'message',
+		'groups'
+	);
 
-	// Get any returned data out of the cookie. It will need to be unserialized before use
-	$bp->invite_anyone->returned_data = ! empty( $_COOKIE['invite-anyone-error-data'] ) ? maybe_unserialize( stripslashes( $_COOKIE['invite-anyone-error-data'] ) ) : array();
-
-	// Unset the cookie right away so that you don't get old data when returning to the page
-	setcookie( 'invite-anyone-error-data', ' ', time() - 360000, COOKIEPATH );
+	foreach( $keys as $key ) {
+		$bp->invite_anyone->returned_data[$key] = null;
+		if ( isset( $_GET[$key] ) ) {
+			if ( is_array( $_GET[$key] ) ) {
+				$value = array();
+				foreach( $_GET[$key] as $kk => $vv ) {
+					$value[$kk] = urldecode( $vv );
+				}
+			} else {
+				$value = urldecode( $_GET[$key] );
+			}
+			$bp->invite_anyone->returned_data[$key] = $value;
+		}
+	}
 
 	if ( isset( $_GET['clear'] ) ) {
 		$clear_id = $_GET['clear'];
@@ -1036,10 +1051,8 @@ function invite_anyone_process_invitations( $data ) {
 		$returned_data['error_message']	= sprintf( __( 'You are only allowed to invite up to %s people at a time. Please remove some addresses and try again', 'bp-invite-anyone' ), $max_invites );
 		$returned_data['error_emails'] 	= $emails;
 
-		// Stash error info in cookies so we can use it after a redirect
-		setcookie( 'invite-anyone-error-data', maybe_serialize( $returned_data ), time()+60*60*24, COOKIEPATH, COOKIE_DOMAIN  );
-
-		bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members' );
+		$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members' . invite_anyone_prepare_return_qs( $returned_data );
+		bp_core_redirect( $redirect );
 	}
 
 	if ( empty( $emails ) ) {
@@ -1057,10 +1070,8 @@ function invite_anyone_process_invitations( $data ) {
 			$returned_data['error_message'] = sprintf( __( 'You are only allowed to invite %s more people. Please remove some addresses and try again', 'bp-invite-anyone' ), $remaining_invites_count );
 			$returned_data['error_emails'] = $emails;
 
-			// Stash error info in cookies so we can use it after a redirect
-			setcookie( 'invite-anyone-error-data', maybe_serialize( $returned_data ), time()+60*60*24, COOKIEPATH );
-
-			bp_core_redirect( bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members' );
+			$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members' . invite_anyone_prepare_return_qs( $returned_data );
+			bp_core_redirect( $redirect );
 		}
 	}
 
@@ -1102,8 +1113,6 @@ function invite_anyone_process_invitations( $data ) {
 			unset( $emails[$key] );
 		}
 	}
-	// Stash error info in cookies so we can use it after a redirect
-	setcookie( 'invite-anyone-error-data', maybe_serialize( $returned_data ), time()+60*60*24, COOKIEPATH, COOKIE_DOMAIN );
 
 	if ( ! empty( $emails ) ) {
 
@@ -1164,13 +1173,24 @@ function invite_anyone_process_invitations( $data ) {
 	}
 
 	// If there are errors, redirect to the Invite New Members page
-	if ( ! empty( $returned_data['error_emails'] ) )
-		bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members'  );
+	if ( ! empty( $returned_data['error_emails'] ) ) {
+		$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members' . invite_anyone_prepare_return_qs( $returned_data );
+		bp_core_redirect( $redirect );
+	}
 
 	return true;
 }
 
-
+function invite_anyone_prepare_return_qs( $returned_data ) {
+	$qs = '';
+	foreach( $returned_data as $key => $value ) {
+		/*if ( is_array( $value ) ) {
+			$key .= '[]';
+		}*/
+		$qs = add_query_arg( $key, $value, $qs );
+	}
+	return $qs;
+}
 
 function invite_anyone_send_invitation( $inviter_id, $email, $message, $groups ) {
 	global $bp;
