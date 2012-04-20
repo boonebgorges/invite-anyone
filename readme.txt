@@ -42,6 +42,9 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Changelog ==
 
+= 1.0.11 =
+* Adds per-user invitation limit option. Props Jeradin
+
 = 1.0.10 =
 * Updates French translation. Props Nicolas Mollet
 

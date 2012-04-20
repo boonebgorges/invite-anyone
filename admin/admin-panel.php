@@ -75,7 +75,9 @@ function invite_anyone_admin_panel() {
 				'group_invites_can_group_admin',
 				'group_invites_can_group_mod',
 				'group_invites_can_group_member',
-				'days_since'
+				'days_since',
+				'email_limit_invites_toggle',
+				'limit_invites_per_user'
 			),
 			'cloudsponge' => array(
 				'cloudsponge_enabled',
@@ -163,6 +165,8 @@ function invite_anyone_settings_setup() {
 			add_settings_field('invite_anyone_settings_email_visibility', __('Allow email invitations to be sent by', 'bp-invite-anyone'), 'invite_anyone_settings_email_visibility', 'invite_anyone', 'invite_anyone_access_settings');
 
 			add_settings_field( 'invite_anyone_settings_group_invite_visibility', __( 'Limit group invitations', 'bp-invite-anyone' ), 'invite_anyone_settings_group_invite_visibility', 'invite_anyone', 'invite_anyone_access_settings' );
+
+			add_settings_field( 'invite_anyone_settings_limit_invites', __( 'Limit per-user invitations', 'bp-invite-anyone' ), 'invite_anyone_settings_limit_invites', 'invite_anyone', 'invite_anyone_access_settings' );
 
 			break;
 
@@ -324,6 +328,20 @@ function invite_anyone_settings_email_visibility() {
 	</ul>
 
 <?php
+}
+
+function invite_anyone_settings_limit_invites() {
+	$options = invite_anyone_options();
+	?>
+
+	<ul>
+		<li>
+			<input type="checkbox" name="invite_anyone[email_limit_invites_toggle]" value="yes" <?php checked( $options['email_limit_invites_toggle'], 'yes' ) ?> /> <?php _e( 'Limit number of invites per user :', 'bp-invite-anyone' ) ?>
+			<input name='invite_anyone[limit_invites_per_user]' size='10' type='text' value='<?php echo esc_attr( (int) $options['limit_invites_per_user'] ) ?>' />
+		</li>
+	</ul>
+
+	<?php
 }
 
 function invite_anyone_settings_group_invite_visibility() {
