@@ -44,6 +44,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 = 1.0.11 =
 * Adds per-user invitation limit option. Props Jeradin
+* Reworks the way that returned_data is returned, to avoid 'headers already sent' errors
 
 = 1.0.10 =
 * Updates French translation. Props Nicolas Mollet
