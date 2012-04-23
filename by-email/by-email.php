@@ -187,7 +187,7 @@ function invite_anyone_register_screen_message() {
 			}
 
 		?>
-		
+
 	<?php endif; ?>
 <?php
 }
@@ -382,13 +382,28 @@ function invite_anyone_catch_clear() {
 	global $bp;
 
 	// We'll take a moment nice and early in the loading process to get returned_data
-	// out of the cookie.
+	$keys = array(
+		'error_message',
+		'error_emails',
+		'subject',
+		'message',
+		'groups'
+	);
 
-	// Get any returned data out of the cookie. It will need to be unserialized before use
-	$bp->invite_anyone->returned_data = ! empty( $_COOKIE['invite-anyone-error-data'] ) ? maybe_unserialize( stripslashes( $_COOKIE['invite-anyone-error-data'] ) ) : array();
-
-	// Unset the cookie right away so that you don't get old data when returning to the page
-	setcookie( 'invite-anyone-error-data', ' ', time() - 360000, COOKIEPATH, COOKIE_DOMAIN );
+	foreach( $keys as $key ) {
+		$bp->invite_anyone->returned_data[$key] = null;
+		if ( isset( $_GET[$key] ) ) {
+			if ( is_array( $_GET[$key] ) ) {
+				$value = array();
+				foreach( $_GET[$key] as $kk => $vv ) {
+					$value[$kk] = urldecode( $vv );
+				}
+			} else {
+				$value = urldecode( $_GET[$key] );
+			}
+			$bp->invite_anyone->returned_data[$key] = $value;
+		}
+	}
 
 	if ( isset( $_GET['clear'] ) ) {
 		$clear_id = $_GET['clear'];
@@ -447,6 +462,20 @@ function invite_anyone_screen_one_content() {
 
 	$iaoptions = invite_anyone_options();
 
+	// If the user has maxed out his invites, no need to go on
+	if ( !empty( $iaoptions['email_limit_invites_toggle'] ) && $iaoptions['email_limit_invites_toggle'] == 'yes' && !current_user_can( 'delete_others_pages' ) ) {
+		$sent_invites       = invite_anyone_get_invitations_by_inviter_id( bp_displayed_user_id() );
+		$sent_invites_count  = $sent_invites->post_count;
+		if ( $sent_invites_count >= $iaoptions['limit_invites_per_user'] ) : ?>
+
+			<h4><?php _e( 'Invite New Members', 'bp-invite-anyone' ); ?></h4>
+
+			<p id="welcome-message"><?php _e( 'You have sent the maximum allowed number of invitations.', 'bp-invite-anyone' ); ?></em></p>
+
+			<?php return;
+		endif;
+	}
+
 	if ( !$max_invites = $iaoptions['max_invites'] )
 		$max_invites = 5;
 
@@ -503,6 +532,29 @@ function invite_anyone_screen_one_content() {
 	<form id="invite-anyone-by-email" action="<?php echo $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/send/' ?>" method="post">
 
 	<h4><?php _e( 'Invite New Members', 'bp-invite-anyone' ); ?></h4>
+
+	<?php
+
+	if ( isset( $iaoptions['email_limit_invites_toggle'] ) && $iaoptions['email_limit_invites_toggle'] == 'yes' && !current_user_can( 'delete_others_pages' ) ) {
+		if ( !isset( $sent_invites ) ) {
+			$sent_invites = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id() );
+			$sent_invites_count = $sent_invites->post_count;
+		}
+
+		$limit_invite_count = (int) $iaoptions['limit_invites_per_user'] - (int) $sent_invites_count;
+
+		if ( $limit_invite_count < 0 ) {
+			$limit_invite_count = 0;
+		}
+
+		?>
+
+		<p class="description"><?php printf( __( 'The site administrator has limited each user to %1$d invitations. You have %2$d invitations remaining.', 'bp-invite-anyone' ), (int) $iaoptions['limit_invites_per_user'], (int) $limit_invite_count ) ?></p>
+
+		<?php
+	}
+	?>
+
 	<p id="welcome-message"><?php echo $welcome_message ?></p>
 
 	<ol id="invite-anyone-steps">
@@ -686,12 +738,12 @@ function invite_anyone_screen_two() {
 
 				<?php
 					$emails = wp_get_post_terms( get_the_ID(), invite_anyone_get_invitee_tax_name() );
-					
+
 					// Should never happen, but was messing up my test env
 					if ( empty( $emails ) ) {
 						continue;
 					}
-					
+
 					$email	= $emails[0]->name;
 
 					$post_id = get_the_ID();
@@ -999,15 +1051,28 @@ function invite_anyone_process_invitations( $data ) {
 		$returned_data['error_message']	= sprintf( __( 'You are only allowed to invite up to %s people at a time. Please remove some addresses and try again', 'bp-invite-anyone' ), $max_invites );
 		$returned_data['error_emails'] 	= $emails;
 
-		// Stash error info in cookies so we can use it after a redirect
-		setcookie( 'invite-anyone-error-data', maybe_serialize( $returned_data ), time()+60*60*24, COOKIEPATH, COOKIE_DOMAIN  );
-
-		bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members' );
+		$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members' . invite_anyone_prepare_return_qs( $returned_data );
+		bp_core_redirect( $redirect );
 	}
 
 	if ( empty( $emails ) ) {
 		bp_core_add_message( __( 'You didn\'t include any email addresses!', 'bp-invite-anyone' ), 'error' );
 		bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members' );
+	}
+
+	// Max number of invites sent
+	if ( !empty( $options['email_limit_invites_toggle'] ) && !current_user_can( 'delete_others_pages' ) ) {
+		$sent_invites = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id() );
+		$sent_invites_count      = (int) $sent_invites->post_count;
+		$remaining_invites_count = (int) $options['limit_invites_per_user'] - $sent_invites_count;
+
+		if ( count( $emails ) > $remaining_invites_count ) {
+			$returned_data['error_message'] = sprintf( __( 'You are only allowed to invite %s more people. Please remove some addresses and try again', 'bp-invite-anyone' ), $remaining_invites_count );
+			$returned_data['error_emails'] = $emails;
+
+			$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members' . invite_anyone_prepare_return_qs( $returned_data );
+			bp_core_redirect( $redirect );
+		}
 	}
 
 	// Turn the CS emails into an array so that they can be matched against the main list
@@ -1048,8 +1113,6 @@ function invite_anyone_process_invitations( $data ) {
 			unset( $emails[$key] );
 		}
 	}
-	// Stash error info in cookies so we can use it after a redirect
-	setcookie( 'invite-anyone-error-data', maybe_serialize( $returned_data ), time()+60*60*24, COOKIEPATH, COOKIE_DOMAIN );
 
 	if ( ! empty( $emails ) ) {
 
@@ -1110,13 +1173,24 @@ function invite_anyone_process_invitations( $data ) {
 	}
 
 	// If there are errors, redirect to the Invite New Members page
-	if ( ! empty( $returned_data['error_emails'] ) )
-		bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members'  );
+	if ( ! empty( $returned_data['error_emails'] ) ) {
+		$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members' . invite_anyone_prepare_return_qs( $returned_data );
+		bp_core_redirect( $redirect );
+	}
 
 	return true;
 }
 
-
+function invite_anyone_prepare_return_qs( $returned_data ) {
+	$qs = '';
+	foreach( $returned_data as $key => $value ) {
+		/*if ( is_array( $value ) ) {
+			$key .= '[]';
+		}*/
+		$qs = add_query_arg( $key, $value, $qs );
+	}
+	return $qs;
+}
 
 function invite_anyone_send_invitation( $inviter_id, $email, $message, $groups ) {
 	global $bp;
@@ -1165,7 +1239,7 @@ function invite_anyone_validate_email( $user_email ) {
 
 	if ( invite_anyone_check_is_opt_out( $user_email ) ) {
 		$status = 'opt_out';
-	} else if ( $user = get_user_by_email( $user_email ) ) {
+	} else if ( $user = get_user_by( 'email', $user_email ) ) {
 		$status = 'used';
 	} else if ( function_exists( 'is_email_address_unsafe' ) && is_email_address_unsafe( $user_email ) ) {
 		$status = 'unsafe';

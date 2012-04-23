@@ -19,26 +19,28 @@ function invite_anyone_options() {
 		$options = array();
 
 	$defaults_array = array(
-		'max_invites'			=> 5,
-		'allow_email_invitations' 	=> 'all',
-		'message_is_customizable' 	=> 'yes',
-		'subject_is_customizable' 	=> 'no',
-		'can_send_group_invites_email' 	=> 'yes',
-		'bypass_registration_lock' 	=> 'yes',
-		'email_visibility_toggle' 	=> 'nolimit',
-		'email_since_toggle' 		=> 'no',
-		'days_since'			=> 0,
-		'email_role_toggle'		=> 'no',
-		'minimum_role'			=> 'subscriber',
-		'email_blacklist_toggle'	=> 'no',
-		'email_blacklist'		=> '',
-		'group_invites_can_admin'	=> 'anyone',
-		'group_invites_can_group_admin' => 'anyone',
-		'group_invites_can_group_mod'   => 'anyone',
+		'max_invites'                    => 5,
+		'allow_email_invitations'        => 'all',
+		'message_is_customizable'        => 'yes',
+		'subject_is_customizable'        => 'no',
+		'can_send_group_invites_email'   => 'yes',
+		'bypass_registration_lock'       => 'yes',
+		'email_visibility_toggle'        => 'nolimit',
+		'email_since_toggle'             => 'no',
+		'days_since'                     => 0,
+		'email_role_toggle'              => 'no',
+		'minimum_role'                   => 'subscriber',
+		'email_blacklist_toggle'         => 'no',
+		'email_blacklist'                => '',
+		'group_invites_can_admin'        => 'anyone',
+		'group_invites_can_group_admin'  => 'anyone',
+		'group_invites_can_group_mod'    => 'anyone',
 		'group_invites_can_group_member' => 'anyone',
-		'cloudsponge_enabled'		=> 'off'
+		'cloudsponge_enabled'            => 'off',
+		'email_limit_invites_toggle'     => 'no',
+		'limit_invites_per_user'         => 10
 	);
-//	echo 'saved'; var_dump( $
+
 	foreach ( $defaults_array as $key => $value ) {
 		if ( !isset( $options[$key] ) )
 			$options[$key] = $value;
