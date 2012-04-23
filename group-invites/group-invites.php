@@ -259,6 +259,18 @@ function invite_anyone_invite_query( $group_id = false, $search_terms = false ) 
  * @since 1.0.4
  */
 class Invite_Anyone_User_Query extends WP_User_Query {
+	function __construct( $query = null ) {
+		add_action( 'pre_user_query', array( &$this, 'filter_registered_users_only' ) );
+		parent::__construct( $query );
+	}
+
+	/**
+	 * BuddyPress has different user statuses.  We need to filter the user list so only registered users are shown.
+	 */
+	function filter_registered_users_only( $query ) {
+		$query->query_where .= ' AND user_status = 0';
+	}
+
 	/**
 	 * @see WP_User_Query::get_search_sql()
 	 */
@@ -287,7 +299,7 @@ class Invite_Anyone_User_Query extends WP_User_Query {
 				$searches[] = "$col LIKE '$leading_wild" . like_escape($string) . "$trailing_wild'";
 		}
 
-		return ' AND (' . implode(' OR ', $searches) . ')';
+		return ' AND (' . implode(' OR ', $searches) . ') AND user_status = 0';
 	}
 }
 
