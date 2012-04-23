@@ -42,6 +42,9 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Changelog ==
 
+= 1.0.12 =
+* Ensure that spammed/inactive users are not returned by group invite autocomplete
+
 = 1.0.11 =
 * Adds per-user invitation limit option. Props Jeradin
 * Reworks the way that returned_data is returned, to avoid 'headers already sent' errors
