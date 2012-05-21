@@ -44,6 +44,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 = 1.0.12 =
 * Ensure that spammed/inactive users are not returned by group invite autocomplete
+* Updates German translation
 
 = 1.0.11 =
 * Adds per-user invitation limit option. Props Jeradin
