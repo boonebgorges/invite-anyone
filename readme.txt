@@ -42,6 +42,9 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Changelog ==
 
+= 1.0.13 =
+* Prevents fatal errors on activation in some setups, by changing where the upgrade process is run
+
 = 1.0.12 =
 * Ensure that spammed/inactive users are not returned by group invite autocomplete
 * Updates German translation
