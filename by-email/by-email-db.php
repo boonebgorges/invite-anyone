@@ -182,10 +182,10 @@ class Invite_Anyone_Schema {
 	 */
 	function update() {
 		if ( version_compare( $this->db_version, '0.9', '<' ) ) {
-			$this->upgrade_0_9();
+			add_action( 'admin_init', array( $this, 'upgrade_0_9' ) );
 		}
 	}
-	
+
 	/**
 	 * Upgrade for pre-0.9
 	 *
