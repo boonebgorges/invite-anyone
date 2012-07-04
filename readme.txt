@@ -4,7 +4,7 @@ Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WP 3.2, BuddyPress 1.2.9
 Tested up to: WP 3.3.2, BuddyPress 1.5.5
-Stable tag: 1.0.13
+Stable tag: 1.0.14
 
 Makes BuddyPress's invitation features more powerful.
 
