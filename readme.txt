@@ -42,6 +42,9 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Changelog ==
 
+= 1.0.14 =
+* Prevents call-by-reference errors on PHP 5.4 setups
+
 = 1.0.13 =
 * Prevents fatal errors on activation in some setups, by changing where the upgrade process is run
 
