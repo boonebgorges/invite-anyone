@@ -357,14 +357,11 @@ function invite_anyone_ajax_invite_user() {
 
 	} else if ( 'uninvite' == $_POST['friend_action'] ) {
 
-		if ( !groups_uninvite_user( $_POST['friend_id'], $_POST['group_id'] ) )
-			return false;
+		groups_uninvite_user( $_POST['friend_id'], $_POST['group_id'] );
 
-		return true;
+        }
 
-	} else {
-		return false;
-	}
+        die();
 }
 add_action( 'wp_ajax_invite_anyone_groups_invite_user', 'invite_anyone_ajax_invite_user' );
 
@@ -392,7 +389,7 @@ function invite_anyone_ajax_autocomplete_results() {
 		$return['data']	       = $data;
 	}
 
-	echo json_encode( $return );
+	die( json_encode( $return ) );
 }
 add_action( 'wp_ajax_invite_anyone_autocomplete_ajax_handler', 'invite_anyone_ajax_autocomplete_results' );
 
