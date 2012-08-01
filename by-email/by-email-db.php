@@ -157,6 +157,10 @@ class Invite_Anyone_Schema {
 		), $this ) );
 
 		// Stash in $bp because of template tags that need it
+                if ( !isset( $bp->invite_anyone ) ) {
+                        $bp->invite_anyone = new stdClass;
+                }
+
 		$bp->invite_anyone->invitee_tax_name = $this->invitee_tax_name;
 		$bp->invite_anyone->invited_groups_tax_name = $this->invited_groups_tax_name;
 	}
