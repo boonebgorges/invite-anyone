@@ -1061,7 +1061,8 @@ function invite_anyone_process_invitations( $data ) {
 	}
 
 	// Max number of invites sent
-	if ( !empty( $options['email_limit_invites_toggle'] ) && !current_user_can( 'delete_others_pages' ) ) {
+	$limit_total_invites = !empty( $options['email_limit_invites_toggle'] ) && 'no' != $options['email_limit_invites_toggle'];
+	if ( $limit_total_invites && !current_user_can( 'delete_others_pages' ) ) {
 		$sent_invites = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id() );
 		$sent_invites_count      = (int) $sent_invites->post_count;
 		$remaining_invites_count = (int) $options['limit_invites_per_user'] - $sent_invites_count;
