@@ -30,6 +30,8 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Translation credits ==
 
+* Belarussian: Alexander Ovsov (<a href="http://webhostinggeeks.com/science">Web Geek Science</a>)
+* Danish: Mort3n
 * Dutch: Jesper Popma
 * French: Guillaume Coulon, Nicolas Mollet
 * German: Lars Berning, Thorsten Wollenhöfer
@@ -38,11 +40,11 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Norwegian: Stig Ulfsby
 * Russian: Jettochkin
 * Spanish: Mauricio Camayo, Gregor Gimmy
-* Belarussian: Alexander Ovsov (<a href="http://webhostinggeeks.com/science">Web Geek Science</a>)
 
 == Changelog ==
 
 = 1.0.16 =
+* Added Danish translation
 * Fixed bug with total email invites toggle
 
 = 1.0.15 =
