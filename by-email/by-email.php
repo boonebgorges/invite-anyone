@@ -567,8 +567,14 @@ function invite_anyone_screen_one_content() {
 			<?php endif ?>
 
 			<div class="manual-email">
-				<p><?php _e( 'Enter email addresses below, one per line.', 'bp-invite-anyone' ) ?><?php if( invite_anyone_allowed_domains() ) : ?> <?php _e( 'You can only invite people whose email addresses end in one of the following domains:', 'bp-invite-anyone' ) ?> <?php echo invite_anyone_allowed_domains(); ?><?php endif; ?></p>
+				<p>
+					<?php _e( 'Enter email addresses below, one per line.', 'bp-invite-anyone' ) ?>
+					<?php if( invite_anyone_allowed_domains() ) : ?> <?php _e( 'You can only invite people whose email addresses end in one of the following domains:', 'bp-invite-anyone' ) ?> <?php echo invite_anyone_allowed_domains(); ?><?php endif; ?>
+				</p>
 
+				<?php if ( false !== $max_no_invites = invite_anyone_max_invites() ) : ?>
+					<p class="description"><?php printf( __( 'You can invite a maximum of %s people at a time.', 'bp-invite-anyone' ), $max_no_invites ) ?></p>
+				<?php endif ?>
 				<?php invite_anyone_email_fields( $returned_data['error_emails'] ) ?>
 			</div>
 
@@ -592,6 +598,7 @@ function invite_anyone_screen_one_content() {
 		<li>
 			<?php if ( $iaoptions['message_is_customizable'] == 'yes' ) : ?>
 				<label for="invite-anyone-custom-message"><?php _e( '(optional) Customize the text of the invitation.', 'bp-invite-anyone' ) ?></label>
+				<p class="description"><?php _e( 'The message will also contain a custom footer containing links to accept the invitation or opt out of further email invitations from this site.', 'bp-invite-anyone' ) ?></p>
 					<textarea name="invite_anyone_custom_message" id="invite-anyone-custom-message" cols="40" rows="10"><?php echo invite_anyone_invitation_message( $returned_message ) ?></textarea>
 			<?php else : ?>
 				<label for="invite-anyone-custom-message"><?php _e( 'Message:', 'bp-invite-anyone' ) ?></label>
@@ -599,7 +606,6 @@ function invite_anyone_screen_one_content() {
 
 				<input type="hidden" name="invite_anyone_custom_message" value="<?php echo invite_anyone_invitation_message() ?>" />
 			<?php endif; ?>
-				<p><?php _e( 'The message will also contain a custom footer containing links to accept the invitation or opt out of further email invitations from this site.', 'bp-invite-anyone' ) ?></p>
 
 		</li>
 
@@ -924,6 +930,14 @@ function invite_anyone_wildcard_replace( $text, $email = false ) {
 	$text = str_replace( '%ACCEPTURL%', $accept_link, $text );
 
 	return $text;
+}
+
+/**
+ * Get the max allowed invites
+ */
+function invite_anyone_max_invites() {
+	$options = invite_anyone_options();
+	return isset( $options['max_invites'] ) ? intval( $options['max_invites'] ) : false;
 }
 
 function invite_anyone_allowed_domains() {

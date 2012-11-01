@@ -102,6 +102,20 @@ label span.disabled-subject {
 	width:20px;
 }
 
+form#invite-anyone-by-email p {
+	margin-bottom: 0;
+}
+
+form#invite-anyone-by-email .description {
+	color: #8f8f8f;
+	font-size: 11px;
+	font-style: italic;
+}
+
+form#invite-anyone-by-email textarea {
+	margin-top: .5em;
+}
+
 .invite-anyone-group-name {
 	float: left;
 }
@@ -150,7 +164,7 @@ thead tr th a.ASC {
 
 .invite-anyone-sent-invites tr td:first-child a {
 	text-decoration: none;
-}	
+}
 
 .invite-anyone-sent-invites tr.over {
   background: #FFFEF3;
@@ -168,7 +182,7 @@ thead tr th a.ASC {
   background: url(../images/tick.gif) no-repeat 0 50%;
   padding-left:25px;
 }
-  
+
 .clear-entry,
 .clear-entry span {
   width:18px;
@@ -196,15 +210,15 @@ tr#batch-clear {
 
 ul#invite-anyone-clear-links {
   overflow:hidden;
-  width:100%; 
+  width:100%;
 }
- 
+
 ul#invite-anyone-clear-links li {
   float:left;
 }
 
 ul#invite-anyone-clear-links li a {
-  padding-right:10px; 
+  padding-right:10px;
   border-right: 1px solid #555;
 }
 
