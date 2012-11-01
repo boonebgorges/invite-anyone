@@ -31,6 +31,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 == Translation credits ==
 
 * Belarussian: Alexander Ovsov (<a href="http://webhostinggeeks.com/science">Web Geek Science</a>)
+* Brazilian Portuguese: Celso Bessa
 * Danish: Mort3n
 * Dutch: Jesper Popma
 * French: Guillaume Coulon, Nicolas Mollet
