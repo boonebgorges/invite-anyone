@@ -39,7 +39,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Greek: Lena Stergatou
 * Italian: Luca Camellini
 * Norwegian: Stig Ulfsby
-* Russian: Jettochkin
+* Russian: Jettochkin, Roman Leonov
 * Spanish: Mauricio Camayo, Gregor Gimmy
 
 == Changelog ==
