@@ -44,6 +44,11 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Changelog ==
 
+= 1.0.18 =
+* Added Brazilian Portuguese translation
+* Updated Russian translation
+* Added filters to control whether friend/follow requests are sent on invitation acceptance
+
 = 1.0.17 =
 * Moved admin menu to under Settings
 * Added a "maximum of x people" notice to the by-email form
