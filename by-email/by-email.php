@@ -227,7 +227,7 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 		$inviters 	= array_unique( $inviters );
 
 		// Friendship requests
-		if ( bp_is_active( 'friends' ) ) {
+		if ( bp_is_active( 'friends' ) && apply_filters( 'invite_anyone_send_friend_requests_on_acceptance', true ) ) {
 			if ( function_exists( 'friends_add_friend' ) ) {
 				foreach ( $inviters as $inviter ) {
 					friends_add_friend( $inviter, $user_id );
@@ -236,7 +236,7 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 		}
 
 		// BuddyPress Followers support
-		if ( function_exists( 'bp_follow_start_following' ) ) {
+		if ( function_exists( 'bp_follow_start_following' ) && apply_filters( 'invite_anyone_send_follow_requests_on_acceptance', true ) ) {
 			foreach ( $inviters as $inviter ) {
 				bp_follow_start_following( array( 'leader_id' => $user_id, 'follower_id' => $inviter ) );
 				bp_follow_start_following( array( 'leader_id' => $inviter, 'follower_id' => $user_id ) );
