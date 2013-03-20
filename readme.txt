@@ -46,6 +46,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 = 1.0.19 =
 * Better scaling of group member invite lists
+* Fixes WP 3.5 $wpdb->prepare() issues
 
 = 1.0.18 =
 * Added Brazilian Portuguese translation
