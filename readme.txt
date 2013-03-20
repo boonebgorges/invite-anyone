@@ -3,8 +3,8 @@ Contributors: boonebgorges, cuny-academic-commons
 Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WP 3.2, BuddyPress 1.2.9
-Tested up to: WP 3.5, BuddyPress 1.6.1
-Stable tag: 1.0.17
+Tested up to: WP 3.5.1, BuddyPress 1.7
+Stable tag: 1.0.19
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -31,6 +31,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 == Translation credits ==
 
 * Belarussian: Alexander Ovsov (<a href="http://webhostinggeeks.com/science">Web Geek Science</a>)
+* Brazilian Portuguese: Celso Bessa
 * Danish: Mort3n
 * Dutch: Jesper Popma
 * French: Guillaume Coulon, Nicolas Mollet
@@ -38,10 +39,19 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Greek: Lena Stergatou
 * Italian: Luca Camellini
 * Norwegian: Stig Ulfsby
-* Russian: Jettochkin
+* Russian: Jettochkin, Roman Leonov
 * Spanish: Mauricio Camayo, Gregor Gimmy
 
 == Changelog ==
+
+= 1.0.19 =
+* Better scaling of group member invite lists
+* Fixes WP 3.5 $wpdb->prepare() issues
+
+= 1.0.18 =
+* Added Brazilian Portuguese translation
+* Updated Russian translation
+* Added filters to control whether friend/follow requests are sent on invitation acceptance
 
 = 1.0.17 =
 * Moved admin menu to under Settings
