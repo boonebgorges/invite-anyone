@@ -44,6 +44,9 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Changelog ==
 
+= 1.0.19 =
+* Better scaling of group member invite lists
+
 = 1.0.18 =
 * Added Brazilian Portuguese translation
 * Updated Russian translation
