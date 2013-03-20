@@ -499,7 +499,7 @@ class Invite_Anyone_Invitation {
 	function filter_join_emails( $join, $query ) {
 		global $wpdb;
 
-		$join .= $wpdb->prepare( " INNER JOIN {$wpdb->term_taxonomy} wp_term_taxonomy_ia ON (wp_term_taxonomy_ia.term_taxonomy_id = wp_term_relationships.term_taxonomy_id) INNER JOIN {$wpdb->terms} wp_terms_ia ON ( wp_terms_ia.term_id = wp_term_taxonomy_ia.term_id )" );
+		$join .= " INNER JOIN {$wpdb->term_taxonomy} wp_term_taxonomy_ia ON (wp_term_taxonomy_ia.term_taxonomy_id = wp_term_relationships.term_taxonomy_id) INNER JOIN {$wpdb->terms} wp_terms_ia ON ( wp_terms_ia.term_id = wp_term_taxonomy_ia.term_id )";
 
 		return $join;
 	}
@@ -839,7 +839,7 @@ function invite_anyone_migrate_nag() {
  	if ( version_compare( $maybe_version, '0.8', '>=' ) )
  		return;
 
- 	$table_exists = $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", "%{$wpdb->base_prefix}bp_invite_anyone%" ) );
+ 	$table_exists = $wpdb->get_var( "SHOW TABLES LIKE %s", "%{$wpdb->base_prefix}bp_invite_anyone%" );
 
  	if ( !$table_exists )
  		return;
@@ -897,9 +897,9 @@ function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
 
 	$table_name = $wpdb->base_prefix . 'bp_invite_anyone';
 
- 	$total_table_contents = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$table_name}" ) );
+ 	$total_table_contents = $wpdb->get_var( "SELECT COUNT(*) FROM {$table_name}" );
 
- 	$table_contents_sql = $wpdb->prepare( "SELECT * FROM {$table_name}" );
+ 	$table_contents_sql = "SELECT * FROM {$table_name}";
 
 	$table_contents_sql .= "  ORDER BY id ASC LIMIT 5";
 
