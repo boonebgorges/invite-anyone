@@ -224,7 +224,7 @@ function bp_new_group_invite_member_list() {
  * @param str $search_terms If you want to search on username/display name
  * @return array $users An array of located users
  */
-function invite_anyone_invite_query( $group_id = false, $search_terms = false ) {
+function invite_anyone_invite_query( $group_id = false, $search_terms = false, $fields = 'all' ) {
 	// Get a list of group members to be excluded from the main query
 	$group_members = array();
 	$args = array(
@@ -244,10 +244,17 @@ function invite_anyone_invite_query( $group_id = false, $search_terms = false ) 
 	// Don't include the logged-in user, either
 	$group_members[] = bp_loggedin_user_id();
 
+	$fields = 'ID' == $fields ? 'ID' : 'all';
+
 	// Now do a user query
 	// Pass a null blog id so that the capabilities check is skipped. For BP blog_id doesn't
 	// matter anyway
-	$user_query = new Invite_Anyone_User_Query( array( 'blog_id' => NULL, 'exclude' => $group_members, 'search' => $search_terms ) );
+	$user_query = new Invite_Anyone_User_Query( array(
+		'blog_id' => NULL,
+		'exclude' => $group_members,
+		'search' => $search_terms,
+		'fields' => $fields,
+	) );
 
 	return $user_query->results;
 }
@@ -306,11 +313,9 @@ class Invite_Anyone_User_Query extends WP_User_Query {
 function get_members_invite_list( $user_id = false, $group_id ) {
 	global $bp, $wpdb;
 
-	if ( $users = invite_anyone_invite_query( $bp->groups->current_group->id ) ) {
+	if ( $users = invite_anyone_invite_query( $bp->groups->current_group->id, false, 'ID' ) ) {
 
-		foreach( (array)$users as $member ) {
-			$user_id = $member->ID;
-
+		foreach( (array) $users as $user_id ) {
 			$display_name = bp_core_get_user_displayname( $user_id );
 
 			if ( $display_name != '' ) {
