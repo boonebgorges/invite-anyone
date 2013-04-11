@@ -462,6 +462,12 @@ function invite_anyone_screen_one_content() {
 
 	$iaoptions = invite_anyone_options();
 
+	// Hack - catch already=accepted
+	if ( ! empty( $_GET['already'] ) && 'accepted' === $_GET['already'] && bp_is_my_profile() ) {
+		_e( 'It looks like you&#8217;ve already accepted your invitation to join the site.', 'invite-anyone' );
+		return;
+	}
+
 	// If the user has maxed out his invites, no need to go on
 	if ( !empty( $iaoptions['email_limit_invites_toggle'] ) && $iaoptions['email_limit_invites_toggle'] == 'yes' && !current_user_can( 'delete_others_pages' ) ) {
 		$sent_invites       = invite_anyone_get_invitations_by_inviter_id( bp_displayed_user_id() );
@@ -1276,4 +1282,32 @@ function invite_anyone_validate_email( $user_email ) {
 	return apply_filters( 'invite_anyone_validate_email', $status, $user_email );
 }
 
-?>
+/**
+ * Catches attempts to reaccept an invitation, and redirects appropriately
+ *
+ * If you attempt to access the register page when logged in, you get bounced
+ * to the home page. This is a BP feature. Because accept-invitation is a
+ * subpage of register, this happens for accept-invitation pages as well.
+ * However, people are more likely to try to visit this page than the vanilla
+ * register page, because they've gotten an email inviting them to the site.
+ *
+ * So this function catches logged-in visits to /register/accept-invitation,
+ * and if the email address in the URL matches the logged-in user's email
+ * address, redirects them to their invite-anyone page to see the a message.
+ *
+ * @since 1.0.20
+ */
+function invite_anyone_already_accepted_redirect( $redirect ) {
+	global $bp;
+
+	if ( bp_is_current_action( 'accept-invitation' ) && $reg_email = urldecode( bp_action_variable( 0 ) ) ) {
+		if ( bp_core_get_user_email( bp_loggedin_user_id() ) !== $reg_email ) {
+			return;
+		}
+
+		$redirect = add_query_arg( 'already', 'accepted', trailingslashit( bp_loggedin_user_domain() . $bp->invite_anyone->slug ) );
+	}
+
+	return $redirect;
+}
+add_filter( 'bp_loggedin_register_page_redirect_to', 'invite_anyone_already_accepted_redirect' );
