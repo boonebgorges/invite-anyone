@@ -44,6 +44,9 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Changelog ==
 
+= 1.0.21 =
+* Updated sv_SE
+
 = 1.0.20 =
 * Added friendly redirects for logged-in users attempting to reaccept invitations
 * Updated it_IT
