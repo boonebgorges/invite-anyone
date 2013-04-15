@@ -41,6 +41,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Norwegian: Stig Ulfsby
 * Russian: Jettochkin, Roman Leonov
 * Spanish: Mauricio Camayo, Gregor Gimmy
+* Swedish: Alexander Berthelsen
 
 == Changelog ==
 
