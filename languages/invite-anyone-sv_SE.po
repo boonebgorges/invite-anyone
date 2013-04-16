@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2013-04-14 00:40+0100\n"
+"PO-Revision-Date: 2013-04-14 19:20+0100\n"
 "Last-Translator: Alexander Berthelsen <alexander.berthelsen@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Generator: Poedit 1.5.5\n"
@@ -381,7 +381,7 @@ msgstr "(%s accepterade)"
 #: by-email/by-email-db.php:92
 msgctxt "post type general name"
 msgid "BuddyPress Invitations"
-msgstr "Buddypressinbjudningar"
+msgstr "Buddypress&shy;inbjudningar"
 
 #: by-email/by-email-db.php:93
 msgctxt "post type singular name"
