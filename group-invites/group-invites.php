@@ -483,4 +483,7 @@ function invite_anyone_group_invite_access_test() {
 	return 'noone';
 }
 
-?>
+function invite_anyone_group_invite_form_action() {
+	$group_url = bp_get_group_permalink( groups_get_current_group() );
+	echo trailingslashit( $group_url ) . trailingslashit( BP_INVITE_ANYONE_SLUG ) . trailingslashit( 'send' );
+}
