@@ -915,9 +915,9 @@ function invite_anyone_wildcard_replace( $text, $email = false ) {
 	global $bp;
 
 	$inviter_name = $bp->loggedin_user->userdata->display_name;
-	$site_name = get_bloginfo('name');
-	$inviter_url = bp_loggedin_user_domain();
-	$accept_link = apply_filters( 'invite_anyone_accept_url', site_url( BP_REGISTER_SLUG ) . '/accept-invitation/' . urlencode($email) );
+	$site_name    = get_bloginfo( 'name' );
+	$inviter_url  = bp_loggedin_user_domain();
+	$accept_link  = apply_filters( 'invite_anyone_accept_url', bp_get_root_domain() . '/' . bp_get_signup_slug() . '/accept-invitation/' . urlencode( $email ) );
 	$opt_out_link = site_url( BP_REGISTER_SLUG ) . '/opt-out/' . urlencode( $email );
 
 
