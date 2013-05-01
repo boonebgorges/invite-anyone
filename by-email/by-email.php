@@ -920,13 +920,11 @@ function invite_anyone_wildcard_replace( $text, $email = false ) {
 	$accept_link  = apply_filters( 'invite_anyone_accept_url', bp_get_root_domain() . '/' . bp_get_signup_slug() . '/accept-invitation/' . urlencode( $email ) );
 	$opt_out_link = site_url( BP_REGISTER_SLUG ) . '/opt-out/' . urlencode( $email );
 
-
 	$text = str_replace( '%%INVITERNAME%%', $inviter_name, $text );
 	$text = str_replace( '%%INVITERURL%%', $inviter_url, $text );
 	$text = str_replace( '%%SITENAME%%', $site_name, $text );
 	$text = str_replace( '%%OPTOUTURL%%', $opt_out_link, $text );
 	$text = str_replace( '%%ACCEPTURL%%', $accept_link, $text );
-
 
 	/* Adding single % replacements because lots of people are making the mistake */
 	$text = str_replace( '%INVITERNAME%', $inviter_name, $text );
