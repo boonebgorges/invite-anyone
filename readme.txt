@@ -46,6 +46,8 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 == Changelog ==
 
 = 1.0.21 =
+* Fixed redirection bug after submitting group invites on some setups
+* Fixed bug that caused incorrect accept-invitation links on some setups
 * Updated sv_SE
 
 = 1.0.20 =
