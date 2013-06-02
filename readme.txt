@@ -45,6 +45,9 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 == Changelog ==
 
+= 1.0.22 =
+* When sending a group invitation to a non-friend, remove the "One of your friends..." text from invitation content
+
 = 1.0.21 =
 * Fixed redirection bug after submitting group invites on some setups
 * Fixed bug that caused incorrect accept-invitation links on some setups
