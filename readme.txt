@@ -3,8 +3,8 @@ Contributors: boonebgorges, cuny-academic-commons
 Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WP 3.2, BuddyPress 1.2.9
-Tested up to: WP 3.5.1, BuddyPress 1.7.1
-Stable tag: 1.0.21
+Tested up to: WP 3.5.1, BuddyPress 1.7.2
+Stable tag: 1.0.22
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -44,6 +44,9 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Swedish: Alexander Berthelsen
 
 == Changelog ==
+
+= 1.0.22 =
+* When sending a group invitation to a non-friend, remove the "One of your friends..." text from invitation content
 
 = 1.0.21 =
 * Fixed redirection bug after submitting group invites on some setups

@@ -487,3 +487,55 @@ function invite_anyone_group_invite_form_action() {
 	$group_url = bp_get_group_permalink( groups_get_current_group() );
 	echo trailingslashit( $group_url ) . trailingslashit( BP_INVITE_ANYONE_SLUG ) . trailingslashit( 'send' );
 }
+
+/**
+ * Catch the 'to' email address of sent email notifications, and hook message filter if necessary
+ *
+ * This function is necessary because the groups_notification_group_invites_message
+ * filter doesn't receive easily parsable info about the invitee.
+ *
+ * @since 1.0.22
+ */
+function invite_anyone_group_invite_maybe_filter_invite_message( $to ) {
+	if ( ! bp_is_active( 'friends' ) ) {
+		return $to;
+	}
+
+	$invited_user = get_user_by( 'email', $to );
+
+	$friendship_status = BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), $invited_user->ID );
+	if ( 'is_friend' !== $friendship_status ) {
+		add_action( 'groups_notification_group_invites_message', 'invite_anyone_group_invite_email_message', 10, 7 );
+	}
+
+	return $to;
+}
+add_filter( 'groups_notification_group_invites_to', 'invite_anyone_group_invite_maybe_filter_invite_message' );
+
+/**
+ * Filter the invitation email notification text
+ *
+ * BP's invitation notification text assumes that the inviter and invitee are
+ * friends. This isn't always the case with Invite Anyone. This function
+ * detects whether a swap is necessary, and if so, makes it happen.
+ *
+ * @since 1.0.22
+ */
+function invite_anyone_group_invite_email_message( $message, $group, $inviter_name, $inviter_link, $invites_link, $group_link, $settings_link ) {
+	// Make sure the check happens again fresh next time around
+	remove_action( 'groups_notification_group_invites_message', 'invite_anyone_group_invite_email_message', 10, 7 );
+
+	$message = sprintf( __(
+'%1$s has invited you to the group: "%2$s".
+
+To view your group invites visit: %3$s
+
+To view the group visit: %4$s
+
+To view %5$s\'s profile visit: %6$s
+
+---------------------
+', 'buddypress' ), $inviter_name, $group->name, $invites_link, $group_link, $inviter_name, $inviter_link );
+
+	return $message;
+}
