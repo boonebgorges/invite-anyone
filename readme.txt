@@ -40,10 +40,14 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Italian: Luca Camellini
 * Norwegian: Stig Ulfsby
 * Russian: Jettochkin, Roman Leonov
+* Serbo-Croatian: Anja Skrba
 * Spanish: Mauricio Camayo, Gregor Gimmy
 * Swedish: Alexander Berthelsen
 
 == Changelog ==
+
+= 1.0.23 =
+* Adds sr_RS
 
 = 1.0.22 =
 * When sending a group invitation to a non-friend, remove the "One of your friends..." text from invitation content
