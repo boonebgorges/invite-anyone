@@ -1,4 +1,4 @@
-csInit( { 	
+var csPageOptions = {
 	domain_key: ia_cloudsponge.domain_key,
 	referrer: 'invite-anyone',
 	afterSubmitContacts:function(contacts) {
@@ -28,4 +28,12 @@ csInit( {
 		document.getElementById('invite-anyone-email-addresses').value = new_emails;
 		document.getElementById('cloudsponge-emails').value = new_emails_for_input;
 	}
-} );
+}
+
+if ( ia_cloudsponge.locale ) {
+	cloudsponge.init( { locale: 'es' } );
+}
+
+if ( ia_cloudsponge.stylesheet ) {
+	cloudsponge.init( { stylesheet: 'http://foo.com' } );
+}

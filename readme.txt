@@ -49,6 +49,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 = 1.0.23 =
 * Adds sr_RS
 * Fixes bug that prevented the admin options from appearing on some multisite setups
+* Allows locale and stylesheet options to be set via filter in Cloudsponge widget
 
 = 1.0.22 =
 * When sending a group invitation to a non-friend, remove the "One of your friends..." text from invitation content
