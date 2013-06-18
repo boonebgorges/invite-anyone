@@ -44,6 +44,9 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Spanish: Mauricio Camayo, Gregor Gimmy
 * Swedish: Alexander Berthelsen
 
+Additional details about the plugin can be found in the following languages:
+* Serbo-Croatian: <a href="http://science.webhostinggeeks.com/teleogistic">http://science.webhostinggeeks.com/teleogistic</a> 
+
 == Changelog ==
 
 = 1.0.23 =
