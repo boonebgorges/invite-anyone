@@ -48,6 +48,7 @@ add_action( 'wp_print_scripts', 'invite_anyone_add_by_email_js' );
 function invite_anyone_setup_globals() {
 	global $bp, $wpdb;
 
+	$bp->invite_anyone = new stdClass;
 	$bp->invite_anyone->id = 'invite_anyone';
 
 	$bp->invite_anyone->table_name = $wpdb->base_prefix . 'bp_invite_anyone';
