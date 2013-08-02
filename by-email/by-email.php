@@ -310,6 +310,11 @@ function invite_anyone_access_test() {
 	if ( !is_user_logged_in() )
 		return false;
 
+	// The site admin can see all
+	if ( current_user_can( 'bp_moderate' ) ) {
+		return true;
+	}
+
 	if ( bp_displayed_user_id() && !bp_is_my_profile() )
 		return false;
 

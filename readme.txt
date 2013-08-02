@@ -49,6 +49,9 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.0.24 =
+* Allow the access to Send Invites to the site admin
+
 = 1.0.23 =
 * Adds sr_RS
 * Fixes bug that prevented the admin options from appearing on some multisite setups
