@@ -432,8 +432,9 @@ add_action( 'bp_setup_nav', 'invite_anyone_remove_invite_subnav', 15 );
 function invite_anyone_group_invite_access_test() {
 	global $current_user, $bp;
 
-	if ( !is_user_logged_in() || empty( $bp->groups->current_group ) )
+	if ( ! is_user_logged_in() || ( empty( $bp->groups->current_group ) && ! bp_is_group_create() ) ) {
 		return 'noone';
+	}
 
 	if ( !$iaoptions = get_option( 'invite_anyone' ) )
 		$iaoptions = array();
