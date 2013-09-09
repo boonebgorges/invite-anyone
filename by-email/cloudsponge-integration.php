@@ -5,16 +5,6 @@ class Cloudsponge_Integration {
 	var $key;
 
 	/**
-	 * PHP 4 Constructor
-	 *
-	 * @package Invite Anyone
-	 * @since 0.8
-	 */
-	function cloudsponge_integration() {
-		$this->__construct();
-	}
-
-	/**
 	 * PHP 5 Constructor
 	 *
 	 * @package Invite Anyone
