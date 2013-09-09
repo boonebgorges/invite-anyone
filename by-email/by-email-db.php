@@ -14,16 +14,6 @@ class Invite_Anyone_Schema {
 	var $db_version;
 
 	/**
-	 * PHP4 Constructor
-	 *
-	 * @package Invite Anyone
-	 * @since 0.8
-	 */
-	function invite_anyone_schema() {
-		$this->construct();
-	}
-
-	/**
 	 * PHP5 Constructor
 	 *
 	 * @package Invite Anyone
@@ -276,18 +266,6 @@ class Invite_Anyone_Invitation {
 	var $email_order;
 
 	/**
-	 * PHP4 Constructor
-	 *
-	 * @package Invite Anyone
-	 * @since 0.8
-	 *
-	 * @param int $id Optional. The unique id of the invitation post
-	 */
-	function invite_anyone_invitation( $id = false, $user_id ) {
-		$this->construct( $id );
-	}
-
-	/**
 	 * PHP5 Constructor
 	 *
 	 * @package Invite Anyone
@@ -295,12 +273,12 @@ class Invite_Anyone_Invitation {
 	 *
 	 * @param int $id Optional. The unique id of the invitation post
 	 */
-	 function __construct( $id = false ) {
-	 	if ( $id ) {
-	 		$this->id = $id;
-	 	}
+	function __construct( $id = false ) {
+		if ( $id ) {
+			$this->id = $id;
+		}
 
-	 	// Define the post type name used throughout
+		// Define the post type name used throughout
 		$this->post_type_name = apply_filters( 'invite_anyone_post_type_name', 'ia_invites' );
 
 		// Define the invitee tax name used throughout

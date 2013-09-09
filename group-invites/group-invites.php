@@ -92,7 +92,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 		invite_anyone_create_screen_content('invite');
 	}
 
-	function create_screen() {
+	function create_screen( $group_id = null ) {
 		global $bp;
 
 		/* If we're not at this step, go bye bye */
@@ -104,7 +104,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 		wp_nonce_field( 'groups_create_save_' . $this->slug );
 	}
 
-	function create_screen_save( ) {
+	function create_screen_save( $group_id = null ) {
 		global $bp;
 
 		/* Always check the referer */
@@ -432,8 +432,9 @@ add_action( 'bp_setup_nav', 'invite_anyone_remove_invite_subnav', 15 );
 function invite_anyone_group_invite_access_test() {
 	global $current_user, $bp;
 
-	if ( !is_user_logged_in() || empty( $bp->groups->current_group ) )
+	if ( ! is_user_logged_in() || ( empty( $bp->groups->current_group ) && ! bp_is_group_create() ) ) {
 		return 'noone';
+	}
 
 	if ( !$iaoptions = get_option( 'invite_anyone' ) )
 		$iaoptions = array();

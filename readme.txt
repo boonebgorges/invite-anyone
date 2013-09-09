@@ -3,8 +3,8 @@ Contributors: boonebgorges, cuny-academic-commons
 Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WP 3.2, BuddyPress 1.2.9
-Tested up to: WP 3.5.1, BuddyPress 1.7.2
-Stable tag: 1.0.23
+Tested up to: WP 3.6, BuddyPress 1.8.1
+Stable tag: 1.0.24
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -48,6 +48,11 @@ Additional details about the plugin can be found in the following languages:
 * Serbo-Croatian: <a href="http://science.webhostinggeeks.com/teleogistic">http://science.webhostinggeeks.com/teleogistic</a> 
 
 == Changelog ==
+
+= 1.0.24 =
+* Allow the access to Send Invites to the site admin
+* Better PHP 5.4+ adherence
+* Fix bug that prevented invitation step from appearing in group creation on some setups
 
 = 1.0.23 =
 * Adds sr_RS
