@@ -51,6 +51,8 @@ Additional details about the plugin can be found in the following languages:
 
 = 1.0.24 =
 * Allow the access to Send Invites to the site admin
+* Better PHP 5.4+ adherence
+* Fix bug that prevented invitation step from appearing in group creation on some setups
 
 = 1.0.23 =
 * Adds sr_RS
