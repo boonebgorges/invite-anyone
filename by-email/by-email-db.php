@@ -273,12 +273,12 @@ class Invite_Anyone_Invitation {
 	 *
 	 * @param int $id Optional. The unique id of the invitation post
 	 */
-	 function __construct( $id = false ) {
-	 	if ( $id ) {
-	 		$this->id = $id;
-	 	}
+	function __construct( $id = false ) {
+		if ( $id ) {
+			$this->id = $id;
+		}
 
-	 	// Define the post type name used throughout
+		// Define the post type name used throughout
 		$this->post_type_name = apply_filters( 'invite_anyone_post_type_name', 'ia_invites' );
 
 		// Define the invitee tax name used throughout
