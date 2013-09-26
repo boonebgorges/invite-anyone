@@ -49,6 +49,9 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.0.25 =
+* Fixes broken Sent Invites screen
+
 = 1.0.24 =
 * Allow the access to Send Invites to the site admin
 * Better PHP 5.4+ adherence
