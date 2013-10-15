@@ -809,7 +809,7 @@ function invite_anyone_screen_two() {
 						<td><?php echo esc_html( $email ) ?></td>
 						<td><?php echo $group_names ?></td>
 						<td><?php echo $date_invited ?></td>
-						<td class="date-joined"><?php echo $date_joined ?></td>
+						<td class="date-joined"><span></span><?php echo $date_joined ?></td>
 					</tr>
 				<?php endwhile ?>
 			 </tbody>
