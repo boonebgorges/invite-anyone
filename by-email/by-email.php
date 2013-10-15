@@ -765,7 +765,8 @@ function invite_anyone_screen_two() {
 						continue;
 					}
 
-					$email	= $emails[0]->name;
+					// Before storing taxonomy terms in the db, we replaced "+" with ".PLUSSIGN.", so we need to reverse that before displaying the email address.
+					$email	= str_replace( '.PLUSSIGN.', '+', $emails[0]->name );
 
 					$post_id = get_the_ID();
 
@@ -808,7 +809,7 @@ function invite_anyone_screen_two() {
 						<td><?php echo esc_html( $email ) ?></td>
 						<td><?php echo $group_names ?></td>
 						<td><?php echo $date_invited ?></td>
-						<td class="date-joined"><?php echo $date_joined ?></td>
+						<td class="date-joined"><span></span><?php echo $date_joined ?></td>
 					</tr>
 				<?php endwhile ?>
 			 </tbody>
