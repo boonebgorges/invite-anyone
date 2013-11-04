@@ -74,7 +74,7 @@ label span.disabled-subject {
 }
 
 #invite-anyone-group-list li {
-	width: 200px;
+	width: 45%;
 	margin: 5px 10px 10px 10px;
 	float: left;
 	height:60px;
@@ -88,7 +88,10 @@ label span.disabled-subject {
 	vertical-align:center;
 }
 
-#invite-anyone-group-list label {margin-bottom:0;}
+#invite-anyone-group-list label {
+	width: 85%;
+	margin-bottom:0;
+}
 
 #invite-anyone-group-list label,
 #invite-anyone-group-list input {
@@ -97,7 +100,8 @@ label span.disabled-subject {
 
 #invite-anyone-group-list label span {
   font-weight:normal;
-  line-height:30px;
+  /*line-height:30px;*/ /*Breaks if group name is multiline*/
+  line-height: 1.4em;
 }
 
 #invite-anyone-group-list li input {
@@ -292,3 +296,13 @@ textarea.invite-anyone-email-addresses {
 	.ia-pagination .page-numbers {
 		margin-left: 8px;
 	}
+	
+/* Tablet and smaller screens */ 
+@media screen and (max-width:800px) { 
+	#invite-anyone-group-list li {
+		width: 90%;
+	}
+	#invite-anyone-group-list label {
+		width: 75%;
+	}
+}
