@@ -573,6 +573,10 @@ class Invite_Anyone_Invitation {
  * @param bool $is_cloudsponge Did this email address originate with CloudSponge?
  */
 function invite_anyone_record_invitation( $inviter_id, $email, $message, $groups, $subject = false, $is_cloudsponge = false ) {
+
+	// hack to make sure that gmail + email addresses work
+	$email	= str_replace( '+', '.PLUSSIGN.', $email );
+
 	$args = array(
 		'inviter_id' 	 => $inviter_id,
 		'invitee_email'	 => $email,
@@ -624,7 +628,16 @@ function invite_anyone_get_invitations_by_inviter_id( $inviter_id, $orderby = fa
  */
 function invite_anyone_get_invitations_by_invited_email( $email ) {
 	// hack to make sure that gmail + email addresses work
-	$email	= str_replace( ' ', '+', $email );
+
+	// If the url takes the form register/accept-invitation/username+extra%40gmail.com,
+	// urldecode returns a space in place of the +. (This is not typical,
+	// but we can catch it.)
+	$email = str_replace( ' ', '+', $email );
+
+	// More common: url takes the form register/accept-invitation/username%2Bextra%40gmail.com,
+	// so we grab the + that urldecode returns and replace it to create a
+	// usable search term.
+	$email = str_replace( '+', '.PLUSSIGN.', $email );
 
 	$args = array(
 		'invitee_email'	=> $email,

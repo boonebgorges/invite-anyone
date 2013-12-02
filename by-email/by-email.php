@@ -765,7 +765,8 @@ function invite_anyone_screen_two() {
 						continue;
 					}
 
-					$email	= $emails[0]->name;
+					// Before storing taxonomy terms in the db, we replaced "+" with ".PLUSSIGN.", so we need to reverse that before displaying the email address.
+					$email	= str_replace( '.PLUSSIGN.', '+', $emails[0]->name );
 
 					$post_id = get_the_ID();
 
