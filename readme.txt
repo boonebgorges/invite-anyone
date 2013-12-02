@@ -49,6 +49,9 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.0.26 =
+* Allow + signs to appear in invited email addresses
+
 = 1.0.25 =
 * Fixes broken Sent Invites screen
 
