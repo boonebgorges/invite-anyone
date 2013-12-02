@@ -516,7 +516,9 @@ function invite_anyone_settings_mi_content() {
 					$emails = wp_get_post_terms( get_the_ID(), invite_anyone_get_invitee_tax_name() );
 
 					foreach( $emails as $email ) {
-						echo esc_html( $email->name );
+						// Before storing taxonomy terms in the db, we replace "+" with ".PLUSSIGN.", so we need to reverse that before displaying the email address.
+						$email_address	= str_replace( '.PLUSSIGN.', '+', $email->name );
+						echo esc_html( $email_address );
 					}
 					?>
 				</td>

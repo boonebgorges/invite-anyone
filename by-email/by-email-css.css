@@ -1,12 +1,20 @@
-#subnav #invite-new-members {
-  padding-left:20px;
-  background: url(../images/invite_bullet.gif) no-repeat 0 50%;
+#subnav #invite-new-members:before, 
+#subnav #sent-invites:before {
+   	  background: url(../images/invite-anyone-sprites.png) no-repeat;
+	  content: "";
+	  width: 16px;
+	  height: 16px;
+	  display: inline-block;
+	  vertical-align: middle;
+	  margin-right: .6em;
 }
+	#subnav #invite-new-members:before {
+		background-position: 0 0;  
+	}
+	#subnav #sent-invites:before {
+		background-position: -20px 0;
+	}
 
-#subnav #sent-invites {
-  padding-left:20px;
-  background: url(../images/email_go.png) no-repeat 0 50%;
-}
 #welcome-message,
 #sent-invites-intro {font-size:14px;}
 
@@ -63,14 +71,10 @@ label span.disabled-subject {
 	clear: both;
   overflow:hidden;
   width:100%;
-<<<<<<< HEAD
-
-=======
->>>>>>> ef3663091faf6e7c70fbaa3f1639e5febef8d0f0
 }
 
 #invite-anyone-group-list li {
-	width: 200px;
+	width: 45%;
 	margin: 5px 10px 10px 10px;
 	float: left;
 	height:60px;
@@ -84,7 +88,10 @@ label span.disabled-subject {
 	vertical-align:center;
 }
 
-#invite-anyone-group-list label {margin-bottom:0;}
+#invite-anyone-group-list label {
+	width: 85%;
+	margin-bottom:0;
+}
 
 #invite-anyone-group-list label,
 #invite-anyone-group-list input {
@@ -93,7 +100,8 @@ label span.disabled-subject {
 
 #invite-anyone-group-list label span {
   font-weight:normal;
-  line-height:30px;
+  /*line-height:30px;*/ /*Breaks if group name is multiline*/
+  line-height: 1.4em;
 }
 
 #invite-anyone-group-list li input {
@@ -131,15 +139,23 @@ form#invite-anyone-by-email textarea {
 
 thead tr {border-bottom:2px solid #555;}
 
-thead tr th a.DESC {
-  padding-right:20px;
-  background: url(../images/sort-col-desc.gif) no-repeat 100% 50% ;
+thead tr th a.DESC:after,
+thead tr th a.ASC:after {
+  background: url(../images/invite-anyone-sprites.png) no-repeat;
+  content: "";
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: .6em;
 }
+	thead tr th a.DESC:after {
+		background-position: -20px -40px ;
+	}
+	thead tr th a.ASC:after {
+		background-position: 0 -40px ;
+	}
 
-thead tr th a.ASC {
-  padding-right:20px;
-  background: url(../images/sort-col-asc.gif) no-repeat 100% 0 ;
-}
 
 .invite-anyone-sent-invites tbody tr {
   border:2px solid #fff;
@@ -170,17 +186,18 @@ thead tr th a.ASC {
   background: #FFFEF3;
 }
 
-.invite-anyone-sent-invites tr.accepted {
-  background:#FFFFE3;
-}
-
 .invite-anyone-sent-invites tr.accepted td {
-  color: #70B479;
+  color: #09c622;
 }
 
-.invite-anyone-sent-invites tr.accepted td.date-joined {
-  background: url(../images/tick.gif) no-repeat 0 50%;
-  padding-left:25px;
+.invite-anyone-sent-invites tr.accepted td.date-joined span {
+  background: url(../images/invite-anyone-sprites.png) no-repeat;
+  background-position: -20px -20px ;
+  width: 18px;
+  height: 18px;
+  margin-right: 0.4em;
+  display: inline-block;
+  vertical-align: bottom;
 }
 
 .clear-entry,
@@ -198,11 +215,17 @@ thead tr th a.ASC {
 .clear-entry span {
   position:absolute;
   left:0;
-  background:  url(../images/clear-x.gif) no-repeat 0 0;
-  cursor:pointer;
+  background: url(../images/invite-anyone-sprites.png) no-repeat;
+  background-position: 0px -20px ;
+  width: 18px;
+  height: 18px;
 }
 
-.clear-entry span:hover {background-position: 0 100%;}
+.clear-entry span:hover {
+   -moz-box-shadow: inset 0 0 4px #CCC;
+   -webkit-box-shadow: inset 0 0 4px #CCC;
+   box-shadow: inset 0 0 4px #CCC;
+}
 
 tr#batch-clear {
   border-top:1px solid #8f8f8f;
@@ -273,3 +296,13 @@ textarea.invite-anyone-email-addresses {
 	.ia-pagination .page-numbers {
 		margin-left: 8px;
 	}
+	
+/* Tablet and smaller screens */ 
+@media screen and (max-width:800px) { 
+	#invite-anyone-group-list li {
+		width: 90%;
+	}
+	#invite-anyone-group-list label {
+		width: 75%;
+	}
+}
