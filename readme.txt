@@ -3,8 +3,8 @@ Contributors: boonebgorges, cuny-academic-commons
 Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WP 3.2, BuddyPress 1.2.9
-Tested up to: WP 3.6.1, BuddyPress 1.8.1
-Stable tag: 1.0.25
+Tested up to: WP 3.8.1, BuddyPress 1.9.2
+Stable tag: 1.0.26
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -48,6 +48,11 @@ Additional details about the plugin can be found in the following languages:
 * Serbo-Croatian: <a href="http://science.webhostinggeeks.com/teleogistic">http://science.webhostinggeeks.com/teleogistic</a> 
 
 == Changelog ==
+
+= 1.0.26 =
+* Allow + signs to appear in invited email addresses
+* Improves icon appearance and performance
+* Improves appearance of group list on Send Invites screen 
 
 = 1.0.25 =
 * Fixes broken Sent Invites screen
