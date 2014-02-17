@@ -168,7 +168,7 @@ function invite_anyone_catch_group_invites() {
 add_action( 'wp', 'invite_anyone_catch_group_invites', 1 );
 
 function invite_anyone_create_screen_content( $event ) {
-	if ( !$template = locate_template( 'groups/single/invite-anyone.php', true ) ) {
+	if ( !$template = bp_locate_template( 'groups/single/invite-anyone.php', true ) ) {
 		include_once( 'templates/invite-anyone.php' );
 	}
 }
