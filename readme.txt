@@ -49,6 +49,10 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.1.0 =
+* Fix bug in pagination after sending email invitations
+* Fix broken sprite
+
 = 1.0.26 =
 * Allow + signs to appear in invited email addresses
 * Improves icon appearance and performance
