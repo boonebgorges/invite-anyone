@@ -387,32 +387,57 @@ function invite_anyone_access_test() {
 }
 add_action( 'wp_head', 'invite_anyone_access_test' );
 
+/**
+ * Catch and process email sends.
+ *
+ * @since 1.1.0
+ */
+function invite_anyone_catch_send() {
+	global $bp;
+
+	if ( ! bp_is_current_component( $bp->invite_anyone->slug ) ) {
+		return;
+	}
+
+	if ( ! bp_is_current_action( 'sent-invites' ) ) {
+		return;
+	}
+
+	if ( ! bp_is_action_variable( 'send', 0 ) ) {
+		return;
+	}
+
+	if ( ! invite_anyone_process_invitations( $_POST ) ) {
+		bp_core_add_message( __( 'Sorry, there was a problem sending your invitations. Please try again.', 'bp-invite-anyone' ), 'error' );
+	}
+
+	bp_core_redirect( bp_displayed_user_domain() . $bp->invite_anyone->slug . '/sent-invites' );
+}
+add_action( 'wp', 'invite_anyone_catch_send' );
+
 function invite_anyone_catch_clear() {
 	global $bp;
 
-	// We'll take a moment nice and early in the loading process to get returned_data
-	$keys = array(
-		'error_message',
-		'error_emails',
-		'subject',
-		'message',
-		'groups'
-	);
+	$returned_data = isset( $_COOKIE['invite-anyone'] ) ? unserialize( stripslashes( $_COOKIE['invite-anyone'] ) ) : '';
+	if ( $returned_data ) {
+		// We'll take a moment nice and early in the loading process to get returned_data
+		$keys = array(
+			'error_message',
+			'error_emails',
+			'subject',
+			'message',
+			'groups',
+		);
 
-	foreach( $keys as $key ) {
-		$bp->invite_anyone->returned_data[$key] = null;
-		if ( isset( $_GET[$key] ) ) {
-			if ( is_array( $_GET[$key] ) ) {
-				$value = array();
-				foreach( $_GET[$key] as $kk => $vv ) {
-					$value[$kk] = urldecode( $vv );
-				}
-			} else {
-				$value = urldecode( $_GET[$key] );
+		foreach ( $keys as $key ) {
+			$bp->invite_anyone->returned_data[ $key ] = null;
+			if ( isset( $returned_data[ $key ] ) ) {
+				$value = stripslashes_deep( $returned_data[ $key ] );
+				$bp->invite_anyone->returned_data[ $key ] = $value;
 			}
-			$bp->invite_anyone->returned_data[$key] = $value;
 		}
 	}
+	setcookie( 'invite-anyone', '', time() - 3600, '/' );
 
 	if ( isset( $_GET['clear'] ) ) {
 		$clear_id = $_GET['clear'];
@@ -663,11 +688,6 @@ function invite_anyone_screen_one_content() {
  */
 function invite_anyone_screen_two() {
 	global $bp;
-
-	if ( $bp->current_component == $bp->invite_anyone->slug && $bp->current_action == 'sent-invites' && isset( $bp->action_variables[0] ) && $bp->action_variables[0] == 'send' ) {
-		if ( ! invite_anyone_process_invitations( $_POST ) )
-			bp_core_add_message( __( 'Sorry, there was a problem sending your invitations. Please try again.', 'bp-invite-anyone' ), 'error' );
-	}
 
 	do_action( 'invite_anyone_sent_invites_screen' );
 
@@ -1079,7 +1099,8 @@ function invite_anyone_process_invitations( $data ) {
 		$returned_data['error_message']	= sprintf( __( 'You are only allowed to invite up to %s people at a time. Please remove some addresses and try again', 'bp-invite-anyone' ), $max_invites );
 		$returned_data['error_emails'] 	= $emails;
 
-		$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members' . invite_anyone_prepare_return_qs( $returned_data );
+		setcookie( 'invite-anyone', serialize( $returned_data ), 0, '/' );
+		$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members/';
 		bp_core_redirect( $redirect );
 	}
 
@@ -1099,7 +1120,8 @@ function invite_anyone_process_invitations( $data ) {
 			$returned_data['error_message'] = sprintf( __( 'You are only allowed to invite %s more people. Please remove some addresses and try again', 'bp-invite-anyone' ), $remaining_invites_count );
 			$returned_data['error_emails'] = $emails;
 
-			$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members' . invite_anyone_prepare_return_qs( $returned_data );
+			setcookie( 'invite-anyone', serialize( $returned_data ), 0, '/' );
+			$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members/';
 			bp_core_redirect( $redirect );
 		}
 	}
@@ -1203,22 +1225,12 @@ function invite_anyone_process_invitations( $data ) {
 
 	// If there are errors, redirect to the Invite New Members page
 	if ( ! empty( $returned_data['error_emails'] ) ) {
-		$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members' . invite_anyone_prepare_return_qs( $returned_data );
+		setcookie( 'invite-anyone', serialize( $returned_data ), 0, '/' );
+		$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members/';
 		bp_core_redirect( $redirect );
 	}
 
 	return true;
-}
-
-function invite_anyone_prepare_return_qs( $returned_data ) {
-	$qs = '';
-	foreach( $returned_data as $key => $value ) {
-		/*if ( is_array( $value ) ) {
-			$key .= '[]';
-		}*/
-		$qs = add_query_arg( $key, $value, $qs );
-	}
-	return $qs;
 }
 
 function invite_anyone_send_invitation( $inviter_id, $email, $message, $groups ) {
@@ -1319,3 +1331,4 @@ function invite_anyone_already_accepted_redirect( $redirect ) {
 	return $redirect;
 }
 add_filter( 'bp_loggedin_register_page_redirect_to', 'invite_anyone_already_accepted_redirect' );
+

@@ -4,7 +4,7 @@ Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WP 3.2, BuddyPress 1.2.9
 Tested up to: WP 3.8.1, BuddyPress 1.9.2
-Stable tag: 1.0.26
+Stable tag: 1.1.0
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -48,6 +48,13 @@ Additional details about the plugin can be found in the following languages:
 * Serbo-Croatian: <a href="http://science.webhostinggeeks.com/teleogistic">http://science.webhostinggeeks.com/teleogistic</a> 
 
 == Changelog ==
+
+= 1.1.0 =
+* Fix bug in pagination after sending email invitations
+* Fix broken sprite
+* Improve compatibility with template overrides when using theme compatibility
+* Improved responsiveness for group invitations
+* Error data is stored in a cookie rather than the URL, for better support across hosting environments
 
 = 1.0.26 =
 * Allow + signs to appear in invited email addresses
