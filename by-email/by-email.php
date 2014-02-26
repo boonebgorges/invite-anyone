@@ -387,6 +387,34 @@ function invite_anyone_access_test() {
 }
 add_action( 'wp_head', 'invite_anyone_access_test' );
 
+/**
+ * Catch and process email sends.
+ *
+ * @since 1.1.0
+ */
+function invite_anyone_catch_send() {
+	global $bp;
+
+	if ( ! bp_is_current_component( $bp->invite_anyone->slug ) ) {
+		return;
+	}
+
+	if ( ! bp_is_current_action( 'sent-invites' ) ) {
+		return;
+	}
+
+	if ( ! bp_is_action_variable( 'send', 0 ) ) {
+		return;
+	}
+
+	if ( ! invite_anyone_process_invitations( $_POST ) ) {
+		bp_core_add_message( __( 'Sorry, there was a problem sending your invitations. Please try again.', 'bp-invite-anyone' ), 'error' );
+	}
+
+	bp_core_redirect( bp_displayed_user_domain() . $bp->invite_anyone->slug . '/sent-invites' );
+}
+add_action( 'wp', 'invite_anyone_catch_send' );
+
 function invite_anyone_catch_clear() {
 	global $bp;
 
@@ -663,11 +691,6 @@ function invite_anyone_screen_one_content() {
  */
 function invite_anyone_screen_two() {
 	global $bp;
-
-	if ( $bp->current_component == $bp->invite_anyone->slug && $bp->current_action == 'sent-invites' && isset( $bp->action_variables[0] ) && $bp->action_variables[0] == 'send' ) {
-		if ( ! invite_anyone_process_invitations( $_POST ) )
-			bp_core_add_message( __( 'Sorry, there was a problem sending your invitations. Please try again.', 'bp-invite-anyone' ), 'error' );
-	}
 
 	do_action( 'invite_anyone_sent_invites_screen' );
 
@@ -1319,3 +1342,4 @@ function invite_anyone_already_accepted_redirect( $redirect ) {
 	return $redirect;
 }
 add_filter( 'bp_loggedin_register_page_redirect_to', 'invite_anyone_already_accepted_redirect' );
+
