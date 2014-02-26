@@ -53,6 +53,7 @@ Additional details about the plugin can be found in the following languages:
 * Fix bug in pagination after sending email invitations
 * Fix broken sprite
 * Improve compatibility with template overrides when using theme compatibility
+* Improved responsiveness for group invitations
 
 = 1.0.26 =
 * Allow + signs to appear in invited email addresses
