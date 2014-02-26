@@ -54,6 +54,7 @@ Additional details about the plugin can be found in the following languages:
 * Fix broken sprite
 * Improve compatibility with template overrides when using theme compatibility
 * Improved responsiveness for group invitations
+* Error data is stored in a cookie rather than the URL, for better support across hosting environments
 
 = 1.0.26 =
 * Allow + signs to appear in invited email addresses
