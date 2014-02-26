@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Invite Anyone 1.0.26\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/invite-anyone\n"
-"POT-Creation-Date: 2014-02-26 19:46:49+00:00\n"
+"POT-Creation-Date: 2014-02-26 19:47:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -546,114 +546,114 @@ msgid ""
 "information below to create your account."
 msgstr ""
 
-#: by-email/by-email.php:277 by-email/by-email.php:652
+#: by-email/by-email.php:277 by-email/by-email.php:677
 #: group-invites/group-invites.php:59
 #: group-invites/templates/invite-anyone.php:87
 #: group-invites/templates/invite-anyone.php:176
 msgid "Send Invites"
 msgstr ""
 
-#: by-email/by-email.php:289 by-email/by-email.php:486
-#: by-email/by-email.php:549
+#: by-email/by-email.php:289 by-email/by-email.php:511
+#: by-email/by-email.php:574
 msgid "Invite New Members"
 msgstr ""
 
-#: by-email/by-email.php:299 by-email/by-email.php:713
+#: by-email/by-email.php:299 by-email/by-email.php:733
 msgid "Sent Invites"
 msgstr ""
 
-#: by-email/by-email.php:426
+#: by-email/by-email.php:411
+msgid "Sorry, there was a problem sending your invitations. Please try again."
+msgstr ""
+
+#: by-email/by-email.php:451
 msgid "Invitation cleared"
 msgstr ""
 
-#: by-email/by-email.php:428
+#: by-email/by-email.php:453
 msgid "There was a problem clearing the invitation."
 msgstr ""
 
-#: by-email/by-email.php:431
+#: by-email/by-email.php:456
 msgid "Invitations cleared."
 msgstr ""
 
-#: by-email/by-email.php:433
+#: by-email/by-email.php:458
 msgid "There was a problem clearing the invitations."
 msgstr ""
 
-#: by-email/by-email.php:476
+#: by-email/by-email.php:501
 msgid ""
 "It looks like you&#8217;ve already accepted your invitation to join the site."
 msgstr ""
 
-#: by-email/by-email.php:488
+#: by-email/by-email.php:513
 msgid "You have sent the maximum allowed number of invitations."
 msgstr ""
 
-#: by-email/by-email.php:538
+#: by-email/by-email.php:563
 msgid ""
 "Some of your invitations were not sent. Please see the errors below and "
 "resubmit the failed invitations."
 msgstr ""
 
-#: by-email/by-email.php:544
+#: by-email/by-email.php:569
 msgid "Invite friends to join %s by following these steps:"
 msgstr ""
 
-#: by-email/by-email.php:567
+#: by-email/by-email.php:592
 msgid ""
 "The site administrator has limited each user to %1$d invitations. You have "
 "%2$d invitations remaining."
 msgstr ""
 
-#: by-email/by-email.php:586
+#: by-email/by-email.php:611
 msgid "Enter email addresses below, one per line."
 msgstr ""
 
-#: by-email/by-email.php:587
+#: by-email/by-email.php:612
 msgid ""
 "You can only invite people whose email addresses end in one of the following "
 "domains:"
 msgstr ""
 
-#: by-email/by-email.php:591
+#: by-email/by-email.php:616
 msgid "You can invite a maximum of %s people at a time."
 msgstr ""
 
-#: by-email/by-email.php:603
+#: by-email/by-email.php:628
 msgid "(optional) Customize the subject line of the invitation email."
 msgstr ""
 
-#: by-email/by-email.php:606
+#: by-email/by-email.php:631
 msgid "Subject: <span class=\"disabled-subject\">Subject line is fixed</span>"
 msgstr ""
 
-#: by-email/by-email.php:615
+#: by-email/by-email.php:640
 msgid "(optional) Customize the text of the invitation."
 msgstr ""
 
-#: by-email/by-email.php:616
+#: by-email/by-email.php:641
 msgid ""
 "The message will also contain a custom footer containing links to accept the "
 "invitation or opt out of further email invitations from this site."
 msgstr ""
 
-#: by-email/by-email.php:619
+#: by-email/by-email.php:644
 msgid "Message:"
 msgstr ""
 
-#: by-email/by-email.php:630
+#: by-email/by-email.php:655
 msgid ""
 "(optional) Select some groups. Invitees will receive invitations to these "
 "groups when they join the site."
 msgstr ""
 
-#: by-email/by-email.php:669
-msgid "Sorry, there was a problem sending your invitations. Please try again."
-msgstr ""
-
-#: by-email/by-email.php:720
+#: by-email/by-email.php:740
 msgid "You have sent invitations to the following people."
 msgstr ""
 
-#: by-email/by-email.php:733
+#: by-email/by-email.php:753
 msgid ""
 "This table displays a list of all your sent invites.\n"
 "\t\t\tInvites that have been accepted are highlighted in the listings.\n"
@@ -661,115 +661,115 @@ msgid ""
 "the invites from the list."
 msgstr ""
 
-#: by-email/by-email.php:739
+#: by-email/by-email.php:759
 msgid "Invited email address"
 msgstr ""
 
-#: by-email/by-email.php:740
+#: by-email/by-email.php:760
 msgid "Group invitations"
 msgstr ""
 
-#: by-email/by-email.php:741
+#: by-email/by-email.php:761
 msgid "Sent"
 msgstr ""
 
-#: by-email/by-email.php:742
+#: by-email/by-email.php:762
 msgid "Accepted"
 msgstr ""
 
-#: by-email/by-email.php:750
+#: by-email/by-email.php:770
 msgid "Clear all accepted invites from the list"
 msgstr ""
 
-#: by-email/by-email.php:750
+#: by-email/by-email.php:770
 msgid "Clear all accepted invitations"
 msgstr ""
 
-#: by-email/by-email.php:751
+#: by-email/by-email.php:771
 msgid "Clear all your listed invites"
 msgstr ""
 
-#: by-email/by-email.php:751
+#: by-email/by-email.php:771
 msgid "Clear all invitations"
 msgstr ""
 
-#: by-email/by-email.php:777
+#: by-email/by-email.php:797
 msgid "Clear this invitation"
 msgstr ""
 
-#: by-email/by-email.php:831
+#: by-email/by-email.php:851
 msgid "You haven't sent any email invitations yet."
 msgstr ""
 
-#: by-email/by-email.php:864
+#: by-email/by-email.php:884
 msgid "An invitation to join the %s community."
 msgstr ""
 
-#: by-email/by-email.php:889
+#: by-email/by-email.php:909
 msgid ""
 "You have been invited by %%INVITERNAME%% to join the %s community.\n"
 "\n"
 "Visit %%INVITERNAME%%'s profile at %%INVITERURL%%."
 msgstr ""
 
-#: by-email/by-email.php:912
+#: by-email/by-email.php:932
 msgid "To accept this invitation, please visit %%ACCEPTURL%%"
 msgstr ""
 
-#: by-email/by-email.php:916
+#: by-email/by-email.php:936
 msgid ""
 "To opt out of future invitations to this site, please visit %%OPTOUTURL%%"
 msgstr ""
 
-#: by-email/by-email.php:1079
+#: by-email/by-email.php:1099
 msgid ""
 "You are only allowed to invite up to %s people at a time. Please remove some "
 "addresses and try again"
 msgstr ""
 
-#: by-email/by-email.php:1087
+#: by-email/by-email.php:1108
 msgid "You didn't include any email addresses!"
 msgstr ""
 
-#: by-email/by-email.php:1099
+#: by-email/by-email.php:1120
 msgid ""
 "You are only allowed to invite %s more people. Please remove some addresses "
 "and try again"
 msgstr ""
 
-#: by-email/by-email.php:1118
+#: by-email/by-email.php:1140
 msgid "<strong>%s</strong> has opted out of email invitations from this site."
 msgstr ""
 
-#: by-email/by-email.php:1122
+#: by-email/by-email.php:1144
 msgid "<strong>%s</strong> is already a registered user of the site."
 msgstr ""
 
-#: by-email/by-email.php:1126
+#: by-email/by-email.php:1148
 msgid "<strong>%s</strong> is not a permitted email address."
 msgstr ""
 
-#: by-email/by-email.php:1130
+#: by-email/by-email.php:1152
 msgid ""
 "<strong>%s</strong> is not a valid email address. Please make sure that you "
 "have typed it correctly."
 msgstr ""
 
-#: by-email/by-email.php:1134
+#: by-email/by-email.php:1156
 msgid ""
 "<strong>%s</strong> is not a permitted email address. Please make sure that "
 "you have typed the domain name correctly."
 msgstr ""
 
-#: by-email/by-email.php:1193
+#: by-email/by-email.php:1215
 msgid "Invitations were sent successfully to the following email addresses: %s"
 msgstr ""
 
-#: by-email/by-email.php:1199
+#: by-email/by-email.php:1221
 msgid "Please correct your errors and resubmit."
 msgstr ""
 
-#: by-email/by-email.php:1247
+#: by-email/by-email.php:1259
 msgid "We couldn't find any invitations associated with this email address."
 msgstr ""
 
