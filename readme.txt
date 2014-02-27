@@ -33,7 +33,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Belarussian: Alexander Ovsov (<a href="http://webhostinggeeks.com/science">Web Geek Science</a>)
 * Brazilian Portuguese: Celso Bessa
 * Danish: Mort3n
-* Dutch: Jesper Popma
+* Dutch: Jesper Popma, Tim de Hoog
 * French: Guillaume Coulon, Nicolas Mollet
 * German: Lars Berning, Thorsten Wollenhöfer
 * Greek: Lena Stergatou
