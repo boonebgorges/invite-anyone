@@ -50,6 +50,7 @@ Additional details about the plugin can be found in the following languages:
 == Changelog ==
 
 = 1.1.1 =
+* Fix some PHP notices
 * Update nl_NL localization
 
 = 1.1.0 =
