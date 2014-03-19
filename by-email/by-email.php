@@ -203,12 +203,13 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 
 	$email = bp_core_get_user_email( $user_id );
 
+	$inviters 	= array();
+
 	// Fire the query
 	$invites = invite_anyone_get_invitations_by_invited_email( $email );
 
 	if ( $invites->have_posts() ) {
 		// From the posts returned by the query, get a list of unique inviters
-		$inviters 	= array();
 		$groups		= array();
 		while ( $invites->have_posts() ) {
 			$invites->the_post();
