@@ -33,7 +33,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Belarussian: Alexander Ovsov (<a href="http://webhostinggeeks.com/science">Web Geek Science</a>)
 * Brazilian Portuguese: Celso Bessa
 * Danish: Mort3n
-* Dutch: Jesper Popma
+* Dutch: Jesper Popma, Tim de Hoog
 * French: Guillaume Coulon, Nicolas Mollet
 * German: Lars Berning, Thorsten Wollenhöfer
 * Greek: Lena Stergatou
@@ -48,6 +48,10 @@ Additional details about the plugin can be found in the following languages:
 * Serbo-Croatian: <a href="http://science.webhostinggeeks.com/teleogistic">http://science.webhostinggeeks.com/teleogistic</a> 
 
 == Changelog ==
+
+= 1.1.1 =
+* Fix some PHP notices
+* Update nl_NL localization
 
 = 1.1.0 =
 * Fix bug in pagination after sending email invitations
