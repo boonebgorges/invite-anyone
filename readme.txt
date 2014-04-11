@@ -68,7 +68,7 @@ Additional details about the plugin can be found in the following languages:
 = 1.0.26 =
 * Allow + signs to appear in invited email addresses
 * Improves icon appearance and performance
-* Improves appearance of group list on Send Invites screen 
+* Improves appearance of group list on Send Invites screen
 
 = 1.0.25 =
 * Fixes broken Sent Invites screen
@@ -242,7 +242,7 @@ Additional details about the plugin can be found in the following languages:
 * Improved checking for deactivated components
 * BuddyPress Followers support
 
-= 0.6.6 = 
+= 0.6.6 =
 * Updated hooks to work with more recent versions of BuddyPress
 * Increased number of results returned to user on group invite autocomplete
 
