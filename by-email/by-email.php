@@ -438,7 +438,7 @@ function invite_anyone_catch_clear() {
 			}
 		}
 	}
-	setcookie( 'invite-anyone', '', time() - 3600, '/' );
+	@setcookie( 'invite-anyone', '', time() - 3600, '/' );
 
 	if ( isset( $_GET['clear'] ) ) {
 		$clear_id = $_GET['clear'];
