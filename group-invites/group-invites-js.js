@@ -15,8 +15,8 @@ jQuery(document).ready( function() {
 		params: { action: 'invite_anyone_autocomplete_ajax_handler' },
 		noCache: true //set to true, to disable caching
 	};
-	
-	a = j('#send-invite-form #send-to-input').autocomplete(options);
+
+	a = j('#create-group-form #send-to-input, #send-invite-form #send-to-input').autocomplete(options);
 
 	j("div#invite-anyone-member-list input").click(function() {
 		var friend_id = j(this).val();
