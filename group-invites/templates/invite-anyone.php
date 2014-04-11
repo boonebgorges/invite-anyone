@@ -120,6 +120,8 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 			</li>
 		</ul>
 
+		<?php wp_nonce_field( 'groups_invite_uninvite_user', '_wpnonce_invite_uninvite_user' ) ?>
+
 		<?php if ( ! wp_is_large_network( 'users' ) ) : ?>
 			<p><?php _e( 'Select members from the directory:', 'bp-invite-anyone' ) ?></p>
 
@@ -127,8 +129,6 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 				<ul>
 					<?php bp_new_group_invite_member_list() ?>
 				</ul>
-
-				<?php wp_nonce_field( 'groups_invite_uninvite_user', '_wpnonce_invite_uninvite_user' ) ?>
 			</div>
 		<?php endif ?>
 	</div>
