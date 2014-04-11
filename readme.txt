@@ -45,9 +45,13 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Swedish: Alexander Berthelsen
 
 Additional details about the plugin can be found in the following languages:
-* Serbo-Croatian: <a href="http://science.webhostinggeeks.com/teleogistic">http://science.webhostinggeeks.com/teleogistic</a> 
+* Serbo-Croatian: <a href="http://science.webhostinggeeks.com/teleogistic">http://science.webhostinggeeks.com/teleogistic</a>
 
 == Changelog ==
+
+= 1.1.2 =
+* Fix bug that prevented autocomplete from working properly during group creation
+* Don't show group invite checkbox list if network is very large (rely on autocomplete only)
 
 = 1.1.1 =
 * Fix some PHP notices
