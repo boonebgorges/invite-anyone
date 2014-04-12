@@ -190,9 +190,9 @@ function bp_new_group_invite_member_list() {
 
 		if ( !$group_id )
 			$group_id = isset( $bp->groups->new_group_id ) ? $bp->groups->new_group_id : $bp->groups->current_group->id;
-		
+
 		$items = array();
-		
+
 		$friends = get_members_invite_list( $bp->loggedin_user->id, $group_id );
 
 		if ( $friends ) {
