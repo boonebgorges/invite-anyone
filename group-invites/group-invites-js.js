@@ -48,7 +48,7 @@ jQuery(document).ready( function() {
 		});
 	});
 
-	j("#invite-anyone-invite-list li a.remove").on("click", function() {
+	j("#invite-anyone-invite-list").on( 'click', 'li a.remove', function() {
 		var friend_id = j(this).prop('id');
 
 		friend_id = friend_id.split('-');
