@@ -548,3 +548,22 @@ To view %5$s\'s profile visit: %6$s
 
 	return $message;
 }
+
+/**
+ * Wrapper for wp_is_large_network() that supports non-MS.
+ *
+ * @since 1.1.2
+ */
+function invite_anyone_is_large_network() {
+	if ( function_exists( 'wp_is_large_network' ) ) {
+		return wp_is_large_network( 'users' );
+	} else {
+		global $wpdb;
+		$count = get_transient( 'ia_user_count' );
+		if ( false === $count ) {
+			$count = $wpdb->get_var( "SELECT COUNT(ID) FROM $wpdb->users WHERE user_status = '0'" );
+			set_transient( 'ia_user_count', $count, 60*60*24 );
+		}
+		return $count > 10000;
+	}
+}
