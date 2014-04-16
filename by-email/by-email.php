@@ -1270,6 +1270,31 @@ function invite_anyone_bypass_registration_lock() {
 }
 add_action( 'wp', 'invite_anyone_bypass_registration_lock', 1 );
 
+/**
+ * Double check that passed email address matches an existing invitation when registration lock bypass is on.
+ *
+ * @since 1.2
+ *
+ * @param array $results Error results from user signup validation
+ * @return array
+ */
+function invite_anyone_check_invitation($results) {
+	if ( ! bp_is_current_component( BP_REGISTER_SLUG ) || ! bp_is_current_action( 'accept-invitation' ) ) {
+		return $results;
+	}
+
+	// Check to make sure that it's actually a valid email
+	$ia_obj = invite_anyone_get_invitations_by_invited_email( $results['user_email'] );
+
+	if ( !$ia_obj->have_posts() ) {
+		$errors = new WP_Error();
+		$errors->add( 'user_email', __( "We couldn't find any invitations associated with this email address.", 'bp-invite-anyone' ) );
+		$results['errors'] = $errors;
+	}
+
+	return $results;
+}
+add_filter( 'bp_core_validate_user_signup', 'invite_anyone_check_invitation' );
 
 function invite_anyone_validate_email( $user_email ) {
 
