@@ -1252,13 +1252,16 @@ function invite_anyone_bypass_registration_lock() {
 		return;
 	}
 
-	// This is a royal hack until there is a filter on bp_get_signup_allowed()
+	// To support old versions of BP, we have to force the overloaded
+	// site_options property in some cases
 	if ( is_multisite() ) {
+		$site_options = $bp->site_options;
 		if ( !empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'blog' ) {
-			$bp->site_options['registration'] = 'all';
+			$site_options['registration'] = 'all';
 		} else if ( !empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'none' ) {
-			$bp->site_options['registration'] = 'user';
+			$site_options['registration'] = 'user';
 		}
+		$bp->site_options = $site_options;
 
 		add_filter( 'bp_get_signup_allowed', '__return_true' );
 	} else {
