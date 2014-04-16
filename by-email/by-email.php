@@ -168,27 +168,18 @@ function invite_anyone_register_screen_message() {
 			}
 			$inviters = array_unique( $inviters );
 
-			$inviters_text = '';
-			if ( count( $inviters ) == 0 ) {
-				$inviters_text = '';
-			} else if ( count( $inviters ) == 1 ) {
-				$inviters_text .= 'by ';
-				$inviters_text .= bp_core_get_user_displayname( $inviters[0] );
-			} else {
-				$counter = 1;
-				$inviters_text .= 'by ';
-				$inviters_text .= bp_core_get_user_displayname( $inviters[0] );
-				while ( $counter < count( $inviters ) - 1 ) {
-					$inviters_text .= ', ' . bp_core_get_user_displayname( $inviters[$counter] );
-					$counter++;
-				}
-				$inviters_text .= ' and ' . bp_core_get_user_displayname( $inviters[$counter] );
+			$inviters_names = array();
+			foreach ( $inviters as $inviter ) {
+				$inviters_names[] = bp_core_get_user_displayname( $inviters[0] );
 			}
 
-			if ( !empty( $inviters_text ) ) {
-				$message = sprintf( __( 'Welcome! You\'ve been invited %s to join the site. Please fill out the information below to create your account.', 'bp-invite-anyone' ), $inviters_text );
-				echo '<div id="message" class="success"><p>' . $message . '</p></div>';
+			if ( ! empty( $inviters_names ) ) {
+				$message = sprintf( _n( 'Welcome! You&#8217;ve been invited to join the site by the following user: %s. Please fill out the information below to create your account.', 'Welcome! You&#8217;ve been invited to join the site by the following users: %s. Please fill out the information below to create your account.', count( $inviters_names ), 'bp-invite-anyone' ), implode( ', ', $inviters_names ) );
+			} else {
+				$message = __( 'Welcome! You&#8217;ve been invited to join the site. Please fill out the information below to create your account.', 'bp-invite-anyone' );
 			}
+
+			echo '<div id="message" class="success"><p>' . esc_html( $message ) . '</p></div>';
 
 		?>
 
