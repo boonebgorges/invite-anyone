@@ -50,6 +50,7 @@ Additional details about the plugin can be found in the following languages:
 == Changelog ==
 
 = 1.2 =
+* Group creation step can now be toggled from admin panel
 * Fix bug that prevented autocomplete from working properly during group creation
 * Don't show group invite checkbox list if network is very large (rely on autocomplete only)
 * Fix "headers already sent" warnings when IA is used in connection with certain plugins
