@@ -70,7 +70,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 		}
 
 		$this->enable_nav_item = $this->enable_nav_item();
-		$this->enable_create_step = $this->enable_nav_item();
+		$this->enable_create_step = $this->enable_create_step();
 	}
 
 	function display() {
@@ -132,6 +132,16 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 			bp_core_add_message( __('Group invites sent.', 'buddypress') );
 		else
 			bp_core_add_message( __('Group created successfully.', 'buddypress') );
+	}
+
+	/**
+	 * Should the group creation step be included?
+	 *
+	 * @since 1.2
+	 */
+	public function enable_create_step() {
+		$options = invite_anyone_options();
+		return ! empty( $options['group_invites_enable_create_step'] ) && $options['group_invites_enable_create_step'] === 'yes';
 	}
 
 	function enable_nav_item() {

@@ -89,6 +89,7 @@ function invite_anyone_admin_panel() {
 				'bypass_registration_lock',
 				'default_invitation_subject',
 				'default_invitation_message',
+				'group_invites_enable_create_step',
 				'addl_invitation_message',
 				'subject_is_customizable',
 				'message_is_customizable',
@@ -210,6 +211,8 @@ function invite_anyone_settings_setup() {
 
 			add_settings_field('invite_anyone_settings_bypass_registration_lock', __('Allow email invitations to be accepted even when site registration is disabled', 'bp-invite-anyone'), 'invite_anyone_settings_bypass_registration_lock', 'invite_anyone', 'invite_anyone_general_settings');
 
+			add_settings_field( 'invite_anyone_settings_group_invites_enable_create_step', __( 'Enable the Send Invites step during group creation', 'bp-invite-anyone' ), 'invite_anyone_settings_group_invites_enable_create_step', 'invite_anyone', 'invite_anyone_general_settings' );
+
 			break;
 	}
 }
@@ -258,6 +261,19 @@ function invite_anyone_settings_bypass_registration_lock() {
 ?>
 	<input type="checkbox" name="invite_anyone[bypass_registration_lock]" value="yes" <?php checked( $options['bypass_registration_lock'], 'yes' ) ?> />
 <?php
+}
+
+/**
+ * Markup callback for "Enable group creation step" setting
+ *
+ * @since 1.2
+ */
+function invite_anyone_settings_group_invites_enable_create_step() {
+	$options = invite_anyone_options();
+	$enabled = ! empty( $options['group_invites_enable_create_step'] ) && 'yes' === $options['group_invites_enable_create_step'];
+	?>
+	<input type="checkbox" name="invite_anyone[group_invites_enable_create_step]" value="yes" <?php checked( $enabled ) ?> />
+	<?php
 }
 
 function invite_anyone_settings_default_invitation_subject() {

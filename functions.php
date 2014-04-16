@@ -36,6 +36,7 @@ function invite_anyone_options() {
 		'group_invites_can_group_admin'  => 'anyone',
 		'group_invites_can_group_mod'    => 'anyone',
 		'group_invites_can_group_member' => 'anyone',
+		'group_invites_enable_create_step' => 'yes',
 		'cloudsponge_enabled'            => 'off',
 		'email_limit_invites_toggle'     => 'no',
 		'limit_invites_per_user'         => 10
@@ -50,5 +51,3 @@ function invite_anyone_options() {
 
 	return apply_filters( 'invite_anyone_options', $options );
 }
-
-?>
