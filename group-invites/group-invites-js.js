@@ -15,8 +15,8 @@ jQuery(document).ready( function() {
 		params: { action: 'invite_anyone_autocomplete_ajax_handler' },
 		noCache: true //set to true, to disable caching
 	};
-	
-	a = j('#send-invite-form #send-to-input').autocomplete(options);
+
+	a = j('#create-group-form #send-to-input, #send-invite-form #send-to-input').autocomplete(options);
 
 	j("div#invite-anyone-member-list input").click(function() {
 		var friend_id = j(this).val();
@@ -48,7 +48,7 @@ jQuery(document).ready( function() {
 		});
 	});
 
-	j("#invite-anyone-invite-list li a.remove").on("click", function() {
+	j("#invite-anyone-invite-list").on( 'click', 'li a.remove', function() {
 		var friend_id = j(this).prop('id');
 
 		friend_id = friend_id.split('-');
@@ -70,10 +70,10 @@ jQuery(document).ready( function() {
 
 		return false;
 	});
-	
+
 	j("#invite-anyone-link").click(
 		function() {
-		
+
 			j('.ajax-loader').toggle();
 
 			var friend_id = j(this).val();
@@ -83,7 +83,7 @@ jQuery(document).ready( function() {
 			} else {
 				var friend_action = 'uninvite';
 			}
-		
+
 
 			j.post( ajaxurl, {
 				action: 'invite_anyone_groups_invite_user',
@@ -94,7 +94,7 @@ jQuery(document).ready( function() {
 				'group_id': j("input#group_id").val()
 			},
 			function(response)
-			{ 
+			{
 				if ( j("#message") )
 					j("#message").hide();
 
@@ -112,10 +112,10 @@ jQuery(document).ready( function() {
 
 function ia_on_autocomplete_select( value, data ) {
 	var j = jQuery;
-	
+
 	// Check the right checkbox
 	j('#invite-anyone-member-list input#f-' + data).prop('checked',true);
-	
+
 	// Put the item in the invite list
 	j('div.item-list-tabs li.selected').addClass('loading');
 
@@ -135,10 +135,10 @@ function ia_on_autocomplete_select( value, data ) {
 		j('.ajax-loader').toggle();
 
 		j('#invite-anyone-invite-list').append(response);
-		
+
 		j('div.item-list-tabs li.selected').removeClass('loading');
 	});
-		
+
 	// Remove the value from the send-to-input box
 	j('#send-to-input').val('');
 }

@@ -3,8 +3,8 @@ Contributors: boonebgorges, cuny-academic-commons
 Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WP 3.2, BuddyPress 1.2.9
-Tested up to: WP 3.8.1, BuddyPress 1.9.2
-Stable tag: 1.1.1
+Tested up to: WP 3.9, BuddyPress 2.0
+Stable tag: 1.2
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -45,9 +45,19 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Swedish: Alexander Berthelsen
 
 Additional details about the plugin can be found in the following languages:
-* Serbo-Croatian: <a href="http://science.webhostinggeeks.com/teleogistic">http://science.webhostinggeeks.com/teleogistic</a> 
+* Serbo-Croatian: <a href="http://science.webhostinggeeks.com/teleogistic">http://science.webhostinggeeks.com/teleogistic</a>
 
 == Changelog ==
+
+= 1.2 =
+* Group creation step can now be toggled from admin panel
+* Fix bug that prevented autocomplete from working properly during group creation
+* Don't show group invite checkbox list if network is very large (rely on autocomplete only)
+* Fix "headers already sent" warnings when IA is used in connection with certain plugins
+* Fix "bypass registration lock" setting on recent versions of BP+Multisite
+* Enforce registration lock when user manually changes email address after reaching accept-invitation page
+* Fix incorrect links when removing newly created group invitations
+* Improved localization on "accept-invitation" screen
 
 = 1.1.1 =
 * Fix some PHP notices
@@ -64,7 +74,7 @@ Additional details about the plugin can be found in the following languages:
 = 1.0.26 =
 * Allow + signs to appear in invited email addresses
 * Improves icon appearance and performance
-* Improves appearance of group list on Send Invites screen 
+* Improves appearance of group list on Send Invites screen
 
 = 1.0.25 =
 * Fixes broken Sent Invites screen
@@ -238,7 +248,7 @@ Additional details about the plugin can be found in the following languages:
 * Improved checking for deactivated components
 * BuddyPress Followers support
 
-= 0.6.6 = 
+= 0.6.6 =
 * Updated hooks to work with more recent versions of BuddyPress
 * Increased number of results returned to user on group invite autocomplete
 

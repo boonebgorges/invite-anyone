@@ -70,7 +70,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 		}
 
 		$this->enable_nav_item = $this->enable_nav_item();
-		$this->enable_create_step = $this->enable_nav_item();
+		$this->enable_create_step = $this->enable_create_step();
 	}
 
 	function display() {
@@ -134,6 +134,16 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 			bp_core_add_message( __('Group created successfully.', 'buddypress') );
 	}
 
+	/**
+	 * Should the group creation step be included?
+	 *
+	 * @since 1.2
+	 */
+	public function enable_create_step() {
+		$options = invite_anyone_options();
+		return ! empty( $options['group_invites_enable_create_step'] ) && $options['group_invites_enable_create_step'] === 'yes';
+	}
+
 	function enable_nav_item() {
 		global $bp;
 
@@ -190,9 +200,9 @@ function bp_new_group_invite_member_list() {
 
 		if ( !$group_id )
 			$group_id = isset( $bp->groups->new_group_id ) ? $bp->groups->new_group_id : $bp->groups->current_group->id;
-		
+
 		$items = array();
-		
+
 		$friends = get_members_invite_list( $bp->loggedin_user->id, $group_id );
 
 		if ( $friends ) {
@@ -353,12 +363,18 @@ function invite_anyone_ajax_invite_user() {
 
 		$group_slug = isset( $bp->groups->root_slug ) ? $bp->groups->root_slug : $bp->groups->slug;
 
+		if ( bp_is_current_action( 'create' ) ) {
+			$uninvite_url = bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/step/group-invites/?user_id=' . $user->id;
+		} else {
+			$uninvite_url = bp_get_group_permalink( groups_get_current_group() ) . 'send-invites/remove/' . $user->id;
+		}
+
 		echo '<li id="uid-' . $user->id . '">';
 		echo bp_core_fetch_avatar( array( 'item_id' => $user->id ) );
 		echo '<h4>' . bp_core_get_userlink( $user->id ) . '</h4>';
 		echo '<span class="activity">' . esc_html( $user->last_active ) . '</span>';
 		echo '<div class="action">
-				<a class="remove" href="' . wp_nonce_url( $bp->loggedin_user->domain . $group_slug . '/' . $_POST['group_id'] . '/invites/remove/' . $user->id, 'groups_invite_uninvite_user' ) . '" id="uid-' . esc_html( $user->id ) . '">' . __( 'Remove Invite', 'buddypress' ) . '</a>
+				<a class="remove" href="' . wp_nonce_url( $uninvite_url ) . '" id="uid-' . esc_html( $user->id ) . '">' . __( 'Remove Invite', 'buddypress' ) . '</a>
 			  </div>';
 		echo '</li>';
 
@@ -541,4 +557,23 @@ To view %5$s\'s profile visit: %6$s
 ', 'buddypress' ), $inviter_name, $group->name, $invites_link, $group_link, $inviter_name, $inviter_link );
 
 	return $message;
+}
+
+/**
+ * Wrapper for wp_is_large_network() that supports non-MS.
+ *
+ * @since 1.1.2
+ */
+function invite_anyone_is_large_network() {
+	if ( function_exists( 'wp_is_large_network' ) ) {
+		return wp_is_large_network( 'users' );
+	} else {
+		global $wpdb;
+		$count = get_transient( 'ia_user_count' );
+		if ( false === $count ) {
+			$count = $wpdb->get_var( "SELECT COUNT(ID) FROM $wpdb->users WHERE user_status = '0'" );
+			set_transient( 'ia_user_count', $count, 60*60*24 );
+		}
+		return apply_filters( 'invite_anyone_is_large_network', $count > 10000, $count );
+	}
 }

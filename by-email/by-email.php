@@ -168,27 +168,18 @@ function invite_anyone_register_screen_message() {
 			}
 			$inviters = array_unique( $inviters );
 
-			$inviters_text = '';
-			if ( count( $inviters ) == 0 ) {
-				$inviters_text = '';
-			} else if ( count( $inviters ) == 1 ) {
-				$inviters_text .= 'by ';
-				$inviters_text .= bp_core_get_user_displayname( $inviters[0] );
-			} else {
-				$counter = 1;
-				$inviters_text .= 'by ';
-				$inviters_text .= bp_core_get_user_displayname( $inviters[0] );
-				while ( $counter < count( $inviters ) - 1 ) {
-					$inviters_text .= ', ' . bp_core_get_user_displayname( $inviters[$counter] );
-					$counter++;
-				}
-				$inviters_text .= ' and ' . bp_core_get_user_displayname( $inviters[$counter] );
+			$inviters_names = array();
+			foreach ( $inviters as $inviter ) {
+				$inviters_names[] = bp_core_get_user_displayname( $inviters[0] );
 			}
 
-			if ( !empty( $inviters_text ) ) {
-				$message = sprintf( __( 'Welcome! You\'ve been invited %s to join the site. Please fill out the information below to create your account.', 'bp-invite-anyone' ), $inviters_text );
-				echo '<div id="message" class="success"><p>' . $message . '</p></div>';
+			if ( ! empty( $inviters_names ) ) {
+				$message = sprintf( _n( 'Welcome! You&#8217;ve been invited to join the site by the following user: %s. Please fill out the information below to create your account.', 'Welcome! You&#8217;ve been invited to join the site by the following users: %s. Please fill out the information below to create your account.', count( $inviters_names ), 'bp-invite-anyone' ), implode( ', ', $inviters_names ) );
+			} else {
+				$message = __( 'Welcome! You&#8217;ve been invited to join the site. Please fill out the information below to create your account.', 'bp-invite-anyone' );
 			}
+
+			echo '<div id="message" class="success"><p>' . esc_html( $message ) . '</p></div>';
 
 		?>
 
@@ -438,7 +429,7 @@ function invite_anyone_catch_clear() {
 			}
 		}
 	}
-	setcookie( 'invite-anyone', '', time() - 3600, '/' );
+	@setcookie( 'invite-anyone', '', time() - 3600, '/' );
 
 	if ( isset( $_GET['clear'] ) ) {
 		$clear_id = $_GET['clear'];
@@ -1261,19 +1252,49 @@ function invite_anyone_bypass_registration_lock() {
 		return;
 	}
 
-	// This is a royal hack until there is a filter on bp_get_signup_allowed()
+	// To support old versions of BP, we have to force the overloaded
+	// site_options property in some cases
 	if ( is_multisite() ) {
+		$site_options = $bp->site_options;
 		if ( !empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'blog' ) {
-			$bp->site_options['registration'] = 'all';
+			$site_options['registration'] = 'all';
 		} else if ( !empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'none' ) {
-			$bp->site_options['registration'] = 'user';
+			$site_options['registration'] = 'user';
 		}
+		$bp->site_options = $site_options;
+
+		add_filter( 'bp_get_signup_allowed', '__return_true' );
 	} else {
 		add_filter( 'option_users_can_register', create_function( false, 'return true;' ) );
 	}
 }
 add_action( 'wp', 'invite_anyone_bypass_registration_lock', 1 );
 
+/**
+ * Double check that passed email address matches an existing invitation when registration lock bypass is on.
+ *
+ * @since 1.2
+ *
+ * @param array $results Error results from user signup validation
+ * @return array
+ */
+function invite_anyone_check_invitation($results) {
+	if ( ! bp_is_current_component( BP_REGISTER_SLUG ) || ! bp_is_current_action( 'accept-invitation' ) ) {
+		return $results;
+	}
+
+	// Check to make sure that it's actually a valid email
+	$ia_obj = invite_anyone_get_invitations_by_invited_email( $results['user_email'] );
+
+	if ( !$ia_obj->have_posts() ) {
+		$errors = new WP_Error();
+		$errors->add( 'user_email', __( "We couldn't find any invitations associated with this email address.", 'bp-invite-anyone' ) );
+		$results['errors'] = $errors;
+	}
+
+	return $results;
+}
+add_filter( 'bp_core_validate_user_signup', 'invite_anyone_check_invitation' );
 
 function invite_anyone_validate_email( $user_email ) {
 
