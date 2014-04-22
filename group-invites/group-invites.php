@@ -574,6 +574,6 @@ function invite_anyone_is_large_network() {
 			$count = $wpdb->get_var( "SELECT COUNT(ID) FROM $wpdb->users WHERE user_status = '0'" );
 			set_transient( 'ia_user_count', $count, 60*60*24 );
 		}
-		return $count > 10000;
+		return apply_filters( 'invite_anyone_is_large_network', $count > 10000, $count );
 	}
 }
