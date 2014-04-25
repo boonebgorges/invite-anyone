@@ -439,17 +439,17 @@ function invite_anyone_settings_mi_content() {
 	$cols = array(
 		array(
 			'name'		=> 'author',
-			'title'		=> 'Inviter',
+			'title'		=> __( 'Inviter', 'bp-invite-anyone' ),
 			'css_class'	=> 'ia-inviter'
 		),
 		array(
 			'name'		=> 'ia_invitees',
-			'title'		=> 'Invited Email',
+			'title'		=> __( 'Invited Email', 'bp-invite-anyone' ),
 			'css_class'	=> 'ia-invited-email'
 		),
 		array(
 			'name'		=> 'sent',
-			'title'		=> 'Sent',
+			'title'		=> __( 'Sent', 'bp-invite-anyone' ),
 			'css_class'	=> 'ia-sent',
 			'default_order'	=> 'desc',
 			'posts_column'	=> 'post_date',
@@ -457,13 +457,13 @@ function invite_anyone_settings_mi_content() {
 		),
 		array(
 			'name'		=> 'accepted',
-			'title'		=> 'Accepted',
+			'title'		=> __( 'Accepted', 'bp-invite-anyone' ),
 			'css_class'	=> 'ia-accepted',
 			'default_order'	=> 'desc'
 		),
 		array(
 			'name'		=> 'cloudsponge',
-			'title'		=> 'CloudSponge',
+			'title'		=> __( 'CloudSponge', 'bp-invite-anyone' ),
 			'css_class'	=> 'ia-cloudsponge'
 		),
 	);
@@ -565,7 +565,7 @@ function invite_anyone_settings_mi_content() {
 					$is_cloudsponge = get_post_meta( get_the_ID(), 'bp_ia_is_cloudsponge', true );
 
 					if ( !$is_cloudsponge )
-						$is_cloudsponge = __( '(no data)', 'ia-invite-anyone' );
+						$is_cloudsponge = __( '(no data)', 'bp-invite-anyone' );
 					?>
 					<?php echo esc_html( $is_cloudsponge ) ?>
 				</td>
