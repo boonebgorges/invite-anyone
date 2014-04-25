@@ -196,9 +196,9 @@ class BBG_CPT_Pag {
 	function currently_viewing_text( $type = 'echo' ) {
 		$start  = $this->get_start_number();
 		$end	= $this->get_end_number();
-		
-		$string = sprintf( __( 'Viewing %1$d - %2$d of a total of %3$d', 'bbg-cpt-pag' ), $start, $end, $this->total_items );
-		
+
+		$string = sprintf( __( 'Viewing %1$d - %2$d of a total of %3$d', 'invite-anyone' ), $start, $end, $this->total_items );
+
 		if ( 'echo' == $type )
 			echo $string;
 		else
