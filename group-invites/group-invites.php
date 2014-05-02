@@ -566,7 +566,8 @@ To view %5$s\'s profile visit: %6$s
  */
 function invite_anyone_is_large_network() {
 	if ( function_exists( 'wp_is_large_network' ) ) {
-		return wp_is_large_network( 'users' );
+		$is_large_network = wp_is_large_network( 'users' );
+		$count = get_user_count();
 	} else {
 		global $wpdb;
 		$count = get_transient( 'ia_user_count' );
@@ -574,6 +575,9 @@ function invite_anyone_is_large_network() {
 			$count = $wpdb->get_var( "SELECT COUNT(ID) FROM $wpdb->users WHERE user_status = '0'" );
 			set_transient( 'ia_user_count', $count, 60*60*24 );
 		}
+		$is_large_network = $count > 10000;
 		return apply_filters( 'invite_anyone_is_large_network', $count > 10000, $count );
 	}
+
+	return apply_filters( 'invite_anyone_is_large_network', $is_large_network, $count );
 }
