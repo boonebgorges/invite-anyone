@@ -51,6 +51,8 @@ Additional details about the plugin can be found in the following languages:
 
 = 1.2.1 =
 * Allow is_large_network value to be filtered
+* Localization improvements with pagination strings
+* Update ru_RU
 
 = 1.2 =
 * Group creation step can now be toggled from admin panel
