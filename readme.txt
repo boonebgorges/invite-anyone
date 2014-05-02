@@ -49,6 +49,9 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.2.1 =
+* Allow is_large_network value to be filtered
+
 = 1.2 =
 * Group creation step can now be toggled from admin panel
 * Fix bug that prevented autocomplete from working properly during group creation
