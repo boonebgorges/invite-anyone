@@ -453,7 +453,7 @@ function invite_anyone_catch_clear() {
 		bp_core_redirect( $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/' );
 	}
 }
-add_action( 'wp', 'invite_anyone_catch_clear', 1 );
+add_action( 'bp_template_redirect', 'invite_anyone_catch_clear', 5 );
 
 function invite_anyone_screen_one() {
 	global $bp;
