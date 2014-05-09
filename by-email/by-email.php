@@ -1094,11 +1094,13 @@ function invite_anyone_process_invitations( $data ) {
 		setcookie( 'invite-anyone', serialize( $returned_data ), 0, '/' );
 		$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members/';
 		bp_core_redirect( $redirect );
+		die();
 	}
 
 	if ( empty( $emails ) ) {
 		bp_core_add_message( __( 'You didn\'t include any email addresses!', 'bp-invite-anyone' ), 'error' );
 		bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members' );
+		die();
 	}
 
 	// Max number of invites sent
@@ -1115,6 +1117,7 @@ function invite_anyone_process_invitations( $data ) {
 			setcookie( 'invite-anyone', serialize( $returned_data ), 0, '/' );
 			$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members/';
 			bp_core_redirect( $redirect );
+			die();
 		}
 	}
 
@@ -1208,11 +1211,9 @@ function invite_anyone_process_invitations( $data ) {
 		bp_core_add_message( $success_message );
 
 		do_action( 'sent_email_invites', $bp->loggedin_user->id, $emails, $groups );
-
 	} else {
 		$success_message = sprintf( __( "Please correct your errors and resubmit.", 'bp-invite-anyone' ) );
 		bp_core_add_message( $success_message, 'error' );
-
 	}
 
 	// If there are errors, redirect to the Invite New Members page
@@ -1220,6 +1221,7 @@ function invite_anyone_process_invitations( $data ) {
 		setcookie( 'invite-anyone', serialize( $returned_data ), 0, '/' );
 		$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members/';
 		bp_core_redirect( $redirect );
+		die();
 	}
 
 	return true;
