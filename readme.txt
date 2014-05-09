@@ -49,6 +49,10 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.2.2 =
+* Improved behavior after redirects
+* Fix bug that prevented error messages from displaying on invitation page
+
 = 1.2.1 =
 * Allow is_large_network value to be filtered
 * Localization improvements with pagination strings
