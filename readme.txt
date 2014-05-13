@@ -52,6 +52,7 @@ Additional details about the plugin can be found in the following languages:
 = 1.2.2 =
 * Improved behavior after redirects
 * Fix bug that prevented error messages from displaying on invitation page
+* Fix bug that caused error messages to be reset when forbidden email addresses are entered
 
 = 1.2.1 =
 * Allow is_large_network value to be filtered
