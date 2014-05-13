@@ -1148,7 +1148,7 @@ function invite_anyone_process_invitations( $data ) {
 				break;
 
 			case 'limited_domain' :
-				$returned_data['error_message'] = sprintf( __( '<strong>%s</strong> is not a permitted email address. Please make sure that you have typed the domain name correctly.', 'bp-invite-anyone' ), $email );
+				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> is not a permitted email address. Please make sure that you have typed the domain name correctly.', 'bp-invite-anyone' ), $email );
 				break;
 		}
 
