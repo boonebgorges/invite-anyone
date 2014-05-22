@@ -145,7 +145,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 	}
 
 	function enable_nav_item() {
-		global $bp;
+		// global $bp;
 
 		if ( invite_anyone_group_invite_access_test() == 'anyone' )
 			return true;
@@ -446,13 +446,20 @@ add_action( 'bp_setup_nav', 'invite_anyone_remove_invite_subnav', 15 );
 
 
 
-/* Utility function to test which members the current user can invite to a group */
-function invite_anyone_group_invite_access_test() {
-	global $current_user, $bp;
-
-	if ( ! is_user_logged_in() || ( empty( $bp->groups->current_group ) && ! bp_is_group_create() ) ) {
+/* Utility function to test which members the current user can invite to a group 
+*  Uses the current group id unless a group id is specified
+*/
+function invite_anyone_group_invite_access_test( $group_id = false ) {
+	// If the user is not logged in, bail
+	if ( ! $user_id = get_current_user_id() ) {
 		return 'noone';
 	}
+
+	// Group_id is specified when function is called from invite_anyone_screen_one_content()
+	$group_id = ( $group_id ) ? $group_id : bp_get_current_group_id();
+
+	if ( ! $group_id && ! bp_is_group_create() )
+		return 'noone';
 
 	if ( !$iaoptions = get_option( 'invite_anyone' ) )
 		$iaoptions = array();
@@ -466,9 +473,6 @@ function invite_anyone_group_invite_access_test() {
 			return 'noone';
 	}
 
-	if ( !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
-		return 'noone';
-
 	if ( is_super_admin() ) {
 		if ( empty( $iaoptions['group_invites_can_admin'] ) || $iaoptions['group_invites_can_admin'] == 'anyone' || !$iaoptions['group_invites_can_admin'] )
 			return 'anyone';
@@ -476,14 +480,17 @@ function invite_anyone_group_invite_access_test() {
 			return 'friends';
 		if ( $iaoptions['group_invites_can_admin'] == 'noone' )
 			return 'noone';
-	} else if ( bp_group_is_admin() || bp_is_group_create() ) {
+	} else if ( groups_is_user_admin( $user_id, $group_id ) ) {
 		if ( empty( $iaoptions['group_invites_can_group_admin'] ) || $iaoptions['group_invites_can_group_admin'] == 'anyone' || !$iaoptions['group_invites_can_group_admin'] )
 			return 'anyone';
 		if ( $iaoptions['group_invites_can_group_admin'] == 'friends' )
 			return 'friends';
 		if ( $iaoptions['group_invites_can_group_admin'] == 'noone' )
 			return 'noone';
-	} else if ( bp_group_is_mod() ) {
+	} else if ( groups_is_user_mod( $user_id, $group_id ) ) {
+		// First check the basic BuddyPress setting 'invite_status' for the group
+		if ( ! bp_groups_user_can_send_invites( $group_id ) )
+			return 'noone';
 		if ( empty( $iaoptions['group_invites_can_group_mod'] ) || $iaoptions['group_invites_can_group_mod'] == 'anyone' || !$iaoptions['group_invites_can_group_mod'] )
 			return 'anyone';
 		if ( $iaoptions['group_invites_can_group_mod'] == 'friends' )
@@ -491,6 +498,9 @@ function invite_anyone_group_invite_access_test() {
 		if ( $iaoptions['group_invites_can_group_mod'] == 'noone' )
 			return 'noone';
 	} else {
+		// First check the basic BuddyPress setting 'invite_status' for the group
+		if ( ! bp_groups_user_can_send_invites( $group_id ) )
+			return 'noone';
 		if ( empty( $iaoptions['group_invites_can_group_member'] ) || $iaoptions['group_invites_can_group_member'] == 'anyone' || !$iaoptions['group_invites_can_group_member'] )
 			return 'anyone';
 		if ( $iaoptions['group_invites_can_group_member'] == 'friends' )

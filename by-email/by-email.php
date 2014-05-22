@@ -453,7 +453,7 @@ function invite_anyone_catch_clear() {
 		bp_core_redirect( $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/' );
 	}
 }
-add_action( 'wp', 'invite_anyone_catch_clear', 1 );
+add_action( 'bp_template_redirect', 'invite_anyone_catch_clear', 5 );
 
 function invite_anyone_screen_one() {
 	global $bp;
@@ -646,7 +646,11 @@ function invite_anyone_screen_one_content() {
 			<li>
 				<p><?php _e( '(optional) Select some groups. Invitees will receive invitations to these groups when they join the site.', 'bp-invite-anyone' ) ?></p>
 				<ul id="invite-anyone-group-list">
-					<?php while ( bp_groups() ) : bp_the_group(); ?>
+					<?php while ( bp_groups() ) : bp_the_group(); 
+					if ( invite_anyone_group_invite_access_test( bp_get_group_id() ) != 'anyone' )
+						continue;
+					?>
+
 						<li>
 						<input type="checkbox" name="invite_anyone_groups[]" id="invite_anyone_groups-<?php bp_group_id() ?>" value="<?php bp_group_id() ?>" <?php if ( $from_group == bp_get_group_id() || array_search( bp_get_group_id(), $returned_groups) ) : ?>checked<?php endif; ?> />
 
@@ -1094,11 +1098,13 @@ function invite_anyone_process_invitations( $data ) {
 		setcookie( 'invite-anyone', serialize( $returned_data ), 0, '/' );
 		$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members/';
 		bp_core_redirect( $redirect );
+		die();
 	}
 
 	if ( empty( $emails ) ) {
 		bp_core_add_message( __( 'You didn\'t include any email addresses!', 'bp-invite-anyone' ), 'error' );
 		bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members' );
+		die();
 	}
 
 	// Max number of invites sent
@@ -1115,6 +1121,7 @@ function invite_anyone_process_invitations( $data ) {
 			setcookie( 'invite-anyone', serialize( $returned_data ), 0, '/' );
 			$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members/';
 			bp_core_redirect( $redirect );
+			die();
 		}
 	}
 
@@ -1145,7 +1152,7 @@ function invite_anyone_process_invitations( $data ) {
 				break;
 
 			case 'limited_domain' :
-				$returned_data['error_message'] = sprintf( __( '<strong>%s</strong> is not a permitted email address. Please make sure that you have typed the domain name correctly.', 'bp-invite-anyone' ), $email );
+				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> is not a permitted email address. Please make sure that you have typed the domain name correctly.', 'bp-invite-anyone' ), $email );
 				break;
 		}
 
@@ -1208,11 +1215,9 @@ function invite_anyone_process_invitations( $data ) {
 		bp_core_add_message( $success_message );
 
 		do_action( 'sent_email_invites', $bp->loggedin_user->id, $emails, $groups );
-
 	} else {
 		$success_message = sprintf( __( "Please correct your errors and resubmit.", 'bp-invite-anyone' ) );
 		bp_core_add_message( $success_message, 'error' );
-
 	}
 
 	// If there are errors, redirect to the Invite New Members page
@@ -1220,6 +1225,7 @@ function invite_anyone_process_invitations( $data ) {
 		setcookie( 'invite-anyone', serialize( $returned_data ), 0, '/' );
 		$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members/';
 		bp_core_redirect( $redirect );
+		die();
 	}
 
 	return true;
