@@ -19,7 +19,7 @@ class Invite_Anyone_Tests extends BP_UnitTestCase {
 		buddypress()->current_action = 'create';
 
 		$u = $this->create_user();
-		$this->assertSame( 'noone', invite_anyone_group_invite_access_test() );
+		$this->assertSame( 'anyone', invite_anyone_group_invite_access_test( 0, $u ) );
 
 		buddypress()->current_component = $cc;
 		buddypress()->current_action = $ca;

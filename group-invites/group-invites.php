@@ -468,12 +468,7 @@ function invite_anyone_group_invite_access_test( $group_id = 0, $user_id = 0 ) {
 		return 'noone';
 	}
 
-	if ( ! is_user_logged_in() || ( empty( $bp->groups->current_group ) && ! bp_is_group_create() ) ) {
-		return 'noone';
-	}
-
-	if ( !$iaoptions = get_option( 'invite_anyone' ) )
-		$iaoptions = array();
+	$iaoptions = invite_anyone_options();
 
 	if ( bp_is_group_create() ) {
 		if ( empty( $iaoptions['group_invites_can_group_admin'] ) || $iaoptions['group_invites_can_group_admin'] == 'anyone' || !$iaoptions['group_invites_can_group_admin'] )
