@@ -147,6 +147,11 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 	function enable_nav_item() {
 		global $bp;
 
+		// Group-specific settings always override
+		if ( ! bp_groups_user_can_send_invites() ) {
+			return false;
+		}
+
 		if ( invite_anyone_group_invite_access_test() == 'anyone' )
 			return true;
 		else
