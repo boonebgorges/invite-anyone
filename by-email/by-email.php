@@ -1,8 +1,8 @@
 <?php
 
-require( WP_PLUGIN_DIR . '/invite-anyone/by-email/by-email-db.php' );
-require( WP_PLUGIN_DIR . '/invite-anyone/widgets/widgets.php' );
-require( WP_PLUGIN_DIR . '/invite-anyone/by-email/cloudsponge-integration.php' );
+require( BP_INVITE_ANYONE_DIR . 'by-email/by-email-db.php' );
+require( BP_INVITE_ANYONE_DIR . 'widgets/widgets.php' );
+require( BP_INVITE_ANYONE_DIR . 'by-email/cloudsponge-integration.php' );
 
 // Temporary function until bp_is_active is fully integrated
 function invite_anyone_are_groups_running() {
@@ -703,7 +703,7 @@ function invite_anyone_screen_two() {
 
 		// Load the pagination helper
 		if ( !class_exists( 'BBG_CPT_Pag' ) )
-			require_once( dirname( __FILE__ ) . '/../lib/bbg-cpt-pag.php' );
+			require_once( BP_INVITE_ANYONE_DIR . 'lib/bbg-cpt-pag.php' );
 		$pagination = new BBG_CPT_Pag;
 
 		$inviter_id = bp_loggedin_user_id();
