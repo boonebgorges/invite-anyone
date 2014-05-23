@@ -443,12 +443,30 @@ function invite_anyone_remove_invite_subnav() {
 add_filter( 'groups_create_group_steps', 'invite_anyone_remove_group_creation_invites', 1 );
 add_action( 'bp_setup_nav', 'invite_anyone_remove_invite_subnav', 15 );
 
-
-
-
-/* Utility function to test which members the current user can invite to a group */
-function invite_anyone_group_invite_access_test() {
+/**
+ * Determine access setting for a group/user pair.
+ *
+ * @param int $group_id Group ID. Default: current group ID.
+ * @param int $user_id User ID. Default: current user ID.
+ */
+function invite_anyone_group_invite_access_test( $group_id = 0, $user_id = 0 ) {
 	global $current_user, $bp;
+
+	if ( empty( $group_id ) ) {
+		$group_id = bp_is_group() ? bp_get_current_group_id() : 0;
+	}
+
+	if ( empty( $group_id ) && ! bp_is_group_create() ) {
+		return 'noone';
+	}
+
+	if ( empty( $user_id ) ) {
+		$user_id = bp_loggedin_user_id();
+	}
+
+	if ( empty( $user_id ) ) {
+		return 'noone';
+	}
 
 	if ( ! is_user_logged_in() || ( empty( $bp->groups->current_group ) && ! bp_is_group_create() ) ) {
 		return 'noone';
