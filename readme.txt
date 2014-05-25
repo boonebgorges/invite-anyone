@@ -49,10 +49,12 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
-= 1.2.2 =
+= 1.3 =
 * Improved behavior after redirects
 * Fix bug that prevented error messages from displaying on invitation page
 * Fix bug that caused error messages to be reset when forbidden email addresses are entered
+* Enforce BuddyPress's 'invite_status' group setting when adding Invite Anyone menu
+* Enfore BP's 'invite_status' setting for individual groups when creating group checkboxes on email invitation page
 
 = 1.2.1 =
 * Allow is_large_network value to be filtered
