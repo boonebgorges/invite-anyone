@@ -647,6 +647,14 @@ function invite_anyone_screen_one_content() {
 				<p><?php _e( '(optional) Select some groups. Invitees will receive invitations to these groups when they join the site.', 'bp-invite-anyone' ) ?></p>
 				<ul id="invite-anyone-group-list">
 					<?php while ( bp_groups() ) : bp_the_group(); ?>
+						<?php
+
+						// Enforce per-group invitation settings
+						if ( ! bp_groups_user_can_send_invites( bp_get_group_id() ) || 'anyone' !== invite_anyone_group_invite_access_test( bp_get_group_id() ) ) {
+							continue;
+						}
+
+						?>
 						<li>
 						<input type="checkbox" name="invite_anyone_groups[]" id="invite_anyone_groups-<?php bp_group_id() ?>" value="<?php bp_group_id() ?>" <?php if ( $from_group == bp_get_group_id() || array_search( bp_get_group_id(), $returned_groups) ) : ?>checked<?php endif; ?> />
 
