@@ -593,6 +593,36 @@ function invite_anyone_record_invitation( $inviter_id, $email, $message, $groups
 	return $id;
 }
 
+/**
+ * Create group invitations
+ * Used when invitee is already a member of the site
+ *
+ * @package Invite Anyone
+ * @since {@internal 1.3.1}
+ *
+ * @param int $inviter_id
+ * @param str $email The email address of the individual receiving the invitation
+ * @param array $groups An array of group ids that the invitation invites the user to join
+ */
+function invite_anyone_process_group_invites( $inviter_id, $email, $groups ) {
+	// Get the invitee's id
+	$invitee = get_user_by( 'email', $email );
+
+	// Process the invitations
+	foreach ( $groups as $group ) {
+		$args = array(
+			'user_id'       => $invitee->ID,
+			'group_id'      => $group,
+			'inviter_id'    => $inviter_id,
+		);
+
+	// Create the invitation
+	groups_invite_user( $args );
+
+	// Send the invitation
+	groups_send_invites( $inviter_id, $group );
+	}
+}
 
 /**
  * Get the invitations that a user has sent

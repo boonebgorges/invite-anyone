@@ -1090,6 +1090,9 @@ function invite_anyone_process_invitations( $data ) {
 		'groups' 	=> isset( $data['invite_anyone_groups'] ) ? $data['invite_anyone_groups'] : ''
 	);
 
+	// Set up a wrapper for handling invitees that are already members of the site
+	$already_members = array();
+
 	// Check against the max number of invites. Send back right away if there are too many
 	$options 	= invite_anyone_options();
 	$max_invites 	= !empty( $options['max_invites'] ) ? $options['max_invites'] : 5;
@@ -1144,7 +1147,10 @@ function invite_anyone_process_invitations( $data ) {
 				break;
 
 			case 'used' :
-				$returned_data['error_message'] .= sprintf( __( "<strong>%s</strong> is already a registered user of the site.", 'bp-invite-anyone' ), $email );
+				// Add these emails to a new array that we'll process separately.
+				$already_members[] = $email;
+				// Remove from the emails array
+				unset( $emails[$key] );
 				break;
 
 			case 'unsafe' :
@@ -1161,18 +1167,17 @@ function invite_anyone_process_invitations( $data ) {
 		}
 
 		// If there was an error in validation, we won't process this email
-		if ( $check != 'okay' ) {
+		if ( ! in_array( $check, array( 'okay', 'used' ) ) ) {
 			$returned_data['error_message'] .= '<br />';
 			$returned_data['error_emails'][] = $email;
 			unset( $emails[$key] );
 		}
 	}
 
+	// Send and record invitations
 	if ( ! empty( $emails ) ) {
 
 		unset( $message, $to );
-
-		/* send and record invitations */
 
 		do_action( 'invite_anyone_process_addl_fields' );
 
@@ -1219,7 +1224,31 @@ function invite_anyone_process_invitations( $data ) {
 		bp_core_add_message( $success_message );
 
 		do_action( 'sent_email_invites', $bp->loggedin_user->id, $emails, $groups );
-	} else {
+
+	} 
+
+	// Process group invitations for members who already belong to the site
+	if ( ! empty( $already_members )  ) {
+		// Were group invitations included?
+		$groups = ! empty( $data['invite_anyone_groups'] ) ? $data['invite_anyone_groups'] : array();
+		
+		if ( ! empty( $groups ) ) {
+			foreach ( $already_members as $member_email ) {
+				invite_anyone_process_group_invites( $bp->loggedin_user->id, $member_email, $groups );
+			}
+
+			$success_message = sprintf( __( "The following email addresses are already associated with members of this site: %s. These members have been invited to the groups you selected. ", 'bp-invite-anyone' ), implode( ", ", $already_members ) );
+			bp_core_add_message( $success_message );
+		} else {
+			// No groups were specified. Return a success message.
+			$success_message = sprintf( __( "The following email addresses are already associated with members of this site: %s", 'bp-invite-anyone' ), implode( ", ", $already_members ) );
+			bp_core_add_message( $success_message );
+		}
+
+	} 
+
+	// If neither of the above set a success message, we set a generic error message.
+	if ( ! $success_message ) {
 		$success_message = sprintf( __( "Please correct your errors and resubmit.", 'bp-invite-anyone' ) );
 		bp_core_add_message( $success_message, 'error' );
 	}
