@@ -1,8 +1,8 @@
 <?php
 
-require( WP_PLUGIN_DIR . '/invite-anyone/by-email/by-email-db.php' );
-require( WP_PLUGIN_DIR . '/invite-anyone/widgets/widgets.php' );
-require( WP_PLUGIN_DIR . '/invite-anyone/by-email/cloudsponge-integration.php' );
+require( BP_INVITE_ANYONE_DIR . 'by-email/by-email-db.php' );
+require( BP_INVITE_ANYONE_DIR . 'widgets/widgets.php' );
+require( BP_INVITE_ANYONE_DIR . 'by-email/cloudsponge-integration.php' );
 
 // Temporary function until bp_is_active is fully integrated
 function invite_anyone_are_groups_running() {
@@ -647,6 +647,14 @@ function invite_anyone_screen_one_content() {
 				<p><?php _e( '(optional) Select some groups. Invitees will receive invitations to these groups when they join the site.', 'bp-invite-anyone' ) ?></p>
 				<ul id="invite-anyone-group-list">
 					<?php while ( bp_groups() ) : bp_the_group(); ?>
+						<?php
+
+						// Enforce per-group invitation settings
+						if ( ! bp_groups_user_can_send_invites( bp_get_group_id() ) || 'anyone' !== invite_anyone_group_invite_access_test( bp_get_group_id() ) ) {
+							continue;
+						}
+
+						?>
 						<li>
 						<input type="checkbox" name="invite_anyone_groups[]" id="invite_anyone_groups-<?php bp_group_id() ?>" value="<?php bp_group_id() ?>" <?php if ( $from_group == bp_get_group_id() || array_search( bp_get_group_id(), $returned_groups) ) : ?>checked<?php endif; ?> />
 
@@ -703,7 +711,7 @@ function invite_anyone_screen_two() {
 
 		// Load the pagination helper
 		if ( !class_exists( 'BBG_CPT_Pag' ) )
-			require_once( dirname( __FILE__ ) . '/../lib/bbg-cpt-pag.php' );
+			require_once( BP_INVITE_ANYONE_DIR . 'lib/bbg-cpt-pag.php' );
 		$pagination = new BBG_CPT_Pag;
 
 		$inviter_id = bp_loggedin_user_id();
@@ -1148,7 +1156,7 @@ function invite_anyone_process_invitations( $data ) {
 				break;
 
 			case 'limited_domain' :
-				$returned_data['error_message'] = sprintf( __( '<strong>%s</strong> is not a permitted email address. Please make sure that you have typed the domain name correctly.', 'bp-invite-anyone' ), $email );
+				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> is not a permitted email address. Please make sure that you have typed the domain name correctly.', 'bp-invite-anyone' ), $email );
 				break;
 		}
 
