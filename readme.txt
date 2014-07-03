@@ -49,6 +49,9 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.3.1 =
+* CloudSponge integration now has access to LinkedIn and Facebook address books
+
 = 1.3 =
 * Improved behavior after redirects
 * Fix bug that prevented error messages from displaying on invitation page
