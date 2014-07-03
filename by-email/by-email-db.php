@@ -604,14 +604,11 @@ function invite_anyone_record_invitation( $inviter_id, $email, $message, $groups
  * @param str $email The email address of the individual receiving the invitation
  * @param array $groups An array of group ids that the invitation invites the user to join
  */
-function invite_anyone_process_group_invites( $inviter_id, $email, $groups ) {
-	// Get the invitee's id
-	$invitee = get_user_by( 'email', $email );
-
+function invite_anyone_process_group_invites( $inviter_id, $invitee_id, $groups ) {
 	// Process the invitations
 	foreach ( $groups as $group ) {
 		$args = array(
-			'user_id'       => $invitee->ID,
+			'user_id'       => $invitee_id,
 			'group_id'      => $group,
 			'inviter_id'    => $inviter_id,
 		);

@@ -1183,6 +1183,7 @@ function invite_anyone_process_invitations( $data ) {
 
 		$groups = ! empty( $data['invite_anyone_groups'] ) ? $data['invite_anyone_groups'] : array();
 		$is_error = 0;
+		$success_message = '';
 
 		foreach( $emails as $email ) {
 			$subject = stripslashes( strip_tags( $data['invite_anyone_custom_subject'] ) );
@@ -1220,37 +1221,64 @@ function invite_anyone_process_invitations( $data ) {
 
 		// Set a success message
 
-		$success_message = sprintf( __( "Invitations were sent successfully to the following email addresses: %s", 'bp-invite-anyone' ), implode( ", ", $emails ) );
-		bp_core_add_message( $success_message );
+		$success_message .= sprintf( __( "Invitations were sent successfully to the following email addresses: %s", 'bp-invite-anyone' ), implode( ", ", $emails ) );
 
 		do_action( 'sent_email_invites', $bp->loggedin_user->id, $emails, $groups );
 
 	} 
 
-	// Process group invitations for members who already belong to the site
+	// Process group invitations, friend requests and follows for members who already belong to the site
 	if ( ! empty( $already_members )  ) {
-		// Were group invitations included?
-		$groups = ! empty( $data['invite_anyone_groups'] ) ? $data['invite_anyone_groups'] : array();
+		// Create an array of user ids from the already_members array
+		$already_members_ids = array();
+		foreach ($already_members as $member_email) {
+			$already_members_ids[] = get_user_by( 'email', $member_email )->ID;
+		}
 		
-		if ( ! empty( $groups ) ) {
-			foreach ( $already_members as $member_email ) {
-				invite_anyone_process_group_invites( $bp->loggedin_user->id, $member_email, $groups );
-			}
 
-			$success_message = sprintf( __( "The following email addresses are already associated with members of this site: %s. These members have been invited to the groups you selected. ", 'bp-invite-anyone' ), implode( ", ", $already_members ) );
-			bp_core_add_message( $success_message );
-		} else {
-			// No groups were specified. Return a success message.
-			$success_message = sprintf( __( "The following email addresses are already associated with members of this site: %s", 'bp-invite-anyone' ), implode( ", ", $already_members ) );
-			bp_core_add_message( $success_message );
+		// Create group invitations if necessary
+		if ( bp_is_active( 'groups' ) ) {
+			$groups = ! empty( $data['invite_anyone_groups'] ) ? $data['invite_anyone_groups'] : array();
+			
+			if ( ! empty( $groups ) ) {
+				foreach ( $already_members_ids as $invitee_id ) {
+					invite_anyone_process_group_invites( $bp->loggedin_user->id, $invitee_id, $groups );
+				}
+
+				$success_message .= sprintf( __( "The following email addresses are already associated with members of this site: %s. These members have been invited to the groups you selected. ", 'bp-invite-anyone' ), implode( ", ", $already_members ) );
+			}
 		}
 
+		// Friendship requests
+		if ( bp_is_active( 'friends' ) && apply_filters( 'invite_anyone_send_friend_requests_on_acceptance', true ) ) {
+			if ( function_exists( 'friends_add_friend' ) ) {
+				foreach ( $already_members_ids as $invitee_id ) {
+					// TODO: Must check for already existing friendship, since this makes dupes
+					friends_add_friend( $bp->loggedin_user->id, $invitee_id );
+				}
+			}
+		}
+
+		// BuddyPress Followers support
+		if ( function_exists( 'bp_follow_start_following' ) && apply_filters( 'invite_anyone_send_follow_requests_on_acceptance', true ) ) {
+				foreach ( $already_members_ids as $invitee_id ) {
+					bp_follow_start_following( array( 'leader_id' => $invitee_id, 'follower_id' => $bp->loggedin_user->id ) );
+					bp_follow_start_following( array( 'leader_id' => $bp->loggedin_user->id, 'follower_id' => $invitee_id ) );
+				}
+			}
+
+		// If we haven't set a more specific success message, set a generic message
+		if ( ! $success_message ) {
+			$success_message .= sprintf( __( "The following email addresses are already associated with members of this site: %s", 'bp-invite-anyone' ), implode( ", ", $already_members ) );
+		}
 	} 
 
-	// If neither of the above set a success message, we set a generic error message.
-	if ( ! $success_message ) {
-		$success_message = sprintf( __( "Please correct your errors and resubmit.", 'bp-invite-anyone' ) );
-		bp_core_add_message( $success_message, 'error' );
+	// Set the correct message for success or error.
+	if ( $success_message ) {
+		bp_core_add_message( $success_message );
+	} else {
+		$error_message = sprintf( __( "Please correct your errors and resubmit.", 'bp-invite-anyone' ) );
+		bp_core_add_message( $error_message, 'error' );
 	}
 
 	// If there are errors, redirect to the Invite New Members page
