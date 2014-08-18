@@ -7,7 +7,12 @@ function invite_anyone_add_js() {
 
 	if ( $bp->current_action == BP_INVITE_ANYONE_SLUG || ( isset( $bp->action_variables[1] ) && $bp->action_variables[1] == BP_INVITE_ANYONE_SLUG ) ) {
 
-		wp_enqueue_script( 'invite-anyone-autocomplete-js', WP_PLUGIN_URL . '/invite-anyone/group-invites/jquery.autocomplete/jquery.autocomplete-min.js', array( 'jquery' ) );
+		$min = '-min';
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+			$min = '';
+		}
+
+		wp_enqueue_script( 'invite-anyone-autocomplete-js', WP_PLUGIN_URL . "/invite-anyone/group-invites/jquery.autocomplete/jquery.autocomplete$min.js", array( 'jquery' ) );
 
 		wp_register_script( 'invite-anyone-js', WP_PLUGIN_URL . '/invite-anyone/group-invites/group-invites-js.js', array( 'invite-anyone-autocomplete-js' ) );
 		wp_enqueue_script( 'invite-anyone-js' );
