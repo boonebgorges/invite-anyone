@@ -114,6 +114,14 @@ jQuery(document).ready( function() {
 			});
 		}
 	);
+
+	j("#send-invite-form").on( 'focus', '#send-to-input', function() {
+		j( '#submit' ).prop('disabled', true);
+	});
+
+	j("#send-invite-form").on( 'blur', '#send-to-input', function() {
+		ia_refresh_submit_button_state();
+	});
 });
 
 function ia_on_autocomplete_select( value, data ) {
