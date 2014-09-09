@@ -7,9 +7,14 @@ function invite_anyone_add_js() {
 
 	if ( $bp->current_action == BP_INVITE_ANYONE_SLUG || ( isset( $bp->action_variables[1] ) && $bp->action_variables[1] == BP_INVITE_ANYONE_SLUG ) ) {
 
-		wp_enqueue_script( 'invite-anyone-autocomplete-js', WP_PLUGIN_URL . '/invite-anyone/group-invites/jquery.autocomplete/jquery.autocomplete-min.js', array( 'jquery' ) );
+		$min = '-min';
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+			$min = '';
+		}
 
-		wp_register_script( 'invite-anyone-js', WP_PLUGIN_URL . '/invite-anyone/group-invites/group-invites-js.js', array( 'invite-anyone-autocomplete-js' ) );
+		wp_enqueue_script( 'invite-anyone-autocomplete-js', plugins_url() . "/invite-anyone/group-invites/jquery.autocomplete/jquery.autocomplete$min.js", array( 'jquery' ) );
+
+		wp_register_script( 'invite-anyone-js', plugins_url() . '/invite-anyone/group-invites/group-invites-js.js', array( 'invite-anyone-autocomplete-js' ) );
 		wp_enqueue_script( 'invite-anyone-js' );
 
 	}
@@ -20,7 +25,7 @@ function invite_anyone_add_group_invite_css() {
 	global $bp;
 
 	if ( $bp->current_action == BP_INVITE_ANYONE_SLUG || ( isset( $bp->action_variables[1] ) && $bp->action_variables[1] == BP_INVITE_ANYONE_SLUG ) ) {
-   		$style_url = WP_PLUGIN_URL . '/invite-anyone/group-invites/group-invites-css.css';
+		$style_url = plugins_url() . '/invite-anyone/group-invites/group-invites-css.css';
 		$style_file = WP_PLUGIN_DIR . '/invite-anyone/group-invites/group-invites-css.css';
 
 		if (file_exists($style_file)) {
@@ -31,13 +36,15 @@ function invite_anyone_add_group_invite_css() {
 }
 add_action( 'wp_print_styles', 'invite_anyone_add_group_invite_css' );
 
-function invite_anyone_add_old_css() { ?>
+function invite_anyone_add_old_css() {
+	$plugins_url = plugins_url();
+	?>
 	<style type="text/css">
 
 li a#nav-invite-anyone {
 	padding: 0.55em 3.1em 0.55em 0px !important;
 	margin-right: 10px;
-	background: url(<?php echo WP_PLUGIN_URL, '/invite-anyone/invite-anyone/invite_bullet.gif'; ?>) no-repeat 89% 52%;
+	background: url(<?php echo $plugins_url . '/invite-anyone/invite-anyone/invite_bullet.gif'; ?>) no-repeat 89% 52%;
 
 }
 	</style>

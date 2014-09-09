@@ -103,6 +103,10 @@ body.group-create div#content .main-column {
 .autocomplete div { padding:2px 5px; white-space:nowrap; }
 .autocomplete strong { font-weight:normal; color:#3399FF; }
 
+input.autocomplete-loading {
+	background: transparent url(../images/loading.gif) no-repeat right center;
+}
+
 /* one-column layout for narrow screens */
 @media screen and (max-width:55em) { 
 
