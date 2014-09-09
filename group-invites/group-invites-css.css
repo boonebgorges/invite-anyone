@@ -104,7 +104,7 @@ body.group-create div#content .main-column {
 .autocomplete strong { font-weight:normal; color:#3399FF; }
 
 input.autocomplete-loading {
-	background: transparent url(../images/loading.gif) no-repeat right center;
+	background: transparent url(../images/loading.gif) no-repeat 98% center;
 }
 
 /* one-column layout for narrow screens */
