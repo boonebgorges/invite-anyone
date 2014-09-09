@@ -18,6 +18,9 @@ jQuery(document).ready( function() {
 
 	a = j('#create-group-form #send-to-input, #send-invite-form #send-to-input').autocomplete(options);
 
+	// Check whether the "submit" button should be enabled on page load. Set the state.
+	ia_refresh_submit_button_state();
+
 	j("div#invite-anyone-member-list input").click(function() {
 		var friend_id = j(this).val();
 
@@ -45,6 +48,8 @@ jQuery(document).ready( function() {
 			} else if ( friend_action == 'uninvite' ) {
 				j('#invite-anyone-invite-list li#uid-' + friend_id).remove();
 			}
+
+			ia_refresh_submit_button_state();
 		});
 	});
 
@@ -66,6 +71,7 @@ jQuery(document).ready( function() {
 		{
 			j('#invite-anyone-invite-list li#uid-' + friend_id).remove();
 			j('#invite-anyone-member-list input#f-' + friend_id).prop('checked', false);
+			ia_refresh_submit_button_state();
 		});
 
 		return false;
@@ -137,8 +143,23 @@ function ia_on_autocomplete_select( value, data ) {
 		j('#invite-anyone-invite-list').append(response);
 
 		j('div.item-list-tabs li.selected').removeClass('loading');
+		
+		// Refresh the submit button state
+		ia_refresh_submit_button_state();
 	});
 
 	// Remove the value from the send-to-input box
 	j('#send-to-input').val('');
+}
+
+function ia_refresh_submit_button_state(){
+	var j = jQuery;
+
+	var invites = j( '#invite-anyone-invite-list li' ).length;
+
+	if ( invites ) {
+		j( '#submit' ).prop('disabled', false);
+	} else {
+		j( '#submit' ).prop('disabled', true);
+	}
 }
