@@ -49,6 +49,9 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.3.3 =
+* Improved appearance for autosuggest spinner
+
 = 1.3.2 =
 * AJAX spinner when autosuggest request is in process
 * Better loading of assets over SSL
