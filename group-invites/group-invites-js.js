@@ -1,6 +1,9 @@
 jQuery(document).ready( function() {
 	var j = jQuery;
 
+	var invitationsLoad = [];
+	var submitClicked = false;
+
 	var onAutocompleteSelect = function(value, data) {
 		j('#selection').html('<img src="\/global\/flags\/small\/' + data + '.png" alt="" \/> ' + value);
 	//alert(data);
@@ -122,6 +125,33 @@ jQuery(document).ready( function() {
 	j("#send-invite-form").on( 'blur', '#send-to-input', function() {
 		ia_refresh_submit_button_state();
 	});
+
+	// Watch the invitation list to see if it changes (then we'll need to prompt the user for confimration before leaving the page).
+	// Set up an array of the list of invitations visible at page load.
+	j('#invite-anyone-invite-list').find('li').each(function(index,value) {
+	    invitationsLoad.push( j(this).attr('id') );
+	});
+
+	jq('#send-invite-form input:submit').on( 'click', function() {
+		submitClicked = true;
+	});
+
+	window.onbeforeunload = function(e) {
+		if ( submitClicked == false ) {
+			// Set up the current invitations list (and empty it).
+			var invitationsCurrent = [];
+
+			j('#invite-anyone-invite-list').find('li').each(function(index,value) {
+			    invitationsCurrent.push( j(this).attr('id') );
+			});
+
+			// See if the current invite list contains objects not in the load list
+			if ( j( invitationsCurrent ).not( invitationsLoad ).length != 0 ) {
+				return IA_js_strings.unsent_invites;
+			}
+		}
+	};
+
 });
 
 function ia_on_autocomplete_select( value, data ) {
@@ -168,6 +198,6 @@ function ia_refresh_submit_button_state(){
 	if ( invites ) {
 		j( '#submit' ).prop( 'disabled', false ).removeClass( 'submit-disabled' );
 	} else {
-		j( '#submit' ).prop( 'disabled', true ).addClass( 'submit-disabled' );;
+		j( '#submit' ).prop( 'disabled', true ).addClass( 'submit-disabled' );
 	}
 }
