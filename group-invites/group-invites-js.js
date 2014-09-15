@@ -151,7 +151,7 @@ function ia_on_autocomplete_select( value, data ) {
 		j('#invite-anyone-invite-list').append(response);
 
 		j('div.item-list-tabs li.selected').removeClass('loading');
-		
+
 		// Refresh the submit button state
 		ia_refresh_submit_button_state();
 	});

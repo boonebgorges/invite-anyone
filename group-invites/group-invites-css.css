@@ -116,7 +116,7 @@ input.submit-disabled:hover {
 }
 
 /* one-column layout for narrow screens */
-@media screen and (max-width:55em) { 
+@media screen and (max-width:55em) {
 
 	.invite-anyone .left-menu, .group-create .left-menu {
 		float: none;
