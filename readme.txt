@@ -51,6 +51,7 @@ Additional details about the plugin can be found in the following languages:
 
 = 1.3.3 =
 * Improved appearance for autosuggest spinner
+* Disable Submit button on group invitation page when there's nothing to submit, helping to avoid user error
 
 = 1.3.2 =
 * AJAX spinner when autosuggest request is in process
