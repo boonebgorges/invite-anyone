@@ -166,8 +166,8 @@ function ia_refresh_submit_button_state(){
 	var invites = j( '#invite-anyone-invite-list li' ).length;
 
 	if ( invites ) {
-		j( '#submit' ).prop('disabled', false);
+		j( '#submit' ).prop( 'disabled', false ).removeClass( 'submit-disabled' );
 	} else {
-		j( '#submit' ).prop('disabled', true);
+		j( '#submit' ).prop( 'disabled', true ).addClass( 'submit-disabled' );;
 	}
 }
