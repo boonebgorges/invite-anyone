@@ -165,7 +165,7 @@ function invite_anyone_register_screen_message() {
 
 		<script type="text/javascript">
 		jQuery(document).ready( function() {
-			jQuery("input#signup_email").val("<?php echo $email ?>");
+			jQuery("input#signup_email").val("<?php echo str_replace( ' ', '+', $email ) ?>");
 		});
 
 		</script>
