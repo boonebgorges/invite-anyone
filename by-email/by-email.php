@@ -105,7 +105,7 @@ function invite_anyone_opt_out_screen() {
 			<?php endif; ?>
 
 		<?php else : ?>
-			<?php if ( $email = $bp->action_variables[0] ) : ?>
+			<?php if ( isset( $_GET['email'] ) && $email = $_GET['email'] ) : ?>
 				<script type="text/javascript">
 				jQuery(document).ready( function() {
 					jQuery("input#opt_out_email").val("<?php echo str_replace( ' ', '+', urldecode( $email ) ) ?>");
