@@ -49,6 +49,11 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.3.4 =
+* BuddyPress 2.1 compatibility
+* Fix bug that broke accept-invitation and opt-out pages on BuddyPress 2.1
+* Improved handling for emails with plus signs
+
 = 1.3.3 =
 * Improved appearance for autosuggest spinner
 * Disable Submit button on group invitation page when there's nothing to submit, helping to avoid user error
