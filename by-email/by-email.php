@@ -89,8 +89,9 @@ function invite_anyone_opt_out_screen() {
 ?>
 		<div id="content">
 		<div class="padder">
-		<?php if ( $bp->action_variables[1] == 'submit' ) : ?>
+		<?php if ( ! empty( $_POST['opt_out_submit'] ) ) : ?>
 			<?php if ( $_POST['opt_out_submit'] == $opt_out_button_text && $email = urldecode( $_POST['opt_out_email'] ) ) : ?>
+				<?php $email = str_replace( ' ', '+', $email ) ?>
 
 				<?php check_admin_referer( 'invite_anyone_opt_out' ) ?>
 
