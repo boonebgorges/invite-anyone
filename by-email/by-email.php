@@ -113,7 +113,7 @@ function invite_anyone_opt_out_screen() {
 				</script>
 			<?php endif; ?>
 
-			<form action="<?php echo $email ?>/submit" method="post">
+			<form action="" method="post">
 
 				<?php do_action( 'invite_anyone_before_optout_messages' ) ?>
 
