@@ -53,6 +53,7 @@ Additional details about the plugin can be found in the following languages:
 * BuddyPress 2.1 compatibility
 * Fix bug that broke accept-invitation and opt-out pages on BuddyPress 2.1
 * Improved handling for emails with plus signs
+* Fix bug that prevented Opt Out button from submitting properly
 
 = 1.3.3 =
 * Improved appearance for autosuggest spinner
