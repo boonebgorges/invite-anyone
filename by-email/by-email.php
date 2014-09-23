@@ -67,9 +67,10 @@ function invite_anyone_opt_out_screen() {
 	global $bp;
 
 	if ( isset( $_POST['oops_submit'] ) ) {
+		$oops_email = urlencode( stripslashes( $_POST['opt_out_email'] ) );
 		$opt_out_link = add_query_arg( array(
 			'iaaction' => 'accept-invitation',
-			'email'    => stripslashes( $_POST['opt_out_email'] ),
+			'email'    => $oops_email,
 		), bp_get_root_domain() . '/' . bp_get_signup_slug() . '/' );
 		bp_core_redirect( $opt_out_link );
 	}
@@ -107,7 +108,7 @@ function invite_anyone_opt_out_screen() {
 			<?php if ( $email = $bp->action_variables[0] ) : ?>
 				<script type="text/javascript">
 				jQuery(document).ready( function() {
-					jQuery("input#opt_out_email").val("<?php echo urldecode($email) ?>");
+					jQuery("input#opt_out_email").val("<?php echo str_replace( ' ', '+', urldecode( $email ) ) ?>");
 				});
 				</script>
 			<?php endif; ?>
