@@ -1118,6 +1118,9 @@ function invite_anyone_process_invitations( $data ) {
 		'groups' 	=> isset( $data['invite_anyone_groups'] ) ? $data['invite_anyone_groups'] : ''
 	);
 
+	// Set up a wrapper for handling invitees that are already members of the site
+	$already_members = array();
+
 	// Check against the max number of invites. Send back right away if there are too many
 	$options 	= invite_anyone_options();
 	$max_invites 	= !empty( $options['max_invites'] ) ? $options['max_invites'] : 5;
@@ -1172,7 +1175,10 @@ function invite_anyone_process_invitations( $data ) {
 				break;
 
 			case 'used' :
-				$returned_data['error_message'] .= sprintf( __( "<strong>%s</strong> is already a registered user of the site.", 'bp-invite-anyone' ), $email );
+				// Add these emails to a new array that we'll process separately.
+				$already_members[] = $email;
+				// Remove from the emails array
+				unset( $emails[$key] );
 				break;
 
 			case 'unsafe' :
@@ -1189,23 +1195,23 @@ function invite_anyone_process_invitations( $data ) {
 		}
 
 		// If there was an error in validation, we won't process this email
-		if ( $check != 'okay' ) {
+		if ( ! in_array( $check, array( 'okay', 'used' ) ) ) {
 			$returned_data['error_message'] .= '<br />';
 			$returned_data['error_emails'][] = $email;
 			unset( $emails[$key] );
 		}
 	}
 
+	// Send and record invitations
 	if ( ! empty( $emails ) ) {
 
 		unset( $message, $to );
-
-		/* send and record invitations */
 
 		do_action( 'invite_anyone_process_addl_fields' );
 
 		$groups = ! empty( $data['invite_anyone_groups'] ) ? $data['invite_anyone_groups'] : array();
 		$is_error = 0;
+		$success_message = '';
 
 		foreach( $emails as $email ) {
 			$subject = stripslashes( strip_tags( $data['invite_anyone_custom_subject'] ) );
@@ -1243,13 +1249,64 @@ function invite_anyone_process_invitations( $data ) {
 
 		// Set a success message
 
-		$success_message = sprintf( __( "Invitations were sent successfully to the following email addresses: %s", 'bp-invite-anyone' ), implode( ", ", $emails ) );
-		bp_core_add_message( $success_message );
+		$success_message .= sprintf( __( "Invitations were sent successfully to the following email addresses: %s", 'bp-invite-anyone' ), implode( ", ", $emails ) );
 
 		do_action( 'sent_email_invites', $bp->loggedin_user->id, $emails, $groups );
+
+	} 
+
+	// Process group invitations, friend requests and follows for members who already belong to the site
+	if ( ! empty( $already_members )  ) {
+		// Create an array of user ids from the already_members array
+		$already_members_ids = array();
+		foreach ($already_members as $member_email) {
+			$already_members_ids[] = get_user_by( 'email', $member_email )->ID;
+		}
+
+		$success_message .= sprintf( __( "The following email addresses are already associated with members of this site: %s. ", 'bp-invite-anyone' ), implode( ", ", $already_members ) );
+		
+		// Create group invitations if necessary
+		if ( bp_is_active( 'groups' ) ) {
+			$groups = ! empty( $data['invite_anyone_groups'] ) ? $data['invite_anyone_groups'] : array();
+			
+			if ( ! empty( $groups ) ) {
+				foreach ( $already_members_ids as $invitee_id ) {
+					invite_anyone_process_group_invites( $bp->loggedin_user->id, $invitee_id, $groups );
+				}
+
+				$success_message .= sprintf( __( "These members have been invited to the groups you selected. ", 'bp-invite-anyone' ) );
+			}
+		}
+
+		// Friendship requests
+		if ( bp_is_active( 'friends' ) && apply_filters( 'invite_anyone_send_friend_requests_on_acceptance', true ) ) {
+			if ( function_exists( 'friends_add_friend' ) ) {
+				foreach ( $already_members_ids as $invitee_id ) {
+					// Check that a friend request isn't outstanding, so that we're not creating duplicate requests.
+					// Response could be: 'is_friends', 'not_friends', 'pending' or 'awaiting_response'.
+					if ( 'not_friends' == friends_check_friendship_status( $bp->loggedin_user->id, $invitee_id ) ) {
+						friends_add_friend( $bp->loggedin_user->id, $invitee_id );
+					}
+				}
+				$success_message .= sprintf( __( "Friendship requests have been sent to these members. ", 'bp-invite-anyone' ) );
+			}
+		}
+
+		// BuddyPress Followers support, inviter follows the invitee
+		if ( function_exists( 'bp_follow_start_following' ) && apply_filters( 'invite_anyone_send_follow_requests_on_acceptance', true ) ) {
+			foreach ( $already_members_ids as $invitee_id ) {
+				bp_follow_start_following( array( 'leader_id' => $invitee_id, 'follower_id' => $bp->loggedin_user->id ) );
+			}
+			$success_message .= sprintf( __( "You are now following these members. ", 'bp-invite-anyone' ) );
+		}
+	} 
+
+	// Set the correct message for success or error.
+	if ( $success_message ) {
+		bp_core_add_message( $success_message );
 	} else {
-		$success_message = sprintf( __( "Please correct your errors and resubmit.", 'bp-invite-anyone' ) );
-		bp_core_add_message( $success_message, 'error' );
+		$error_message = sprintf( __( "Please correct your errors and resubmit.", 'bp-invite-anyone' ) );
+		bp_core_add_message( $error_message, 'error' );
 	}
 
 	// If there are errors, redirect to the Invite New Members page
