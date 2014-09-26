@@ -49,6 +49,9 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.3.5 =
+* Fix bug that caused inviters' names to appear incorrectly when accepting email invitation
+
 = 1.3.4 =
 * BuddyPress 2.1 compatibility
 * Fix bug that broke accept-invitation and opt-out pages on BuddyPress 2.1
