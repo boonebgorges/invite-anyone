@@ -187,7 +187,7 @@ function invite_anyone_register_screen_message() {
 
 			$inviters_names = array();
 			foreach ( $inviters as $inviter ) {
-				$inviters_names[] = bp_core_get_user_displayname( $inviters[0] );
+				$inviters_names[] = bp_core_get_user_displayname( $inviter );
 			}
 
 			if ( ! empty( $inviters_names ) ) {
