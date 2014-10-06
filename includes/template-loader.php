@@ -29,7 +29,7 @@ function invite_anyone_load_template_filter( $found_template, $templates ) {
 		// locate_template() will attempt to find the plugins.php template in the
 		// child and parent theme and return the located template when found
 		if ( invite_anyone_is_group_screen() || bp_is_group_creation_step( BP_INVITE_ANYONE_SLUG ) ) {
-			$found_template = locate_template( 'members/groups/plugins.php', false, false );
+			$found_template = locate_template( 'groups/single/plugins.php', false, false );
 		} else if ( bp_is_current_component( BP_INVITE_ANYONE_SLUG ) ) {
 			$found_template = locate_template( 'members/single/plugins.php', false, false );
 		}
