@@ -36,6 +36,12 @@ function invite_anyone_init() {
 
 	if ( is_admin() )
 		require( BP_INVITE_ANYONE_DIR . 'admin/admin-panel.php' );
+
+	if ( ! class_exists( 'BP_Theme_Compat' ) ) {
+	    require( BP_INVITE_ANYONE_DIR . 'includes/bp17-compat.php' );
+	}
+
+	require( BP_INVITE_ANYONE_DIR . 'includes/template-loader.php' );
 }
 add_action( 'bp_include', 'invite_anyone_init' );
 

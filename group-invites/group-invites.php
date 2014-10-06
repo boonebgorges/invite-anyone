@@ -102,18 +102,14 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 			// Hack to imitate bp_core_add_message, since bp_core_redirect is giving me such hell
 			echo '<div id="message" class="updated"><p>' . __( 'Group invites sent.', 'buddypress' ) . '</p></div>';
 		}
-
-		invite_anyone_create_screen_content('invite');
 	}
 
 	function create_screen( $group_id = null ) {
-		global $bp;
-
 		/* If we're not at this step, go bye bye */
-		if ( !bp_is_group_creation_step( $this->slug ) )
+		if ( ! bp_is_group_creation_step( $this->slug ) )
 			return false;
 
-		invite_anyone_create_screen_content( 'create' );
+		bp_get_template_part( 'groups/single/invite-anyone' );
 
 		wp_nonce_field( 'groups_create_save_' . $this->slug );
 	}
@@ -196,11 +192,6 @@ function invite_anyone_catch_group_invites() {
 }
 add_action( 'wp', 'invite_anyone_catch_group_invites', 1 );
 
-function invite_anyone_create_screen_content( $event ) {
-	if ( !$template = function_exists( 'bp_locate_template' ) ? bp_locate_template( 'groups/single/invite-anyone.php', true ) : locate_template( 'groups/single/invite-anyone.php', true ) ) {
-		include_once( 'templates/invite-anyone.php' );
-	}
-}
 
 /* Creates the list of members on the Sent Invite screen */
 function bp_new_group_invite_member_list() {
@@ -613,4 +604,17 @@ function invite_anyone_is_large_network() {
 	}
 
 	return apply_filters( 'invite_anyone_is_large_network', $is_large_network, $count );
+}
+
+/**
+ * Are we on a group's invite anyone tab?
+ *
+ * @since   1.4
+ * @return  boolean
+ */
+function invite_anyone_is_group_screen() {
+    if ( bp_is_groups_component() && bp_is_current_action( BP_INVITE_ANYONE_SLUG ) )
+        return true;
+
+    return false;
 }
