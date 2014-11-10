@@ -87,7 +87,12 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 		$this->enable_create_step = $this->enable_create_step();
 	}
 
-	function display() {
+	/**
+	 * Display the group tab.
+	 *
+	 * @param int $group_id Available only on BP 2.2+.
+	 */
+	function display( $group_id = null ) {
 		global $bp;
 
 		if ( BP_INVITE_ANYONE_SLUG == $bp->current_action && isset( $bp->action_variables[0] ) && 'send' == $bp->action_variables[0] ) {
