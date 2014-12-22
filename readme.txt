@@ -51,6 +51,7 @@ Additional details about the plugin can be found in the following languages:
 
 = 1.3.5 =
 * Fix bug that caused inviters' names to appear incorrectly when accepting email invitation
+* Fix bug that caused an incorrect "Are you sure?" browser notice during group creation
 
 = 1.3.4 =
 * BuddyPress 2.1 compatibility
