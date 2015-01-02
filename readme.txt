@@ -49,6 +49,10 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.3.6 =
+* Better loading of CloudSponge JavaScript, so that assets are only loaded when needed
+* Fixed some PHP notices when creating new widgets
+
 = 1.3.5 =
 * Fix bug that caused inviters' names to appear incorrectly when accepting email invitation
 * Fix bug that caused an incorrect "Are you sure?" browser notice during group creation
