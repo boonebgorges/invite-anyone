@@ -3,8 +3,8 @@ Contributors: boonebgorges, cuny-academic-commons
 Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WP 3.2, BuddyPress 1.2.9
-Tested up to: WP 4.0, BuddyPress 2.1
-Stable tag: 1.3.4
+Tested up to: WP 4.1, BuddyPress 2.1.1
+Stable tag: 1.3.6
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -48,6 +48,14 @@ Additional details about the plugin can be found in the following languages:
 * Serbo-Croatian: <a href="http://science.webhostinggeeks.com/teleogistic">http://science.webhostinggeeks.com/teleogistic</a>
 
 == Changelog ==
+
+= 1.3.6 =
+* Better loading of CloudSponge JavaScript, so that assets are only loaded when needed
+* Fixed some PHP notices when creating new widgets
+
+= 1.3.5 =
+* Fix bug that caused inviters' names to appear incorrectly when accepting email invitation
+* Fix bug that caused an incorrect "Are you sure?" browser notice during group creation
 
 = 1.3.4 =
 * BuddyPress 2.1 compatibility

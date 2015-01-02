@@ -1,21 +1,21 @@
-# Copyright (C) 2014 Invite Anyone
+# Copyright (C) 2015 Invite Anyone
 # This file is distributed under the same license as the Invite Anyone package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Invite Anyone 1.3.4\n"
+"Project-Id-Version: Invite Anyone 1.3.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/invite-anyone\n"
-"POT-Creation-Date: 2014-09-23 21:43:35+00:00\n"
+"POT-Creation-Date: 2015-01-02 15:33:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#. #-#-#-#-#  invite-anyone.pot (Invite Anyone 1.3.4)  #-#-#-#-#
+#. #-#-#-#-#  invite-anyone.pot (Invite Anyone 1.3.6)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
-#: admin/admin-panel.php:6 admin/admin-panel.php:113 widgets/widgets.php:38
-#: widgets/widgets.php:86
+#: admin/admin-panel.php:6 admin/admin-panel.php:113 widgets/widgets.php:41
+#: widgets/widgets.php:92
 msgid "Invite Anyone"
 msgstr ""
 
@@ -798,7 +798,7 @@ msgstr ""
 msgid "We couldn't find any invitations associated with this email address."
 msgstr ""
 
-#: by-email/cloudsponge-integration.php:69
+#: by-email/cloudsponge-integration.php:70
 msgid ""
 "You can also add email addresses <a class=\"cs_import\">from your Address "
 "Book</a>."
@@ -809,22 +809,22 @@ msgid ""
 "Click &ldquo;Send Invites&rdquo; to finish sending your new invitations."
 msgstr ""
 
-#: group-invites/group-invites.php:103 group-invites/group-invites.php:146
-#: group-invites/group-invites.php:190
+#: group-invites/group-invites.php:108 group-invites/group-invites.php:151
+#: group-invites/group-invites.php:195
 msgid "Group invites sent."
 msgstr ""
 
-#: group-invites/group-invites.php:148
+#: group-invites/group-invites.php:153
 msgid "Group created successfully."
 msgstr ""
 
-#: group-invites/group-invites.php:396
+#: group-invites/group-invites.php:401
 #: group-invites/templates/invite-anyone.php:70
 #: group-invites/templates/invite-anyone.php:159
 msgid "Remove Invite"
 msgstr ""
 
-#: group-invites/group-invites.php:580
+#: group-invites/group-invites.php:585
 msgid ""
 "%1$s has invited you to the group: \"%2$s\".\n"
 "\n"
@@ -876,28 +876,28 @@ msgstr ""
 msgid "&raquo;"
 msgstr ""
 
-#: widgets/widgets.php:41
+#: widgets/widgets.php:44
 msgid "Enter one email address per line to invite friends to join this site."
 msgstr ""
 
-#: widgets/widgets.php:68
+#: widgets/widgets.php:71
 msgid "Continue"
 msgstr ""
 
-#: widgets/widgets.php:92
+#: widgets/widgets.php:100
 msgid ""
 "Invite friends to join the site by entering their email addresses below."
 msgstr ""
 
-#: widgets/widgets.php:95
+#: widgets/widgets.php:104
 msgid "Title:"
 msgstr ""
 
-#: widgets/widgets.php:97
+#: widgets/widgets.php:106
 msgid "Text to display in widget:"
 msgstr ""
 
-#: widgets/widgets.php:101
+#: widgets/widgets.php:110
 msgid "Number of email fields to display in widget:"
 msgstr ""
 

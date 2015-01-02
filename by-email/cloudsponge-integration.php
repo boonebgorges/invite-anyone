@@ -28,15 +28,12 @@ class Cloudsponge_Integration {
 	/**
 	 * Registers and loads CS JS.
 	 *
-	 * For now, this is overly generous to account for the fact that people can have the IA
-	 * widget installed on any page. In the future I'll try to clean it up a bit.
-	 *
 	 * @package Invite Anyone
 	 * @since 0.8.8
 	 */
 	function enqueue_script() {
-		wp_enqueue_script( 'ia_cloudsponge_address_books', 'https://api.cloudsponge.com/address_books.js', array(), false, true );
-		wp_enqueue_script( 'ia_cloudsponge', WP_PLUGIN_URL . '/invite-anyone/by-email/cloudsponge-js.js', array( 'ia_cloudsponge_address_books' ), false, true );
+		wp_register_script( 'ia_cloudsponge_address_books', 'https://api.cloudsponge.com/address_books.js', array(), false, true );
+		wp_register_script( 'ia_cloudsponge', WP_PLUGIN_URL . '/invite-anyone/by-email/cloudsponge-js.js', array( 'ia_cloudsponge_address_books' ), false, true );
 
 		// The domain key must be printed as a javascript object so it's accessible to the
 		// script
@@ -54,7 +51,9 @@ class Cloudsponge_Integration {
 	}
 
 	/**
-	 * Inserts the Cloudsponge markup into the Send Invites front end page
+	 * Inserts the Cloudsponge markup into the Send Invites front end page.
+	 *
+	 * Also responsible for enqueuing the necessary assets.
 	 *
 	 * @package Invite Anyone
 	 * @since 0.8
@@ -62,6 +61,8 @@ class Cloudsponge_Integration {
 	 * @param array $options Invite Anyone settings. Check em so we can bail if necessary
 	 */
 	function import_markup( $options = false ) {
+		wp_enqueue_script( 'ia_cloudsponge' );
+
 		?>
 
 <input type="hidden" id="cloudsponge-emails" name="cloudsponge-emails" value="" />
