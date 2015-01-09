@@ -89,7 +89,7 @@ class InviteAnyoneWidget extends WP_Widget {
 	 */
 	function form( $instance ) {
 		if ( ! isset( $instance['title'] ) || ! $title = esc_attr( $instance['title'] ) ) {
-			$title = _( 'Invite Anyone', 'bp-invite-anyone' );
+			$title = __( 'Invite Anyone', 'bp-invite-anyone' );
 		}
 
 		if ( ! isset( $instance['email_fields'] ) || ! $email_fields = (int) $instance['email_fields'] ) {
