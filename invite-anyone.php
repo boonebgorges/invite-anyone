@@ -41,15 +41,13 @@ function invite_anyone_init() {
 }
 add_action( 'bp_include', 'invite_anyone_init' );
 
-function invite_anyone_locale_init () {
-	$locale = get_locale();
-	$mofile = BP_INVITE_ANYONE_DIR . "languages/invite-anyone-$locale.mo";
-
-	if ( file_exists( $mofile ) ) {
-		load_textdomain( 'invite-anyone', $mofile );
-	}
+/**
+ * Load translation textdomains.
+ */
+function invite_anyone_locale_init() {
+	load_plugin_textdomain( 'invite-anyone', false, dirname( plugin_basename( __FILE__ ) ). '/languages/' );
 }
-add_action ('plugins_loaded', 'invite_anyone_locale_init');
+add_action( 'plugins_loaded', 'invite_anyone_locale_init' );
 
 function invite_anyone_activation() {
 	if ( !$iaoptions = get_option( 'invite_anyone' ) )
