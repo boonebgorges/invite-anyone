@@ -27,33 +27,33 @@ class Invite_Anyone_Stats {
 	 *
 	 * @package Invite Anyone
 	 * @since 0.9
-	 */	
+	 */
 	function __construct() {
 		$this->setup_time_periods();
 		$this->setup_get_params();
 		$this->get_posts();
 	}
-	
+
 	function setup_time_periods() {
 		// $time_periods are in seconds
 		$this->time_periods = apply_filters( 'invite_anyone_stats_time_periods', array(
 			60*60*24	=> array(
-					   	'name' => __( '24 Hours', 'bp-invite-anyone' ),
+						'name' => __( '24 Hours', 'invite-anyone' ),
 					   ),
 			60*60*24*3	=> array(
-					   	'name' => __( '3 Days', 'bp-invite-anyone' ),
+						'name' => __( '3 Days', 'invite-anyone' ),
 					   ),
 			60*60*24*7	=> array(
-						'name' => __( '1 Week', 'bp-invite-anyone' ),
+						'name' => __( '1 Week', 'invite-anyone' ),
 					   ),
 			60*60*24*28	=> array(
-						'name' => __( '4 Weeks', 'bp-invite-anyone' ),
+						'name' => __( '4 Weeks', 'invite-anyone' ),
 					   ),
 			60*60*24*30*3	=> array(
-						'name' => __( '3 Months', 'bp-invite-anyone' ),
+						'name' => __( '3 Months', 'invite-anyone' ),
 					   ),
 			0		=> array(
-						'name' => __( 'All Time', 'bp-invite-anyone' ),
+						'name' => __( 'All Time', 'invite-anyone' ),
 					   )
 		) );
 	}
@@ -302,52 +302,52 @@ class Invite_Anyone_Stats {
 		<table class="widefat ia-stats">
 			<thead><tr>
 				<th scope="col" class="in-the-last">
-					<?php _e( 'In the last...', 'bp-invite-anyone' ) ?>
+					<?php _e( 'In the last...', 'invite-anyone' ) ?>
 				</th>
 
 				<th scope="col">
-					<?php _e( 'Total Sent', 'bp-invite-anyone' ) ?>
+					<?php _e( 'Total Sent', 'invite-anyone' ) ?>
 				</th>
 
 				<th scope="col">
-					<?php _e( 'Total Accepted', 'bp-invite-anyone' ) ?>
+					<?php _e( 'Total Accepted', 'invite-anyone' ) ?>
 				</th>
 
 				<th scope="col">
-					<?php _e( 'Acceptance Rate', 'bp-invite-anyone' ) ?>
+					<?php _e( 'Acceptance Rate', 'invite-anyone' ) ?>
 				</th>
 
 				<th scope="col" class="top-inviter">
-					<?php _e( 'Top Inviter (by #)', 'bp-invite-anyone' ) ?>
+					<?php _e( 'Top Inviter (by #)', 'invite-anyone' ) ?>
 				</th>
 
 				<th scope="col" class="top-inviter">
-					<?php _e( 'Top Inviter (by % accepted)', 'bp-invite-anyone' ) ?>
+					<?php _e( 'Top Inviter (by % accepted)', 'invite-anyone' ) ?>
 				</th>
 
 				<?php if ( defined( 'INVITE_ANYONE_CS_ENABLED' ) && INVITE_ANYONE_CS_ENABLED ) : ?>
 					<th scope="col">
-						<?php _e( 'Total Sent (CloudSponge)', 'bp-invite-anyone' ) ?>
+						<?php _e( 'Total Sent (CloudSponge)', 'invite-anyone' ) ?>
 					</th>
 
 					<th scope="col">
-						<?php _e( 'Total Accepted (CloudSponge)', 'bp-invite-anyone' ) ?>
+						<?php _e( 'Total Accepted (CloudSponge)', 'invite-anyone' ) ?>
 					</th>
 
 					<th scope="col">
-						<?php _e( 'Acceptance Rate (CloudSponge)', 'bp-invite-anyone' ) ?>
+						<?php _e( 'Acceptance Rate (CloudSponge)', 'invite-anyone' ) ?>
 					</th>
 
 					<th scope="col">
-						<?php _e( 'CloudSponge Usage', 'bp-invite-anyone' ) ?>
+						<?php _e( 'CloudSponge Usage', 'invite-anyone' ) ?>
 					</th>
 
 					<th scope="col" class="top-inviter">
-						<?php _e( 'Top Inviter (by #) (CloudSponge)', 'bp-invite-anyone' ) ?>
+						<?php _e( 'Top Inviter (by #) (CloudSponge)', 'invite-anyone' ) ?>
 					</th>
 
 					<th scope="col" class="top-inviter">
-						<?php _e( 'Top Inviter (by % accepted) (CloudSponge)', 'bp-invite-anyone' ) ?>
+						<?php _e( 'Top Inviter (by % accepted) (CloudSponge)', 'invite-anyone' ) ?>
 					</th>
 				<?php endif ?>
 
@@ -375,7 +375,7 @@ class Invite_Anyone_Stats {
 					</td>
 
 					<td>
-						<?php echo $period['top_users']['top_user_num']['user_link'] ?> <span class="description"><?php printf( __( '(%d sent)', 'bp-invite-anyone' ), $period['top_users']['top_user_num']['sent'] ) ?></span>
+						<?php echo $period['top_users']['top_user_num']['user_link'] ?> <span class="description"><?php printf( __( '(%d sent)', 'invite-anyone' ), $period['top_users']['top_user_num']['sent'] ) ?></span>
 					</td>
 
 					<td>
@@ -400,11 +400,11 @@ class Invite_Anyone_Stats {
 						</td>
 
 						<td>
-							<?php echo $period['top_users']['top_user_num_cs']['user_link'] ?> <span class="description"><?php printf( __( '(%d sent)', 'bp-invite-anyone' ), $period['top_users']['top_user_num_cs']['sent'] ) ?></span>
+							<?php echo $period['top_users']['top_user_num_cs']['user_link'] ?> <span class="description"><?php printf( __( '(%d sent)', 'invite-anyone' ), $period['top_users']['top_user_num_cs']['sent'] ) ?></span>
 						</td>
 
 						<td>
-							<?php echo $period['top_users']['top_user_pct_cs']['user_link'] ?> <span class="description"><?php printf( __( '(%s accepted)', 'bp-invite-anyone' ), $period['top_users']['top_user_pct_cs']['accepted'] ) ?></span>
+							<?php echo $period['top_users']['top_user_pct_cs']['user_link'] ?> <span class="description"><?php printf( __( '(%s accepted)', 'invite-anyone' ), $period['top_users']['top_user_pct_cs']['accepted'] ) ?></span>
 						</td>
 					<?php endif ?>
 				</tr>

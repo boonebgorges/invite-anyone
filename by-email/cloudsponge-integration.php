@@ -67,7 +67,7 @@ class Cloudsponge_Integration {
 
 <input type="hidden" id="cloudsponge-emails" name="cloudsponge-emails" value="" />
 
-<?php _e( 'You can also add email addresses <a class="cs_import">from your Address Book</a>.', 'bp-invite-anyone' ) ?>
+<?php _e( 'You can also add email addresses <a class="cs_import">from your Address Book</a>.', 'invite-anyone' ) ?>
 
 		<?php
 	}

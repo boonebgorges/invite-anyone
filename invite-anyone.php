@@ -6,6 +6,7 @@ Description: Allows group admins to invite any member of their BuddyPress commun
 Version: 1.3.6
 Author: Boone Gorges
 Author URI: http://boone.gorg.es
+Text Domain: invite-anyone
 */
 
 define( 'BP_INVITE_ANYONE_VER', '1.3.6' );
@@ -43,8 +44,9 @@ function invite_anyone_locale_init () {
 	$locale = get_locale();
 	$mofile = BP_INVITE_ANYONE_DIR . "languages/invite-anyone-$locale.mo";
 
-	if ( file_exists( $mofile ) )
-      		load_textdomain( 'bp-invite-anyone', $mofile );
+	if ( file_exists( $mofile ) ) {
+		load_textdomain( 'invite-anyone', $mofile );
+	}
 }
 add_action ('plugins_loaded', 'invite_anyone_locale_init');
 
