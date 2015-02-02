@@ -7,6 +7,7 @@ Version: 1.3.6
 Author: Boone Gorges
 Author URI: http://boone.gorg.es
 Text Domain: invite-anyone
+Domain Path: /languages
 */
 
 define( 'BP_INVITE_ANYONE_VER', '1.3.6' );
