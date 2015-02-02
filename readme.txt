@@ -51,6 +51,7 @@ Additional details about the plugin can be found in the following languages:
 
 = 1.3.7 =
 * Fixed incorrect function name in widget localization
+* Improved localization support
 
 = 1.3.6 =
 * Better loading of CloudSponge JavaScript, so that assets are only loaded when needed
