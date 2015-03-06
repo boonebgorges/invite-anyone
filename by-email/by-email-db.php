@@ -79,22 +79,22 @@ class Invite_Anyone_Schema {
 
 		// Define the labels to be used by the post type
 		$post_type_labels = apply_filters( 'invite_anyone_post_type_labels', array(
-			'name' 			=> _x( 'BuddyPress Invitations', 'post type general name', 'bp-invite-anyone' ),
-			'singular_name' 	=> _x( 'Invitation', 'post type singular name', 'bp-invite-anyone' ),
-			'add_new' 		=> _x( 'Add New', 'add new', 'bp-invite-anyone' ),
-			'add_new_item' 		=> __( 'Add New Invitation', 'bp-invite-anyone' ),
-			'edit_item' 		=> __( 'Edit Invitation', 'bp-invite-anyone' ),
-			'new_item' 		=> __( 'New Invitation', 'bp-invite-anyone' ),
-			'view_item' 		=> __( 'View Invitation', 'bp-invite-anyone' ),
-			'search_items' 		=> __( 'Search Invitation', 'bp-invite-anyone' ),
-			'not_found' 		=>  __( 'No Invitations found', 'bp-invite-anyone' ),
-			'not_found_in_trash' 	=> __( 'No Invitations found in Trash', 'bp-invite-anyone' ),
+			'name' 			=> _x( 'BuddyPress Invitations', 'post type general name', 'invite-anyone' ),
+			'singular_name' 	=> _x( 'Invitation', 'post type singular name', 'invite-anyone' ),
+			'add_new' 		=> _x( 'Add New', 'add new', 'invite-anyone' ),
+			'add_new_item' 		=> __( 'Add New Invitation', 'invite-anyone' ),
+			'edit_item' 		=> __( 'Edit Invitation', 'invite-anyone' ),
+			'new_item' 		=> __( 'New Invitation', 'invite-anyone' ),
+			'view_item' 		=> __( 'View Invitation', 'invite-anyone' ),
+			'search_items' 		=> __( 'Search Invitation', 'invite-anyone' ),
+			'not_found' 		=>  __( 'No Invitations found', 'invite-anyone' ),
+			'not_found_in_trash' 	=> __( 'No Invitations found in Trash', 'invite-anyone' ),
 			'parent_item_colon' 	=> ''
 		), $this );
 
 		// Register the invitation post type
 		register_post_type( $this->post_type_name, apply_filters( 'invite_anyone_post_type_args', array(
-			'label' 	=> __( 'BuddyPress Invitations', 'bp-invite-anyone' ),
+			'label' 	=> __( 'BuddyPress Invitations', 'invite-anyone' ),
 			'labels' 	=> $post_type_labels,
 			'public' 	=> false,
 			'_builtin' 	=> false,
@@ -106,20 +106,20 @@ class Invite_Anyone_Schema {
 
 		// Define the labels to be used by the invitee taxonomy
 		$invitee_labels = apply_filters( 'invite_anyone_invitee_labels', array(
-			'name' 		=> __( 'Invitees', 'bp-invite-anyone' ),
-			'singular_name' => __( 'Invitee', 'bp-invite-anyone' ),
-			'search_items' 	=>  __( 'Search Invitees', 'bp-invite-anyone' ),
-			'all_items' 	=> __( 'All Invitees', 'bp-invite-anyone' ),
-			'edit_item' 	=> __( 'Edit Invitee', 'bp-invite-anyone' ),
-			'update_item' 	=> __( 'Update Invitee', 'bp-invite-anyone' ),
-			'add_new_item' 	=> __( 'Add New Invitee', 'bp-invite-anyone' ),
-			'new_item_name' => __( 'New Invitee Name', 'bp-invite-anyone' ),
+			'name' 		=> __( 'Invitees', 'invite-anyone' ),
+			'singular_name' => __( 'Invitee', 'invite-anyone' ),
+			'search_items' 	=>  __( 'Search Invitees', 'invite-anyone' ),
+			'all_items' 	=> __( 'All Invitees', 'invite-anyone' ),
+			'edit_item' 	=> __( 'Edit Invitee', 'invite-anyone' ),
+			'update_item' 	=> __( 'Update Invitee', 'invite-anyone' ),
+			'add_new_item' 	=> __( 'Add New Invitee', 'invite-anyone' ),
+			'new_item_name' => __( 'New Invitee Name', 'invite-anyone' ),
 			'menu_name' 	=> __( 'Invitee' ),
 		), $this );
 
 		// Register the invitee taxonomy
 		register_taxonomy( $this->invitee_tax_name, $this->post_type_name, apply_filters( 'invite_anyone_invitee_tax_args', array(
-			'label'		=> __( 'Invitees', 'bp-invite-anyone' ),
+			'label'		=> __( 'Invitees', 'invite-anyone' ),
 			'labels' 	=> $invitee_labels,
 			'hierarchical' 	=> false,
 			'show_ui' 	=> true,
@@ -127,20 +127,20 @@ class Invite_Anyone_Schema {
 
 		// Define the labels to be used by the invited groups taxonomy
 		$invited_groups_labels = apply_filters( 'invite_anyone_invited_groups_labels', array(
-			'name' 		=> __( 'Invited Groups', 'bp-invite-anyone' ),
-			'singular_name' => __( 'Invited Group', 'bp-invite-anyone' ),
-			'search_items' 	=>  __( 'Search Invited Groups', 'bp-invite-anyone' ),
-			'all_items' 	=> __( 'All Invited Groups', 'bp-invite-anyone' ),
-			'edit_item' 	=> __( 'Edit Invited Group', 'bp-invite-anyone' ),
-			'update_item' 	=> __( 'Update Invited Group', 'bp-invite-anyone' ),
-			'add_new_item' 	=> __( 'Add New Invited Group', 'bp-invite-anyone' ),
-			'new_item_name' => __( 'New Invited Group Name', 'bp-invite-anyone' ),
+			'name' 		=> __( 'Invited Groups', 'invite-anyone' ),
+			'singular_name' => __( 'Invited Group', 'invite-anyone' ),
+			'search_items' 	=>  __( 'Search Invited Groups', 'invite-anyone' ),
+			'all_items' 	=> __( 'All Invited Groups', 'invite-anyone' ),
+			'edit_item' 	=> __( 'Edit Invited Group', 'invite-anyone' ),
+			'update_item' 	=> __( 'Update Invited Group', 'invite-anyone' ),
+			'add_new_item' 	=> __( 'Add New Invited Group', 'invite-anyone' ),
+			'new_item_name' => __( 'New Invited Group Name', 'invite-anyone' ),
 			'menu_name' 	=> __( 'Invited Group' ),
 		), $this );
 
 		// Register the invited groups taxonomy
 		register_taxonomy( $this->invited_groups_tax_name, $this->post_type_name, apply_filters( 'invite_anyone_invited_group_tax_args', array(
-			'label'		=> __( 'Invited Groups', 'bp-invite-anyone' ),
+			'label'		=> __( 'Invited Groups', 'invite-anyone' ),
 			'labels' 	=> $invited_groups_labels,
 			'hierarchical' 	=> false,
 			'show_ui' 	=> true,
@@ -349,7 +349,7 @@ class Invite_Anyone_Invitation {
 		update_post_meta( $this->id, 'bp_ia_accepted', '' );
 
 		// Save a meta item about whether this is a CloudSponge email
-		update_post_meta( $this->id, 'bp_ia_is_cloudsponge', $is_cloudsponge ? __( 'Yes', 'bp-invite-anyone' ) : __( 'No', 'bp-invite-anyone' ) );
+		update_post_meta( $this->id, 'bp_ia_is_cloudsponge', $is_cloudsponge ? __( 'Yes', 'invite-anyone' ) : __( 'No', 'invite-anyone' ) );
 
 		// Now set up the taxonomy terms
 
@@ -909,9 +909,9 @@ function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
 		$url = is_multisite() && function_exists( 'network_admin_url' ) ? network_admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) : admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' );
 		?>
 
-		<p><?php _e( 'All done!', 'bp-invite-anyone' ) ?></p>
+		<p><?php _e( 'All done!', 'invite-anyone' ) ?></p>
 
-		<a href="<?php echo $url ?>" class="button"><?php _e( 'Finish', 'bp-invite-anyone' ) ?></a>
+		<a href="<?php echo $url ?>" class="button"><?php _e( 'Finish', 'invite-anyone' ) ?></a>
 
 		<?php
 
@@ -949,7 +949,7 @@ function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
 				'inviter_id' 	=> $invite->inviter_id,
 				'invitee_email'	=> $invite->email,
 				'message'	=> $invite->message,
-				'subject'	=> __( 'Migrated Invitation', 'bp-invite-anyone' ),
+				'subject'	=> __( 'Migrated Invitation', 'invite-anyone' ),
 				'groups'	=> maybe_unserialize( $invite->group_invitations ),
 				'status'	=> 'publish',
 				'date_created'	=> $invite->date_invited,
@@ -969,7 +969,7 @@ function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
 
 			if ( $is_partial ) {
 				$inviter = bp_core_get_user_displayname( $invite->inviter_id );
-				printf( __( 'Importing: %1$s invited %2$s<br />', 'bp-invite-anyone' ), $inviter, $invite->email );
+				printf( __( 'Importing: %1$s invited %2$s<br />', 'invite-anyone' ), $inviter, $invite->email );
 			}
 		}
 	}
@@ -980,7 +980,7 @@ function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
 		$url = add_query_arg( 'start', $start + 5, $url );
 
 		?>
-		<p><?php _e( 'If your browser doesn&#8217;t start loading the next page automatically, click this link:', 'bp-invite-anyone' ); ?> <a class="button" href="<?php echo $url ?>"><?php _e( "Next Invitations", 'bp-invite-anyone' ); ?></a></p>
+		<p><?php _e( 'If your browser doesn&#8217;t start loading the next page automatically, click this link:', 'invite-anyone' ); ?> <a class="button" href="<?php echo $url ?>"><?php _e( "Next Invitations", 'invite-anyone' ); ?></a></p>
 
 		<script type='text/javascript'>
 			<!--
@@ -1008,10 +1008,10 @@ function invite_anyone_migration_step() {
 
 	?>
 	<div class="wrap">
-		<h2><?php _e( 'Invite Anyone Upgrade', 'bp-invite-anyone' ) ?></h2>
+		<h2><?php _e( 'Invite Anyone Upgrade', 'invite-anyone' ) ?></h2>
 
 		<?php if ( !isset( $_GET['start'] ) ) : ?>
-			<p><?php _e( 'Invite Anyone has just been updated, and needs to move some old invitation data in order to complete the upgrade. Click GO to start the process.', 'bp-invite-anyone' ) ?></p>
+			<p><?php _e( 'Invite Anyone has just been updated, and needs to move some old invitation data in order to complete the upgrade. Click GO to start the process.', 'invite-anyone' ) ?></p>
 
 			<a class="button" href="<?php echo $url ?>">GO</a>
 		<?php else : ?>

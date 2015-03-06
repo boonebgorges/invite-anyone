@@ -38,10 +38,10 @@ class InviteAnyoneWidget extends WP_Widget {
 		extract( $args );
 
 		if ( !$title = apply_filters('widget_title', $instance['title'] ) )
-			$title = __( 'Invite Anyone', 'bp-invite-anyone' );
+			$title = __( 'Invite Anyone', 'invite-anyone' );
 
 		if ( !$instruction_text = esc_attr( $instance['instruction_text'] ) )
-			$instruction_text = __( 'Enter one email address per line to invite friends to join this site.', 'bp-invite-anyone' );
+			$instruction_text = __( 'Enter one email address per line to invite friends to join this site.', 'invite-anyone' );
 		?>
 
 		<?php /* Non-logged-in and unauthorized users should not see the widget */ ?>
@@ -68,7 +68,7 @@ class InviteAnyoneWidget extends WP_Widget {
 
 					<?php wp_nonce_field( 'invite-anyone-widget_' . $bp->loggedin_user->id ) ?>
 					<p id="invite-anyone-widget-submit" >
-						<input class="button" type="submit" value="<?php _e( 'Continue', 'bp-invite-anyone' ) ?>" />
+						<input class="button" type="submit" value="<?php _e( 'Continue', 'invite-anyone' ) ?>" />
 					</p>
 					</form>
 
@@ -89,7 +89,7 @@ class InviteAnyoneWidget extends WP_Widget {
 	 */
 	function form( $instance ) {
 		if ( ! isset( $instance['title'] ) || ! $title = esc_attr( $instance['title'] ) ) {
-			$title = _( 'Invite Anyone', 'bp-invite-anyone' );
+			$title = __( 'Invite Anyone', 'invite-anyone' );
 		}
 
 		if ( ! isset( $instance['email_fields'] ) || ! $email_fields = (int) $instance['email_fields'] ) {
@@ -97,17 +97,17 @@ class InviteAnyoneWidget extends WP_Widget {
 		}
 
 		if ( ! isset( $instance['instruction_text'] ) || ! $instruction_text = esc_attr( $instance['instruction_text'] ) ) {
-			$instruction_text = __( 'Invite friends to join the site by entering their email addresses below.', 'bp-invite-anyone' );
+			$instruction_text = __( 'Invite friends to join the site by entering their email addresses below.', 'invite-anyone' );
 		}
 
 		?>
 		    <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
 
-		    <p><label for="<?php echo $this->get_field_id('instruction_text'); ?>"><?php _e( 'Text to display in widget:', 'bp-invite-anyone' ); ?>
+		    <p><label for="<?php echo $this->get_field_id('instruction_text'); ?>"><?php _e( 'Text to display in widget:', 'invite-anyone' ); ?>
 		    <textarea class="widefat" id="<?php echo $this->get_field_id('instruction_text'); ?>" name="<?php echo $this->get_field_name('instruction_text'); ?>"><?php echo $instruction_text; ?></textarea>
 		    </label></p>
 
-		    <p><label for="<?php echo $this->get_field_id('email_fields'); ?>"><?php _e( 'Number of email fields to display in widget:', 'bp-invite-anyone' ); ?> <input class="widefat" id="<?php echo $this->get_field_id('email_fields'); ?>" name="<?php echo $this->get_field_name('email_fields'); ?>" type="text" value="<?php echo $email_fields; ?>" /></label></p>
+		    <p><label for="<?php echo $this->get_field_id('email_fields'); ?>"><?php _e( 'Number of email fields to display in widget:', 'invite-anyone' ); ?> <input class="widefat" id="<?php echo $this->get_field_id('email_fields'); ?>" name="<?php echo $this->get_field_name('email_fields'); ?>" type="text" value="<?php echo $email_fields; ?>" /></label></p>
 
 		<?php
 	}

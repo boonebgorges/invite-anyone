@@ -24,7 +24,7 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 
 				<div class="left-menu">
 
-					<p><?php _e("Search for members to invite:", 'bp-invite-anyone') ?></span></p>
+					<p><?php _e("Search for members to invite:", 'invite-anyone') ?></span></p>
 
 					<ul class="first acfb-holder">
 						<li>
@@ -32,7 +32,7 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 						</li>
 					</ul>
 
-					<p><?php _e( 'Select members from the directory:', 'bp-invite-anyone' ) ?> </p>
+					<p><?php _e( 'Select members from the directory:', 'invite-anyone' ) ?> </p>
 
 					<div id="invite-anyone-member-list">
 						<ul>
@@ -47,7 +47,7 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 				<div class="main-column">
 
 					<div id="message" class="info">
-						<p><?php _e('Select people to invite.', 'bp-invite-anyone'); ?></p>
+						<p><?php _e('Select people to invite.', 'invite-anyone'); ?></p>
 					</div>
 
 					<?php do_action( 'bp_before_group_send_invites_list' ) ?>
@@ -104,7 +104,7 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 	<?php do_action( 'bp_before_group_send_invites_content' ) ?>
 
 	<?php if ( invite_anyone_access_test() && !bp_is_group_create() ) : ?>
-		<p><?php _e( 'Want to invite someone to the group who is not yet a member of the site?', 'bp-invite-anyone' ) ?> <a href="<?php echo bp_loggedin_user_domain() . BP_INVITE_ANYONE_SLUG . '/invite-new-members/group-invites/' . bp_get_group_id() ?>"><?php _e( 'Send invitations by email.', 'bp-invite-anyone' ) ?></a></p>
+		<p><?php _e( 'Want to invite someone to the group who is not yet a member of the site?', 'invite-anyone' ) ?> <a href="<?php echo bp_loggedin_user_domain() . BP_INVITE_ANYONE_SLUG . '/invite-new-members/group-invites/' . bp_get_group_id() ?>"><?php _e( 'Send invitations by email.', 'invite-anyone' ) ?></a></p>
 	<?php endif; ?>
 
 	<?php if ( !bp_get_new_group_id() ) : ?>
@@ -112,7 +112,7 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 	<?php endif; ?>
 
 	<div class="left-menu">
-		<p><?php _e("Search for members to invite:", 'bp-invite-anyone') ?></p>
+		<p><?php _e("Search for members to invite:", 'invite-anyone') ?></p>
 
 		<ul class="first acfb-holder">
 			<li>
@@ -123,7 +123,7 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 		<?php wp_nonce_field( 'groups_invite_uninvite_user', '_wpnonce_invite_uninvite_user' ) ?>
 
 		<?php if ( ! invite_anyone_is_large_network( 'users' ) ) : ?>
-			<p><?php _e( 'Select members from the directory:', 'bp-invite-anyone' ) ?></p>
+			<p><?php _e( 'Select members from the directory:', 'invite-anyone' ) ?></p>
 
 			<div id="invite-anyone-member-list">
 				<ul>

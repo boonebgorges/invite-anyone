@@ -75,14 +75,14 @@ function invite_anyone_opt_out_screen() {
 		bp_core_redirect( $opt_out_link );
 	}
 
-	$opt_out_button_text 	= __( 'Opt Out', 'bp-invite-anyone' );
-	$oops_button_text 	= __( 'Accept Invitation', 'bp-invite-anyone' );
+	$opt_out_button_text 	= __( 'Opt Out', 'invite-anyone' );
+	$oops_button_text 	= __( 'Accept Invitation', 'invite-anyone' );
 
 	$sitename 		= get_bloginfo( 'name' );
 
-	$opt_out_message 	= sprintf( __( 'To opt out of future invitations to %s, make sure that your email is entered in the field below and click "Opt Out".', 'bp-invite-anyone' ), $sitename );
+	$opt_out_message 	= sprintf( __( 'To opt out of future invitations to %s, make sure that your email is entered in the field below and click "Opt Out".', 'invite-anyone' ), $sitename );
 
-	$oops_message 		= sprintf( __( 'If you are here by mistake and would like to accept your invitation to %s, click "Accept Invitation" instead.', 'bp-invite-anyone' ), $sitename );
+	$oops_message 		= sprintf( __( 'If you are here by mistake and would like to accept your invitation to %s, click "Accept Invitation" instead.', 'invite-anyone' ), $sitename );
 
 	if ( bp_is_register_page() && isset( $_GET['iaaction'] ) && 'opt-out' === urldecode( $_GET['iaaction'] ) ) {
 		get_header();
@@ -96,10 +96,10 @@ function invite_anyone_opt_out_screen() {
 				<?php check_admin_referer( 'invite_anyone_opt_out' ) ?>
 
 				<?php if ( invite_anyone_mark_as_opt_out( $email ) ) : ?>
-					<?php $opted_out_message = __( 'You have successfully opted out. No more invitation emails will be sent to you by this site.', 'bp-invite-anyone' ) ?>
+					<?php $opted_out_message = __( 'You have successfully opted out. No more invitation emails will be sent to you by this site.', 'invite-anyone' ) ?>
 					<p><?php echo $opted_out_message ?></p>
 				<?php else : ?>
-					<p><?php _e( 'Sorry, there was an error in processing your request', 'bp-invite-anyone' ) ?></p>
+					<p><?php _e( 'Sorry, there was an error in processing your request', 'invite-anyone' ) ?></p>
 				<?php endif; ?>
 			<?php else : ?>
 				<?php /* I guess this should be some sort of error message? */ ?>
@@ -125,7 +125,7 @@ function invite_anyone_opt_out_screen() {
 				<?php do_action( 'invite_anyone_after_optout_messages' ) ?>
 
 				<?php wp_nonce_field( 'invite_anyone_opt_out' ) ?>
-				<p><?php _e( 'Email:', 'bp-invite-anyone' ) ?> <input type="text" id="opt_out_email" name="opt_out_email" size="50" /></p>
+				<p><?php _e( 'Email:', 'invite-anyone' ) ?> <input type="text" id="opt_out_email" name="opt_out_email" size="50" /></p>
 
 				<p><input type="submit" name="opt_out_submit" value="<?php echo $opt_out_button_text ?>" /> <input type="submit" name="oops_submit" value="<?php echo $oops_button_text ?>" />
 				</p>
@@ -158,7 +158,7 @@ function invite_anyone_register_screen_message() {
 
 ?>
 	<?php if ( empty( $email ) ) : ?>
-		<div id="message" class="error"><p><?php _e( "It looks like you're trying to accept an invitation to join the site, but some information is missing. Please try again by clicking on the link in the invitation email.", 'bp-invite-anyone' ) ?></p></div>
+		<div id="message" class="error"><p><?php _e( "It looks like you're trying to accept an invitation to join the site, but some information is missing. Please try again by clicking on the link in the invitation email.", 'invite-anyone' ) ?></p></div>
 	<?php endif; ?>
 
 	<?php if ( $bp->signup->step == 'request-details' && ! empty( $email ) ) : ?>
@@ -191,9 +191,9 @@ function invite_anyone_register_screen_message() {
 			}
 
 			if ( ! empty( $inviters_names ) ) {
-				$message = sprintf( _n( 'Welcome! You&#8217;ve been invited to join the site by the following user: %s. Please fill out the information below to create your account.', 'Welcome! You&#8217;ve been invited to join the site by the following users: %s. Please fill out the information below to create your account.', count( $inviters_names ), 'bp-invite-anyone' ), implode( ', ', $inviters_names ) );
+				$message = sprintf( _n( 'Welcome! You&#8217;ve been invited to join the site by the following user: %s. Please fill out the information below to create your account.', 'Welcome! You&#8217;ve been invited to join the site by the following users: %s. Please fill out the information below to create your account.', count( $inviters_names ), 'invite-anyone' ), implode( ', ', $inviters_names ) );
 			} else {
-				$message = __( 'Welcome! You&#8217;ve been invited to join the site. Please fill out the information below to create your account.', 'bp-invite-anyone' );
+				$message = __( 'Welcome! You&#8217;ve been invited to join the site. Please fill out the information below to create your account.', 'invite-anyone' );
 			}
 
 			echo '<div id="message" class="success"><p>' . esc_html( $message ) . '</p></div>';
@@ -295,7 +295,7 @@ function invite_anyone_setup_nav() {
 
 	/* Create two sub nav items for this component */
 	bp_core_new_subnav_item( array(
-		'name' => __( 'Invite New Members', 'bp-invite-anyone' ),
+		'name' => __( 'Invite New Members', 'invite-anyone' ),
 		'slug' => 'invite-new-members',
 		'parent_slug' => $bp->invite_anyone->slug,
 		'parent_url' => $invite_anyone_link,
@@ -305,7 +305,7 @@ function invite_anyone_setup_nav() {
 	) );
 
 	bp_core_new_subnav_item( array(
-		'name' => __( 'Sent Invites', 'bp-invite-anyone' ),
+		'name' => __( 'Sent Invites', 'invite-anyone' ),
 		'slug' => 'sent-invites',
 		'parent_slug' => $bp->invite_anyone->slug,
 		'parent_url' => $invite_anyone_link,
@@ -416,8 +416,8 @@ function invite_anyone_catch_send() {
 		return;
 	}
 
-	if ( ! invite_anyone_process_invitations( $_POST ) ) {
-		bp_core_add_message( __( 'Sorry, there was a problem sending your invitations. Please try again.', 'bp-invite-anyone' ), 'error' );
+	if ( ! invite_anyone_process_invitations( stripslashes_deep( $_POST ) ) ) {
+		bp_core_add_message( __( 'Sorry, there was a problem sending your invitations. Please try again.', 'invite-anyone' ), 'error' );
 	}
 
 	bp_core_redirect( bp_displayed_user_domain() . $bp->invite_anyone->slug . '/sent-invites' );
@@ -457,14 +457,14 @@ function invite_anyone_catch_clear() {
 
 		if ( (int)$clear_id ) {
 			if ( invite_anyone_clear_sent_invite( array( 'inviter_id' => $inviter_id, 'clear_id' => $clear_id ) ) )
-				bp_core_add_message( __( 'Invitation cleared', 'bp-invite-anyone' ) );
+				bp_core_add_message( __( 'Invitation cleared', 'invite-anyone' ) );
 			else
-				bp_core_add_message( __( 'There was a problem clearing the invitation.', 'bp-invite-anyone' ), 'error' );
+				bp_core_add_message( __( 'There was a problem clearing the invitation.', 'invite-anyone' ), 'error' );
 		} else {
 			if ( invite_anyone_clear_sent_invite( array( 'inviter_id' => $inviter_id, 'type' => $clear_id ) ) )
-				bp_core_add_message( __( 'Invitations cleared.', 'bp-invite-anyone' ) );
+				bp_core_add_message( __( 'Invitations cleared.', 'invite-anyone' ) );
 			else
-				bp_core_add_message( __( 'There was a problem clearing the invitations.', 'bp-invite-anyone' ), 'error' );
+				bp_core_add_message( __( 'There was a problem clearing the invitations.', 'invite-anyone' ), 'error' );
 		}
 
 		bp_core_redirect( $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/' );
@@ -495,7 +495,7 @@ function invite_anyone_screen_one() {
 /*
 function invite_anyone_screen_one_title() {
 
-	 _e( 'Invite New Members', 'bp-invite-anyone' );
+	 _e( 'Invite New Members', 'invite-anyone' );
 
 	}
 */
@@ -517,9 +517,9 @@ function invite_anyone_screen_one_content() {
 		$sent_invites_count  = $sent_invites->post_count;
 		if ( $sent_invites_count >= $iaoptions['limit_invites_per_user'] ) : ?>
 
-			<h4><?php _e( 'Invite New Members', 'bp-invite-anyone' ); ?></h4>
+			<h4><?php _e( 'Invite New Members', 'invite-anyone' ); ?></h4>
 
-			<p id="welcome-message"><?php _e( 'You have sent the maximum allowed number of invitations.', 'bp-invite-anyone' ); ?></em></p>
+			<p id="welcome-message"><?php _e( 'You have sent the maximum allowed number of invitations.', 'invite-anyone' ); ?></em></p>
 
 			<?php return;
 		endif;
@@ -569,18 +569,18 @@ function invite_anyone_screen_one_content() {
 	if ( ! empty( $returned_data['error_message'] ) ) {
 		?>
 		<div class="invite-anyone-error error">
-			<p><?php _e( "Some of your invitations were not sent. Please see the errors below and resubmit the failed invitations.", 'bp-invite-anyone' ) ?></p>
+			<p><?php _e( "Some of your invitations were not sent. Please see the errors below and resubmit the failed invitations.", 'invite-anyone' ) ?></p>
 		</div>
 		<?php
 	}
 
 	$blogname = get_bloginfo('name');
-	$welcome_message = sprintf( __( 'Invite friends to join %s by following these steps:', 'bp-invite-anyone' ), $blogname );
+	$welcome_message = sprintf( __( 'Invite friends to join %s by following these steps:', 'invite-anyone' ), $blogname );
 
   ?>
 	<form id="invite-anyone-by-email" action="<?php echo $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/send/' ?>" method="post">
 
-	<h4><?php _e( 'Invite New Members', 'bp-invite-anyone' ); ?></h4>
+	<h4><?php _e( 'Invite New Members', 'invite-anyone' ); ?></h4>
 
 	<?php
 
@@ -598,7 +598,7 @@ function invite_anyone_screen_one_content() {
 
 		?>
 
-		<p class="description"><?php printf( __( 'The site administrator has limited each user to %1$d invitations. You have %2$d invitations remaining.', 'bp-invite-anyone' ), (int) $iaoptions['limit_invites_per_user'], (int) $limit_invite_count ) ?></p>
+		<p class="description"><?php printf( __( 'The site administrator has limited each user to %1$d invitations. You have %2$d invitations remaining.', 'invite-anyone' ), (int) $iaoptions['limit_invites_per_user'], (int) $limit_invite_count ) ?></p>
 
 		<?php
 	}
@@ -617,12 +617,12 @@ function invite_anyone_screen_one_content() {
 
 			<div class="manual-email">
 				<p>
-					<?php _e( 'Enter email addresses below, one per line.', 'bp-invite-anyone' ) ?>
-					<?php if( invite_anyone_allowed_domains() ) : ?> <?php _e( 'You can only invite people whose email addresses end in one of the following domains:', 'bp-invite-anyone' ) ?> <?php echo invite_anyone_allowed_domains(); ?><?php endif; ?>
+					<?php _e( 'Enter email addresses below, one per line.', 'invite-anyone' ) ?>
+					<?php if( invite_anyone_allowed_domains() ) : ?> <?php _e( 'You can only invite people whose email addresses end in one of the following domains:', 'invite-anyone' ) ?> <?php echo invite_anyone_allowed_domains(); ?><?php endif; ?>
 				</p>
 
 				<?php if ( false !== $max_no_invites = invite_anyone_max_invites() ) : ?>
-					<p class="description"><?php printf( __( 'You can invite a maximum of %s people at a time.', 'bp-invite-anyone' ), $max_no_invites ) ?></p>
+					<p class="description"><?php printf( __( 'You can invite a maximum of %s people at a time.', 'invite-anyone' ), $max_no_invites ) ?></p>
 				<?php endif ?>
 				<?php invite_anyone_email_fields( $returned_data['error_emails'] ) ?>
 			</div>
@@ -634,10 +634,10 @@ function invite_anyone_screen_one_content() {
 
 		<li>
 			<?php if ( $iaoptions['subject_is_customizable'] == 'yes' ) : ?>
-				<label for="invite-anyone-custom-subject"><?php _e( '(optional) Customize the subject line of the invitation email.', 'bp-invite-anyone' ) ?></label>
+				<label for="invite-anyone-custom-subject"><?php _e( '(optional) Customize the subject line of the invitation email.', 'invite-anyone' ) ?></label>
 					<textarea name="invite_anyone_custom_subject" id="invite-anyone-custom-subject" rows="15" cols="10" ><?php echo invite_anyone_invitation_subject( $returned_subject ) ?></textarea>
 			<?php else : ?>
-				<label for="invite-anyone-custom-subject"><?php _e( 'Subject: <span class="disabled-subject">Subject line is fixed</span>', 'bp-invite-anyone' ) ?></label>
+				<label for="invite-anyone-custom-subject"><?php _e( 'Subject: <span class="disabled-subject">Subject line is fixed</span>', 'invite-anyone' ) ?></label>
 					<textarea name="invite_anyone_custom_subject" id="invite-anyone-custom-subject" rows="15" cols="10" disabled="disabled"><?php echo invite_anyone_invitation_subject( $returned_subject ) ?> </textarea>
 
 				<input type="hidden" id="invite-anyone-customised-subject" name="invite_anyone_custom_subject" value="<?php echo invite_anyone_invitation_subject() ?>" />
@@ -646,11 +646,11 @@ function invite_anyone_screen_one_content() {
 
 		<li>
 			<?php if ( $iaoptions['message_is_customizable'] == 'yes' ) : ?>
-				<label for="invite-anyone-custom-message"><?php _e( '(optional) Customize the text of the invitation.', 'bp-invite-anyone' ) ?></label>
-				<p class="description"><?php _e( 'The message will also contain a custom footer containing links to accept the invitation or opt out of further email invitations from this site.', 'bp-invite-anyone' ) ?></p>
+				<label for="invite-anyone-custom-message"><?php _e( '(optional) Customize the text of the invitation.', 'invite-anyone' ) ?></label>
+				<p class="description"><?php _e( 'The message will also contain a custom footer containing links to accept the invitation or opt out of further email invitations from this site.', 'invite-anyone' ) ?></p>
 					<textarea name="invite_anyone_custom_message" id="invite-anyone-custom-message" cols="40" rows="10"><?php echo invite_anyone_invitation_message( $returned_message ) ?></textarea>
 			<?php else : ?>
-				<label for="invite-anyone-custom-message"><?php _e( 'Message:', 'bp-invite-anyone' ) ?></label>
+				<label for="invite-anyone-custom-message"><?php _e( 'Message:', 'invite-anyone' ) ?></label>
 					<textarea name="invite_anyone_custom_message" id="invite-anyone-custom-message" disabled="disabled"><?php echo invite_anyone_invitation_message( $returned_message ) ?></textarea>
 
 				<input type="hidden" name="invite_anyone_custom_message" value="<?php echo invite_anyone_invitation_message() ?>" />
@@ -661,7 +661,7 @@ function invite_anyone_screen_one_content() {
 		<?php if ( invite_anyone_are_groups_running() ) : ?>
 			<?php if ( $iaoptions['can_send_group_invites_email'] == 'yes' && bp_has_groups( "per_page=10000&type=alphabetical&user_id=" . bp_loggedin_user_id() ) ) : ?>
 			<li>
-				<p><?php _e( '(optional) Select some groups. Invitees will receive invitations to these groups when they join the site.', 'bp-invite-anyone' ) ?></p>
+				<p><?php _e( '(optional) Select some groups. Invitees will receive invitations to these groups when they join the site.', 'invite-anyone' ) ?></p>
 				<ul id="invite-anyone-group-list">
 					<?php while ( bp_groups() ) : bp_the_group(); ?>
 						<?php
@@ -719,7 +719,7 @@ function invite_anyone_screen_two() {
 }
 /*
   function invite_anyone_screen_two_title() {
-	 _e( 'Sent Invites', 'bp-invite-anyone' );
+	 _e( 'Sent Invites', 'invite-anyone' );
   }
 */
 
@@ -747,14 +747,14 @@ function invite_anyone_screen_two() {
 
 		?>
 
-		<h4><?php _e( 'Sent Invites', 'bp-invite-anyone' ); ?></h4>
+		<h4><?php _e( 'Sent Invites', 'invite-anyone' ); ?></h4>
 
 		<?php $invites = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id(), $sort_by, $order, $pagination->get_per_page, $pagination->get_paged ) ?>
 
 		<?php $pagination->setup_query( $invites ) ?>
 
 		<?php if ( $invites->have_posts() ) : ?>
-			<p id="sent-invites-intro"><?php _e( 'You have sent invitations to the following people.', 'bp-invite-anyone' ) ?></p>
+			<p id="sent-invites-intro"><?php _e( 'You have sent invitations to the following people.', 'invite-anyone' ) ?></p>
 
 			<div class="ia-pagination">
 				<div class="currently-viewing">
@@ -769,14 +769,14 @@ function invite_anyone_screen_two() {
 			<table class="invite-anyone-sent-invites zebra"
 			summary="<?php _e( 'This table displays a list of all your sent invites.
 			Invites that have been accepted are highlighted in the listings.
-			You may clear any individual invites, all accepted invites or all of the invites from the list.', 'bp-invite-anyone' ) ?>">
+			You may clear any individual invites, all accepted invites or all of the invites from the list.', 'invite-anyone' ) ?>">
 				<thead>
 					<tr>
 					  <th scope="col"></th>
-					  <th scope="col" <?php if ( $sort_by == 'email' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=email&amp;order=<?php if ( $sort_by == 'email' && $order == 'ASC' ) : ?>DESC<?php else : ?>ASC<?php endif; ?>"><?php _e( 'Invited email address', 'bp-invite-anyone' ) ?></a></th>
-					  <th scope="col"><?php _e( 'Group invitations', 'bp-invite-anyone' ) ?></th>
-					  <th scope="col" <?php if ( $sort_by == 'date_invited' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_invited&amp;order=<?php if ( $sort_by == 'date_invited' && $order == 'DESC' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Sent', 'bp-invite-anyone' ) ?></a></th>
-					  <th scope="col" <?php if ( $sort_by == 'date_joined' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_joined&amp;order=<?php if ( $order == 'DESC' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Accepted', 'bp-invite-anyone' ) ?></a></th>
+					  <th scope="col" <?php if ( $sort_by == 'email' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=email&amp;order=<?php if ( $sort_by == 'email' && $order == 'ASC' ) : ?>DESC<?php else : ?>ASC<?php endif; ?>"><?php _e( 'Invited email address', 'invite-anyone' ) ?></a></th>
+					  <th scope="col"><?php _e( 'Group invitations', 'invite-anyone' ) ?></th>
+					  <th scope="col" <?php if ( $sort_by == 'date_invited' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_invited&amp;order=<?php if ( $sort_by == 'date_invited' && $order == 'DESC' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Sent', 'invite-anyone' ) ?></a></th>
+					  <th scope="col" <?php if ( $sort_by == 'date_joined' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_joined&amp;order=<?php if ( $order == 'DESC' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Accepted', 'invite-anyone' ) ?></a></th>
 					</tr>
 				</thead>
 
@@ -784,8 +784,8 @@ function invite_anyone_screen_two() {
 				<tr id="batch-clear">
 				  <td colspan="5" >
 				   <ul id="invite-anyone-clear-links">
-				      <li> <a title="<?php _e( 'Clear all accepted invites from the list', 'bp-invite-anyone' ) ?>" class="confirm" href="<?php echo wp_nonce_url( $base_url . '?clear=accepted', 'invite_anyone_clear' ) ?>"><?php _e( 'Clear all accepted invitations', 'bp-invite-anyone' ) ?></a></li>
-				      <li class="last"><a title="<?php _e( 'Clear all your listed invites', 'bp-invite-anyone' ) ?>" class="confirm" href="<?php echo wp_nonce_url( $base_url . '?clear=all', 'invite_anyone_clear' ) ?>"><?php _e( 'Clear all invitations', 'bp-invite-anyone' ) ?></a></li>
+				      <li> <a title="<?php _e( 'Clear all accepted invites from the list', 'invite-anyone' ) ?>" class="confirm" href="<?php echo wp_nonce_url( $base_url . '?clear=accepted', 'invite_anyone_clear' ) ?>"><?php _e( 'Clear all accepted invitations', 'invite-anyone' ) ?></a></li>
+				      <li class="last"><a title="<?php _e( 'Clear all your listed invites', 'invite-anyone' ) ?>" class="confirm" href="<?php echo wp_nonce_url( $base_url . '?clear=all', 'invite_anyone_clear' ) ?>"><?php _e( 'Clear all invitations', 'invite-anyone' ) ?></a></li>
 				  </ul>
 				 </td>
 				</tr>
@@ -811,7 +811,7 @@ function invite_anyone_screen_two() {
 
 					$clear_url = ( $query_string ) ? $base_url . '?' . $query_string . '&clear=' . $post_id : $base_url . '?clear=' . $post_id;
 					$clear_url = wp_nonce_url( $clear_url, 'invite_anyone_clear' );
-					$clear_link = '<a class="clear-entry confirm" title="' . __( 'Clear this invitation', 'bp-invite-anyone' ) . '" href="' . $clear_url . '">x<span></span></a>';
+					$clear_link = '<a class="clear-entry confirm" title="' . __( 'Clear this invitation', 'invite-anyone' ) . '" href="' . $clear_url . '">x<span></span></a>';
 
 					$groups = wp_get_post_terms( get_the_ID(), invite_anyone_get_invited_groups_tax_name() );
 					if ( !empty( $groups ) ) {
@@ -865,7 +865,7 @@ function invite_anyone_screen_two() {
 
 		<?php else : ?>
 
-		<p id="sent-invites-intro"><?php _e( "You haven't sent any email invitations yet.", 'bp-invite-anyone' ) ?></p>
+		<p id="sent-invites-intro"><?php _e( "You haven't sent any email invitations yet.", 'invite-anyone' ) ?></p>
 
 		<?php endif; ?>
 	<?php
@@ -898,7 +898,7 @@ function invite_anyone_invitation_subject( $returned_message = false ) {
 		$iaoptions = invite_anyone_options();
 
 		if ( empty( $iaoptions['default_invitation_subject'] ) ) {
-			$text = sprintf( __( 'An invitation to join the %s community.', 'bp-invite-anyone' ), $site_name );
+			$text = sprintf( __( 'An invitation to join the %s community.', 'invite-anyone' ), $site_name );
 		} else {
 			$text = $iaoptions['default_invitation_subject'];
 		}
@@ -925,7 +925,7 @@ function invite_anyone_invitation_message( $returned_message = false ) {
 		if ( empty( $iaoptions['default_invitation_message'] ) ) {
 			$text = sprintf( __( 'You have been invited by %%INVITERNAME%% to join the %s community.
 
-Visit %%INVITERNAME%%\'s profile at %%INVITERURL%%.', 'bp-invite-anyone' ), $blogname ); /* Do not translate the strings embedded in %% ... %% ! */
+Visit %%INVITERNAME%%\'s profile at %%INVITERURL%%.', 'invite-anyone' ), $blogname ); /* Do not translate the strings embedded in %% ... %% ! */
 		} else {
 			$text = $iaoptions['default_invitation_message'];
 		}
@@ -946,11 +946,11 @@ function invite_anyone_process_footer( $email ) {
 
 	if ( empty( $iaoptions['addl_invitation_message'] ) ) {
 
-		$footer = apply_filters( 'invite_anyone_accept_invite_footer_message', __( 'To accept this invitation, please visit %%ACCEPTURL%%', 'bp-invite-anyone' ) );
+		$footer = apply_filters( 'invite_anyone_accept_invite_footer_message', __( 'To accept this invitation, please visit %%ACCEPTURL%%', 'invite-anyone' ) );
 		$footer .= '
 
 ';
-		$footer .= apply_filters( 'invite_anyone_opt_out_footer_message', __( 'To opt out of future invitations to this site, please visit %%OPTOUTURL%%', 'bp-invite-anyone' ) );
+		$footer .= apply_filters( 'invite_anyone_opt_out_footer_message', __( 'To opt out of future invitations to this site, please visit %%OPTOUTURL%%', 'invite-anyone' ) );
 	} else {
 		$footer = $iaoptions['addl_invitation_message'];
 	}
@@ -1124,7 +1124,7 @@ function invite_anyone_process_invitations( $data ) {
 
 	if ( count( $emails ) > $max_invites ) {
 
-		$returned_data['error_message']	= sprintf( __( 'You are only allowed to invite up to %s people at a time. Please remove some addresses and try again', 'bp-invite-anyone' ), $max_invites );
+		$returned_data['error_message']	= sprintf( __( 'You are only allowed to invite up to %s people at a time. Please remove some addresses and try again', 'invite-anyone' ), $max_invites );
 		$returned_data['error_emails'] 	= $emails;
 
 		setcookie( 'invite-anyone', serialize( $returned_data ), 0, '/' );
@@ -1134,7 +1134,7 @@ function invite_anyone_process_invitations( $data ) {
 	}
 
 	if ( empty( $emails ) ) {
-		bp_core_add_message( __( 'You didn\'t include any email addresses!', 'bp-invite-anyone' ), 'error' );
+		bp_core_add_message( __( 'You didn\'t include any email addresses!', 'invite-anyone' ), 'error' );
 		bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members' );
 		die();
 	}
@@ -1147,7 +1147,7 @@ function invite_anyone_process_invitations( $data ) {
 		$remaining_invites_count = (int) $options['limit_invites_per_user'] - $sent_invites_count;
 
 		if ( count( $emails ) > $remaining_invites_count ) {
-			$returned_data['error_message'] = sprintf( __( 'You are only allowed to invite %s more people. Please remove some addresses and try again', 'bp-invite-anyone' ), $remaining_invites_count );
+			$returned_data['error_message'] = sprintf( __( 'You are only allowed to invite %s more people. Please remove some addresses and try again', 'invite-anyone' ), $remaining_invites_count );
 			$returned_data['error_emails'] = $emails;
 
 			setcookie( 'invite-anyone', serialize( $returned_data ), 0, '/' );
@@ -1168,23 +1168,23 @@ function invite_anyone_process_invitations( $data ) {
 		switch ( $check ) {
 
 			case 'opt_out' :
-				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> has opted out of email invitations from this site.', 'bp-invite-anyone' ), $email );
+				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> has opted out of email invitations from this site.', 'invite-anyone' ), $email );
 				break;
 
 			case 'used' :
-				$returned_data['error_message'] .= sprintf( __( "<strong>%s</strong> is already a registered user of the site.", 'bp-invite-anyone' ), $email );
+				$returned_data['error_message'] .= sprintf( __( "<strong>%s</strong> is already a registered user of the site.", 'invite-anyone' ), $email );
 				break;
 
 			case 'unsafe' :
-				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> is not a permitted email address.', 'bp-invite-anyone' ), $email );
+				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> is not a permitted email address.', 'invite-anyone' ), $email );
 				break;
 
 			case 'invalid' :
-				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> is not a valid email address. Please make sure that you have typed it correctly.', 'bp-invite-anyone' ), $email );
+				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> is not a valid email address. Please make sure that you have typed it correctly.', 'invite-anyone' ), $email );
 				break;
 
 			case 'limited_domain' :
-				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> is not a permitted email address. Please make sure that you have typed the domain name correctly.', 'bp-invite-anyone' ), $email );
+				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> is not a permitted email address. Please make sure that you have typed the domain name correctly.', 'invite-anyone' ), $email );
 				break;
 		}
 
@@ -1243,12 +1243,12 @@ function invite_anyone_process_invitations( $data ) {
 
 		// Set a success message
 
-		$success_message = sprintf( __( "Invitations were sent successfully to the following email addresses: %s", 'bp-invite-anyone' ), implode( ", ", $emails ) );
+		$success_message = sprintf( __( "Invitations were sent successfully to the following email addresses: %s", 'invite-anyone' ), implode( ", ", $emails ) );
 		bp_core_add_message( $success_message );
 
 		do_action( 'sent_email_invites', $bp->loggedin_user->id, $emails, $groups );
 	} else {
-		$success_message = sprintf( __( "Please correct your errors and resubmit.", 'bp-invite-anyone' ) );
+		$success_message = sprintf( __( "Please correct your errors and resubmit.", 'invite-anyone' ) );
 		bp_core_add_message( $success_message, 'error' );
 	}
 
@@ -1345,7 +1345,7 @@ function invite_anyone_bypass_registration_lock() {
 	$ia_obj = invite_anyone_get_invitations_by_invited_email( $email );
 
 	if ( !$ia_obj->have_posts() ) {
-		bp_core_add_message( __( "We couldn't find any invitations associated with this email address.", 'bp-invite-anyone' ), 'error' );
+		bp_core_add_message( __( "We couldn't find any invitations associated with this email address.", 'invite-anyone' ), 'error' );
 		return;
 	}
 
@@ -1385,7 +1385,7 @@ function invite_anyone_check_invitation( $results ) {
 
 	if ( !$ia_obj->have_posts() ) {
 		$errors = new WP_Error();
-		$errors->add( 'user_email', __( "We couldn't find any invitations associated with this email address.", 'bp-invite-anyone' ) );
+		$errors->add( 'user_email', __( "We couldn't find any invitations associated with this email address.", 'invite-anyone' ) );
 		$results['errors'] = $errors;
 	}
 

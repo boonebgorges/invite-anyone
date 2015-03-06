@@ -3,13 +3,15 @@
 Plugin Name: Invite Anyone
 Plugin URI: http://teleogistic.net/code/buddypress/invite-anyone/
 Description: Allows group admins to invite any member of their BuddyPress community to a group or to the site
-Version: 1.3.6
+Version: 1.3.7
 Author: Boone Gorges
 Author URI: http://boone.gorg.es
+Text Domain: invite-anyone
+Domain Path: /languages
 */
 
-define( 'BP_INVITE_ANYONE_VER', '1.3.6' );
-define( 'BP_INVITE_ANYONE_DB_VER', '1.3.6' );
+define( 'BP_INVITE_ANYONE_VER', '1.3.7' );
+define( 'BP_INVITE_ANYONE_DB_VER', '1.3.7' );
 
 if ( !defined( 'BP_INVITE_ANYONE_SLUG' ) )
 	define( 'BP_INVITE_ANYONE_SLUG', 'invite-anyone' );
@@ -39,14 +41,13 @@ function invite_anyone_init() {
 }
 add_action( 'bp_include', 'invite_anyone_init' );
 
-function invite_anyone_locale_init () {
-	$locale = get_locale();
-	$mofile = BP_INVITE_ANYONE_DIR . "languages/invite-anyone-$locale.mo";
-
-	if ( file_exists( $mofile ) )
-      		load_textdomain( 'bp-invite-anyone', $mofile );
+/**
+ * Load translation textdomains.
+ */
+function invite_anyone_locale_init() {
+	load_plugin_textdomain( 'invite-anyone', false, dirname( plugin_basename( __FILE__ ) ). '/languages/' );
 }
-add_action ('plugins_loaded', 'invite_anyone_locale_init');
+add_action( 'plugins_loaded', 'invite_anyone_locale_init' );
 
 function invite_anyone_activation() {
 	if ( !$iaoptions = get_option( 'invite_anyone' ) )
