@@ -297,13 +297,39 @@ textarea.invite-anyone-email-addresses {
 	.ia-pagination .page-numbers {
 		margin-left: 8px;
 	}
-	
-/* Tablet and smaller screens */ 
-@media screen and (max-width:800px) { 
+
+/* Tablet and smaller screens */
+@media screen and (max-width:800px) {
 	#invite-anyone-group-list li {
 		width: 90%;
 	}
 	#invite-anyone-group-list label {
 		width: 75%;
+	}
+  table.invite-anyone-sent-invites .col-group-invitations {
+		display: none;
+	}
+}
+
+@media screen and (max-width:680px) {
+	table.invite-anyone-sent-invites .col-date-invited {
+		display: none;
+	}
+}
+
+@media screen and (max-width:440px) {
+	table.invite-anyone-sent-invites .col-date-joined {
+		display: none;
+	}
+
+	ul#invite-anyone-clear-links li {
+		float: none;
+		margin-left: 15px;
+		padding-left: 0;
+	}
+
+	ul#invite-anyone-clear-links li a {
+		border: 0;
+		padding-left: 10px;
 	}
 }
