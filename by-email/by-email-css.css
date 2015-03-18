@@ -1,4 +1,4 @@
-#subnav #invite-new-members:before, 
+#subnav #invite-new-members:before,
 #subnav #sent-invites:before {
    	  background: url(../images/invite-anyone-sprites.png) no-repeat;
 	  content: "";
@@ -9,7 +9,7 @@
 	  margin-right: .6em;
 }
 	#subnav #invite-new-members:before {
-		background-position: 0 0;  
+		background-position: 0 0;
 	}
 	#subnav #sent-invites:before {
 		background-position: -20px 0;
