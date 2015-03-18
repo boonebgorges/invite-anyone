@@ -49,6 +49,10 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.3.8 =
+* Improved responsive design on Sent Invites screen
+* Fixed PHP notices related to PHP4 constructors
+
 = 1.3.7 =
 * Fixed incorrect function name in widget localization
 * Improved localization support
