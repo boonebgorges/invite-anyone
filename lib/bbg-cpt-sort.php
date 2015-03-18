@@ -31,16 +31,6 @@ class BBG_CPT_Sort {
 	var $get_order;
 	
 	var $sortable_keys;
-	
-	/**
-	 * PHP 4 constructor
-	 *
-	 * @package Boone's Sortable Columns
-	 * @since 1.0
-	 */
-	function bbg_cpt_sort( $cols = false ) {
-		$this->__construct( $cols );
-	}
 
 	/**
 	 * PHP 5 constructor
