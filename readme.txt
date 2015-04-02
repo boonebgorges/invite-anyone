@@ -35,7 +35,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Danish: Mort3n
 * Dutch: Jesper Popma, Tim de Hoog
 * French: Guillaume Coulon, Nicolas Mollet
-* German: Lars Berning, Thorsten Wollenhöfer
+* German: Lars Berning, Thorsten Wollenhöfer, Matthias Lunz
 * Greek: Lena Stergatou
 * Italian: Luca Camellini
 * Norwegian: Stig Ulfsby
