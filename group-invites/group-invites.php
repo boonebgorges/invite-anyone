@@ -290,6 +290,7 @@ function invite_anyone_invite_query( $group_id = false, $search_terms = false, $
 		'exclude' => $group_members,
 		'search' => $search_terms,
 		'fields' => $fields,
+		'orderby' => 'display_name',
 	) );
 
 	return $user_query->results;
