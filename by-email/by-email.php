@@ -283,7 +283,7 @@ function invite_anyone_setup_nav() {
 
 	/* Add 'Send Invites' to the main user profile navigation */
 	bp_core_new_nav_item( array(
-		'name' => __( 'Send Invites', 'buddypress' ),
+		'name' => __( 'Send Invites', 'invite-anyone' ),
 		'slug' => $bp->invite_anyone->slug,
 		'position' => 80,
 		'screen_function' => 'invite_anyone_screen_one',
@@ -691,7 +691,7 @@ function invite_anyone_screen_one_content() {
 	</ol>
 
 	<div class="submit">
-		<input type="submit" name="invite-anyone-submit" id="invite-anyone-submit" value="<?php _e( 'Send Invites', 'buddypress' ) ?> " />
+		<input type="submit" name="invite-anyone-submit" id="invite-anyone-submit" value="<?php _e( 'Send Invites', 'invite-anyone' ) ?> " />
 	</div>
 
 

@@ -70,7 +70,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 		$this->has_caps = true;
 
 		/* Group API Extension Properties */
-		$this->name = __( 'Send Invites', 'buddypress' );
+		$this->name = __( 'Send Invites', 'invite-anyone' );
 		$this->slug = BP_INVITE_ANYONE_SLUG;
 
 		/* Set as early in the order as possible */
@@ -105,7 +105,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 			do_action( 'groups_screen_group_invite', $bp->groups->current_group->id );
 
 			// Hack to imitate bp_core_add_message, since bp_core_redirect is giving me such hell
-			echo '<div id="message" class="updated"><p>' . __( 'Group invites sent.', 'buddypress' ) . '</p></div>';
+			echo '<div id="message" class="updated"><p>' . __( 'Group invites sent.', 'invite-anyone' ) . '</p></div>';
 		}
 
 		invite_anyone_create_screen_content('invite');
@@ -148,9 +148,9 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 		groups_send_invites( $bp->loggedin_user->id, $bp->groups->current_group->id );
 
 		if ( $this->has_invites )
-			bp_core_add_message( __('Group invites sent.', 'buddypress') );
+			bp_core_add_message( __( 'Group invites sent.', 'invite-anyone' ) );
 		else
-			bp_core_add_message( __('Group created successfully.', 'buddypress') );
+			bp_core_add_message( __( 'Group created successfully.', 'invite-anyone' ) );
 	}
 
 	/**
@@ -192,7 +192,7 @@ function invite_anyone_catch_group_invites() {
 		// Send the invites.
 		groups_send_invites( $bp->loggedin_user->id, $bp->groups->current_group->id );
 
-		bp_core_add_message( __('Group invites sent.', 'buddypress') );
+		bp_core_add_message( __( 'Group invites sent.', 'invite-anyone' ) );
 
 		do_action( 'groups_screen_group_invite', $bp->groups->current_group->id );
 
@@ -398,7 +398,7 @@ function invite_anyone_ajax_invite_user() {
 		echo '<h4>' . bp_core_get_userlink( $user->id ) . '</h4>';
 		echo '<span class="activity">' . esc_html( $user->last_active ) . '</span>';
 		echo '<div class="action">
-				<a class="remove" href="' . wp_nonce_url( $uninvite_url ) . '" id="uid-' . esc_html( $user->id ) . '">' . __( 'Remove Invite', 'buddypress' ) . '</a>
+				<a class="remove" href="' . wp_nonce_url( $uninvite_url ) . '" id="uid-' . esc_html( $user->id ) . '">' . __( 'Remove Invite', 'invite-anyone' ) . '</a>
 			  </div>';
 		echo '</li>';
 
@@ -592,7 +592,7 @@ To view the group visit: %4$s
 To view %5$s\'s profile visit: %6$s
 
 ---------------------
-', 'buddypress' ), $inviter_name, $group->name, $invites_link, $group_link, $inviter_name, $inviter_link );
+', 'invite-anyone' ), $inviter_name, $group->name, $invites_link, $group_link, $inviter_name, $inviter_link );
 
 	return $message;
 }
