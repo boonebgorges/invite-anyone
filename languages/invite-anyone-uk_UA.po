@@ -1,0 +1,1014 @@
+# Copyright (C) 2015 Invite Anyone
+# This file is distributed under the same license as the Invite Anyone package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Invite Anyone 1.3.7\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/invite-anyone\n"
+"POT-Creation-Date: 2015-06-28 05:56+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2015-06-28 07:09+0200\n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.1\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: uk_UA\n"
+"Last-Translator: \n"
+
+#. Plugin Name of the plugin/theme
+#: admin/admin-panel.php:6 admin/admin-panel.php:113 widgets/widgets.php:41
+#: widgets/widgets.php:92
+msgid "Invite Anyone"
+msgstr "Invite Anyone"
+
+#: admin/admin-panel.php:24
+msgid "Settings"
+msgstr "Налаштування"
+
+#: admin/admin-panel.php:117 admin/admin-panel.php:196
+msgid "General Settings"
+msgstr "Загальні Налаштування"
+
+#: admin/admin-panel.php:121
+msgid "Access Control"
+msgstr "Керування доступом"
+
+#: admin/admin-panel.php:125 admin/admin-panel.php:177
+#: admin/admin-panel.php:466
+msgid "CloudSponge"
+msgstr "CloudSponge"
+
+#: admin/admin-panel.php:129 admin/admin-panel.php:183
+msgid "Manage Invitations"
+msgstr "Керувати запрошеннями"
+
+#: admin/admin-panel.php:133 admin/admin-panel.php:189
+msgid "Stats"
+msgstr "Статистика"
+
+#: admin/admin-panel.php:147
+msgid "Save Changes"
+msgstr "Зберегти Зміни"
+
+#: admin/admin-panel.php:165
+msgid "Access Settings"
+msgstr "Параметри доступу"
+
+#: admin/admin-panel.php:167
+msgid "Allow email invitations to be sent by"
+msgstr "Дозволити висилати запрошення по email "
+
+#: admin/admin-panel.php:169
+msgid "Limit group invitations"
+msgstr "Обмеження запрошення в групи"
+
+#: admin/admin-panel.php:171
+msgid "Limit per-user invitations"
+msgstr "Обмеження запрошень на 1-го користувача"
+
+#: admin/admin-panel.php:198
+msgid "Replacement patterns for email text fields"
+msgstr "Заміна для полів в тексті повідомлення"
+
+#: admin/admin-panel.php:200
+msgid "Text of email invitation subject line"
+msgstr "Текст теми запрошення"
+
+#: admin/admin-panel.php:202
+msgid "Main text of email invitation message"
+msgstr "Основний тест для запрошення по e-mail"
+
+#: admin/admin-panel.php:204
+msgid "Footer text of email invitation message (not editable by users)"
+msgstr "Текст підвалу повідомлення-запрошення (Не редаговане користувачем)"
+
+#: admin/admin-panel.php:206
+msgid "Allow users to customize invitation"
+msgstr "Дозволити користувачам налаштовувати запрошення"
+
+#: admin/admin-panel.php:208
+msgid "Number of email invitations users are permitted to send at a time"
+msgstr "Кількість дозволених e-mail запрошень, що посилаються за один раз"
+
+#: admin/admin-panel.php:210
+msgid "Allow users to send group invitations along with email invitations"
+msgstr ""
+"Дозволити користувачам посилати групові запрошення за допомогою e-mail "
+"запрошень"
+
+#: admin/admin-panel.php:212
+msgid ""
+"Allow email invitations to be accepted even when site registration is "
+"disabled"
+msgstr "Дозволити прийняття запрошень навіть, коли реєстрація неактивна"
+
+#: admin/admin-panel.php:214
+msgid "Enable the Send Invites step during group creation"
+msgstr "Підключити функцію відправки запрошень у момент створення груп"
+
+#: admin/admin-panel.php:226
+msgid "Control the default behavior of Invite Anyone."
+msgstr "Управління поведінкою Invite Anyone по замовчуванню"
+
+#: admin/admin-panel.php:234
+msgid "name of your website"
+msgstr "Назва вашого веб-сайту"
+
+#: admin/admin-panel.php:235
+msgid "display name of the inviter"
+msgstr "показувати ім'я запрошувача"
+
+#: admin/admin-panel.php:236
+msgid "URL to the profile of the inviter"
+msgstr "Посилання на профіль запрошувача"
+
+#: admin/admin-panel.php:237
+msgid "Link that invited users can click to accept the invitation"
+msgstr "Посилання для прийому запрошення"
+
+#: admin/admin-panel.php:238
+msgid "Link that invited users can click to opt out of future invitations"
+msgstr "Посилання для відстрочення прийняття запрошення"
+
+#: admin/admin-panel.php:296
+msgid "Subject line"
+msgstr "Тема"
+
+#: admin/admin-panel.php:300
+msgid "Message body"
+msgstr "Текст повідомлення"
+
+#: admin/admin-panel.php:308
+msgid "Control which members are able to send various kinds of invitations."
+msgstr "Контролювати, хто може посилати різні види запрошень"
+
+#: admin/admin-panel.php:317
+msgid "All users"
+msgstr "Всі користувачі"
+
+#: admin/admin-panel.php:319
+msgid "A limited set of users"
+msgstr "Установка ліміту для користувачів"
+
+#: admin/admin-panel.php:323
+msgid ""
+"Only users who have been members of the site for a minimum number of days:"
+msgstr "Активність користувачів, мінімальна кількість днів:"
+
+#: admin/admin-panel.php:328
+msgid "Only users who have at least the following role on this blog:"
+msgstr "Тільки користувачі, які володіють принаймні наступними ролями:"
+
+#: admin/admin-panel.php:330
+msgid "Subscriber"
+msgstr "Передплатник"
+
+#: admin/admin-panel.php:331
+msgid "Contributor"
+msgstr "Учасник"
+
+#: admin/admin-panel.php:332
+msgid "Author"
+msgstr "Автор"
+
+#: admin/admin-panel.php:333
+msgid "Editor"
+msgstr "Редактор"
+
+#: admin/admin-panel.php:334
+msgid "Administrator"
+msgstr "Адміністратор"
+
+#: admin/admin-panel.php:339
+msgid ""
+"Provide a comma-separated list of users (identified by their numerical user "
+"ids) who <strong>cannot</strong> send invitations by email:"
+msgstr ""
+"Список користувачів через кому (ID) хто <strong> не може </strong> "
+"відправляти запрошення по e-mail:"
+
+#: admin/admin-panel.php:356
+msgid "Limit number of invites per user :"
+msgstr "Обмежити кількість запрошуваних на 1-го користувача:"
+
+#: admin/admin-panel.php:368
+msgid ""
+"Invite Anyone extends BuddyPress's default group invitation settings. "
+"Instead of allowing you to invite only friends to a group, this plugin "
+"allows you to invite any member of the site. Use these settings to limit "
+"possible invitees for different group roles."
+msgstr ""
+"Налаштування за замовчуванням розширення Invite Anyone для BuddyPress's для "
+"запрошення в групи. Плагін дозволяє запрошувати в групи не тільки друзів, "
+"але й користувачів сайту. Використовуйте налаштування для обмеження "
+"можливості запрошення в різні групи за ролями."
+
+#: admin/admin-panel.php:370
+msgid "<strong>Site admins</strong> can send group invitations to: "
+msgstr ""
+"<strong> Адміністратор сайту </ strong> може посилати групові запрошення для:"
+
+#: admin/admin-panel.php:372 admin/admin-panel.php:380
+#: admin/admin-panel.php:388 admin/admin-panel.php:396
+msgid "Anyone"
+msgstr "Будь-хто"
+
+#: admin/admin-panel.php:373 admin/admin-panel.php:381
+#: admin/admin-panel.php:389 admin/admin-panel.php:397
+msgid "Friends"
+msgstr "Друзі"
+
+#: admin/admin-panel.php:374 admin/admin-panel.php:382
+#: admin/admin-panel.php:390 admin/admin-panel.php:398
+msgid "No one"
+msgstr "Жоден"
+
+#: admin/admin-panel.php:378
+msgid "<strong>Group admins</strong> can send group invitations to: "
+msgstr ""
+"<strong> Адміністратор групи </ strong> може посилати групові запрошення для:"
+
+#: admin/admin-panel.php:386
+msgid "<strong>Group mods</strong> can send group invitations to: "
+msgstr ""
+"<strong> Модератор групи </ strong> може посилати групові запрошення для:"
+
+#: admin/admin-panel.php:394
+msgid "<strong>Group members</strong> can send group invitations to: "
+msgstr ""
+"<strong> Користувач групи </ strong> може посилати групові запрошення для:"
+
+#: admin/admin-panel.php:415
+msgid ""
+"<a href=\"http://www.cloudsponge.com/?utm_source=invite-"
+"anyone&utm_medium=partner&utm_campaign=integrator\">CloudSponge</a> is a "
+"cool service that gives your users easy and secure access to their address "
+"books (Facebook, LinkedIn, Gmail, Yahoo, and a number of other online and "
+"desktop email clients), so that they can more easily invite friends to your "
+"site. It#8217;s a great way to increase engagement on your site, by making "
+"it easier for them to invite new members. In order to enable CloudSponge "
+"support in Invite Anyone and BuddyPress, you'll need to <a href=\"http://www."
+"cloudsponge.com/signup?utm_source=invite-"
+"anyone&utm_medium=partner&utm_campaign=integrator\">register for a "
+"CloudSponge account</a>."
+msgstr ""
+"<ahref=\"http://www.cloudsponge.com/?utm_source=invite-"
+"anyone&utm_medium=partner&utm_campaign=integrator\">CloudSponge</a> - Це "
+"класний сервіс, який дає користувачам зручний і захищений доступ до їх "
+"адресних книг (Gmail, Yahoo і ряду інших он-лайн і локальних клієнтів) з "
+"метою більш зручного запрошення друзів на Ваш сайт. Для підключення сервісу "
+"CloudSponge в плагінах Invite Anyone і BuddyPress Вам необхідно <ahref="
+"\"http://www.cloudsponge.com/signup?utm_source=invite-"
+"anyone&utm_medium=partner&utm_campaign=integrator\">зарегистрироваться на "
+"CloudSponge </a>."
+
+#: admin/admin-panel.php:417
+msgid "Enable CloudSponge?"
+msgstr "Підключити CloudSponge?"
+
+#: admin/admin-panel.php:421
+msgid "CloudSponge Domain Key"
+msgstr "Доменний ключ CloudSponge"
+
+#: admin/admin-panel.php:421
+msgid "CloudSponge integration will not work without a valid domain key."
+msgstr ""
+"Інтеграція з CloudSponge не буде працювати без чинного доменного ключа."
+
+#: admin/admin-panel.php:423
+msgid ""
+"When you use CloudSponge with Invite Anyone, part of your CloudSponge "
+"monthly payment goes to the author of Invite Anyone. This is a great way to "
+"support future development of the plugin. Thanks for your support!"
+msgstr ""
+"Якщо Ви використовуєте CloudSponge з плагіном Invite Anyone, частина "
+"місячного платежу отримує автор плагіна. Це здорово для підтримки подальшого "
+"розвитку плагтна. Спасибі Вам за підтримку!"
+
+#: admin/admin-panel.php:442
+msgid "Inviter"
+msgstr "Запрошувач"
+
+#: admin/admin-panel.php:447
+msgid "Invited Email"
+msgstr "Запрошений Email"
+
+#: admin/admin-panel.php:452 by-email/by-email.php:778
+msgid "Sent"
+msgstr "Відправлено"
+
+#: admin/admin-panel.php:460 by-email/by-email.php:779
+msgid "Accepted"
+msgstr "Прийнято"
+
+#: admin/admin-panel.php:526 by-email/by-email-db.php:88
+msgid "View Invitation"
+msgstr "Переглянути запрошення"
+
+#: admin/admin-panel.php:568
+msgid "(no data)"
+msgstr "(немає даних)"
+
+#: admin/admin-panel.php:592
+msgid "No invitations have been sent yet."
+msgstr "Запрошення поки не відправлялись."
+
+#: admin/admin-stats.php:41
+msgid "24 Hours"
+msgstr "24 години"
+
+#: admin/admin-stats.php:44
+msgid "3 Days"
+msgstr "3 дні"
+
+#: admin/admin-stats.php:47
+msgid "1 Week"
+msgstr "1 тиждень"
+
+#: admin/admin-stats.php:50
+msgid "4 Weeks"
+msgstr "4 тижні"
+
+#: admin/admin-stats.php:53
+msgid "3 Months"
+msgstr "3 місяці"
+
+#: admin/admin-stats.php:56
+msgid "All Time"
+msgstr "Завжди"
+
+#: admin/admin-stats.php:163 by-email/by-email-db.php:352
+msgid "Yes"
+msgstr "Так"
+
+#: admin/admin-stats.php:188 admin/admin-stats.php:196
+#: admin/admin-stats.php:204
+msgid "n/a"
+msgstr "н/д"
+
+#: admin/admin-stats.php:305
+msgid "In the last..."
+msgstr "За останні..."
+
+#: admin/admin-stats.php:309
+msgid "Total Sent"
+msgstr "Всього відправлено"
+
+#: admin/admin-stats.php:313
+msgid "Total Accepted"
+msgstr "Всього прийнято"
+
+#: admin/admin-stats.php:317
+msgid "Acceptance Rate"
+msgstr "Коефіцієнт прийнятих"
+
+#: admin/admin-stats.php:321
+msgid "Top Inviter (by #)"
+msgstr "Лідер (за кількістю)"
+
+#: admin/admin-stats.php:325
+msgid "Top Inviter (by % accepted)"
+msgstr "Лідер (по коеф.)"
+
+#: admin/admin-stats.php:330
+msgid "Total Sent (CloudSponge)"
+msgstr "Всього відправлено (CloudSponge)"
+
+#: admin/admin-stats.php:334
+msgid "Total Accepted (CloudSponge)"
+msgstr "Всього прийнято (CloudSponge)"
+
+#: admin/admin-stats.php:338
+msgid "Acceptance Rate (CloudSponge)"
+msgstr "Коефіцієнт прийнятих  (CloudSponge)"
+
+#: admin/admin-stats.php:342
+msgid "CloudSponge Usage"
+msgstr "Використання CloudSponge"
+
+#: admin/admin-stats.php:346
+msgid "Top Inviter (by #) (CloudSponge)"
+msgstr "Лідер (за кількістю)  (CloudSponge)"
+
+#: admin/admin-stats.php:350
+msgid "Top Inviter (by % accepted) (CloudSponge)"
+msgstr "Лідер (по коеф.) (CloudSponge)"
+
+#: admin/admin-stats.php:378 admin/admin-stats.php:403
+msgid "(%d sent)"
+msgstr "(%d відправлено)"
+
+#: admin/admin-stats.php:382 admin/admin-stats.php:407
+msgid "(%s accepted)"
+msgstr "(%s прийнято)"
+
+#: by-email/by-email-db.php:82
+msgctxt "post type general name"
+msgid "BuddyPress Invitations"
+msgstr "BuddyPress запрошення"
+
+#: by-email/by-email-db.php:83
+msgctxt "post type singular name"
+msgid "Invitation"
+msgstr "Запрошення"
+
+#: by-email/by-email-db.php:84
+msgctxt "add new"
+msgid "Add New"
+msgstr "Додати нове"
+
+#: by-email/by-email-db.php:85
+msgid "Add New Invitation"
+msgstr "Додати нове запрошення"
+
+#: by-email/by-email-db.php:86
+msgid "Edit Invitation"
+msgstr "Редагувати запрошення"
+
+#: by-email/by-email-db.php:87
+msgid "New Invitation"
+msgstr "Нове запрошення"
+
+#: by-email/by-email-db.php:89
+msgid "Search Invitation"
+msgstr "Пошук запрошення"
+
+#: by-email/by-email-db.php:90
+msgid "No Invitations found"
+msgstr "Жодного запрошення не знайдено"
+
+#: by-email/by-email-db.php:91
+msgid "No Invitations found in Trash"
+msgstr "Жодного запрошення не знайдено в кошику"
+
+#: by-email/by-email-db.php:97
+msgid "BuddyPress Invitations"
+msgstr "BuddyPress запрошення"
+
+#: by-email/by-email-db.php:109 by-email/by-email-db.php:122
+msgid "Invitees"
+msgstr "Запрошені"
+
+#: by-email/by-email-db.php:110 by-email/by-email-db.php:117
+msgid "Invitee"
+msgstr "Запрошений"
+
+#: by-email/by-email-db.php:111
+msgid "Search Invitees"
+msgstr "Пошук запрошених"
+
+#: by-email/by-email-db.php:112
+msgid "All Invitees"
+msgstr "Всі Запрошені"
+
+#: by-email/by-email-db.php:113
+msgid "Edit Invitee"
+msgstr "Редагувати запрошених"
+
+#: by-email/by-email-db.php:114
+msgid "Update Invitee"
+msgstr "Оновити запрошеного"
+
+#: by-email/by-email-db.php:115
+msgid "Add New Invitee"
+msgstr "Додати нового запрошеного"
+
+#: by-email/by-email-db.php:116
+msgid "New Invitee Name"
+msgstr "Ім'я нового запрошеного"
+
+#: by-email/by-email-db.php:130 by-email/by-email-db.php:143
+msgid "Invited Groups"
+msgstr "Запрошені групи"
+
+#: by-email/by-email-db.php:131 by-email/by-email-db.php:138
+msgid "Invited Group"
+msgstr "Запрошена група"
+
+#: by-email/by-email-db.php:132
+msgid "Search Invited Groups"
+msgstr "Пошук апрошених груп"
+
+#: by-email/by-email-db.php:133
+msgid "All Invited Groups"
+msgstr "Всі запрошені групи"
+
+#: by-email/by-email-db.php:134
+msgid "Edit Invited Group"
+msgstr "Редагувати запрошену групу"
+
+#: by-email/by-email-db.php:135
+msgid "Update Invited Group"
+msgstr "Редагувати запрошену групу"
+
+#: by-email/by-email-db.php:136
+msgid "Add New Invited Group"
+msgstr "Додати нову запрошену групу"
+
+#: by-email/by-email-db.php:137
+msgid "New Invited Group Name"
+msgstr "Назва нової запрошеної групи"
+
+#: by-email/by-email-db.php:352
+msgid "No"
+msgstr "Ні"
+
+#: by-email/by-email-db.php:912
+msgid "All done!"
+msgstr "Все готово!"
+
+#: by-email/by-email-db.php:914
+msgid "Finish"
+msgstr "Завершити"
+
+#: by-email/by-email-db.php:952
+msgid "Migrated Invitation"
+msgstr "Мігроване запрошення"
+
+#: by-email/by-email-db.php:972
+msgid "Importing: %1$s invited %2$s<br />"
+msgstr "Імпортовано: %1$s запрошених %2$s<br />"
+
+#: by-email/by-email-db.php:983
+msgid ""
+"If your browser doesn&#8217;t start loading the next page automatically, "
+"click this link:"
+msgstr ""
+"Якщо ваш браузер не почав завантаження наступної сторінки автоматично, "
+"натисніть на це посилання:"
+
+#: by-email/by-email-db.php:983
+msgid "Next Invitations"
+msgstr "Наступні запрошення"
+
+#: by-email/by-email-db.php:1011
+msgid "Invite Anyone Upgrade"
+msgstr "Invite Anyone оновлення"
+
+#: by-email/by-email-db.php:1014
+msgid ""
+"Invite Anyone has just been updated, and needs to move some old invitation "
+"data in order to complete the upgrade. Click GO to start the process."
+msgstr ""
+"Вийшла нова версія плагіна Invite Anyone, тому потрібно перенести деякі "
+"старі запрошення для завершення оновлення. Натисніть ВПЕРЕД для запуску "
+"процесу."
+
+#: by-email/by-email.php:78
+msgid "Opt Out"
+msgstr "Відмовитись"
+
+#: by-email/by-email.php:79
+msgid "Accept Invitation"
+msgstr "Прийняти запрошення"
+
+#: by-email/by-email.php:83
+msgid ""
+"To opt out of future invitations to %s, make sure that your email is entered "
+"in the field below and click \"Opt Out\"."
+msgstr ""
+"Щоб відмовитись від запрошень на майбутнє %s, введіть ваш e-mail і натисніть "
+"\"Відмовитися\"."
+
+#: by-email/by-email.php:85
+msgid ""
+"If you are here by mistake and would like to accept your invitation to %s, "
+"click \"Accept Invitation\" instead."
+msgstr ""
+"Якщо ви опинились тут помилково і хочете прийняти запрошення  %s, натисніть "
+"\"Прийняти запрошення\"."
+
+#: by-email/by-email.php:99
+msgid ""
+"You have successfully opted out. No more invitation emails will be sent to "
+"you by this site."
+msgstr ""
+"Ви успішно відмовилися. Вам паче не будуть приходити запрошення на e-mail з "
+"цього сайту."
+
+#: by-email/by-email.php:102
+msgid "Sorry, there was an error in processing your request"
+msgstr "Вибачте, сталася помилка при обробці вашого запиту"
+
+#: by-email/by-email.php:128
+msgid "Email:"
+msgstr "Email:"
+
+#: by-email/by-email.php:161
+msgid ""
+"It looks like you're trying to accept an invitation to join the site, but "
+"some information is missing. Please try again by clicking on the link in the "
+"invitation email."
+msgstr ""
+"Схоже, що ви намагаєтеся прийняти запрошення приєднатися до сайту, але деяка "
+"інформація відсутня. Будь ласка, спробуйте ще раз, натиснувши на посилання в "
+"листі запрошення."
+
+#: by-email/by-email.php:194
+msgid ""
+"Welcome! You&#8217;ve been invited to join the site by the following user: "
+"%s. Please fill out the information below to create your account."
+msgid_plural ""
+"Welcome! You&#8217;ve been invited to join the site by the following users: "
+"%s. Please fill out the information below to create your account."
+msgstr[0] ""
+"Добрий день! Ви були запрошені приєднатися до спільноти сайту користувачем:"
+"%s. Будь ласка, заповніть інформацію нижче, щоб створити обліковий запис."
+msgstr[1] ""
+"Добрий день! Ви були запрошені приєднатися до спільноти сайту користувачами:"
+"%s. Будь ласка, заповніть інформацію нижче, щоб створити обліковий запис."
+msgstr[2] ""
+"Добрий день! Ви були запрошені приєднатися до спільноти сайту користувачами:"
+"%s. Будь ласка, заповніть інформацію нижче, щоб створити обліковий запис."
+
+#: by-email/by-email.php:196
+msgid ""
+"Welcome! You&#8217;ve been invited to join the site. Please fill out the "
+"information below to create your account."
+msgstr ""
+"Добрий день! Ви були запрошені приєднатися до сайту. Будь ласка, заповніть "
+"інформацію нижче, щоб створити обліковий запис."
+
+#: by-email/by-email.php:286 by-email/by-email.php:694
+#: group-invites/group-invites.php:73
+#: group-invites/templates/invite-anyone.php:87
+#: group-invites/templates/invite-anyone.php:178
+msgid "Send Invites"
+msgstr "Відправити запрошення"
+
+#: by-email/by-email.php:298 by-email/by-email.php:520
+#: by-email/by-email.php:583
+msgid "Invite New Members"
+msgstr "Запросити нових учасників"
+
+#: by-email/by-email.php:308 by-email/by-email.php:750
+msgid "Sent Invites"
+msgstr "Відправлені запрошення"
+
+#: by-email/by-email.php:420
+msgid "Sorry, there was a problem sending your invitations. Please try again."
+msgstr "Вибачте, при відправці запрошень сталася помилка. Спробуйте ще раз."
+
+#: by-email/by-email.php:460
+msgid "Invitation cleared"
+msgstr "Запрошення очищено"
+
+#: by-email/by-email.php:462
+msgid "There was a problem clearing the invitation."
+msgstr "При очищенні запрошення сталася помилка."
+
+#: by-email/by-email.php:465
+msgid "Invitations cleared."
+msgstr "Запрошення очищені."
+
+#: by-email/by-email.php:467
+msgid "There was a problem clearing the invitations."
+msgstr "При очищенні запрошень сталася помилка."
+
+#: by-email/by-email.php:510
+msgid ""
+"It looks like you&#8217;ve already accepted your invitation to join the site."
+msgstr "Схоже, що Ви вже прийняли запрошення приєднатися до спільноти сайту."
+
+#: by-email/by-email.php:522
+msgid "You have sent the maximum allowed number of invitations."
+msgstr "Ви вже відправили максимально допустиму кількість запрошень."
+
+#: by-email/by-email.php:572
+msgid ""
+"Some of your invitations were not sent. Please see the errors below and "
+"resubmit the failed invitations."
+msgstr ""
+"Деякі з ваших запрошень не були відправлені. Будь ласка, виправте помилки "
+"нижче і повторіть."
+
+#: by-email/by-email.php:578
+msgid "Invite friends to join %s by following these steps:"
+msgstr "Щоб запросити друзів приєднатися до %s, виконайте наступні кроки:"
+
+#: by-email/by-email.php:601
+msgid ""
+"The site administrator has limited each user to %1$d invitations. You have "
+"%2$d invitations remaining."
+msgstr ""
+"Адміністратор сайту встановив обмеження %1$d запрошень на кожного "
+"користувача. У Вас залишилося %2$d запрошень."
+
+#: by-email/by-email.php:620
+msgid "Enter email addresses below, one per line."
+msgstr "Нижче введіть e-mail, по одному в рядку."
+
+#: by-email/by-email.php:621
+msgid ""
+"You can only invite people whose email addresses end in one of the following "
+"domains:"
+msgstr ""
+"Ви можите запрошувати тільки тих людей у яких e-mail знаходиться на "
+"наступних доменах:"
+
+#: by-email/by-email.php:625
+msgid "You can invite a maximum of %s people at a time."
+msgstr "Ви можете запросити максимум %s людей одночасно."
+
+#: by-email/by-email.php:637
+msgid "(optional) Customize the subject line of the invitation email."
+msgstr "(опціонально) Налаштувати тему для запрошень e-mail."
+
+#: by-email/by-email.php:640
+msgid "Subject: <span class=\"disabled-subject\">Subject line is fixed</span>"
+msgstr "Тема: <span class=\"disabled-subject\">Тема фіксована</span>"
+
+#: by-email/by-email.php:649
+msgid "(optional) Customize the text of the invitation."
+msgstr "(опціонально) Налаштування тексту запрошення."
+
+#: by-email/by-email.php:650
+msgid ""
+"The message will also contain a custom footer containing links to accept the "
+"invitation or opt out of further email invitations from this site."
+msgstr ""
+"Дане повідомлення буде також містити посилання на прийняття запрошення або "
+"відмову від запрошень з цього сайту."
+
+#: by-email/by-email.php:653
+msgid "Message:"
+msgstr "Повідомлення:"
+
+#: by-email/by-email.php:664
+msgid ""
+"(optional) Select some groups. Invitees will receive invitations to these "
+"groups when they join the site."
+msgstr ""
+"(опціонально) Виберіть кілька груп. Запрошені отримають запрошення в ці "
+"групи, коли приєднаються до сайту."
+
+#: by-email/by-email.php:757
+msgid "You have sent invitations to the following people."
+msgstr "Ви вже надіслали запрошення наступним людям."
+
+#: by-email/by-email.php:770
+msgid ""
+"This table displays a list of all your sent invites.\n"
+"\t\t\tInvites that have been accepted are highlighted in the listings.\n"
+"\t\t\tYou may clear any individual invites, all accepted invites or all of "
+"the invites from the list."
+msgstr ""
+"Ця таблиця показує список всіх відправлених запрошень.\n"
+"\t\t\tПрийняті запрошення виділені в списках.\n"
+"\t\t\tВи можете стерти будь-які запрошення, всі прийняті запрошення, або "
+"повністю всі запрошення зі списку."
+
+#: by-email/by-email.php:776
+msgid "Invited email address"
+msgstr "Запрошений Email"
+
+#: by-email/by-email.php:777
+msgid "Group invitations"
+msgstr "Групові запрошення"
+
+#: by-email/by-email.php:787
+msgid "Clear all accepted invites from the list"
+msgstr "Видалити всі прийняті запрошення зі списку"
+
+#: by-email/by-email.php:787
+msgid "Clear all accepted invitations"
+msgstr "Видалити всі прийняті запрошення"
+
+#: by-email/by-email.php:788
+msgid "Clear all your listed invites"
+msgstr "Видалити всі запрошення зі списку"
+
+#: by-email/by-email.php:788
+msgid "Clear all invitations"
+msgstr "Видалити всі запрошення"
+
+#: by-email/by-email.php:814
+msgid "Clear this invitation"
+msgstr "Видалити це запрошення "
+
+#: by-email/by-email.php:868
+msgid "You haven't sent any email invitations yet."
+msgstr "Ви ще не надіслали жодного email запрошення."
+
+#: by-email/by-email.php:901
+msgid "An invitation to join the %s community."
+msgstr "Запрошення приєднатися до спільноти %s."
+
+#: by-email/by-email.php:926
+msgid ""
+"You have been invited by %%INVITERNAME%% to join the %s community.\n"
+"\n"
+"Visit %%INVITERNAME%%'s profile at %%INVITERURL%%."
+msgstr ""
+"Вас запросив %%INVITERNAME%% приєднатися до спільноти %s .\n"
+"\n"
+"Продивіться профіль %%INVITERNAME%% за посиланням %%INVITERURL%%."
+
+#: by-email/by-email.php:949
+msgid "To accept this invitation, please visit %%ACCEPTURL%%"
+msgstr "Щоб прийняти запрошення, відвідайте %%ACCEPTURL%%"
+
+#: by-email/by-email.php:953
+msgid ""
+"To opt out of future invitations to this site, please visit %%OPTOUTURL%%"
+msgstr "Щоб відмовитися від запрошень на майбутнє, відвідайте %%OPTOUTURL%%"
+
+#: by-email/by-email.php:1127
+msgid ""
+"You are only allowed to invite up to %s people at a time. Please remove some "
+"addresses and try again"
+msgstr ""
+"Ви маєте право запросити до %s людей за один раз. Будь ласка, видаліть деякі "
+"адреси і спробуйте ще раз"
+
+#: by-email/by-email.php:1137
+msgid "You didn't include any email addresses!"
+msgstr "Ви не включили жодного email!"
+
+#: by-email/by-email.php:1150
+msgid ""
+"You are only allowed to invite %s more people. Please remove some addresses "
+"and try again"
+msgstr ""
+"Ви маєте право запросити до %s людей за один раз. Будь ласка, видаліть деякі "
+"адреси і спробуйте ще раз"
+
+#: by-email/by-email.php:1171
+msgid "<strong>%s</strong> has opted out of email invitations from this site."
+msgstr "<strong>%s</strong> відмовилися від email запрошень з цього сайту."
+
+#: by-email/by-email.php:1175
+msgid "<strong>%s</strong> is already a registered user of the site."
+msgstr "<strong>%s</strong> вже зареєстрований користувач сайту."
+
+#: by-email/by-email.php:1179
+msgid "<strong>%s</strong> is not a permitted email address."
+msgstr "<strong>%s</strong>не дозволена email адреса."
+
+#: by-email/by-email.php:1183
+msgid ""
+"<strong>%s</strong> is not a valid email address. Please make sure that you "
+"have typed it correctly."
+msgstr ""
+"<strong>%s</strong>не дійсна email адреса. Перевірте коректність введення."
+
+#: by-email/by-email.php:1187
+msgid ""
+"<strong>%s</strong> is not a permitted email address. Please make sure that "
+"you have typed the domain name correctly."
+msgstr ""
+"<strong>%s</strong> неправильна адреса. Перевірте правильність введеного "
+"домену."
+
+#: by-email/by-email.php:1246
+msgid "Invitations were sent successfully to the following email addresses: %s"
+msgstr "Запрошення були успішно відправлені на наступні email адреси: %s"
+
+#: by-email/by-email.php:1251
+msgid "Please correct your errors and resubmit."
+msgstr "Будь ласка, виправте свої помилки і повторіть."
+
+#: by-email/by-email.php:1348 by-email/by-email.php:1388
+msgid "We couldn't find any invitations associated with this email address."
+msgstr "Ми не змогли знайти жодних запрошень, пов'язаних з цією email адресою."
+
+#: by-email/cloudsponge-integration.php:70
+msgid ""
+"You can also add email addresses <a class=\"cs_import\">from your Address "
+"Book</a>."
+msgstr ""
+"Ви також можете додати email адреси <a class=\"cs_import\"> з вашої адресної "
+"книги </a>."
+
+#: group-invites/group-invites.php:23
+msgid ""
+"Click &ldquo;Send Invites&rdquo; to finish sending your new invitations."
+msgstr ""
+"Натисніть &ldquo;Відправити запрошення&rdquo; щоб завершити відправку нових "
+"запрошень. "
+
+#: group-invites/group-invites.php:108 group-invites/group-invites.php:151
+#: group-invites/group-invites.php:195
+msgid "Group invites sent."
+msgstr "Групові запрошення відправлені "
+
+#: group-invites/group-invites.php:153
+msgid "Group created successfully."
+msgstr "\vГрупа створена успішно."
+
+#: group-invites/group-invites.php:401
+#: group-invites/templates/invite-anyone.php:70
+#: group-invites/templates/invite-anyone.php:159
+msgid "Remove Invite"
+msgstr "Видалити запрошення"
+
+#: group-invites/group-invites.php:585
+msgid ""
+"%1$s has invited you to the group: \"%2$s\".\n"
+"\n"
+"To view your group invites visit: %3$s\n"
+"\n"
+"To view the group visit: %4$s\n"
+"\n"
+"To view %5$s's profile visit: %6$s\n"
+"\n"
+"---------------------\n"
+msgstr ""
+"%1$s запросив вас до групи: \"%2$s\".\n"
+"\n"
+"Переглянути запрошення до групи, відвідайте: %3$s\n"
+"\n"
+"Переглянути відвідування групи: %4$s\n"
+"\n"
+"Переглянути відвідування профілю %5$s: %6$s\n"
+"\n"
+"---------------------\n"
+
+#: group-invites/templates/invite-anyone.php:27
+#: group-invites/templates/invite-anyone.php:115
+msgid "Search for members to invite:"
+msgstr "Пошук нових учасників, що запросити:"
+
+#: group-invites/templates/invite-anyone.php:35
+#: group-invites/templates/invite-anyone.php:126
+msgid "Select members from the directory:"
+msgstr "Вибрати учасників з каталогу:"
+
+#: group-invites/templates/invite-anyone.php:50
+msgid "Select people to invite."
+msgstr "Вибрати людей для запрошення."
+
+#: group-invites/templates/invite-anyone.php:107
+msgid ""
+"Want to invite someone to the group who is not yet a member of the site?"
+msgstr "Бажаєте запросити в групу того, хто не є учасником сайту?"
+
+#: group-invites/templates/invite-anyone.php:107
+msgid "Send invitations by email."
+msgstr "Відправити запрошення по email."
+
+#: group-invites/templates/invite-anyone.php:139
+msgid "Select people to invite from your friends list."
+msgstr "Запросити людей зі списку друзів."
+
+#: lib/bbg-cpt-pag.php:200
+msgid "Viewing %1$d - %2$d of a total of %3$d"
+msgstr "Перегляд %1$d - %2$d всіх %3$d"
+
+#: lib/bbg-cpt-pag.php:221
+msgid "&laquo;"
+msgstr "&laquo;"
+
+#: lib/bbg-cpt-pag.php:222
+msgid "&raquo;"
+msgstr "&raquo;"
+
+#: widgets/widgets.php:44
+msgid "Enter one email address per line to invite friends to join this site."
+msgstr ""
+"Введіть по одній email адресі в рядку, щоб запросити друзів приєднатися до "
+"цього сайту."
+
+#: widgets/widgets.php:71
+msgid "Continue"
+msgstr "Продовжити"
+
+#: widgets/widgets.php:100
+msgid ""
+"Invite friends to join the site by entering their email addresses below."
+msgstr ""
+"Запросіть друзів приєднатися до сайту, вказавши їх адреси електронної пошти "
+"нижче."
+
+#: widgets/widgets.php:104
+msgid "Title:"
+msgstr "Назва:"
+
+#: widgets/widgets.php:106
+msgid "Text to display in widget:"
+msgstr "Текст для відображення у віджеті:"
+
+#: widgets/widgets.php:110
+msgid "Number of email fields to display in widget:"
+msgstr "Число рядків для email для відображення у віджеті:"
+
+#. Plugin URI of the plugin/theme
+msgid "http://teleogistic.net/code/buddypress/invite-anyone/"
+msgstr "http://teleogistic.net/code/buddypress/invite-anyone/"
+
+#. Description of the plugin/theme
+msgid ""
+"Allows group admins to invite any member of their BuddyPress community to a "
+"group or to the site"
+msgstr ""
+"Дозволити адміністраторам груп запрошувати будь-якого учасника їх BuddyPress "
+"спільноти до групи чи сайту"
+
+#. Author of the plugin/theme
+msgid "Boone Gorges"
+msgstr "Boone Gorges"
+
+#. Author URI of the plugin/theme
+msgid "http://boone.gorg.es"
+msgstr "http://boone.gorg.es"

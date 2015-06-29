@@ -43,6 +43,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Serbo-Croatian: Anja Skrba
 * Spanish: Mauricio Camayo, Gregor Gimmy
 * Swedish: Alexander Berthelsen
+* Ukrainian: <a href="http://www.coupofy.com/">Ivanka</a>
 
 Additional details about the plugin can be found in the following languages:
 * Serbo-Croatian: <a href="http://science.webhostinggeeks.com/teleogistic">http://science.webhostinggeeks.com/teleogistic</a>
