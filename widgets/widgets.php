@@ -24,7 +24,7 @@ class InviteAnyoneWidget extends WP_Widget {
 		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'invite-anyone-widget' );
 
 		/* Create the widget. */
-		$this->WP_Widget( 'invite-anyone-widget', 'Invite Anyone', $widget_ops, $control_ops );
+		parent::__construct( 'invite-anyone-widget', 'Invite Anyone', $widget_ops, $control_ops );
 
 		if ( is_active_widget( false, false, $this->id_base ) )
 			wp_enqueue_style( 'invite-anyone-widget-style', WP_PLUGIN_URL . '/invite-anyone/widgets/widgets-css.css' );
