@@ -1410,8 +1410,17 @@ function invite_anyone_validate_email( $user_email ) {
 	if ( function_exists( 'get_site_option' ) ) {
 		if ( $limited_email_domains = get_site_option( 'limited_email_domains' ) ) {
 			if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
-				$emaildomain = substr( $user_email, 1 + strpos( $user_email, '@' ) );
-				if( in_array( $emaildomain, $limited_email_domains ) == false ) {
+				$emaildomain = strtolower( substr( $user_email, 1 + strpos( $user_email, '@' ) ) );
+
+				$is_valid_domain = false;
+				foreach ( $limited_email_domains as $led ) {
+					if ( $emaildomain === strtolower( $led ) ) {
+						$is_valid_domain = true;
+						break;
+					}
+				}
+
+				if ( ! $is_valid_domain ) {
 					$status = 'limited_domain';
 				}
 			}

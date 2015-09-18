@@ -93,5 +93,17 @@ class Invite_Anyone_Tests extends BP_UnitTestCase {
 
 		bp_update_option( 'invite_anyone', $settings );
 	}
+
+	public function test_invite_anyone_validate_email_domain_check_should_be_case_insensitive() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
+		}
+
+		update_site_option( 'limited_email_domains', array( 'foo.com' ) );
+
+		$valid = invite_anyone_validate_email( 'Bar@FOO.COM' );
+
+		$this->assertSame( 'okay', $valid );
+	}
 }
 
