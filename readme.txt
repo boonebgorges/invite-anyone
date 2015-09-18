@@ -54,6 +54,7 @@ Additional details about the plugin can be found in the following languages:
 * Improved responsive design on Sent Invites and Send Invites screens
 * Fixed PHP notices related to PHP4 constructors
 * Removed Facebook from the Cloudsponge integration. See http://www.cloudsponge.com/blog/stories/2015/05/13/goodbye-facebook.html for more details.
+* Fixed bug that caused multisite limited-domain checks to be case-sensitive
 
 = 1.3.7 =
 * Fixed incorrect function name in widget localization
