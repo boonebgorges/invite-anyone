@@ -283,7 +283,7 @@ function invite_anyone_setup_nav() {
 
 	/* Add 'Send Invites' to the main user profile navigation */
 	bp_core_new_nav_item( array(
-		'name' => __( 'Send Invites', 'buddypress' ),
+		'name' => __( 'Send Invites', 'invite-anyone' ),
 		'slug' => $bp->invite_anyone->slug,
 		'position' => 80,
 		'screen_function' => 'invite_anyone_screen_one',
@@ -691,7 +691,7 @@ function invite_anyone_screen_one_content() {
 	</ol>
 
 	<div class="submit">
-		<input type="submit" name="invite-anyone-submit" id="invite-anyone-submit" value="<?php _e( 'Send Invites', 'buddypress' ) ?> " />
+		<input type="submit" name="invite-anyone-submit" id="invite-anyone-submit" value="<?php _e( 'Send Invites', 'invite-anyone' ) ?> " />
 	</div>
 
 
@@ -772,11 +772,11 @@ function invite_anyone_screen_two() {
 			You may clear any individual invites, all accepted invites or all of the invites from the list.', 'invite-anyone' ) ?>">
 				<thead>
 					<tr>
-					  <th scope="col"></th>
-					  <th scope="col" <?php if ( $sort_by == 'email' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=email&amp;order=<?php if ( $sort_by == 'email' && $order == 'ASC' ) : ?>DESC<?php else : ?>ASC<?php endif; ?>"><?php _e( 'Invited email address', 'invite-anyone' ) ?></a></th>
-					  <th scope="col"><?php _e( 'Group invitations', 'invite-anyone' ) ?></th>
-					  <th scope="col" <?php if ( $sort_by == 'date_invited' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_invited&amp;order=<?php if ( $sort_by == 'date_invited' && $order == 'DESC' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Sent', 'invite-anyone' ) ?></a></th>
-					  <th scope="col" <?php if ( $sort_by == 'date_joined' ) : ?>class="sort-by-me"<?php endif ?>><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_joined&amp;order=<?php if ( $order == 'DESC' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Accepted', 'invite-anyone' ) ?></a></th>
+					  <th scope="col" class="col-delete-invite"></th>
+					  <th scope="col" class="col-email<?php if ( $sort_by == 'email' ) : ?> sort-by-me<?php endif ?>"><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=email&amp;order=<?php if ( $sort_by == 'email' && $order == 'ASC' ) : ?>DESC<?php else : ?>ASC<?php endif; ?>"><?php _e( 'Invited email address', 'invite-anyone' ) ?></a></th>
+					  <th scope="col" class="col-group-invitations"><?php _e( 'Group invitations', 'invite-anyone' ) ?></th>
+					  <th scope="col" class="col-date-invited<?php if ( $sort_by == 'date_invited' ) : ?> sort-by-me<?php endif ?>"><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_invited&amp;order=<?php if ( $sort_by == 'date_invited' && $order == 'DESC' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Sent', 'invite-anyone' ) ?></a></th>
+					  <th scope="col" class="col-date-joined<?php if ( $sort_by == 'date_joined' ) : ?> sort-by-me<?php endif ?>"><a class="<?php echo $order ?>" title="Sort column order <?php echo $order ?>" href="<?php echo $base_url ?>?sort_by=date_joined&amp;order=<?php if ( $order == 'DESC' ) : ?>ASC<?php else : ?>DESC<?php endif; ?>"><?php _e( 'Accepted', 'invite-anyone' ) ?></a></th>
 					</tr>
 				</thead>
 
@@ -842,11 +842,11 @@ function invite_anyone_screen_two() {
 					?>
 
 					<tr <?php if($accepted){ ?> class="accepted" <?php } ?>>
-						<td><?php echo $clear_link ?></td>
-						<td><?php echo esc_html( $email ) ?></td>
-						<td><?php echo $group_names ?></td>
-						<td><?php echo $date_invited ?></td>
-						<td class="date-joined"><span></span><?php echo $date_joined ?></td>
+						<td class="col-delete-invite"><?php echo $clear_link ?></td>
+						<td class="col-email"><?php echo esc_html( $email ) ?></td>
+						<td class="col-group-invitations"><?php echo $group_names ?></td>
+						<td class="col-date-invited"><?php echo $date_invited ?></td>
+						<td class="date-joined col-date-joined"><span></span><?php echo $date_joined ?></td>
 					</tr>
 				<?php endwhile ?>
 			 </tbody>
@@ -1410,8 +1410,17 @@ function invite_anyone_validate_email( $user_email ) {
 	if ( function_exists( 'get_site_option' ) ) {
 		if ( $limited_email_domains = get_site_option( 'limited_email_domains' ) ) {
 			if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
-				$emaildomain = substr( $user_email, 1 + strpos( $user_email, '@' ) );
-				if( in_array( $emaildomain, $limited_email_domains ) == false ) {
+				$emaildomain = strtolower( substr( $user_email, 1 + strpos( $user_email, '@' ) ) );
+
+				$is_valid_domain = false;
+				foreach ( $limited_email_domains as $led ) {
+					if ( $emaildomain === strtolower( $led ) ) {
+						$is_valid_domain = true;
+						break;
+					}
+				}
+
+				if ( ! $is_valid_domain ) {
 					$status = 'limited_domain';
 				}
 			}

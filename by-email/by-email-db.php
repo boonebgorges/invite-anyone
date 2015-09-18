@@ -101,7 +101,7 @@ class Invite_Anyone_Schema {
 			'show_ui' 	=> $this->show_dashboard_ui(),
 			'hierarchical' 	=> false,
 			'menu_icon'	=> WP_PLUGIN_URL . '/invite-anyone/images/smallest_buddypress_icon_ev.png',
-			'supports' 	=> array( 'title', 'editor', 'custom-fields' )
+			'supports' 	=> array( 'title', 'editor', 'custom-fields', 'author' )
 		), $this ) );
 
 		// Define the labels to be used by the invitee taxonomy
