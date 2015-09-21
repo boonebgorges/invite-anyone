@@ -52,6 +52,7 @@ Additional details about the plugin can be found in the following languages:
 
 = 1.3.9 =
 * Don't make the Subject input a textarea if it's not editable
+* More selective cookie deletion, for improved cache support
 
 = 1.3.8 =
 * Improved responsive design on Sent Invites and Send Invites screens
