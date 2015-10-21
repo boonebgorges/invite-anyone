@@ -42,7 +42,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Russian: Jettochkin, Roman Leonov
 * Serbo-Croatian: Anja Skrba
 * Spanish: Mauricio Camayo, Gregor Gimmy
-* Swedish: Alexander Berthelsen
+* Swedish: Alexander Berthelsen, Jan Anderson
 * Ukrainian: <a href="http://www.coupofy.com/">Ivanka</a>
 
 Additional details about the plugin can be found in the following languages:
@@ -54,6 +54,7 @@ Additional details about the plugin can be found in the following languages:
 * Don't make the Subject input a textarea if it's not editable
 * More selective cookie deletion, for improved cache support
 * Sort autocomplete results by display name rather than user_login
+* Updated Swedish translation
 
 = 1.3.8 =
 * Improved responsive design on Sent Invites and Send Invites screens
