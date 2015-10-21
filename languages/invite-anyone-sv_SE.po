@@ -3,180 +3,186 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Invite Anyone 1.0.11\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/invite-anyone\n"
-"POT-Creation-Date: 2012-05-21 12:38:43+00:00\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/invite-anyone\n"
+"POT-Creation-Date: 2015-10-20 09:11+0200\n"
+"PO-Revision-Date: 2015-10-20 09:26+0200\n"
+"Last-Translator: Alexander Berthelsen <alexander.berthelsen@gmail.com>\n"
+"Language-Team: \n"
+"Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2013-04-14 19:20+0100\n"
-"Last-Translator: Alexander Berthelsen <alexander.berthelsen@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.8.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#. #-#-#-#-#  plugin.pot (Invite Anyone 1.0.11)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
-#: admin/admin-panel.php:5 admin/admin-panel.php:111 widgets/widgets.php:38
-#: widgets/widgets.php:86
+#: admin/admin-panel.php:6 admin/admin-panel.php:113 widgets/widgets.php:41
+#: widgets/widgets.php:92
 msgid "Invite Anyone"
 msgstr "Invite Anyone"
 
-#: admin/admin-panel.php:23
+#: admin/admin-panel.php:24
 msgid "Settings"
 msgstr "Inställningar"
 
-#: admin/admin-panel.php:115 admin/admin-panel.php:194
+#: admin/admin-panel.php:117 admin/admin-panel.php:196
 msgid "General Settings"
 msgstr "Allmänna inställningar"
 
-#: admin/admin-panel.php:119
+#: admin/admin-panel.php:121
 msgid "Access Control"
 msgstr "Åtkomst"
 
-#: admin/admin-panel.php:123 admin/admin-panel.php:175
+#: admin/admin-panel.php:125 admin/admin-panel.php:177
+#: admin/admin-panel.php:466
 msgid "CloudSponge"
 msgstr "Cloudsponge"
 
-#: admin/admin-panel.php:127 admin/admin-panel.php:181
+#: admin/admin-panel.php:129 admin/admin-panel.php:183
 msgid "Manage Invitations"
 msgstr "Hantera inbjudningar"
 
-#: admin/admin-panel.php:131 admin/admin-panel.php:187
+#: admin/admin-panel.php:133 admin/admin-panel.php:189
 msgid "Stats"
 msgstr "Statistik"
 
-#: admin/admin-panel.php:145
+#: admin/admin-panel.php:147
 msgid "Save Changes"
 msgstr "Spara ändringar"
 
-#: admin/admin-panel.php:163
+#: admin/admin-panel.php:165
 msgid "Access Settings"
 msgstr "Åtkomstinställningar"
 
-#: admin/admin-panel.php:165
+#: admin/admin-panel.php:167
 msgid "Allow email invitations to be sent by"
 msgstr "Tillåt e-postinbjudningar att skickas av"
 
-#: admin/admin-panel.php:167
+#: admin/admin-panel.php:169
 msgid "Limit group invitations"
 msgstr "Begränsa gruppinbjudningar"
 
-#: admin/admin-panel.php:169
+#: admin/admin-panel.php:171
 msgid "Limit per-user invitations"
 msgstr "Begränsa antalet inbjudningar varje användare kan skicka"
 
-#: admin/admin-panel.php:196
+#: admin/admin-panel.php:198
 msgid "Replacement patterns for email text fields"
 msgstr "Ersättningstext för e-post meddelanden"
 
-#: admin/admin-panel.php:198
+#: admin/admin-panel.php:200
 msgid "Text of email invitation subject line"
 msgstr "Ämnesrad för e-post"
 
-#: admin/admin-panel.php:200
+#: admin/admin-panel.php:202
 msgid "Main text of email invitation message"
 msgstr "Brödtext i e-postinbjudning"
 
-#: admin/admin-panel.php:202
+#: admin/admin-panel.php:204
 msgid "Footer text of email invitation message (not editable by users)"
 msgstr "Sidfotstext i e-postinbjudan (kan inte redigeras av användare)"
 
-#: admin/admin-panel.php:204
+#: admin/admin-panel.php:206
 msgid "Allow users to customize invitation"
 msgstr "Tillåt användare att ändra inbjudan"
 
-#: admin/admin-panel.php:206
+#: admin/admin-panel.php:208
 msgid "Number of email invitations users are permitted to send at a time"
 msgstr "Antal e-postinbjudningar som användare får skicka åt gången"
 
-#: admin/admin-panel.php:208
+#: admin/admin-panel.php:210
 msgid "Allow users to send group invitations along with email invitations"
 msgstr ""
 "Tillåt användare att skicka gruppinbjudningar tillsammans med e-"
 "postinbjudningar"
 
-#: admin/admin-panel.php:210
+#: admin/admin-panel.php:212
 msgid ""
 "Allow email invitations to be accepted even when site registration is "
 "disabled"
 msgstr ""
 "Tillåt e-postinbjudningar även när registrering av nya användare är avstängd"
 
-#: admin/admin-panel.php:222
+#: admin/admin-panel.php:214
+msgid "Enable the Send Invites step during group creation"
+msgstr "Tillåt att inbjudningar skickas vid skapande av grupp"
+
+#: admin/admin-panel.php:226
 msgid "Control the default behavior of Invite Anyone."
 msgstr "Kontrollera standardbeteendet för Invite Anyone"
 
-#: admin/admin-panel.php:230
+#: admin/admin-panel.php:234
 msgid "name of your website"
 msgstr "din webbsidas namn"
 
-#: admin/admin-panel.php:231
+#: admin/admin-panel.php:235
 msgid "display name of the inviter"
 msgstr "inbjudarens namn"
 
-#: admin/admin-panel.php:232
+#: admin/admin-panel.php:236
 msgid "URL to the profile of the inviter"
 msgstr "URL till inbjudarens profil"
 
-#: admin/admin-panel.php:233
+#: admin/admin-panel.php:237
 msgid "Link that invited users can click to accept the invitation"
 msgstr "Länk som inbjudna användare kan klicka på för att acceptera inbjudan"
 
-#: admin/admin-panel.php:234
+#: admin/admin-panel.php:238
 msgid "Link that invited users can click to opt out of future invitations"
 msgstr ""
 "Län som inbjudna användare kan klicka på för att slippa på framtida "
 "inbjudningar"
 
-#: admin/admin-panel.php:279
+#: admin/admin-panel.php:296
 msgid "Subject line"
 msgstr "Ämnesrad"
 
-#: admin/admin-panel.php:283
+#: admin/admin-panel.php:300
 msgid "Message body"
 msgstr "Brödtext"
 
-#: admin/admin-panel.php:291
+#: admin/admin-panel.php:308
 msgid "Control which members are able to send various kinds of invitations."
 msgstr "Bestäm vilka användare som kan skicka olika typer av inbjudningar"
 
-#: admin/admin-panel.php:300
+#: admin/admin-panel.php:317
 msgid "All users"
 msgstr "Alla användare"
 
-#: admin/admin-panel.php:302
+#: admin/admin-panel.php:319
 msgid "A limited set of users"
 msgstr "Ett begransät antal av användarna"
 
-#: admin/admin-panel.php:306
+#: admin/admin-panel.php:323
 msgid ""
 "Only users who have been members of the site for a minimum number of days:"
 msgstr "Endast användare som har varit medlemmar på sidan i minst antal dagar:"
 
-#: admin/admin-panel.php:311
+#: admin/admin-panel.php:328
 msgid "Only users who have at least the following role on this blog:"
 msgstr "Endast användare som minst har följande roll på sidan"
 
-#: admin/admin-panel.php:313
+#: admin/admin-panel.php:330
 msgid "Subscriber"
 msgstr "Prenumerant"
 
-#: admin/admin-panel.php:314
+#: admin/admin-panel.php:331
 msgid "Contributor"
 msgstr "Medarbetare"
 
-#: admin/admin-panel.php:315
+#: admin/admin-panel.php:332
 msgid "Author"
 msgstr "Författare"
 
-#: admin/admin-panel.php:316
+#: admin/admin-panel.php:333
 msgid "Editor"
 msgstr "Redaktör"
 
-#: admin/admin-panel.php:317
+#: admin/admin-panel.php:334
 msgid "Administrator"
 msgstr "Administratör"
 
-#: admin/admin-panel.php:322
+#: admin/admin-panel.php:339
 msgid ""
 "Provide a comma-separated list of users (identified by their numerical user "
 "ids) who <strong>cannot</strong> send invitations by email:"
@@ -184,11 +190,11 @@ msgstr ""
 "Fyll i en kommaseparerad lista av användares numeriska användar-ID som "
 "<strong>inte</strong> får skicka inbjudningar via e-post:"
 
-#: admin/admin-panel.php:339
+#: admin/admin-panel.php:356
 msgid "Limit number of invites per user :"
 msgstr "Begränsa antalet inbjudningar per användare:"
 
-#: admin/admin-panel.php:351
+#: admin/admin-panel.php:368
 msgid ""
 "Invite Anyone extends BuddyPress's default group invitation settings. "
 "Instead of allowing you to invite only friends to a group, this plugin "
@@ -200,74 +206,78 @@ msgstr ""
 "bjuda in alla användare. Använda dessa inställningar för att begränsa vem "
 "som får bjuda in till grupper."
 
-#: admin/admin-panel.php:353
+#: admin/admin-panel.php:370
 msgid "<strong>Site admins</strong> can send group invitations to: "
 msgstr "<strong>Administratörer</strong> kan skicka gruppinbjudningar till:"
 
-#: admin/admin-panel.php:355 admin/admin-panel.php:363
-#: admin/admin-panel.php:371 admin/admin-panel.php:379
+#: admin/admin-panel.php:372 admin/admin-panel.php:380
+#: admin/admin-panel.php:388 admin/admin-panel.php:396
 msgid "Anyone"
 msgstr "Alla"
 
-#: admin/admin-panel.php:356 admin/admin-panel.php:364
-#: admin/admin-panel.php:372 admin/admin-panel.php:380
+#: admin/admin-panel.php:373 admin/admin-panel.php:381
+#: admin/admin-panel.php:389 admin/admin-panel.php:397
 msgid "Friends"
 msgstr "Vänner"
 
-#: admin/admin-panel.php:357 admin/admin-panel.php:365
-#: admin/admin-panel.php:373 admin/admin-panel.php:381
+#: admin/admin-panel.php:374 admin/admin-panel.php:382
+#: admin/admin-panel.php:390 admin/admin-panel.php:398
 msgid "No one"
 msgstr "Ingen"
 
-#: admin/admin-panel.php:361
+#: admin/admin-panel.php:378
 msgid "<strong>Group admins</strong> can send group invitations to: "
 msgstr ""
 "<strong>Gruppadministratörer</strong> kan skicka gruppinbjudningar till:"
 
-#: admin/admin-panel.php:369
+#: admin/admin-panel.php:386
 msgid "<strong>Group mods</strong> can send group invitations to: "
 msgstr "<strong>Gruppmoderatorer</strong> kan skicka gruppinbjudningar till:"
 
-#: admin/admin-panel.php:377
+#: admin/admin-panel.php:394
 msgid "<strong>Group members</strong> can send group invitations to: "
 msgstr "<strong>Gruppmedlemmar</strong> kan skicka gruppinbjudningar till:"
 
-#: admin/admin-panel.php:398
+#: admin/admin-panel.php:415
 msgid ""
 "<a href=\"http://www.cloudsponge.com/?utm_source=invite-"
 "anyone&utm_medium=partner&utm_campaign=integrator\">CloudSponge</a> is a "
 "cool service that gives your users easy and secure access to their address "
-"books (Gmail, Yahoo, and a number of other online and desktop email "
-"clients), so that they can more easily invite friends to your site. In order "
-"to enable CloudSponge support in Invite Anyone and BuddyPress, you'll need "
-"to <a href=\"http://www.cloudsponge.com/signup?utm_source=invite-"
+"books (Facebook, LinkedIn, Gmail, Yahoo, and a number of other online and "
+"desktop email clients), so that they can more easily invite friends to your "
+"site. It#8217;s a great way to increase engagement on your site, by making "
+"it easier for them to invite new members. In order to enable CloudSponge "
+"support in Invite Anyone and BuddyPress, you'll need to <a href=\"http://www."
+"cloudsponge.com/signup?utm_source=invite-"
 "anyone&utm_medium=partner&utm_campaign=integrator\">register for a "
 "CloudSponge account</a>."
 msgstr ""
 "<a href=\"http://www.cloudsponge.com/?utm_source=invite-"
-"anyone&utm_medium=partner&utm_campaign=integrator\">CloudSponge</a> är en "
-"cool serivce som ger dina användare enkel och säker tillgång till sina "
-"adressböcker (från Gmail, Yahoo och flera andra e-posttjänster) så att de "
-"lättare kan hitta vänner att bjuda in till din sida. För att aktivera "
-"Cloudsponge i Invite Anyone och Buddypress så behöver du <a href=\"http://"
-"www.cloudsponge.com/signup?utm_source=invite-"
-"anyone&utm_medium=partner&utm_campaign=integrator\">registrera ett "
-"CloudSpongekonto</a>."
+"anyone&utm_medium=partner&utm_campaign=integrator\">CloudSponge</a> is a "
+"cool service that gives your users easy and secure access to their address "
+"books (Facebook, LinkedIn, Gmail, Yahoo, and a number of other online and "
+"desktop email clients), so that they can more easily invite friends to your "
+"site. It#8217;s a great way to increase engagement on your site, by making "
+"it easier for them to invite new members. In order to enable CloudSponge "
+"support in Invite Anyone and BuddyPress, you'll need to <a href=\"http://www."
+"cloudsponge.com/signup?utm_source=invite-"
+"anyone&utm_medium=partner&utm_campaign=integrator\">register for a "
+"CloudSponge account</a>."
 
-#: admin/admin-panel.php:400
+#: admin/admin-panel.php:417
 msgid "Enable CloudSponge?"
 msgstr "Aktivera Cloudsponge?"
 
-#: admin/admin-panel.php:404
+#: admin/admin-panel.php:421
 msgid "CloudSponge Domain Key"
 msgstr "CloudSponge Domain Key"
 
-#: admin/admin-panel.php:404
+#: admin/admin-panel.php:421
 msgid "CloudSponge integration will not work without a valid domain key."
 msgstr ""
 "Cloudsponge integrering kommer inte att fungera utan en giltid domain key."
 
-#: admin/admin-panel.php:406
+#: admin/admin-panel.php:423
 msgid ""
 "When you use CloudSponge with Invite Anyone, part of your CloudSponge "
 "monthly payment goes to the author of Invite Anyone. This is a great way to "
@@ -277,15 +287,31 @@ msgstr ""
 "betalningar till CloudSponge till utvecklaren av Invite Anyone. Det är ett "
 "bra sätt att stödja fortsatt utveckling av detta plugin. Tack för ditt stöd!"
 
-#: admin/admin-panel.php:509 by-email/by-email-db.php:98
+#: admin/admin-panel.php:442
+msgid "Inviter"
+msgstr "Inbjudare"
+
+#: admin/admin-panel.php:447
+msgid "Invited Email"
+msgstr "Inbjuden epost"
+
+#: admin/admin-panel.php:452 by-email/by-email.php:778
+msgid "Sent"
+msgstr "Skickat"
+
+#: admin/admin-panel.php:460 by-email/by-email.php:779
+msgid "Accepted"
+msgstr "Accepterat"
+
+#: admin/admin-panel.php:526 by-email/by-email-db.php:88
 msgid "View Invitation"
 msgstr "Visa inbjudan"
 
-#: admin/admin-panel.php:549
+#: admin/admin-panel.php:568
 msgid "(no data)"
 msgstr "(ingen data)"
 
-#: admin/admin-panel.php:573
+#: admin/admin-panel.php:592
 msgid "No invitations have been sent yet."
 msgstr "Inga inbjudningar har skickats"
 
@@ -313,7 +339,7 @@ msgstr "3 månader"
 msgid "All Time"
 msgstr "All tid"
 
-#: admin/admin-stats.php:163 by-email/by-email-db.php:370
+#: admin/admin-stats.php:163 by-email/by-email-db.php:352
 msgid "Yes"
 msgstr "Ja"
 
@@ -378,149 +404,149 @@ msgstr "(%d skickade)"
 msgid "(%s accepted)"
 msgstr "(%s accepterade)"
 
-#: by-email/by-email-db.php:92
+#: by-email/by-email-db.php:82
 msgctxt "post type general name"
 msgid "BuddyPress Invitations"
 msgstr "Buddypress&shy;inbjudningar"
 
-#: by-email/by-email-db.php:93
+#: by-email/by-email-db.php:83
 msgctxt "post type singular name"
 msgid "Invitation"
 msgstr "Inbjudan"
 
-#: by-email/by-email-db.php:94
+#: by-email/by-email-db.php:84
 msgctxt "add new"
 msgid "Add New"
 msgstr "Skapa ny"
 
-#: by-email/by-email-db.php:95
+#: by-email/by-email-db.php:85
 msgid "Add New Invitation"
 msgstr "Skapa ny inbjudan"
 
-#: by-email/by-email-db.php:96
+#: by-email/by-email-db.php:86
 msgid "Edit Invitation"
 msgstr "Redigera inbjudan"
 
-#: by-email/by-email-db.php:97
+#: by-email/by-email-db.php:87
 msgid "New Invitation"
 msgstr "Ny inbjudan"
 
-#: by-email/by-email-db.php:99
+#: by-email/by-email-db.php:89
 msgid "Search Invitation"
 msgstr "Sök inbjudningar"
 
-#: by-email/by-email-db.php:100
+#: by-email/by-email-db.php:90
 msgid "No Invitations found"
 msgstr "Inga inbjudningar hittades"
 
-#: by-email/by-email-db.php:101
+#: by-email/by-email-db.php:91
 msgid "No Invitations found in Trash"
 msgstr "Inga inbjudningar hittades i papperskorgen"
 
-#: by-email/by-email-db.php:107
+#: by-email/by-email-db.php:97
 msgid "BuddyPress Invitations"
 msgstr "BuddyPressinbjudningar"
 
-#: by-email/by-email-db.php:119 by-email/by-email-db.php:132
+#: by-email/by-email-db.php:109 by-email/by-email-db.php:122
 msgid "Invitees"
 msgstr "Inbjudna"
 
-#: by-email/by-email-db.php:120 by-email/by-email-db.php:127
+#: by-email/by-email-db.php:110 by-email/by-email-db.php:117
 msgid "Invitee"
 msgstr "Inbjudare"
 
-#: by-email/by-email-db.php:121
+#: by-email/by-email-db.php:111
 msgid "Search Invitees"
 msgstr "Sök inbjudna"
 
-#: by-email/by-email-db.php:122
+#: by-email/by-email-db.php:112
 msgid "All Invitees"
 msgstr "Alla inbjudna"
 
-#: by-email/by-email-db.php:123
+#: by-email/by-email-db.php:113
 msgid "Edit Invitee"
 msgstr "Redigera inbjuden"
 
-#: by-email/by-email-db.php:124
+#: by-email/by-email-db.php:114
 msgid "Update Invitee"
 msgstr "Uppdatera inbjuden"
 
-#: by-email/by-email-db.php:125
+#: by-email/by-email-db.php:115
 msgid "Add New Invitee"
 msgstr "Lägg till ny inbjuden"
 
-#: by-email/by-email-db.php:126
+#: by-email/by-email-db.php:116
 msgid "New Invitee Name"
 msgstr "Ny inbjudens namn"
 
-#: by-email/by-email-db.php:140 by-email/by-email-db.php:153
+#: by-email/by-email-db.php:130 by-email/by-email-db.php:143
 msgid "Invited Groups"
 msgstr "Inbjudna grupper"
 
-#: by-email/by-email-db.php:141 by-email/by-email-db.php:148
+#: by-email/by-email-db.php:131 by-email/by-email-db.php:138
 msgid "Invited Group"
 msgstr "Inbjuden grupp"
 
-#: by-email/by-email-db.php:142
+#: by-email/by-email-db.php:132
 msgid "Search Invited Groups"
 msgstr "Sök inbjudna grupper"
 
-#: by-email/by-email-db.php:143
+#: by-email/by-email-db.php:133
 msgid "All Invited Groups"
 msgstr "Alla inbjudna grupper"
 
-#: by-email/by-email-db.php:144
+#: by-email/by-email-db.php:134
 msgid "Edit Invited Group"
 msgstr "Redigera inbjudna grupper"
 
-#: by-email/by-email-db.php:145
+#: by-email/by-email-db.php:135
 msgid "Update Invited Group"
 msgstr "Uppdatera inbjuden grupp"
 
-#: by-email/by-email-db.php:146
+#: by-email/by-email-db.php:136
 msgid "Add New Invited Group"
 msgstr "Lägg till ny inbjuden grupp"
 
-#: by-email/by-email-db.php:147
+#: by-email/by-email-db.php:137
 msgid "New Invited Group Name"
 msgstr "Ny inbjudensgruppnamn"
 
-#: by-email/by-email-db.php:370
+#: by-email/by-email-db.php:352
 msgid "No"
 msgstr "Nej"
 
-#: by-email/by-email-db.php:917
+#: by-email/by-email-db.php:912
 msgid "All done!"
 msgstr "Klart!"
 
-#: by-email/by-email-db.php:919
+#: by-email/by-email-db.php:914
 msgid "Finish"
 msgstr "Avsluta"
 
-#: by-email/by-email-db.php:957
+#: by-email/by-email-db.php:952
 msgid "Migrated Invitation"
 msgstr "Migrerad inbjudan"
 
-#: by-email/by-email-db.php:977
+#: by-email/by-email-db.php:972
 msgid "Importing: %1$s invited %2$s<br />"
 msgstr "Importerar: %1$s inbjuden %2$s<br />"
 
-#: by-email/by-email-db.php:988
+#: by-email/by-email-db.php:983
 msgid ""
 "If your browser doesn&#8217;t start loading the next page automatically, "
 "click this link:"
 msgstr ""
 "Om din webbläsare inte automatiskt laddar nästa sida så klicka på denna länk:"
 
-#: by-email/by-email-db.php:988
+#: by-email/by-email-db.php:983
 msgid "Next Invitations"
 msgstr "Nästa inbjudningar"
 
-#: by-email/by-email-db.php:1016
+#: by-email/by-email-db.php:1011
 msgid "Invite Anyone Upgrade"
 msgstr "Uppdatera Invite Anyone"
 
-#: by-email/by-email-db.php:1019
+#: by-email/by-email-db.php:1014
 msgid ""
 "Invite Anyone has just been updated, and needs to move some old invitation "
 "data in order to complete the upgrade. Click GO to start the process."
@@ -529,15 +555,15 @@ msgstr ""
 "inbjudningsdata för att färdigställa uppdateringen. Klicka på KÖR för att "
 "starta."
 
-#: by-email/by-email.php:69
+#: by-email/by-email.php:78
 msgid "Opt Out"
 msgstr "Avböj framtida inbjudningar"
 
-#: by-email/by-email.php:70
+#: by-email/by-email.php:79
 msgid "Accept Invitation"
 msgstr "Acceptera inbjudan"
 
-#: by-email/by-email.php:74
+#: by-email/by-email.php:83
 msgid ""
 "To opt out of future invitations to %s, make sure that your email is entered "
 "in the field below and click \"Opt Out\"."
@@ -545,7 +571,7 @@ msgstr ""
 "För att avböja framtida inbjudningar till %s, se till att din e-post står i "
 "fältet nedan och klicka på \"Avböj framtida inbjudningar\"."
 
-#: by-email/by-email.php:76
+#: by-email/by-email.php:85
 msgid ""
 "If you are here by mistake and would like to accept your invitation to %s, "
 "click \"Accept Invitation\" instead."
@@ -553,7 +579,7 @@ msgstr ""
 "Om du är här av misstag och vill acceptera din inbjudan till %s, klicka på "
 "\"Acceptera inbjudan\" istället."
 
-#: by-email/by-email.php:89
+#: by-email/by-email.php:99
 msgid ""
 "You have successfully opted out. No more invitation emails will be sent to "
 "you by this site."
@@ -561,15 +587,15 @@ msgstr ""
 "Du har avböjt framtida inbjudningar. Inga fler inbjudningar kommer att "
 "skickas till dig från denna sida."
 
-#: by-email/by-email.php:92
+#: by-email/by-email.php:102
 msgid "Sorry, there was an error in processing your request"
 msgstr "Tyvärr uppstod ett fel"
 
-#: by-email/by-email.php:118
+#: by-email/by-email.php:128
 msgid "Email:"
 msgstr "E-post:"
 
-#: by-email/by-email.php:140
+#: by-email/by-email.php:161
 msgid ""
 "It looks like you're trying to accept an invitation to join the site, but "
 "some information is missing. Please try again by clicking on the link in the "
@@ -579,51 +605,75 @@ msgstr ""
 "på denna sida, men någon information saknas. Försök igen genom att klicka på "
 "länken i inbjudningsmejlet."
 
-#: by-email/by-email.php:185
+#: by-email/by-email.php:194
 msgid ""
-"Welcome! You've been invited %s to join the site. Please fill out the "
+"Welcome! You&#8217;ve been invited to join the site by the following user: "
+"%s. Please fill out the information below to create your account."
+msgid_plural ""
+"Welcome! You&#8217;ve been invited to join the site by the following users: "
+"%s. Please fill out the information below to create your account."
+msgstr[0] ""
+"Välkommen! Du har blivit inbjuden av %s . Fyll i uppgifterna nedan för att "
+"skapa ditt konto."
+msgstr[1] ""
+"Välkommen! Du har blivit inbjuden av dessa användare_: %s . Fyll i "
+"uppgifterna nedan för att skapa ditt konto."
+
+#: by-email/by-email.php:196
+msgid ""
+"Welcome! You&#8217;ve been invited to join the site. Please fill out the "
 "information below to create your account."
 msgstr ""
-"Välkommen! Du har blivit inbjuden av %s att bli medlem på denna sida. Var "
-"vänlig och fyll i informationen nedan för att skapa ditt konto."
+"Välkommen! Du&#8217 har blivit inbjuden. Fyll i uppgifterna nedan för att "
+"skapa ditt konto."
 
-#: by-email/by-email.php:273 by-email/by-email.php:631
-#: group-invites/group-invites.php:59
+#: by-email/by-email.php:286 by-email/by-email.php:694
+#: group-invites/group-invites.php:73
 #: group-invites/templates/invite-anyone.php:87
-#: group-invites/templates/invite-anyone.php:176
+#: group-invites/templates/invite-anyone.php:178
 msgid "Send Invites"
 msgstr "Skicka inbjudningar"
 
-#: by-email/by-email.php:285 by-email/by-email.php:471
-#: by-email/by-email.php:534
+#: by-email/by-email.php:298 by-email/by-email.php:520
+#: by-email/by-email.php:583
 msgid "Invite New Members"
 msgstr "Bjud in nya medlemmar"
 
-#: by-email/by-email.php:295 by-email/by-email.php:692
+#: by-email/by-email.php:308 by-email/by-email.php:750
 msgid "Sent Invites"
 msgstr "Skickade inbjudningar"
 
-#: by-email/by-email.php:417
+#: by-email/by-email.php:420
+msgid "Sorry, there was a problem sending your invitations. Please try again."
+msgstr ""
+"Tyvärr uppstod ett problem med att skicka dina inbjudningar, försök igen."
+
+#: by-email/by-email.php:460
 msgid "Invitation cleared"
 msgstr "Inbjudan rensad"
 
-#: by-email/by-email.php:419
+#: by-email/by-email.php:462
 msgid "There was a problem clearing the invitation."
 msgstr "Det uppstod ett problem med att rensa inbjudan."
 
-#: by-email/by-email.php:422
+#: by-email/by-email.php:465
 msgid "Invitations cleared."
 msgstr "Inbjudningar rensade."
 
-#: by-email/by-email.php:424
+#: by-email/by-email.php:467
 msgid "There was a problem clearing the invitations."
 msgstr "Det uppstod ett problem med att rensa inbjudningarna."
 
-#: by-email/by-email.php:473
+#: by-email/by-email.php:510
+msgid ""
+"It looks like you&#8217;ve already accepted your invitation to join the site."
+msgstr "Det verkar som att du&#8217 redan har accepterat din inbjudan."
+
+#: by-email/by-email.php:522
 msgid "You have sent the maximum allowed number of invitations."
 msgstr "Du har skickat det maximalt tillåtna antalet inbjudningar."
 
-#: by-email/by-email.php:523
+#: by-email/by-email.php:572
 msgid ""
 "Some of your invitations were not sent. Please see the errors below and "
 "resubmit the failed invitations."
@@ -631,11 +681,11 @@ msgstr ""
 "Några av dina inbjudningar skickades inte. Se felmeddelandet nedan och prova "
 "igen."
 
-#: by-email/by-email.php:529
+#: by-email/by-email.php:578
 msgid "Invite friends to join %s by following these steps:"
 msgstr "Bjud in vänner att gå med i %s genom att följa dessa steg:"
 
-#: by-email/by-email.php:552
+#: by-email/by-email.php:601
 msgid ""
 "The site administrator has limited each user to %1$d invitations. You have "
 "%2$d invitations remaining."
@@ -643,34 +693,34 @@ msgstr ""
 "Administratören har begränsat varje användare till att skicka %1$d "
 "inbjudningar. Du har %2$d inbjudningar kvar."
 
-#: by-email/by-email.php:570
+#: by-email/by-email.php:620
 msgid "Enter email addresses below, one per line."
 msgstr "Skriv e-postadresser nedan, en per rad."
 
-#: by-email/by-email.php:570
+#: by-email/by-email.php:621
 msgid ""
 "You can only invite people whose email addresses end in one of the following "
 "domains:"
 msgstr ""
 "Du kan enbart bjuda in personer med e-postadresser på följande domäner:"
 
-#: by-email/by-email.php:582
+#: by-email/by-email.php:625
+msgid "You can invite a maximum of %s people at a time."
+msgstr "Di kan bjuda in maximalt %s åt gången"
+
+#: by-email/by-email.php:637
 msgid "(optional) Customize the subject line of the invitation email."
 msgstr "(valfritt) Ändra ämnesraden för inbjudan."
 
-#: by-email/by-email.php:585
+#: by-email/by-email.php:640
 msgid "Subject: <span class=\"disabled-subject\">Subject line is fixed</span>"
 msgstr "Ämne: <span class=\"disabled-subject\">Ämnesraden är förbestämd</span>"
 
-#: by-email/by-email.php:594
+#: by-email/by-email.php:649
 msgid "(optional) Customize the text of the invitation."
 msgstr "(valfritt) Ändra texten i inbjudan."
 
-#: by-email/by-email.php:597
-msgid "Message:"
-msgstr "Meddelande: "
-
-#: by-email/by-email.php:602
+#: by-email/by-email.php:650
 msgid ""
 "The message will also contain a custom footer containing links to accept the "
 "invitation or opt out of further email invitations from this site."
@@ -678,7 +728,11 @@ msgstr ""
 "Meddelandet kommer också att innehålla länkar för att acceptera inbjudan "
 "eller avböja från framtida inbjudningar från denna sida."
 
-#: by-email/by-email.php:609
+#: by-email/by-email.php:653
+msgid "Message:"
+msgstr "Meddelande: "
+
+#: by-email/by-email.php:664
 msgid ""
 "(optional) Select some groups. Invitees will receive invitations to these "
 "groups when they join the site."
@@ -686,16 +740,11 @@ msgstr ""
 "(valfritt) Välj några grupper. Den inbjudna kommer att få inbjudningar till "
 "dessa grupper om hen skapar ett konto på denna sida."
 
-#: by-email/by-email.php:648
-msgid "Sorry, there was a problem sending your invitations. Please try again."
-msgstr ""
-"Tyvärr uppstod ett problem med att skicka dina inbjudningar, försök igen."
-
-#: by-email/by-email.php:699
+#: by-email/by-email.php:757
 msgid "You have sent invitations to the following people."
 msgstr "Du har skickat inbjudningar till följande personer."
 
-#: by-email/by-email.php:712
+#: by-email/by-email.php:770
 msgid ""
 "This table displays a list of all your sent invites.\n"
 "\t\t\tInvites that have been accepted are highlighted in the listings.\n"
@@ -707,51 +756,43 @@ msgstr ""
 "\t\t\t Du kan rensa enskilda inbjudningar, alla accepterade inbjudningar "
 "eller alla inbjudningar från listan."
 
-#: by-email/by-email.php:718
+#: by-email/by-email.php:776
 msgid "Invited email address"
 msgstr "Inbjuden e-postadress"
 
-#: by-email/by-email.php:719
+#: by-email/by-email.php:777
 msgid "Group invitations"
 msgstr "Gruppinbjudningar"
 
-#: by-email/by-email.php:720
-msgid "Sent"
-msgstr "Skickat"
-
-#: by-email/by-email.php:721
-msgid "Accepted"
-msgstr "Accepterat"
-
-#: by-email/by-email.php:729
+#: by-email/by-email.php:787
 msgid "Clear all accepted invites from the list"
 msgstr "Rensa alla accepterade inbjudningar från listan"
 
-#: by-email/by-email.php:729
+#: by-email/by-email.php:787
 msgid "Clear all accepted invitations"
 msgstr "Rensa alla accepterade inbjudningar"
 
-#: by-email/by-email.php:730
+#: by-email/by-email.php:788
 msgid "Clear all your listed invites"
 msgstr "Rensa alla listade inbjudningar"
 
-#: by-email/by-email.php:730
+#: by-email/by-email.php:788
 msgid "Clear all invitations"
 msgstr "Rensa alla inbjudningar"
 
-#: by-email/by-email.php:755
+#: by-email/by-email.php:814
 msgid "Clear this invitation"
 msgstr "Rensa denna inbjudan"
 
-#: by-email/by-email.php:809
+#: by-email/by-email.php:868
 msgid "You haven't sent any email invitations yet."
 msgstr "Du har inte skickat några e-postinbjudningar än."
 
-#: by-email/by-email.php:842
+#: by-email/by-email.php:901
 msgid "An invitation to join the %s community."
 msgstr "En inbjudan att bli medlem i %s"
 
-#: by-email/by-email.php:867
+#: by-email/by-email.php:926
 msgid ""
 "You have been invited by %%INVITERNAME%% to join the %s community.\n"
 "\n"
@@ -761,18 +802,18 @@ msgstr ""
 "\n"
 "Besök %%INVITERNAME%%'s profil på %%INVITERURL%%."
 
-#: by-email/by-email.php:890
+#: by-email/by-email.php:949
 msgid "To accept this invitation, please visit %%ACCEPTURL%%"
 msgstr "För att acceptera denna inbjudan, gå till %%ACCEPTURL%%"
 
-#: by-email/by-email.php:894
+#: by-email/by-email.php:953
 msgid ""
 "To opt out of future invitations to this site, please visit %%OPTOUTURL%%"
 msgstr ""
 "För att slippa få framtida inbjudningar från denna sida, gå till %%OPTOUTURL%"
 "%"
 
-#: by-email/by-email.php:1051
+#: by-email/by-email.php:1127
 msgid ""
 "You are only allowed to invite up to %s people at a time. Please remove some "
 "addresses and try again"
@@ -780,11 +821,11 @@ msgstr ""
 "Du får bjuda in max %s personer åt gången. Ta bort några adresser och försök "
 "igen"
 
-#: by-email/by-email.php:1059
+#: by-email/by-email.php:1137
 msgid "You didn't include any email addresses!"
 msgstr "Du fyllde inte i några e-postadresser!"
 
-#: by-email/by-email.php:1070
+#: by-email/by-email.php:1150
 msgid ""
 "You are only allowed to invite %s more people. Please remove some addresses "
 "and try again"
@@ -792,19 +833,19 @@ msgstr ""
 "Du får endast bjuda in %s personer till. Ta bort några adresser och försök "
 "igen"
 
-#: by-email/by-email.php:1089
+#: by-email/by-email.php:1171
 msgid "<strong>%s</strong> has opted out of email invitations from this site."
 msgstr "<strong>%s</strong> har avböjt inbjudningar från denna sida"
 
-#: by-email/by-email.php:1093
+#: by-email/by-email.php:1175
 msgid "<strong>%s</strong> is already a registered user of the site."
 msgstr "<strong>%s</strong> är redan medlem på denna sida."
 
-#: by-email/by-email.php:1097
+#: by-email/by-email.php:1179
 msgid "<strong>%s</strong> is not a permitted email address."
 msgstr "<strong>%s</strong> är inte en godkänd e-postadress."
 
-#: by-email/by-email.php:1101
+#: by-email/by-email.php:1183
 msgid ""
 "<strong>%s</strong> is not a valid email address. Please make sure that you "
 "have typed it correctly."
@@ -812,7 +853,7 @@ msgstr ""
 "<strong>%s</strong> är inte en giltig e-postadress. Kontrollera att du "
 "skrivit rätt."
 
-#: by-email/by-email.php:1105
+#: by-email/by-email.php:1187
 msgid ""
 "<strong>%s</strong> is not a permitted email address. Please make sure that "
 "you have typed the domain name correctly."
@@ -820,19 +861,19 @@ msgstr ""
 "<strong>%s</strong> är inte en godkänd e-postadress. Kontrollera att du har "
 "skrivit rätt domännamn."
 
-#: by-email/by-email.php:1164
+#: by-email/by-email.php:1246
 msgid "Invitations were sent successfully to the following email addresses: %s"
 msgstr "Inbjudningar har skickats till följande e-postadresser: %s"
 
-#: by-email/by-email.php:1170
+#: by-email/by-email.php:1251
 msgid "Please correct your errors and resubmit."
 msgstr "Fixa dina fel och skicka igen."
 
-#: by-email/by-email.php:1218
+#: by-email/by-email.php:1348 by-email/by-email.php:1388
 msgid "We couldn't find any invitations associated with this email address."
 msgstr "Vi kunde inte hitta några inbjudningar till denna e-postadress."
 
-#: by-email/cloudsponge-integration.php:71
+#: by-email/cloudsponge-integration.php:70
 msgid ""
 "You can also add email addresses <a class=\"cs_import\">from your Address "
 "Book</a>."
@@ -840,20 +881,48 @@ msgstr ""
 "Du kan också lägga till e-postadresser <a class=\"cs_import\">från din "
 "adressbok</a>."
 
-#: group-invites/group-invites.php:89 group-invites/group-invites.php:132
-#: group-invites/group-invites.php:161
+#: group-invites/group-invites.php:23
+msgid ""
+"Click &ldquo;Send Invites&rdquo; to finish sending your new invitations."
+msgstr ""
+"Klicka på &ldquo;Skicka inbjudningar&rdquo;för att avsluta dina inbjudningar."
+
+#: group-invites/group-invites.php:108 group-invites/group-invites.php:151
+#: group-invites/group-invites.php:195
 msgid "Group invites sent."
 msgstr "Gruppinbjudningar skickade."
 
-#: group-invites/group-invites.php:134
+#: group-invites/group-invites.php:153
 msgid "Group created successfully."
 msgstr "Gruppen skapades."
 
-#: group-invites/group-invites.php:354
+#: group-invites/group-invites.php:401
 #: group-invites/templates/invite-anyone.php:70
-#: group-invites/templates/invite-anyone.php:157
+#: group-invites/templates/invite-anyone.php:159
 msgid "Remove Invite"
 msgstr "Ta bort inbjudan"
+
+#: group-invites/group-invites.php:585
+msgid ""
+"%1$s has invited you to the group: \"%2$s\".\n"
+"\n"
+"To view your group invites visit: %3$s\n"
+"\n"
+"To view the group visit: %4$s\n"
+"\n"
+"To view %5$s's profile visit: %6$s\n"
+"\n"
+"---------------------\n"
+msgstr ""
+"%1$s har bjudit in digrill gruppen: \"%2$s\".\n"
+"\n"
+"För att se dina inbjudningar gå till: %3$s\n"
+"\n"
+"För att se denna grupp, gå till: %4$s\n"
+"\n"
+"För att se %5$s's profil gå till: %6$s\n"
+"\n"
+"---------------------\n"
 
 #: group-invites/templates/invite-anyone.php:27
 #: group-invites/templates/invite-anyone.php:115
@@ -861,7 +930,7 @@ msgid "Search for members to invite:"
 msgstr "Sök efter medlemmar att bjuda in: "
 
 #: group-invites/templates/invite-anyone.php:35
-#: group-invites/templates/invite-anyone.php:123
+#: group-invites/templates/invite-anyone.php:126
 msgid "Select members from the directory:"
 msgstr "Välj medlemmar från listan:"
 
@@ -878,46 +947,46 @@ msgstr "Vill du bjuda in någon till gruppen som ännu inte är medlem på sidan
 msgid "Send invitations by email."
 msgstr "Skicka inbjudningar via e-post."
 
-#: group-invites/templates/invite-anyone.php:137
+#: group-invites/templates/invite-anyone.php:139
 msgid "Select people to invite from your friends list."
 msgstr "Välj personer att bjuda in."
 
-#: lib/bbg-cpt-pag.php:200
+#: lib/bbg-cpt-pag.php:190
 msgid "Viewing %1$d - %2$d of a total of %3$d"
 msgstr "Visar %1$d - %2$d av totalt %3$d"
 
-#: lib/bbg-cpt-pag.php:221
+#: lib/bbg-cpt-pag.php:211
 msgid "&laquo;"
 msgstr "&laquo;"
 
-#: lib/bbg-cpt-pag.php:222
+#: lib/bbg-cpt-pag.php:212
 msgid "&raquo;"
 msgstr "&raquo;"
 
-#: widgets/widgets.php:41
+#: widgets/widgets.php:44
 msgid "Enter one email address per line to invite friends to join this site."
 msgstr "Fyll i en e-postadress per rad för att bjuda in till denna sida."
 
-#: widgets/widgets.php:68
+#: widgets/widgets.php:71
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: widgets/widgets.php:92
+#: widgets/widgets.php:100
 msgid ""
 "Invite friends to join the site by entering their email addresses below."
 msgstr ""
 "Bjud in personer till denna sida genom att fylla i deras e-postadresser "
 "nedan."
 
-#: widgets/widgets.php:95
+#: widgets/widgets.php:104
 msgid "Title:"
 msgstr "Titel:"
 
-#: widgets/widgets.php:97
+#: widgets/widgets.php:106
 msgid "Text to display in widget:"
 msgstr "Text att visa i widgeten:"
 
-#: widgets/widgets.php:101
+#: widgets/widgets.php:110
 msgid "Number of email fields to display in widget:"
 msgstr "Antal e-postfält i widgeten:"
 
@@ -940,3 +1009,31 @@ msgstr "Boone Gorges"
 #. Author URI of the plugin/theme
 msgid "http://boone.gorg.es"
 msgstr "http://boone.gorg.es"
+
+#~ msgid ""
+#~ "<a href=\"http://www.cloudsponge.com/?utm_source=invite-"
+#~ "anyone&utm_medium=partner&utm_campaign=integrator\">CloudSponge</a> is a "
+#~ "cool service that gives your users easy and secure access to their "
+#~ "address books (Gmail, Yahoo, and a number of other online and desktop "
+#~ "email clients), so that they can more easily invite friends to your site. "
+#~ "In order to enable CloudSponge support in Invite Anyone and BuddyPress, "
+#~ "you'll need to <a href=\"http://www.cloudsponge.com/signup?"
+#~ "utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator"
+#~ "\">register for a CloudSponge account</a>."
+#~ msgstr ""
+#~ "<a href=\"http://www.cloudsponge.com/?utm_source=invite-"
+#~ "anyone&utm_medium=partner&utm_campaign=integrator\">CloudSponge</a> är en "
+#~ "cool serivce som ger dina användare enkel och säker tillgång till sina "
+#~ "adressböcker (från Gmail, Yahoo och flera andra e-posttjänster) så att de "
+#~ "lättare kan hitta vänner att bjuda in till din sida. För att aktivera "
+#~ "Cloudsponge i Invite Anyone och Buddypress så behöver du <a href=\"http://"
+#~ "www.cloudsponge.com/signup?utm_source=invite-"
+#~ "anyone&utm_medium=partner&utm_campaign=integrator\">registrera ett "
+#~ "CloudSpongekonto</a>."
+
+#~ msgid ""
+#~ "Welcome! You've been invited %s to join the site. Please fill out the "
+#~ "information below to create your account."
+#~ msgstr ""
+#~ "Välkommen! Du har blivit inbjuden av %s att bli medlem på denna sida. "
+#~ "Fyll i informationen nedan för att skapa ditt konto."
