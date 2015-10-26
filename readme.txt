@@ -55,6 +55,7 @@ Additional details about the plugin can be found in the following languages:
 * More selective cookie deletion, for improved cache support
 * Sort autocomplete results by display name rather than user_login
 * Updated Swedish translation
+* Ensure that group invitations go out properly during group creation
 
 = 1.3.8 =
 * Improved responsive design on Sent Invites and Send Invites screens
