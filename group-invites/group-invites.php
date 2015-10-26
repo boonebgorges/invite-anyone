@@ -133,19 +133,25 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 		if ( bp_group_has_invites() )
 			$this->has_invites = true;
 		$this->method = 'create';
-		$this->save();
+		$this->save( $group_id );
 	}
 
-	function save() {
+	function save( $group_id = null ) {
 		global $bp;
 
-		/* Set error redirect based on save method */
-		if ( $this->method == 'create' )
-			$redirect_url = $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $this->slug;
-		else
-			$redirect_url = bp_get_group_permalink( $bp->groups->current_group ) . '/admin/' . $this->slug;
+		if ( null === $group_id ) {
+			$group_id = bp_get_current_group_id();
+		}
 
-		groups_send_invites( $bp->loggedin_user->id, $bp->groups->current_group->id );
+		/* Set error redirect based on save method */
+		if ( $this->method == 'create' ) {
+			$redirect_url = $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $this->slug;
+		} else {
+			$group = groups_get_group( array( 'group_id' => $group_id ) );
+			$redirect_url = bp_get_group_permalink( $group ) . '/admin/' . $this->slug;
+		}
+
+		groups_send_invites( $bp->loggedin_user->id, $group_id );
 
 		if ( $this->has_invites )
 			bp_core_add_message( __( 'Group invites sent.', 'invite-anyone' ) );
