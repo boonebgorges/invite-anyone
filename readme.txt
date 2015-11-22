@@ -32,6 +32,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 * Belarussian: Alexander Ovsov (<a href="http://webhostinggeeks.com/science">Web Geek Science</a>)
 * Brazilian Portuguese: Celso Bessa
+* Catalan: Pau Ferrer Ocaña
 * Danish: Mort3n
 * Dutch: Jesper Popma, Tim de Hoog
 * French: Guillaume Coulon, Nicolas Mollet
@@ -49,6 +50,9 @@ Additional details about the plugin can be found in the following languages:
 * Serbo-Croatian: <a href="http://science.webhostinggeeks.com/teleogistic">http://science.webhostinggeeks.com/teleogistic</a>
 
 == Changelog ==
+
+= 1.3.10 =
+* Added Catalan translation
 
 = 1.3.9 =
 * Don't make the Subject input a textarea if it's not editable
