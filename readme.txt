@@ -32,7 +32,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 
 * Belarussian: Alexander Ovsov (<a href="http://webhostinggeeks.com/science">Web Geek Science</a>)
 * Brazilian Portuguese: Celso Bessa
-* Catalan: Pau Ferrer Ocaña
+* Catalan: Mònica Grau and Toni Ginard
 * Danish: Mort3n
 * Dutch: Jesper Popma, Tim de Hoog
 * French: Guillaume Coulon, Nicolas Mollet
