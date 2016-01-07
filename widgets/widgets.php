@@ -17,7 +17,7 @@ class InviteAnyoneWidget extends WP_Widget {
 	/**
 	 * Constructor.
 	 */
-	function InviteAnyoneWidget() {
+	public function __construct() {
 		$widget_ops = array( 'classname' => 'invite-anyone', 'description' => 'Invite Anyone widget' );
 
 		/* Widget control settings. */
