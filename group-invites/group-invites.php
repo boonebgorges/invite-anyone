@@ -64,7 +64,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 	var $enable_create_step = true;
 	var $enable_edit_item = false;
 
-	function bp_invite_anyone() {
+	public function __construct() {
 		global $bp;
 
 		$this->has_caps = true;
