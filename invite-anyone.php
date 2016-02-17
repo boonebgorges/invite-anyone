@@ -56,22 +56,22 @@ function invite_anyone_activation() {
 	if ( ! $iaoptions = get_option( 'invite_anyone' ) )
 		$iaoptions = array();
 
-	if ( empty( $iaoptions['max_invites'] ) )
+	if ( ! isset( $iaoptions['max_invites'] ) )
 		$iaoptions['max_invites'] = 5;
 
-	if ( empty( $iaoptions['allow_email_invitations'] ) )
+	if ( ! isset( $iaoptions['allow_email_invitations'] ) )
 		$iaoptions['allow_email_invitations'] = 'all';
 
-	if ( empty( $iaoptions['message_is_customizable'] ) )
+	if ( ! isset( $iaoptions['message_is_customizable'] ) )
 		$iaoptions['message_is_customizable'] = 'yes';
 
-	if ( empty( $iaoptions['subject_is_customizable'] ) )
+	if ( ! isset( $iaoptions['subject_is_customizable'] ) )
 		$iaoptions['subject_is_customizable'] = 'no';
 
-	if ( empty( $iaoptions['can_send_group_invites_email'] ) )
+	if ( ! isset( $iaoptions['can_send_group_invites_email'] ) )
 		$iaoptions['can_send_group_invites_email'] = 'yes';
 
-	if ( empty( $iaoptions['bypass_registration_lock'] ) )
+	if ( ! isset( $iaoptions['bypass_registration_lock'] ) )
 		$iaoptions['bypass_registration_lock'] = 'yes';
 
 	$iaoptions['version'] = BP_INVITE_ANYONE_VER;
