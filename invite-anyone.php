@@ -49,31 +49,32 @@ function invite_anyone_locale_init() {
 }
 add_action( 'plugins_loaded', 'invite_anyone_locale_init' );
 
+/**
+ * Populate options on plugin activation.
+ */
 function invite_anyone_activation() {
-	if ( !$iaoptions = get_option( 'invite_anyone' ) )
+	if ( ! $iaoptions = get_option( 'invite_anyone' ) )
 		$iaoptions = array();
 
-	if ( !$iaoptions['max_invites'] )
+	if ( empty( $iaoptions['max_invites'] ) )
 		$iaoptions['max_invites'] = 5;
 
-	if ( !$iaoptions['allow_email_invitations'] )
+	if ( empty( $iaoptions['allow_email_invitations'] ) )
 		$iaoptions['allow_email_invitations'] = 'all';
 
-	if ( !$iaoptions['message_is_customizable'] )
+	if ( empty( $iaoptions['message_is_customizable'] ) )
 		$iaoptions['message_is_customizable'] = 'yes';
 
-	if ( !$iaoptions['subject_is_customizable'] )
+	if ( empty( $iaoptions['subject_is_customizable'] ) )
 		$iaoptions['subject_is_customizable'] = 'no';
 
-	if ( !$iaoptions['can_send_group_invites_email'] )
+	if ( empty( $iaoptions['can_send_group_invites_email'] ) )
 		$iaoptions['can_send_group_invites_email'] = 'yes';
 
-	if ( !$iaoptions['bypass_registration_lock'] )
+	if ( empty( $iaoptions['bypass_registration_lock'] ) )
 		$iaoptions['bypass_registration_lock'] = 'yes';
 
 	$iaoptions['version'] = BP_INVITE_ANYONE_VER;
 
 	update_option( 'invite_anyone', $iaoptions );
 }
-
-?>
