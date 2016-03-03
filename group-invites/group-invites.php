@@ -325,7 +325,7 @@ class Invite_Anyone_User_Query extends WP_User_Query {
 	 * @see WP_User_Query::get_search_sql()
 	 */
 	function get_search_sql( $string, $cols, $wild = false ) {
-		$string = esc_sql( $string );
+		global $wpdb;
 
 		// Always search all columns
 		$cols = array(
@@ -342,11 +342,9 @@ class Invite_Anyone_User_Query extends WP_User_Query {
 		$searches = array();
 		$leading_wild = ( 'leading' == $wild || 'both' == $wild ) ? '%' : '';
 		$trailing_wild = ( 'trailing' == $wild || 'both' == $wild ) ? '%' : '';
+		$like_string = $leading_wild . $wpdb->esc_like( $string ) . $trailing_wild;
 		foreach ( $cols as $col ) {
-			if ( 'ID' == $col )
-				$searches[] = "$col = '$string'";
-			else
-				$searches[] = "$col LIKE '$leading_wild" . like_escape($string) . "$trailing_wild'";
+			$searches[] = $wpdb->prepare( "$col LIKE %s", $like_string );
 		}
 
 		return ' AND (' . implode(' OR ', $searches) . ') AND user_status = 0';
