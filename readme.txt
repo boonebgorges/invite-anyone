@@ -54,6 +54,7 @@ Additional details about the plugin can be found in the following languages:
 = 1.3.10 =
 * Added Catalan translation
 * Improved compatibility with PHP 7
+* Fixed PHP notice when doing LIKE query
 
 = 1.3.9 =
 * Don't make the Subject input a textarea if it's not editable
