@@ -405,7 +405,7 @@ function invite_anyone_settings_group_invite_visibility() {
 function invite_anyone_settings_cs_content() {
 
 	$options 	= invite_anyone_options();
-	$domain_key 	= !empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : '';
+	$account_key 	= !empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : '';
 
 ?>
 	<div class="cs">
@@ -418,7 +418,7 @@ function invite_anyone_settings_cs_content() {
 		</div>
 
 		<div class="cs-settings">
-			<label for="invite_anyone[cloudsponge_key]"><?php _e( 'CloudSponge Domain Key', 'invite-anyone' ) ?></label> <input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_key]" value="<?php echo esc_html( $domain_key ) ?>" /> <span class="description"><?php _e( 'CloudSponge integration will not work without a valid domain key.', 'invite-anyone' ) ?></span>
+			<label for="invite_anyone[cloudsponge_key]"><?php _e( 'CloudSponge Account Key', 'invite-anyone' ) ?></label> <input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_key]" value="<?php echo esc_html( $account_key ) ?>" /> <span class="description"><?php _e( 'CloudSponge integration will not work without a valid CloudSponge Account key.', 'invite-anyone' ) ?></span>
 
 			<p class="description"><?php _e( 'When you use CloudSponge with Invite Anyone, part of your CloudSponge monthly payment goes to the author of Invite Anyone. This is a great way to support future development of the plugin. Thanks for your support!', 'invite-anyone' ) ?></p>
 		</div>

@@ -32,12 +32,11 @@ class Cloudsponge_Integration {
 	 * @since 0.8.8
 	 */
 	function enqueue_script() {
-		wp_register_script( 'ia_cloudsponge_address_books', 'https://api.cloudsponge.com/address_books.js', array(), false, true );
-		wp_register_script( 'ia_cloudsponge', WP_PLUGIN_URL . '/invite-anyone/by-email/cloudsponge-js.js', array( 'ia_cloudsponge_address_books' ), false, true );
+		wp_register_script( 'ia_cloudsponge', WP_PLUGIN_URL . '/invite-anyone/by-email/cloudsponge-js.js', array(), false, true );
 
 		// The domain key must be printed as a javascript object so it's accessible to the
 		// script
-		$strings = array( 'domain_key' => $this->key );
+		$strings = array( 'account_key' => $this->key );
 
 		if ( $locale = apply_filters( 'ia_cloudsponge_locale', '' ) ) {
 			$strings['locale'] = $locale;
