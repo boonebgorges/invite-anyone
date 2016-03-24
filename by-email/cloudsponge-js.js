@@ -1,7 +1,10 @@
-(function(u){
-  var d=document,s='script',a=d.createElement(s),m=d.getElementsByTagName(s)[0];
-  a.async=1;a.src=u;m.parentNode.insertBefore(a,m);
-})('//api.cloudsponge.com/widget/'+ia_cloudsponge.account_key+'.js');
+
+if ( ia_cloudsponge.account_key ) {
+	(function(u){
+	  var d=document,s='script',a=d.createElement(s),m=d.getElementsByTagName(s)[0];
+	  a.async=1;a.src=u;m.parentNode.insertBefore(a,m);
+	})('//api.cloudsponge.com/widget/'+ia_cloudsponge.account_key+'.js');
+}
 
 var csPageOptions = {
 	referrer: 'invite-anyone',
@@ -33,6 +36,11 @@ var csPageOptions = {
 		document.getElementById('cloudsponge-emails').value = new_emails_for_input;
 	}
 }
+
+if ( ia_cloudsponge.domain_key ) {
+	csPageOptions.domain_key = ia_cloudsponge.domain_key;
+}
+
 
 if ( ia_cloudsponge.locale ) {
 	cloudsponge.init( { locale: 'es' } );
