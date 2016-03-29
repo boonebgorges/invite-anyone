@@ -418,12 +418,13 @@ function invite_anyone_settings_cs_content() {
 	}
 	// Trying to give to CloudSponge user email and name to pre populate signup
 	// form and reduce friction
-	$cloudsponge_params = '?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator&email='.urlencode(wp_get_current_user()->user_email);
+	$cloudsponge_params = '?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator';
+	$cloudsponge_additional_params = '&email='.urlencode(wp_get_current_user()->user_email);
 	if($cloudsponge_name){
-		$cloudsponge_params.= '&name='.urlencode($cloudsponge_name);
+		$cloudsponge_additional_params.= '&name='.urlencode($cloudsponge_name);
 	}
 	$cloudsponge_link = 'http://www.cloudsponge.com'.$cloudsponge_params;
-	$cloudsponge_signup_link = 'https://app.cloudsponge.com/users/sign_up'.$cloudsponge_params;
+	$cloudsponge_signup_link = 'https://app.cloudsponge.com/users/sign_up'.$cloudsponge_params.$cloudsponge_additional_params;
 
 ?>
 	<div class="cs">
