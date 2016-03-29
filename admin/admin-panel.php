@@ -408,22 +408,20 @@ function invite_anyone_settings_cs_content() {
 	$options = invite_anyone_options();
 	$domain_key = !empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : '';
 	$account_key = !empty( $options['cloudsponge_account_key'] ) ? $options['cloudsponge_account_key'] : '';
-	// Capturing current user name
-	$cloudsponge_name = '';
+	// Trying to give to CloudSponge user email and name to pre populate signup
+	// form and reduce friction
+	$cloudsponge_params = '?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator';
+	$cloudsponge_additional_params = '&email='.urlencode(wp_get_current_user()->user_email);
 	if(wp_get_current_user()->first_name){
 		$cloudsponge_name = wp_get_current_user()->first_name;
 		if(wp_get_current_user()->last_name){
 			$cloudsponge_name.= ' '.wp_get_current_user()->last_name;
 		}
-	}
-	// Trying to give to CloudSponge user email and name to pre populate signup
-	// form and reduce friction
-	$cloudsponge_params = '?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator';
-	$cloudsponge_additional_params = '&email='.urlencode(wp_get_current_user()->user_email);
-	if($cloudsponge_name){
 		$cloudsponge_additional_params.= '&name='.urlencode($cloudsponge_name);
 	}
+	// Landing to home
 	$cloudsponge_link = 'http://www.cloudsponge.com'.$cloudsponge_params;
+	// Landing on Signup Form
 	$cloudsponge_signup_link = 'https://app.cloudsponge.com/users/sign_up'.$cloudsponge_params.$cloudsponge_additional_params;
 
 ?>
