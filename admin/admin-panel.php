@@ -424,6 +424,14 @@ function invite_anyone_settings_cs_content() {
 	// Landing on Signup Form
 	$cloudsponge_signup_link = 'https://app.cloudsponge.com/users/sign_up'.$cloudsponge_params.$cloudsponge_additional_params;
 
+	// Include CloudSponge Universal Snippet, so user can launch it clicking
+	// on `Test` button
+	wp_register_script( 'ia_cloudsponge', WP_PLUGIN_URL . '/invite-anyone/by-email/cloudsponge-js.js', array(), false, true );
+	$strings['account_key'] = $account_key;
+	$strings['domain_key'] = false;
+	wp_localize_script( 'ia_cloudsponge', 'ia_cloudsponge', $strings );
+	wp_enqueue_script( 'ia_cloudsponge' );
+
 ?>
 	<div class="cs">
 		<a href="<?php _e($cloudsponge_link) ?>"><img class="cs-logo" src="<?php echo plugins_url( 'invite-anyone/images/cloudsponge_logo.png' ) ?>" /></a>
@@ -445,13 +453,11 @@ function invite_anyone_settings_cs_content() {
 			?>
 					<label for="invite_anyone[cloudsponge_key]"><?php _e( 'CloudSponge Account Key', 'invite-anyone' ) ?></label>
 					<input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_account_key]" value="<?php echo esc_html( $account_key ) ?>" />
-					<?php if ( $account_key ) { ?>
-						<script type="text/javascript">
-							(function(u){
-							  var d=document,s='script',a=d.createElement(s),m=d.getElementsByTagName(s)[0];
-							  a.async=1;a.src=u;m.parentNode.insertBefore(a,m);
-							})('//api.cloudsponge.com/widget/<?php _e($account_key) ?>.js');
-						</script>
+					<?php if ( $account_key ) {
+
+
+						?>
+
 						<button id="test-cloudsponge-button" name="test-cloudsponge-button" type="button" onclick="csLaunch();"><?php _e('Test'); ?></button>
 					<?php } ?>
 					<span class="description"><?php _e( 'CloudSponge integration will not work without a valid CloudSponge Account key.', 'invite-anyone' ) ?></span>
