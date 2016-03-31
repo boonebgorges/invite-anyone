@@ -424,7 +424,7 @@ function invite_anyone_settings_cs_content() {
 	// Landing on Signup Form
 	$cloudsponge_signup_link = 'https://app.cloudsponge.com/users/sign_up'.$cloudsponge_params.$cloudsponge_additional_params;
 
-	// Include CloudSponge Universal Snippet, so user can launch it clicking
+	// Include CloudSponge Snippet, so user can launch it clicking
 	// on `Test` button
 	wp_register_script( 'ia_cloudsponge', WP_PLUGIN_URL . '/invite-anyone/by-email/cloudsponge-js.js', array(), false, true );
 	$strings['account_key'] = $account_key;
