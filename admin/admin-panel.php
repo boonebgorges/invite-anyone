@@ -451,7 +451,7 @@ function invite_anyone_settings_cs_content() {
 			<?php
 				} else {
 			?>
-					<label for="invite_anyone[cloudsponge_key]"><?php _e( 'CloudSponge Account Key', 'invite-anyone' ) ?></label>
+					<label for="invite_anyone[cloudsponge_key]"><?php _e( 'CloudSponge Key', 'invite-anyone' ) ?></label>
 					<input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_account_key]" value="<?php echo esc_html( $account_key ) ?>" />
 					<?php if ( $account_key ) {
 
@@ -460,7 +460,7 @@ function invite_anyone_settings_cs_content() {
 
 						<button id="test-cloudsponge-button" name="test-cloudsponge-button" type="button" onclick="csLaunch();"><?php _e('Test'); ?></button>
 					<?php } ?>
-					<span class="description"><?php _e( 'CloudSponge integration will not work without a valid CloudSponge Account key.', 'invite-anyone' ) ?></span>
+					<span class="description"><?php _e( 'CloudSponge integration will not work without a valid CloudSponge Key.', 'invite-anyone' ) ?></span>
 			<?php
 				}
 			?>
