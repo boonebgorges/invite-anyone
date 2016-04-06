@@ -173,12 +173,12 @@ function ia_on_autocomplete_select( value, data ) {
 	},
 	function(response)
 	{
-		if ( j("#message") )
-			j("#message").hide();
-
 		j('.ajax-loader').toggle();
 
-		j('#invite-anyone-invite-list').append(response);
+		if ( '0' != response ) {
+			j('#invite-anyone-invite-list').append(response);
+			j("#message").hide();
+		}
 
 		j('div.item-list-tabs li.selected').removeClass('loading');
 
