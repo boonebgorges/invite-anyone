@@ -412,12 +412,9 @@ function invite_anyone_settings_cs_content() {
 	// form and reduce friction
 	$cloudsponge_params = '?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator';
 	$cloudsponge_additional_params = '&email='.urlencode(wp_get_current_user()->user_email);
-	if(wp_get_current_user()->first_name){
-		$cloudsponge_name = wp_get_current_user()->first_name;
-		if(wp_get_current_user()->last_name){
-			$cloudsponge_name.= ' '.wp_get_current_user()->last_name;
-		}
-		$cloudsponge_additional_params.= '&name='.urlencode($cloudsponge_name);
+	$display_name = bp_core_get_user_displayname( bp_loggedin_user_id() );
+	if($display_name){
+		$cloudsponge_additional_params.= '&name='.urlencode($display_name);
 	}
 	// Landing to home
 	$cloudsponge_link = 'http://www.cloudsponge.com'.$cloudsponge_params;
