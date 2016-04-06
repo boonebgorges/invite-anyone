@@ -262,26 +262,23 @@ function bp_new_group_invite_member_list() {
  * @package Invite Anyone
  * @since 1.0
  *
- * @param int $group_id The group_id you want to exclude
- * @param str $search_terms If you want to search on username/display name
+ * @param int    $group_id     The group_id you want to exclude
+ * @param string $search_terms If you want to search on username/display name
+ * @param string $fields       Fields to retrieve. 'ID' or 'all'.
  * @return array $users An array of located users
  */
 function invite_anyone_invite_query( $group_id = false, $search_terms = false, $fields = 'all' ) {
 	// Get a list of group members to be excluded from the main query
 	$group_members = array();
 	$args = array(
-		'group_id'	      => $group_id,
-		'exclude_admins_mods' => false
+		'group_id'   => $group_id,
+		'group_role' => array( 'member', 'mod', 'admin', 'banned' ),
 	);
 	if ( $search_terms )
 		$args['search'] = $search_terms;
 
-	if ( bp_group_has_members( $args ) ) {
-		while ( bp_group_members() ) {
-			bp_group_the_member();
-			$group_members[] = bp_get_group_member_id();
-		}
-	}
+	$gm = groups_get_group_members( $args );
+	$group_members = wp_list_pluck( $gm['members'], 'ID' );
 
 	// Don't include the logged-in user, either
 	$group_members[] = bp_loggedin_user_id();
