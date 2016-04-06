@@ -434,10 +434,10 @@ function invite_anyone_settings_cs_content() {
 
 ?>
 	<div class="cs">
-		<a href="<?php _e($cloudsponge_link) ?>"><img class="cs-logo" src="<?php echo plugins_url( 'invite-anyone/images/cloudsponge_logo.png' ) ?>" /></a>
+		<img class="cs-logo" src="<?php echo plugins_url( 'invite-anyone/images/cloudsponge_logo.png' ) ?>" />
 
 		<div class="cs-explain">
-			<p><?php _e( '<a href="'.$cloudsponge_link.'">CloudSponge</a> is a cool service that gives your users easy and secure access to their address books (Facebook, LinkedIn, Gmail, Yahoo, and a number of other online and desktop email clients), so that they can more easily invite friends to your site. It#8217;s a great way to increase engagement on your site, by making it easier for them to invite new members. In order to enable CloudSponge support in Invite Anyone and BuddyPress, you\'ll need to <a href="'.$cloudsponge_signup_link.'">register for a CloudSponge account</a>.', 'invite-anyone' ) ?></p>
+			<p><?php _e( 'CloudSponge is a cool service that gives your users easy and secure access to their address books (LinkedIn, Gmail, Yahoo, and a number of other online and desktop email clients), so that they can more easily invite friends to your site. It\'s a great way to increase engagement on your site, by making it easier for them to invite new members. In order to enable CloudSponge support in Invite Anyone and BuddyPress, you\'ll need to <a href="'.$cloudsponge_signup_link.'">register for a CloudSponge account</a>.', 'invite-anyone' ) ?></p>
 
 			<label for="invite_anyone[cloudsponge_enabled]"><input type="checkbox" name="invite_anyone[cloudsponge_enabled]" id="cloudsponge-enabled" <?php checked( $options['cloudsponge_enabled'], 'on' ) ?>/> <strong><?php _e( 'Enable CloudSponge?', 'invite-anyone' ) ?></strong></label>
 		</div>
