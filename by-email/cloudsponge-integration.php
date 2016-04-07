@@ -16,9 +16,10 @@ class Cloudsponge_Integration {
 			$options = get_option( 'invite_anyone' );
 
 		$this->enabled = !empty( $options['cloudsponge_enabled'] ) ? $options['cloudsponge_enabled'] : false;
-		$this->key     = !empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : false;
+		$this->domain_key = !empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : false;
+		$this->account_key = !empty( $options['cloudsponge_domain_key'] ) ? $options['cloudsponge_domain_key'] : false;
 
-		if ( $this->enabled && $this->key ) {
+		if ( $this->enabled && ( $this->domain_key || $this->account_key ) ) {
 			define( 'INVITE_ANYONE_CS_ENABLED', true );
 			add_action( 'invite_anyone_after_addresses', array( $this, 'import_markup' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_script' ) );
@@ -32,12 +33,20 @@ class Cloudsponge_Integration {
 	 * @since 0.8.8
 	 */
 	function enqueue_script() {
-		wp_register_script( 'ia_cloudsponge_address_books', 'https://api.cloudsponge.com/address_books.js', array(), false, true );
-		wp_register_script( 'ia_cloudsponge', WP_PLUGIN_URL . '/invite-anyone/by-email/cloudsponge-js.js', array( 'ia_cloudsponge_address_books' ), false, true );
 
-		// The domain key must be printed as a javascript object so it's accessible to the
-		// script
-		$strings = array( 'domain_key' => $this->key );
+		// Values available in the JavaScript side
+		$strings = array();
+
+		if ($this->domain_key) {
+			wp_register_script( 'ia_cloudsponge_address_books', 'https://api.cloudsponge.com/address_books.js', array(), false, true );
+			wp_register_script( 'ia_cloudsponge', WP_PLUGIN_URL . '/invite-anyone/by-email/cloudsponge-js.js', array( 'ia_cloudsponge_address_books' ), false, true );
+			$strings['domain_key'] = $this->domain_key;
+			$strings['account_key'] = false;
+		} else {
+			wp_register_script( 'ia_cloudsponge', WP_PLUGIN_URL . '/invite-anyone/by-email/cloudsponge-js.js', array(), false, true );
+			$strings['account_key'] = $this->account_key;
+			$strings['domain_key'] = false;
+		}
 
 		if ( $locale = apply_filters( 'ia_cloudsponge_locale', '' ) ) {
 			$strings['locale'] = $locale;

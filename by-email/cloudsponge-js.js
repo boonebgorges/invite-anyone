@@ -1,5 +1,12 @@
+
+if ( ia_cloudsponge.account_key ) {
+	(function(u){
+	  var d=document,s='script',a=d.createElement(s),m=d.getElementsByTagName(s)[0];
+	  a.async=1;a.src=u;m.parentNode.insertBefore(a,m);
+	})('//api.cloudsponge.com/widget/'+ia_cloudsponge.account_key+'.js');
+}
+
 var csPageOptions = {
-	domain_key: ia_cloudsponge.domain_key,
 	referrer: 'invite-anyone',
 	sources: [ 'linkedin', 'yahoo', 'gmail', 'windowslive', 'aol', 'plaxo', 'addressbook', 'outlook' ],
 	afterSubmitContacts:function(contacts) {
@@ -12,11 +19,10 @@ var csPageOptions = {
 			emails.push(email);
 		}
 
-
 		var textarea = document.getElementById('invite-anyone-email-addresses');
 		/* Strip any manually entered whitespace */
 		var already_emails = textarea.value.replace(/^\s+|\s+$/g,"");
-		
+
 		var new_emails;
 		var new_emails_for_input;
 		if ( already_emails == false ) {
@@ -30,6 +36,11 @@ var csPageOptions = {
 		document.getElementById('cloudsponge-emails').value = new_emails_for_input;
 	}
 }
+
+if ( ia_cloudsponge.domain_key ) {
+	csPageOptions.domain_key = ia_cloudsponge.domain_key;
+}
+
 
 if ( ia_cloudsponge.locale ) {
 	cloudsponge.init( { locale: 'es' } );
