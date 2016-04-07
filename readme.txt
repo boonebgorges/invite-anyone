@@ -54,6 +54,7 @@ Additional details about the plugin can be found in the following languages:
 = 1.3.10 =
 * Fixed bug that caused irregularities when searching for banned users to invite to group
 * Added Catalan translation
+* Updated CloudSponge integration to use support new account key format
 * Improved compatibility with PHP 7
 * Fixed PHP notice when doing LIKE query
 
