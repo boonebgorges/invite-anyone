@@ -455,7 +455,13 @@ function invite_anyone_settings_cs_content() {
 						?>
 						<button id="test-cloudsponge-button" name="test-cloudsponge-button" type="button" onclick="csLaunch();"><?php _e( 'Test', 'invite-anyone' ); ?></button>
 					<?php } ?>
-					<span class="description"><?php _e( 'CloudSponge integration will not work without a valid CloudSponge Key.', 'invite-anyone' ) ?></span>
+					<?php if ( !isset( $_GET['cloudsponge-key']) && !$account_key ) { ?>
+						<span class="description"><?php _e( 'CloudSponge integration will not work without a valid CloudSponge Key.', 'invite-anyone' ) ?></span>
+					<?php } elseif ( isset( $_GET['cloudsponge-key']) && !$account_key ) { ?>
+						<span class="description"><?php _e( 'Please, click on <strong>Save Changes</strong> to save the key!', 'invite-anyone' ) ?></span>
+					<?php } else { ?>
+						<span class="description"><?php _e( 'Click in the <strong>test</strong> button to test your integration.', 'invite-anyone' ) ?></span>
+					<?php } ?>
 			<?php
 				}
 			?>
