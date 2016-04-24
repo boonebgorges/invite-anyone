@@ -390,8 +390,8 @@ function invite_anyone_settings_group_invite_visibility() {
 function invite_anyone_settings_cs_content() {
 
 	$options = invite_anyone_options();
-	$domain_key = !empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : '';
-	$account_key = !empty( $options['cloudsponge_account_key'] ) ? $options['cloudsponge_account_key'] : '';
+	$domain_key = isset( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : '';
+	$account_key = isset( $options['cloudsponge_account_key'] ) ? $options['cloudsponge_account_key'] : '';
 	// Trying to give to CloudSponge user email and name to pre populate signup
 	// form and reduce friction
 	$cloudsponge_params = '?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator';
