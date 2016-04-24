@@ -411,18 +411,18 @@ function invite_anyone_settings_cs_content() {
 	// Trying to give to CloudSponge user email and name to pre populate signup
 	// form and reduce friction
 	$cloudsponge_params = '?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator';
-	$cloudsponge_additional_params = '&email='.urlencode(wp_get_current_user()->user_email);
+	$cloudsponge_additional_params = '&email='.urlencode( wp_get_current_user()->user_email );
 	$display_name = bp_core_get_user_displayname( bp_loggedin_user_id() );
-	if($display_name){
-		$cloudsponge_additional_params.= '&name='.urlencode($display_name);
+	if ( $display_name ){
+		$cloudsponge_additional_params .= '&name=' . urlencode( $display_name );
 	}
 	// A callback URL to create a friendly button to get back to WP
-	$protocol = ($_SERVER['HTTPS'] && ' off'!= $_SERVER['HTTPS']) ? 'https://' : 'http://';
-	$cloudsponge_additional_params.= '&callback='.urlencode(  $protocol. $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] );
+	$protocol = is_ssl() ? 'https://' : 'http://';
+	$cloudsponge_additional_params .= '&callback=' . urlencode( $protocol. $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] );
 	// Landing to home
-	$cloudsponge_link = 'http://www.cloudsponge.com'.$cloudsponge_params;
+	$cloudsponge_link = 'http://www.cloudsponge.com' . $cloudsponge_params;
 	// Landing on Signup Form
-	$cloudsponge_signup_link = 'https://app.cloudsponge.com/users/sign_up'.$cloudsponge_params.$cloudsponge_additional_params;
+	$cloudsponge_signup_link = 'https://app.cloudsponge.com/users/sign_up' . $cloudsponge_params . $cloudsponge_additional_params;
 
 	// Include CloudSponge Snippet, so user can launch it clicking
 	// on `Test` button
