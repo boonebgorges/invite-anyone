@@ -113,29 +113,13 @@ function invite_anyone_admin_panel() {
 	<div class="wrap">
 	<h2><?php _e( 'Invite Anyone', 'invite-anyone' ) ?></h2>
 
-    	<ul class="ia-tabs">
-    		<li<?php if ( 'general-settings' == $subpage ) : ?> class="current"<?php endif ?>>
-			<a href="<?php echo add_query_arg( 'subpage', 'general-settings', $url_base ) ?>"><?php _e( 'General Settings', 'invite-anyone' ) ?></a>
-    		</li>
-
-    		<li<?php if ( 'access-control' == $subpage ) : ?> class="current"<?php endif ?>>
-			<a href="<?php echo add_query_arg( 'subpage', 'access-control', $url_base ) ?>"><?php _e( 'Access Control', 'invite-anyone' ) ?></a>
-    		</li>
-
-    		<li<?php if ( 'cloudsponge' == $subpage ) : ?> class="current"<?php endif ?>>
-			<a href="<?php echo add_query_arg( 'subpage', 'cloudsponge', $url_base ) ?>"><?php _e( 'CloudSponge', 'invite-anyone' ) ?></a>
-    		</li>
-
-    		<li<?php if ( 'manage-invitations' == $subpage ) : ?> class="current"<?php endif ?>>
-			<a href="<?php echo add_query_arg( 'subpage', 'manage-invitations', $url_base ) ?>"><?php _e( 'Manage Invitations', 'invite-anyone' ) ?></a>
-    		</li>
-
-    		<li<?php if ( 'stats' == $subpage ) : ?> class="current"<?php endif ?>>
-			<a href="<?php echo add_query_arg( 'subpage', 'stats', $url_base ) ?>"><?php _e( 'Stats', 'invite-anyone' ) ?></a>
-    		</li>
-
-
-    	</ul>
+	<h2 class="nav-tab-wrapper">
+		<a class="nav-tab<?php if ( 'general-settings' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'general-settings', esc_url( $url_base ) ) ?>"><?php _e( 'General Settings', 'invite-anyone' ) ?></a>
+		<a class="nav-tab<?php if ( 'access-control' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'access-control', esc_url( $url_base ) ) ?>"><?php _e( 'Access Control', 'invite-anyone' ) ?></a>
+		<a class="nav-tab<?php if ( 'cloudsponge' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'cloudsponge', esc_url( $url_base ) ) ?>"><?php _e( 'CloudSponge', 'invite-anyone' ) ?></a>
+		<a class="nav-tab<?php if ( 'manage-invitations' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'manage-invitations', esc_url( $url_base ) ) ?>"><?php _e( 'Manage Invitations', 'invite-anyone' ) ?></a>
+		<a class="nav-tab<?php if ( 'stats' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'stats', 'general-settings', esc_url( $url_base ) ) ?>"><?php _e( 'Stats', 'invite-anyone' ) ?></a>
+	</h2>
 
     	<form action="<?php echo $form_action ?>" method="post">
 
