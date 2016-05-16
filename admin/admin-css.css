@@ -47,6 +47,10 @@ div.cs p {
 	float: left;
 }
 
+.cs-warning {
+	color: red;
+}
+
 #invite-anyone-settings-submit {
 	margin-top: 30px;
 	clear: both;

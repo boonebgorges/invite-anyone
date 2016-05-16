@@ -422,7 +422,7 @@ function invite_anyone_settings_cs_content() {
 	// Landing to home
 	$cloudsponge_link = 'http://www.cloudsponge.com'.$cloudsponge_params;
 	// Landing on Signup Form
-	$cloudsponge_signup_link = 'https://app.cloudsponge.com/users/sign_up'.$cloudsponge_params.$cloudsponge_additional_params;
+	$cloudsponge_signup_link = 'http://cloudsponge.com/signup/invite-anyone'.$cloudsponge_params.$cloudsponge_additional_params;
 
 	// Include CloudSponge Snippet, so user can launch it clicking
 	// on `Test` button
@@ -458,7 +458,7 @@ function invite_anyone_settings_cs_content() {
 					<?php if ( !isset( $_GET['cloudsponge-key']) && !$account_key ) { ?>
 						<span class="description"><?php _e( 'CloudSponge integration will not work without a valid CloudSponge Key.', 'invite-anyone' ) ?></span>
 					<?php } elseif ( isset( $_GET['cloudsponge-key']) && !$account_key ) { ?>
-						<span class="description"><?php _e( 'Please, click on <strong>Save Changes</strong> to save the key!', 'invite-anyone' ) ?></span>
+						<span class="description cs-warning"><?php _e( 'Please, click on <strong>Save Changes</strong> to save the key!', 'invite-anyone' ) ?></span>
 					<?php } else { ?>
 						<span class="description"><?php _e( 'Click in the <strong>test</strong> button to test your integration.', 'invite-anyone' ) ?></span>
 					<?php } ?>
