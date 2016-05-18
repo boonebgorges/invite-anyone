@@ -51,6 +51,9 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.3.11 =
+* Improvements to CloudSponge signup process
+
 = 1.3.10 =
 * Fixed bug that caused irregularities when searching for banned users to invite to group
 * Added Catalan translation
