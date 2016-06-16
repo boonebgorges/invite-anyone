@@ -21,7 +21,7 @@ function invite_anyone_add_by_email_css() {
 	global $bp;
 
 	if ( $bp->current_component == BP_INVITE_ANYONE_SLUG ) {
-   		$style_url = WP_PLUGIN_URL . '/invite-anyone/by-email/by-email-css.css';
+   		$style_url = plugins_url() . '/invite-anyone/by-email/by-email-css.css';
         $style_file = WP_PLUGIN_DIR . '/invite-anyone/by-email/by-email-css.css';
         if (file_exists($style_file)) {
             wp_register_style('invite-anyone-by-email-style', $style_url);
@@ -35,7 +35,7 @@ function invite_anyone_add_by_email_js() {
 	global $bp;
 
 	if ( $bp->current_component == BP_INVITE_ANYONE_SLUG ) {
-   		$style_url = WP_PLUGIN_URL . '/invite-anyone/by-email/by-email-js.js';
+   		$style_url = plugins_url() . '/invite-anyone/by-email/by-email-js.js';
         $style_file = WP_PLUGIN_DIR . '/invite-anyone/by-email/by-email-js.js';
         if (file_exists($style_file)) {
             wp_register_script('invite-anyone-by-email-scripts', $style_url);
