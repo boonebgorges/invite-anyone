@@ -51,6 +51,9 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.3.12 =
+* Better compatibility with HTTPS setups
+
 = 1.3.11 =
 * Improvements to CloudSponge signup process
 
