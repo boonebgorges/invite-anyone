@@ -30,11 +30,11 @@ add_filter( 'plugin_action_links', 'invite_anyone_admin_add_action_link', 10, 2 
 
 
 function invite_anyone_admin_scripts() {
-	wp_enqueue_script( 'invite-anyone-admin-js', WP_PLUGIN_URL . '/invite-anyone/admin/admin-js.js' );
+	wp_enqueue_script( 'invite-anyone-admin-js', plugins_url() . '/invite-anyone/admin/admin-js.js' );
 }
 
 function invite_anyone_admin_styles() {
-	wp_enqueue_style( 'invite-anyone-admin-css', WP_PLUGIN_URL . '/invite-anyone/admin/admin-css.css' );
+	wp_enqueue_style( 'invite-anyone-admin-css', plugins_url() . '/invite-anyone/admin/admin-css.css' );
 }
 
 function invite_anyone_admin_panel() {
@@ -410,7 +410,7 @@ function invite_anyone_settings_cs_content() {
 
 	// Include CloudSponge Snippet, so user can launch it clicking
 	// on `Test` button
-	wp_register_script( 'ia_cloudsponge', WP_PLUGIN_URL . '/invite-anyone/by-email/cloudsponge-js.js', array(), false, true );
+	wp_register_script( 'ia_cloudsponge', plugins_url() . '/invite-anyone/by-email/cloudsponge-js.js', array(), false, true );
 	$strings['account_key'] = $account_key;
 	$strings['domain_key'] = false;
 	wp_localize_script( 'ia_cloudsponge', 'ia_cloudsponge', $strings );

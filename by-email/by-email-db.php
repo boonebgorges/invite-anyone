@@ -100,7 +100,7 @@ class Invite_Anyone_Schema {
 			'_builtin' 	=> false,
 			'show_ui' 	=> $this->show_dashboard_ui(),
 			'hierarchical' 	=> false,
-			'menu_icon'	=> WP_PLUGIN_URL . '/invite-anyone/images/smallest_buddypress_icon_ev.png',
+			'menu_icon'	=> plugins_url() . '/invite-anyone/images/smallest_buddypress_icon_ev.png',
 			'supports' 	=> array( 'title', 'editor', 'custom-fields', 'author' )
 		), $this ) );
 
