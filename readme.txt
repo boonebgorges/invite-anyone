@@ -53,6 +53,8 @@ Additional details about the plugin can be found in the following languages:
 
 = 1.3.12 =
 * Better compatibility with HTTPS setups
+* Fixed compatibility with WP < 4.0
+* Fixed CloudSponge integration on the front-end
 
 = 1.3.11 =
 * Improvements to CloudSponge signup process
