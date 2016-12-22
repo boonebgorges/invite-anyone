@@ -52,6 +52,7 @@ Additional details about the plugin can be found in the following languages:
 == Changelog ==
 
 = 1.3.13 =
+* Fixed broken link on Stats tab in the Dashboard
 * Fixed bug that caused internal taxonomies to be indexable by search engines
 
 = 1.3.12 =
