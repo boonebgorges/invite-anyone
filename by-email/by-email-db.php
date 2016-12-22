@@ -122,6 +122,7 @@ class Invite_Anyone_Schema {
 			'label'		=> __( 'Invitees', 'invite-anyone' ),
 			'labels' 	=> $invitee_labels,
 			'hierarchical' 	=> false,
+			'public'        => false,
 			'show_ui' 	=> true,
 		), $this ) );
 
@@ -143,6 +144,7 @@ class Invite_Anyone_Schema {
 			'label'		=> __( 'Invited Groups', 'invite-anyone' ),
 			'labels' 	=> $invited_groups_labels,
 			'hierarchical' 	=> false,
+			'public'        => false,
 			'show_ui' 	=> true,
 		), $this ) );
 

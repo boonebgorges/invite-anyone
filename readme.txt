@@ -3,8 +3,8 @@ Contributors: boonebgorges, cuny-academic-commons
 Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: WP 3.2, BuddyPress 1.8
-Tested up to: WP 4.6, BuddyPress 2.6
-Stable tag: 1.3.12
+Tested up to: WP 4.7, BuddyPress 2.7
+Stable tag: 1.3.13
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -50,6 +50,10 @@ Additional details about the plugin can be found in the following languages:
 * Serbo-Croatian: <a href="http://science.webhostinggeeks.com/teleogistic">http://science.webhostinggeeks.com/teleogistic</a>
 
 == Changelog ==
+
+= 1.3.13 =
+* Fixed broken link on Stats tab in the Dashboard
+* Fixed bug that caused internal taxonomies to be indexable by search engines
 
 = 1.3.12 =
 * Better compatibility with HTTPS setups

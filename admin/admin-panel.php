@@ -118,7 +118,7 @@ function invite_anyone_admin_panel() {
 		<a class="nav-tab<?php if ( 'access-control' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'access-control', esc_url( $url_base ) ) ?>"><?php _e( 'Access Control', 'invite-anyone' ) ?></a>
 		<a class="nav-tab<?php if ( 'cloudsponge' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'cloudsponge', esc_url( $url_base ) ) ?>"><?php _e( 'CloudSponge', 'invite-anyone' ) ?></a>
 		<a class="nav-tab<?php if ( 'manage-invitations' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'manage-invitations', esc_url( $url_base ) ) ?>"><?php _e( 'Manage Invitations', 'invite-anyone' ) ?></a>
-		<a class="nav-tab<?php if ( 'stats' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'stats', 'general-settings', esc_url( $url_base ) ) ?>"><?php _e( 'Stats', 'invite-anyone' ) ?></a>
+		<a class="nav-tab<?php if ( 'stats' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'stats', esc_url( $url_base ) ) ?>"><?php _e( 'Stats', 'invite-anyone' ) ?></a>
 	</h2>
 
     	<form action="<?php echo $form_action ?>" method="post">
