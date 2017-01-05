@@ -51,6 +51,9 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.3.14 =
+* Fixed regression in 1.3.13 that caused friend request invitations to be sent improperly on account activation
+
 = 1.3.13 =
 * Fixed broken link on Stats tab in the Dashboard
 * Fixed bug that caused internal taxonomies to be indexable by search engines
