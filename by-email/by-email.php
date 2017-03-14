@@ -1104,6 +1104,8 @@ function invite_anyone_parse_addresses( $address_string ) {
 function invite_anyone_process_invitations( $data ) {
 	global $bp;
 
+	$options = invite_anyone_options();
+
 	$emails = false;
 	// Parse out the individual email addresses
 	if ( !empty( $data['invite_anyone_email_addresses'] ) ) {
@@ -1117,14 +1119,18 @@ function invite_anyone_process_invitations( $data ) {
 	$returned_data = array(
 		'error_message' => false,
 		'error_emails'  => array(),
-		'subject' 	=> $data['invite_anyone_custom_subject'],
 		'message' 	=> $data['invite_anyone_custom_message'],
 		'groups' 	=> isset( $data['invite_anyone_groups'] ) ? $data['invite_anyone_groups'] : ''
 	);
 
-	// Check against the max number of invites. Send back right away if there are too many
-	$options 	= invite_anyone_options();
-	$max_invites 	= !empty( $options['max_invites'] ) ? $options['max_invites'] : 5;
+	if ( 'yes' === $options['subject_is_customizable'] ) {
+		$returned_data['subject'] = $data['invite_anyone_custom_subject'];
+	} else {
+		$returned_data['subject'] = invite_anyone_invitation_subject();
+	}
+
+	// Check against the max number of invites. Send back right away if there are too many.
+	$max_invites = ! empty( $options['max_invites'] ) ? $options['max_invites'] : 5;
 
 	if ( count( $emails ) > $max_invites ) {
 
