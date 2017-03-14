@@ -51,6 +51,10 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.3.15 =
+* Security fix: Disallow manual overriding of non-customizable subject and message lines.
+* Improve usage of BP API functions
+
 = 1.3.14 =
 * Fixed regression in 1.3.13 that caused friend request invitations to be sent improperly on account activation
 
