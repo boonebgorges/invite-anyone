@@ -965,7 +965,7 @@ function invite_anyone_process_footer( $email ) {
 function invite_anyone_wildcard_replace( $text, $email = false ) {
 	global $bp;
 
-	$inviter_name = $bp->loggedin_user->userdata->display_name;
+	$inviter_name = bp_core_get_user_displayname( bp_loggedin_user_id() );
 	$site_name    = get_bloginfo( 'name' );
 	$inviter_url  = bp_loggedin_user_domain();
 
