@@ -404,6 +404,10 @@ add_action( 'wp_head', 'invite_anyone_access_test' );
 function invite_anyone_catch_send() {
 	global $bp;
 
+	if ( ! is_user_logged_in() || ! bp_is_my_profile() ) {
+		return;
+	}
+
 	if ( ! bp_is_current_component( $bp->invite_anyone->slug ) ) {
 		return;
 	}
@@ -422,7 +426,7 @@ function invite_anyone_catch_send() {
 
 	bp_core_redirect( bp_displayed_user_domain() . $bp->invite_anyone->slug . '/sent-invites' );
 }
-add_action( 'wp', 'invite_anyone_catch_send' );
+add_action( 'bp_actions', 'invite_anyone_catch_send' );
 
 function invite_anyone_catch_clear() {
 	global $bp;
