@@ -921,7 +921,7 @@ function invite_anyone_invitation_message( $returned_message = false ) {
 	global $bp;
 
 	if ( !$returned_message ) {
-		$inviter_name = $bp->loggedin_user->userdata->display_name;
+		$inviter_name = bp_core_get_user_displayname( bp_loggedin_user_id() );
 		$blogname = get_bloginfo('name');
 
 		$iaoptions = invite_anyone_options();
