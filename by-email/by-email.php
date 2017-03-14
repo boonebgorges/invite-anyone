@@ -1119,15 +1119,23 @@ function invite_anyone_process_invitations( $data ) {
 	$returned_data = array(
 		'error_message' => false,
 		'error_emails'  => array(),
-		'message' 	=> $data['invite_anyone_custom_message'],
 		'groups' 	=> isset( $data['invite_anyone_groups'] ) ? $data['invite_anyone_groups'] : ''
 	);
 
 	if ( 'yes' === $options['subject_is_customizable'] ) {
-		$returned_data['subject'] = $data['invite_anyone_custom_subject'];
+		$data['invite_anyone_custom_subject'] = $data['invite_anyone_custom_subject'];
 	} else {
-		$returned_data['subject'] = invite_anyone_invitation_subject();
+		$data['invite_anyone_custom_subject'] = invite_anyone_invitation_subject();
 	}
+
+	if ( 'yes' === $options['message_is_customizable'] ) {
+		$data['invite_anyone_custom_message'] = $data['invite_anyone_custom_message'];
+	} else {
+		$data['invite_anyone_custom_message'] = invite_anyone_invitation_message();
+	}
+
+	$returned_data['subject'] = $data['invite_anyone_custom_subject'];
+	$returned_data['message'] = $data['invite_anyone_custom_message'];
 
 	// Check against the max number of invites. Send back right away if there are too many.
 	$max_invites = ! empty( $options['max_invites'] ) ? $options['max_invites'] : 5;
