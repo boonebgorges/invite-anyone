@@ -52,7 +52,7 @@ Additional details about the plugin can be found in the following languages:
 == Changelog ==
 
 = 1.3.15 =
-* Security fix: Disallow manual overriding of non-customizable subject and message lines.
+* Security fix: Disallow manual overriding of non-customizable subject and message lines. Thanks to Ewoud Vlasselaer, Eric Schayes, and Nabeel Ahmed for discovering and privately reporting this issue.
 * Improve usage of BP API functions
 
 = 1.3.14 =
