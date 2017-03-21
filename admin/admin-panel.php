@@ -635,8 +635,86 @@ function invite_anyone_settings_stats_content() {
 	$stats->display();
 }
 
-function invite_anyone_settings_check($input) {
-	return $input;
-}
+/**
+ * Sanitization for settings.
+ */
+function invite_anyone_settings_check( $input ) {
+	$sanitized = array();
+	foreach ( $input as $key => $value ) {
+		switch ( $key ) {
+			case 'allow_email_invitations' :
+			case 'cloudsponge_key' :
+			case 'default_invitation_subject' :
+				$value = sanitize_text_field( $value );
+			break;
 
-?>
+			case 'default_invitation_message' :
+			case 'addl_invitation_message' :
+				if ( function_exists( 'sanitize_textarea_field' ) ) {
+					$value = sanitize_textarea_field( $value );
+				}
+			break;
+
+			case 'max_invites' :
+			case 'days_since' :
+			case 'limit_invites_per_user' :
+				$value = intval( $input );
+			break;
+
+			// 'yes' checkboxes.
+			case 'subject_is_customizable' :
+			case 'message_is_customizable' :
+			case 'can_send_group_invites_email' :
+			case 'bypass_registration_lock' :
+			case 'email_since_toggle' :
+			case 'email_role_toggle' :
+			case 'email_blacklist_toggle' :
+			case 'group_invites_enable_create_step' :
+			case 'email_limit_invites_toggle' :
+				if ( 'yes' !== $value ) {
+					$value = false;
+				}
+			break;
+
+			// 'on' checkboxes.
+			case 'cloudsponge_enabled' :
+				if ( 'on' !== $value ) {
+					$value = false;
+				}
+			break;
+
+			// By-email access radio buttons.
+			case 'email_visibility_toggle' :
+				if ( 'limit' !== $value ) {
+					$value = 'no_limit';
+				}
+			break;
+
+			case 'minimum_role' :
+				$roles = array( 'Subscriber', 'Contributor', 'Author', 'Editor', 'Administrator' );
+				if ( ! in_array( $value, $roles, true ) ) {
+					$value = 'Subscriber';
+				}
+			break;
+
+			case 'email_blacklist' :
+				$value = implode( ',', wp_parse_id_list( $value ) );
+			break;
+
+			// Group access dropdowns.
+			case 'group_invites_can_admin' :
+			case 'group_invites_can_group_admin' :
+			case 'group_invites_can_group_mod' :
+			case 'group_invites_can_group_member' :
+				$roles = array( 'anyone', 'friends', 'noone' );
+				if ( ! in_array( $value, $roles, true ) ) {
+					$value = 'anyone';
+				}
+			break;
+		}
+
+		$sanitized[ $key ] = $value;
+	}
+
+	return $sanitized;
+}
