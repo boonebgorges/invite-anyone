@@ -424,6 +424,10 @@ function invite_anyone_catch_send() {
 		return;
 	}
 
+	if ( ! isset( $_POST['ia-send-by-email-nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['ia-send-by-email-nonce'] ), 'invite_anyone_send_by_email' ) ) {
+		return;
+	}
+
 	if ( ! invite_anyone_process_invitations( stripslashes_deep( $_POST ) ) ) {
 		bp_core_add_message( __( 'Sorry, there was a problem sending your invitations. Please try again.', 'invite-anyone' ), 'error' );
 	}
@@ -698,6 +702,7 @@ function invite_anyone_screen_one_content() {
 
 		<?php endif; ?>
 
+		<?php wp_nonce_field( 'invite_anyone_send_by_email', 'ia-send-by-email-nonce' ); ?>
 		<?php do_action( 'invite_anyone_addl_fields' ) ?>
 
 	</ol>
