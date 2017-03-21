@@ -264,15 +264,15 @@ function invite_anyone_settings_group_invites_enable_create_step() {
 }
 
 function invite_anyone_settings_default_invitation_subject() {
-	echo apply_filters( 'invite_anyone_settings_default_invitation_subject', "<textarea name='invite_anyone[default_invitation_subject]' cols=60 rows=2 >" . esc_html( invite_anyone_invitation_subject() ) . "</textarea>" );
+	echo apply_filters( 'invite_anyone_settings_default_invitation_subject', "<textarea name='invite_anyone[default_invitation_subject]' cols=60 rows=2 >" . esc_textarea( invite_anyone_invitation_subject() ) . "</textarea>" );
 }
 
 function invite_anyone_settings_default_invitation_message() {
-	echo apply_filters( 'invite_anyone_settings_default_invitation_message', "<textarea name='invite_anyone[default_invitation_message]' cols=60 rows=5 >" . esc_html( invite_anyone_invitation_message() ) . "</textarea>" );
+	echo apply_filters( 'invite_anyone_settings_default_invitation_message', "<textarea name='invite_anyone[default_invitation_message]' cols=60 rows=5 >" . esc_textarea( invite_anyone_invitation_message() ) . "</textarea>" );
 }
 
 function invite_anyone_settings_addl_invitation_message() {
-	echo apply_filters( 'invite_anyone_settings_addl_invitation_message', "<textarea name='invite_anyone[addl_invitation_message]' cols=60 rows=5 >" . esc_html( invite_anyone_process_footer( '[email]' ) ) . "</textarea>" );
+	echo apply_filters( 'invite_anyone_settings_addl_invitation_message', "<textarea name='invite_anyone[addl_invitation_message]' cols=60 rows=5 >" . esc_textarea( invite_anyone_process_footer( '[email]' ) ) . "</textarea>" );
 }
 
 function invite_anyone_settings_is_customizable() {
