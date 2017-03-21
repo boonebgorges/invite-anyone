@@ -232,8 +232,9 @@ function invite_anyone_settings_replacement_patterns() {
 
 function invite_anyone_settings_number_of_invitations() {
 	$options = invite_anyone_options();
+	$max_invites = intval( $options['max_invites'] );
 
-	echo "<input id='invite_anyone_settings_number_of_invitations' name='invite_anyone[max_invites]' size='10' type='text' value='{$options['max_invites']}' />";
+	echo "<input id='invite_anyone_settings_number_of_invitations' name='invite_anyone[max_invites]' size='10' type='text' value='{$max_invites}' />";
 }
 
 function invite_anyone_settings_can_send_group_invites_email() {
