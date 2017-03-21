@@ -61,6 +61,8 @@ function invite_anyone_admin_panel() {
 
 	// Catch and save settings being saved (Settings API workaround)
 	if ( !empty( $_POST['invite-anyone-settings-submit'] ) ) {
+		check_admin_referer( 'invite_anyone-options' );
+
 		$options = invite_anyone_options();
 
 		// Here are the fields currently allowed in each section
