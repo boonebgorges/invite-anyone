@@ -420,6 +420,10 @@ function invite_anyone_catch_send() {
 		return;
 	}
 
+	if ( ! invite_anyone_access_test() ) {
+		return;
+	}
+
 	if ( ! invite_anyone_process_invitations( stripslashes_deep( $_POST ) ) ) {
 		bp_core_add_message( __( 'Sorry, there was a problem sending your invitations. Please try again.', 'invite-anyone' ), 'error' );
 	}
