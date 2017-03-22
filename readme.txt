@@ -51,6 +51,12 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.3.16 =
+* Security fix: Disallow manual bypass of Access settings when inviting users by email. Thanks to Plugin Vulnerabilities for discovering and privately reporting this and other security issues addressed in this release.
+* Security fix: Improved CSRF protection in admin panels
+* Security fix: Improved output escaping of user-provided content in the Dashboard and on the front end
+* Fixed bug that prevented the 'email' sort from working on the Sent Invites screen.
+
 = 1.3.15 =
 * Security fix: Disallow manual overriding of non-customizable subject and message lines. Thanks to Ewoud Vlasselaer, Eric Schayes, and Nabeel Ahmed for discovering and privately reporting this issue.
 * Improve usage of BP API functions
