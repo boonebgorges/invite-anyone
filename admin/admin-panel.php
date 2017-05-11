@@ -1,5 +1,43 @@
 <?php
 
+/**
+ * Database update handler.
+ *
+ * @since 1.3.17
+ */
+function invite_anyone_update() {
+	if ( ! current_user_can( 'bp_moderate' ) ) {
+		return;
+	}
+
+	$options = invite_anyone_options();
+	$version = isset( $options['version'] ) ? (float) $options['version'] : 0;
+
+	if ( version_compare( $version, BP_INVITE_ANYONE_VER, '>=' ) ) {
+		return;
+	}
+
+	/*
+	 * 1.3.17
+	 * - Fix malformed %%ACCEPTURL%%
+	 */
+	if ( version_compare( $version, '1.3.17', '<=' ) ) {
+		$keys = array( 'default_invitation_subject', 'default_invitation_message', 'addl_invitation_message' );
+		foreach ( $keys as $key ) {
+			if ( ! isset( $options[ $key ] ) ) {
+				continue;
+			}
+
+			$options[ $key ] = str_replace( ' PTURL%%', ' %%ACCEPTURL%%', $options[ $key ] );
+		}
+	}
+
+	$options['version'] = BP_INVITE_ANYONE_VER;
+
+	bp_update_option( 'invite_anyone', $options );
+}
+add_action( 'admin_init', 'invite_anyone_update' );
+
 function invite_anyone_admin_add() {
 
 	$parent = bp_core_do_network_admin() ? 'settings.php' : 'options-general.php';
