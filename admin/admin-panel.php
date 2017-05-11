@@ -652,7 +652,11 @@ function invite_anyone_settings_check( $input ) {
 			case 'default_invitation_message' :
 			case 'addl_invitation_message' :
 				if ( function_exists( 'sanitize_textarea_field' ) ) {
+					// sanitize_textarea_field() can see the following as octets, so we swap.
+					$value = preg_replace( '/%%(INVITERNAME|INVITERURL|SITENAME|OPTOUTURL|ACCEPTURL)%%/', '___\1___', $value );
 					$value = sanitize_textarea_field( $value );
+
+					$value = preg_replace( '/___(INVITERNAME|INVITERURL|SITENAME|OPTOUTURL|ACCEPTURL)___/', '%%\1%%', $value );
 				}
 			break;
 
