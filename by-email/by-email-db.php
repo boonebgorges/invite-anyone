@@ -485,7 +485,11 @@ class Invite_Anyone_Invitation {
 	function filter_join_emails( $join, $query ) {
 		global $wpdb;
 
-		$join .= " INNER JOIN {$wpdb->term_taxonomy} wp_term_taxonomy_ia ON (wp_term_taxonomy_ia.term_taxonomy_id = wp_term_relationships.term_taxonomy_id) INNER JOIN {$wpdb->terms} wp_terms_ia ON ( wp_terms_ia.term_id = wp_term_taxonomy_ia.term_id )";
+		$join .= "
+			INNER JOIN {$wpdb->term_relationships} tria ON ( tria.object_id = {$wpdb->posts}.ID )
+			INNER JOIN {$wpdb->term_taxonomy} wp_term_taxonomy_ia ON ( tria.term_taxonomy_id = wp_term_taxonomy_ia.term_taxonomy_id )
+			INNER JOIN {$wpdb->terms} wp_terms_ia ON ( wp_terms_ia.term_id = wp_term_taxonomy_ia.term_id )
+		";
 
 		return $join;
 	}

@@ -61,6 +61,8 @@ function invite_anyone_admin_panel() {
 
 	// Catch and save settings being saved (Settings API workaround)
 	if ( !empty( $_POST['invite-anyone-settings-submit'] ) ) {
+		check_admin_referer( 'invite_anyone-options' );
+
 		$options = invite_anyone_options();
 
 		// Here are the fields currently allowed in each section
@@ -230,8 +232,9 @@ function invite_anyone_settings_replacement_patterns() {
 
 function invite_anyone_settings_number_of_invitations() {
 	$options = invite_anyone_options();
+	$max_invites = intval( $options['max_invites'] );
 
-	echo "<input id='invite_anyone_settings_number_of_invitations' name='invite_anyone[max_invites]' size='10' type='text' value='{$options['max_invites']}' />";
+	echo "<input id='invite_anyone_settings_number_of_invitations' name='invite_anyone[max_invites]' size='10' type='text' value='{$max_invites}' />";
 }
 
 function invite_anyone_settings_can_send_group_invites_email() {
@@ -262,15 +265,15 @@ function invite_anyone_settings_group_invites_enable_create_step() {
 }
 
 function invite_anyone_settings_default_invitation_subject() {
-	echo apply_filters( 'invite_anyone_settings_default_invitation_subject', "<textarea name='invite_anyone[default_invitation_subject]' cols=60 rows=2 >" . esc_html( invite_anyone_invitation_subject() ) . "</textarea>" );
+	echo apply_filters( 'invite_anyone_settings_default_invitation_subject', "<textarea name='invite_anyone[default_invitation_subject]' cols=60 rows=2 >" . esc_textarea( invite_anyone_invitation_subject() ) . "</textarea>" );
 }
 
 function invite_anyone_settings_default_invitation_message() {
-	echo apply_filters( 'invite_anyone_settings_default_invitation_message', "<textarea name='invite_anyone[default_invitation_message]' cols=60 rows=5 >" . esc_html( invite_anyone_invitation_message() ) . "</textarea>" );
+	echo apply_filters( 'invite_anyone_settings_default_invitation_message', "<textarea name='invite_anyone[default_invitation_message]' cols=60 rows=5 >" . esc_textarea( invite_anyone_invitation_message() ) . "</textarea>" );
 }
 
 function invite_anyone_settings_addl_invitation_message() {
-	echo apply_filters( 'invite_anyone_settings_addl_invitation_message', "<textarea name='invite_anyone[addl_invitation_message]' cols=60 rows=5 >" . esc_html( invite_anyone_process_footer( '[email]' ) ) . "</textarea>" );
+	echo apply_filters( 'invite_anyone_settings_addl_invitation_message', "<textarea name='invite_anyone[addl_invitation_message]' cols=60 rows=5 >" . esc_textarea( invite_anyone_process_footer( '[email]' ) ) . "</textarea>" );
 }
 
 function invite_anyone_settings_is_customizable() {
@@ -633,8 +636,86 @@ function invite_anyone_settings_stats_content() {
 	$stats->display();
 }
 
-function invite_anyone_settings_check($input) {
-	return $input;
-}
+/**
+ * Sanitization for settings.
+ */
+function invite_anyone_settings_check( $input ) {
+	$sanitized = array();
+	foreach ( $input as $key => $value ) {
+		switch ( $key ) {
+			case 'allow_email_invitations' :
+			case 'cloudsponge_key' :
+			case 'default_invitation_subject' :
+				$value = sanitize_text_field( $value );
+			break;
 
-?>
+			case 'default_invitation_message' :
+			case 'addl_invitation_message' :
+				if ( function_exists( 'sanitize_textarea_field' ) ) {
+					$value = sanitize_textarea_field( $value );
+				}
+			break;
+
+			case 'max_invites' :
+			case 'days_since' :
+			case 'limit_invites_per_user' :
+				$value = intval( $input );
+			break;
+
+			// 'yes' checkboxes.
+			case 'subject_is_customizable' :
+			case 'message_is_customizable' :
+			case 'can_send_group_invites_email' :
+			case 'bypass_registration_lock' :
+			case 'email_since_toggle' :
+			case 'email_role_toggle' :
+			case 'email_blacklist_toggle' :
+			case 'group_invites_enable_create_step' :
+			case 'email_limit_invites_toggle' :
+				if ( 'yes' !== $value ) {
+					$value = false;
+				}
+			break;
+
+			// 'on' checkboxes.
+			case 'cloudsponge_enabled' :
+				if ( 'on' !== $value ) {
+					$value = false;
+				}
+			break;
+
+			// By-email access radio buttons.
+			case 'email_visibility_toggle' :
+				if ( 'limit' !== $value ) {
+					$value = 'no_limit';
+				}
+			break;
+
+			case 'minimum_role' :
+				$roles = array( 'Subscriber', 'Contributor', 'Author', 'Editor', 'Administrator' );
+				if ( ! in_array( $value, $roles, true ) ) {
+					$value = 'Subscriber';
+				}
+			break;
+
+			case 'email_blacklist' :
+				$value = implode( ',', wp_parse_id_list( $value ) );
+			break;
+
+			// Group access dropdowns.
+			case 'group_invites_can_admin' :
+			case 'group_invites_can_group_admin' :
+			case 'group_invites_can_group_mod' :
+			case 'group_invites_can_group_member' :
+				$roles = array( 'anyone', 'friends', 'noone' );
+				if ( ! in_array( $value, $roles, true ) ) {
+					$value = 'anyone';
+				}
+			break;
+		}
+
+		$sanitized[ $key ] = $value;
+	}
+
+	return $sanitized;
+}
