@@ -51,6 +51,9 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.3.17 =
+* Fix regression from 1.3.16 that caused admin-customized invitation messages to be corrupted on save.
+
 = 1.3.16 =
 * Security fix: Disallow manual bypass of Access settings when inviting users by email. Thanks to Plugin Vulnerabilities for discovering and privately reporting this and other security issues addressed in this release.
 * Security fix: Improved CSRF protection in admin panels
