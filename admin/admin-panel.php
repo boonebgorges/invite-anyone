@@ -659,7 +659,7 @@ function invite_anyone_settings_check( $input ) {
 			case 'max_invites' :
 			case 'days_since' :
 			case 'limit_invites_per_user' :
-				$value = intval( $input );
+				$value = intval( $value );
 			break;
 
 			// 'yes' checkboxes.
