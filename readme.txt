@@ -51,6 +51,9 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.3.19 =
+* Security fix: Improved encoding of error cookies.
+
 = 1.3.18 =
 * Fix regression from 1.3.16 that caused some admin settings not to be sanitized correctly.
 
