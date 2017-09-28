@@ -440,7 +440,7 @@ function invite_anyone_catch_clear() {
 	global $bp;
 
 	if ( isset( $_COOKIE['invite-anyone'] ) ) {
-		$returned_data = unserialize( stripslashes( $_COOKIE['invite-anyone'] ) );
+		$returned_data = json_decode( wp_unslash( $_COOKIE['invite-anyone'] ), true );
 
 		if ( $returned_data ) {
 			// We'll take a moment nice and early in the loading process to get returned_data
@@ -1162,7 +1162,7 @@ function invite_anyone_process_invitations( $data ) {
 		$returned_data['error_message']	= sprintf( __( 'You are only allowed to invite up to %s people at a time. Please remove some addresses and try again', 'invite-anyone' ), $max_invites );
 		$returned_data['error_emails'] 	= $emails;
 
-		setcookie( 'invite-anyone', serialize( $returned_data ), 0, '/' );
+		setcookie( 'invite-anyone', wp_json_encode( $returned_data ), 0, '/' );
 		$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members/';
 		bp_core_redirect( $redirect );
 		die();
@@ -1185,7 +1185,7 @@ function invite_anyone_process_invitations( $data ) {
 			$returned_data['error_message'] = sprintf( __( 'You are only allowed to invite %s more people. Please remove some addresses and try again', 'invite-anyone' ), $remaining_invites_count );
 			$returned_data['error_emails'] = $emails;
 
-			setcookie( 'invite-anyone', serialize( $returned_data ), 0, '/' );
+			setcookie( 'invite-anyone', wp_json_encode( $returned_data ), 0, '/' );
 			$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members/';
 			bp_core_redirect( $redirect );
 			die();
@@ -1289,7 +1289,7 @@ function invite_anyone_process_invitations( $data ) {
 
 	// If there are errors, redirect to the Invite New Members page
 	if ( ! empty( $returned_data['error_emails'] ) ) {
-		setcookie( 'invite-anyone', serialize( $returned_data ), 0, '/' );
+		setcookie( 'invite-anyone', wp_json_encode( $returned_data ), 0, '/' );
 		$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members/';
 		bp_core_redirect( $redirect );
 		die();
