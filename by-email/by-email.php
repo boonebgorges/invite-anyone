@@ -1256,9 +1256,37 @@ function invite_anyone_process_invitations( $data ) {
 ';
 			$message .= $footer;
 
-			$to = apply_filters( 'invite_anyone_invitee_email', $email );
-			$subject = apply_filters( 'invite_anyone_invitation_subject', $subject );
-			$message = apply_filters( 'invite_anyone_invitation_message', $message );
+			/**
+			 * Filters the email address of an outgoing email.
+			 *
+			 * @since 1.3.20 Added the $data parameter.
+			 *
+			 * @param string $email Email address.
+			 * @param array  $data  Data about the information.
+			 */
+			$to = apply_filters( 'invite_anyone_invitee_email', $email, $data );
+
+			/**
+			 * Filters the subject line of an outgoing email.
+			 *
+			 * @since 1.3.20 Added the $email and $data parameters.
+			 *
+			 * @param string $subject The email subject.
+			 * @param array  $data    Data about the information.
+			 * @param string $email   Email address of the invited user.
+			 */
+			$subject = apply_filters( 'invite_anyone_invitation_subject', $subject, $data, $email );
+
+			/**
+			 * Filters the contents of an outgoing email.
+			 *
+			 * @since 1.3.20 Added the $email and $data parameters.
+			 *
+			 * @param string $message The email message.
+			 * @param array  $data    Data about the information.
+			 * @param string $email   Email address of the invited user.
+			 */
+			$message = apply_filters( 'invite_anyone_invitation_message', $message, $data, $email );
 
 			wp_mail( $to, $subject, $message );
 
