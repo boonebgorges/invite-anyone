@@ -316,28 +316,32 @@ function invite_anyone_setup_nav() {
 }
 add_action( 'bp_setup_nav', 'invite_anyone_setup_nav' );
 
+/**
+ * Determine if current user can access invitation functions
+ */
 function invite_anyone_access_test() {
 	global $current_user, $bp;
 
-	if ( !is_user_logged_in() )
-		return false;
-
-	// The site admin can see all
-	if ( current_user_can( 'bp_moderate' ) ) {
-		return true;
-	}
-
-	if ( bp_displayed_user_id() && !bp_is_my_profile() )
-		return false;
-
+	$access_allowed = true;
 	$iaoptions = invite_anyone_options();
 
+	if ( !is_user_logged_in() )
+		$access_allowed = false;
+
+	// The site admin can see all
+	elseif ( current_user_can( 'bp_moderate' ) ) {
+		$access_allowed = true;
+	}
+
+	elseif ( bp_displayed_user_id() && !bp_is_my_profile() )
+		$access_allowed = false;
+
 	/* This is the last of the general checks: logged in, looking at own profile, and finally admin has set to "All Users".*/
-	if ( isset( $iaoptions['email_visibility_toggle'] ) && $iaoptions['email_visibility_toggle'] == 'no_limit' )
-		return true;
+	elseif ( isset( $iaoptions['email_visibility_toggle'] ) && $iaoptions['email_visibility_toggle'] == 'no_limit' )
+		$access_allowed =  true;
 
 	/* Minimum number of days since joined the site */
-	if ( isset( $iaoptions['email_since_toggle'] ) && $iaoptions['email_since_toggle'] == 'yes' ) {
+	elseif ( isset( $iaoptions['email_since_toggle'] ) && $iaoptions['email_since_toggle'] == 'yes' ) {
 		if ( isset( $iaoptions['days_since'] ) && $since = $iaoptions['days_since'] ) {
 			$since = $since * 86400;
 
@@ -345,53 +349,53 @@ function invite_anyone_access_test() {
 			$time = time();
 
 			if ( $time - $date_registered < $since )
-				return false;
+				$access_allowed = false;
 		}
 	}
 
 	/* Minimum role on this blog. Users who are at the necessary role or higher should move right through this toward the 'return true' at the end of the function. */
-	if ( isset( $iaoptions['email_role_toggle'] ) && $iaoptions['email_role_toggle'] == 'yes' ) {
+	elseif ( isset( $iaoptions['email_role_toggle'] ) && $iaoptions['email_role_toggle'] == 'yes' ) {
 		if ( isset( $iaoptions['minimum_role'] ) && $role = $iaoptions['minimum_role'] ) {
 			switch ( $role ) {
 				case 'Subscriber' :
 					if ( !current_user_can( 'read' ) )
-						return false;
+						$access_allowed = false;
 					break;
 
 				case 'Contributor' :
 					if ( !current_user_can( 'edit_posts' ) )
-						return false;
+						$access_allowed = false;
 					break;
 
 				case 'Author' :
 					if ( !current_user_can( 'publish_posts' ) )
-						return false;
+						$access_allowed = false;
 					break;
 
 				case 'Editor' :
 					if ( !current_user_can( 'delete_others_pages' ) )
-						return false;
+						$access_allowed = false;
 					break;
 
 				case 'Administrator' :
 					if ( !current_user_can( 'switch_themes' ) )
-						return false;
+						$access_allowed = false;
 					break;
 			}
 		}
 	}
 
 	/* User blacklist */
-	if ( isset( $iaoptions['email_blacklist_toggle'] ) && $iaoptions['email_blacklist_toggle'] == 'yes' ) {
+	elseif ( isset( $iaoptions['email_blacklist_toggle'] ) && $iaoptions['email_blacklist_toggle'] == 'yes' ) {
 		if ( isset( $iaoptions['email_blacklist'] ) ) {
 			$blacklist = explode( ",", $iaoptions['email_blacklist'] );
 			$user_id = $current_user->ID;
 			if ( in_array( $user_id, $blacklist ) )
-				return false;
+				$access_allowed = false;
 		}
 	}
 
-	return true;
+	return apply_filters( 'invite_anyone_access_test', $access_allowed );
 
 }
 add_action( 'wp_head', 'invite_anyone_access_test' );
