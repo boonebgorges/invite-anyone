@@ -325,73 +325,84 @@ function invite_anyone_access_test() {
 	$access_allowed = true;
 	$iaoptions = invite_anyone_options();
 
-	if ( !is_user_logged_in() )
+	if ( ! is_user_logged_in() ) {
 		$access_allowed = false;
+	}
 
 	// The site admin can see all
 	elseif ( current_user_can( 'bp_moderate' ) ) {
 		$access_allowed = true;
 	}
 
-	elseif ( bp_displayed_user_id() && !bp_is_my_profile() )
+	elseif ( bp_displayed_user_id() && ! bp_is_my_profile() ) {
 		$access_allowed = false;
-
-	/* This is the last of the general checks: logged in, looking at own profile, and finally admin has set to "All Users".*/
-	elseif ( isset( $iaoptions['email_visibility_toggle'] ) && $iaoptions['email_visibility_toggle'] == 'no_limit' )
-		$access_allowed =  true;
-
-	/* Minimum number of days since joined the site */
-	elseif ( isset( $iaoptions['email_since_toggle'] ) && $iaoptions['email_since_toggle'] == 'yes' ) {
-		if ( isset( $iaoptions['days_since'] ) && $since = $iaoptions['days_since'] ) {
-			$since = $since * 86400;
-
-			$date_registered = strtotime($current_user->data->user_registered);
-			$time = time();
-
-			if ( $time - $date_registered < $since )
-				$access_allowed = false;
-		}
 	}
 
-	/* Minimum role on this blog. Users who are at the necessary role or higher should move right through this toward the 'return true' at the end of the function. */
-	elseif ( isset( $iaoptions['email_role_toggle'] ) && $iaoptions['email_role_toggle'] == 'yes' ) {
-		if ( isset( $iaoptions['minimum_role'] ) && $role = $iaoptions['minimum_role'] ) {
-			switch ( $role ) {
-				case 'Subscriber' :
-					if ( !current_user_can( 'read' ) )
-						$access_allowed = false;
-					break;
+	/* This is the last of the general checks: logged in, looking at own profile, and finally admin has set to "All Users".*/
+	elseif ( isset( $iaoptions['email_visibility_toggle'] ) && 'no_limit' === $iaoptions['email_visibility_toggle'] ) {
+		$access_allowed = true;
+	}
 
-				case 'Contributor' :
-					if ( !current_user_can( 'edit_posts' ) )
-						$access_allowed = false;
-					break;
+	/* Minimum number of days since joined the site */
+	elseif ( isset( $iaoptions['email_since_toggle'] ) && 'yes' === $iaoptions['email_since_toggle'] ) {
+		if ( isset( $iaoptions['days_since'] ) && $since = $iaoptions['days_since'] ) {
+			// WordPress's DAY_IN_SECONDS exists for WP >= 3.5, target version is 3.2, hence hard-coded value of 86400.
+			$since = $since * 86400;
 
-				case 'Author' :
-					if ( !current_user_can( 'publish_posts' ) )
-						$access_allowed = false;
-					break;
+			$date_registered = strtotime( $current_user->data->user_registered );
+			$time = time();
 
-				case 'Editor' :
-					if ( !current_user_can( 'delete_others_pages' ) )
-						$access_allowed = false;
-					break;
-
-				case 'Administrator' :
-					if ( !current_user_can( 'switch_themes' ) )
-						$access_allowed = false;
-					break;
+			if ( $time - $date_registered < $since ) {
+				$access_allowed = false;
 			}
 		}
 	}
 
+	/* Minimum role on this blog. Users who are at the necessary role or higher should move right through this toward the 'return true' at the end of the function. */
+	elseif ( isset( $iaoptions['email_role_toggle'] ) && 'yes' === $iaoptions['email_role_toggle'] ) {
+		if ( isset( $iaoptions['minimum_role'] ) && $role = $iaoptions['minimum_role'] ) {
+			switch ( $role ) {
+				case 'Subscriber' :
+					if ( ! current_user_can( 'read' ) ) {
+						$access_allowed = false;
+					}
+					break;
+
+				case 'Contributor' :
+					if ( ! current_user_can( 'edit_posts' ) ) {
+						$access_allowed = false;
+					}
+					break;
+
+				case 'Author' :
+					if ( ! current_user_can( 'publish_posts' ) ) {
+						$access_allowed = false;
+					}
+					break;
+
+				case 'Editor' :
+					if ( ! current_user_can( 'delete_others_pages' ) ) {
+						$access_allowed = false;
+					}
+					break;
+
+				case 'Administrator' :
+					if ( ! current_user_can( 'switch_themes' ) ) {
+						$access_allowed = false;
+					}
+					break;
+			}//end switch
+		}//end if
+	}
+
 	/* User blacklist */
-	elseif ( isset( $iaoptions['email_blacklist_toggle'] ) && $iaoptions['email_blacklist_toggle'] == 'yes' ) {
+	elseif ( isset( $iaoptions['email_blacklist_toggle'] ) && 'yes' === $iaoptions['email_blacklist_toggle'] ) {
 		if ( isset( $iaoptions['email_blacklist'] ) ) {
-			$blacklist = explode( ",", $iaoptions['email_blacklist'] );
+			$blacklist = explode( ',', $iaoptions['email_blacklist'] );
 			$user_id = $current_user->ID;
-			if ( in_array( $user_id, $blacklist ) )
+			if ( in_array( $user_id, $blacklist, true ) ) {
 				$access_allowed = false;
+			}
 		}
 	}
 
