@@ -398,8 +398,8 @@ function invite_anyone_access_test() {
 	/* User blacklist */
 	elseif ( isset( $iaoptions['email_blacklist_toggle'] ) && 'yes' === $iaoptions['email_blacklist_toggle'] ) {
 		if ( isset( $iaoptions['email_blacklist'] ) ) {
-			$blacklist = explode( ',', $iaoptions['email_blacklist'] );
-			$user_id = $current_user->ID;
+			$blacklist = wp_parse_id_list( $iaoptions['email_blacklist'] );
+			$user_id = intval( $current_user->ID );
 			if ( in_array( $user_id, $blacklist, true ) ) {
 				$access_allowed = false;
 			}
