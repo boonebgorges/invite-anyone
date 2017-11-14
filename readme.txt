@@ -51,6 +51,9 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.3.20 =
+* Add parameters to filters on outgoing email parts.
+
 = 1.3.19 =
 * Security fix: Improved encoding of error cookies.
 
