@@ -112,6 +112,8 @@ class InviteAnyoneWidget extends WP_Widget {
 		<?php
 	}
 }
-add_action('widgets_init', create_function('', 'return register_widget("InviteAnyoneWidget");'));
 
-?>
+function invite_anyone_register_widget() {
+	return register_widget( 'InviteAnyoneWidget' );
+}
+add_action('widgets_init', 'invite_anyone_register_widget' );
