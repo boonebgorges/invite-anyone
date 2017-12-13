@@ -53,6 +53,7 @@ Additional details about the plugin can be found in the following languages:
 
 = 1.3.20 =
 * Add parameters to filters on outgoing email parts.
+* Improved compatibility with PHP 7.2.
 
 = 1.3.19 =
 * Security fix: Improved encoding of error cookies.
