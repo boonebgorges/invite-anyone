@@ -51,6 +51,9 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.3.21 =
+* Fix bug that caused admin panel to be added to Network Admin in some incorrect situations.
+
 = 1.3.20 =
 * Add parameters to filters on outgoing email parts.
 * Improved compatibility with PHP 7.2.
