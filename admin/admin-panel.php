@@ -38,26 +38,65 @@ function invite_anyone_update() {
 }
 add_action( 'admin_init', 'invite_anyone_update' );
 
-function invite_anyone_admin_add() {
+/**
+ * Get activation status for Invite Anyone.
+ *
+ * @since 1.3.21
+ *
+ * @return bool
+ */
+function invite_anyone_is_network_active() {
+	$retval = false;
 
-	$parent = bp_core_do_network_admin() ? 'settings.php' : 'options-general.php';
+	if ( is_multisite() ) {
+		$network_plugins = get_site_option( 'active_sitewide_plugins' );
+		$retval = is_array( $network_plugins ) && isset( $network_plugins['invite-anyone/invite-anyone.php'] );
+	}
+
+	return $retval;
+}
+
+/**
+ * Whether to do network admin for Invite Anyone settings panels.
+ *
+ * Can't rely on bp_core_do_network_admin() because the activation status
+ * can differ between Invite Anyone and BP.
+ *
+ * @since 1.3.21
+ *
+ * @return bool
+ */
+function invite_anyone_do_network_admin() {
+	return invite_anyone_is_network_active() && ! bp_is_multiblog_mode();
+}
+
+/**
+ * Gets the network hook for Invite Anyone.
+ *
+ * @since 1.3.21
+ *
+ * @return string
+ */
+function invite_anyone_admin_hook() {
+	$hook = invite_anyone_do_network_admin() ? 'network_admin_menu' : 'admin_menu';
+	return $hook;
+}
+
+function invite_anyone_admin_add() {
+	$parent = invite_anyone_do_network_admin() ? 'settings.php' : 'options-general.php';
 	$plugin_page = add_submenu_page( $parent, __( 'Invite Anyone', 'invite-anyone' ), __( 'Invite Anyone', 'invite-anyone' ), 'manage_options', 'invite-anyone', 'invite_anyone_admin_panel' );
 
 	add_action( "admin_print_scripts-$plugin_page", 'invite_anyone_admin_scripts' );
 	add_action( "admin_print_styles-$plugin_page", 'invite_anyone_admin_styles' );
 }
-add_action( bp_core_admin_hook(), 'invite_anyone_admin_add', 80 );
+add_action( invite_anyone_admin_hook(), 'invite_anyone_admin_add', 80 );
 
 /* Stolen from Welcome Pack - thanks, Paul! */
 function invite_anyone_admin_add_action_link( $links, $file ) {
 	if ( 'invite-anyone/invite-anyone.php' != $file )
 		return $links;
 
-	if ( function_exists( 'bp_core_do_network_admin' ) ) {
-		$settings_url = add_query_arg( 'page', 'invite-anyone', bp_core_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' ) );
-	} else {
-		$settings_url = add_query_arg( 'page', 'invite-anyone', is_multisite() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' ) );
-	}
+	$settings_url = add_query_arg( 'page', 'invite-anyone', invite_anyone_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' ) );
 
 	$settings_link = '<a href="' . $settings_url . '">' . __( 'Settings', 'invite-anyone' ) . '</a>';
 	array_unshift( $links, $settings_link );
