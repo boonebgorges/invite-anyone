@@ -1303,7 +1303,21 @@ function invite_anyone_process_invitations( $data ) {
 			 */
 			$message = apply_filters( 'invite_anyone_invitation_message', $message, $data, $email );
 
-			wp_mail( $to, $subject, $message );
+			// BP 2.5+
+			if ( true === function_exists( 'bp_send_email' ) && true === ! apply_filters( 'bp_email_use_wp_mail', false ) ) {
+				$bp_email_args = array(
+					'tokens' => array(
+						'ia.subject' => $subject,
+						'ia.content' => $message,
+						'ia.content_plaintext' => strip_tags( $message ),
+					),
+					'subject' => $subject,
+					'content' => $message,
+				);
+				bp_send_email( 'invite-anyone-invitation', $to, $bp_email_args );
+			} else {
+				wp_mail( $to, $subject, $message );
+			}
 
 			/* todo: isolate which email(s) cause problems, and send back to user */
 		/*	if ( !invite_anyone_send_invitation( $bp->loggedin_user->id, $email, $message, $groups ) )
