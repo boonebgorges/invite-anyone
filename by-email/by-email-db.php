@@ -182,7 +182,7 @@ class Invite_Anyone_Schema {
 		}
 
 		if ( version_compare( $this->db_version, '1.4.0', '<' ) ) {
-			add_action( 'admin_init', array( $this, 'upgrade_1_4_0' ) );
+			add_action( 'wp_loaded', array( $this, 'upgrade_1_4_0' ) );
 		}
 	}
 
