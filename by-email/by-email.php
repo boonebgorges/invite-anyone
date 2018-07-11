@@ -1546,3 +1546,160 @@ function invite_anyone_already_accepted_redirect( $redirect ) {
 }
 add_filter( 'bp_loggedin_register_page_redirect_to', 'invite_anyone_already_accepted_redirect' );
 
+/** BP emails ****************************************************************/
+
+/**
+ * Install Invite Anyone emails during email installation routine for BuddyPress.
+ *
+ * @since 1.4.0
+ *
+ * @param bool $post_exists_check Should we check to see if our email post types exist before installing?
+ *                                Default: false.
+ */
+function invite_anyone_install_emails( $post_exists_check = false ) {
+	// No need to check if our post types exist.
+	if ( ! $post_exists_check ) {
+		invite_anyone_set_email_type( 'invite-anyone-invitation', false );
+
+	// Only create email post types if they do not exist.
+	} else {
+		switch_to_blog( bp_get_root_blog_id() );
+
+		$mail_types = array( 'invite-anyone-invitation' );
+
+		// Try to fetch email posts with our taxonomy.
+		$emails = get_posts( array(
+			'fields'           => 'ids',
+			'post_status'      => 'publish',
+			'post_type'        => bp_get_email_post_type(),
+			'posts_per_page'   => 1,
+			'suppress_filters' => false,
+			'tax_query' => array(
+				'relation' => 'OR',
+				array(
+					'taxonomy' => bp_get_email_tax_type(),
+					'field'    => 'slug',
+					'terms'    => $mail_types,
+				),
+			),
+		) );
+
+		// See if our taxonomies are attached to our email posts.
+		$found = array();
+		foreach ( $emails as $post_id ) {
+			$tax   = wp_get_object_terms( $post_id, bp_get_email_tax_type(), array( 'fields' => 'slugs' ) );
+			$found = array_merge( $found, (array) $tax );
+		}
+
+		restore_current_blog();
+
+		// Find out if we need to create any posts.
+		$to_create = array_diff( $mail_types, $found );
+		if ( empty( $to_create ) ) {
+			return;
+		}
+
+		// Create posts with our email types.
+		foreach ( $to_create as $email_type ) {
+			invite_anyone_set_email_type( $email_type, false );
+		}
+	}
+}
+add_action( 'bp_core_install_emails', 'ass_install_emails' );
+
+/**
+ * Sets the email situation type for use in Invite Anyone.
+ *
+ * Only applicable for BuddyPress 2.5+.
+ *
+ * @since 1.4.0
+ *
+ * @param string $email_type The email type to fetch.
+ * @param bool   $term_check Check if our email term exists before creating our specific email
+ *                           situation. Default: true.
+ */
+function invite_anyone_set_email_type( $email_type, $term_check = true ) {
+	$switched = false;
+
+	if ( false === bp_is_root_blog() ) {
+		$switched = true;
+		switch_to_blog( bp_get_root_blog_id() );
+	}
+
+	if ( true === $term_check ) {
+		$term = term_exists( $email_type, bp_get_email_tax_type() );
+	} else {
+		$term = 0;
+	}
+
+	// Term already exists so don't do anything.
+	if ( true === $term_check && $term !== 0 && $term !== null ) {
+		if ( true === $switched ) {
+			restore_current_blog();
+		}
+
+		return;
+
+	// Create our email situation.
+	} else {
+		// Set up default email content depending on the email type.
+		switch ( $email_type ) {
+			// Site invitations.
+			case 'invite-anyone-invitation' :
+				/* translators: do not remove {} brackets or translate its contents. */
+				$post_title = __( '[{{{site.name}}}] {{{ia.subject}}}', 'invite-anyone' );
+
+				/* translators: do not remove {} brackets or translate its contents. */
+				$html_content = __( "{{{ia.content}}}", 'invite-anyone' );
+
+				/* translators: do not remove {} brackets or translate its contents. */
+				$plaintext_content = __( "{{{ia.content_plaintext}}}", 'invite-anyone' );
+
+				$situation_desc = __( 'A user is invited to join the site by email. Used by the Invite Anyone plugin.', 'invite-anyone' );
+
+				break;
+		}
+
+		// Sanity check!
+		if ( false === isset( $post_title ) ) {
+			if ( true === $switched ) {
+				restore_current_blog();
+			}
+
+			return;
+		}
+
+		$id = $email_type;
+
+		$defaults = array(
+			'post_status' => 'publish',
+			'post_type'   => bp_get_email_post_type(),
+		);
+
+		$email = array(
+			'post_title'   => $post_title,
+			'post_content' => $html_content,
+			'post_excerpt' => $plaintext_content,
+		);
+
+		// Email post content.
+		$post_id = wp_insert_post( bp_parse_args( $email, $defaults, 'install_email_' . $id ) );
+
+		// Save the situation.
+		if ( ! is_wp_error( $post_id ) ) {
+			$tt_ids = wp_set_object_terms( $post_id, $id, bp_get_email_tax_type() );
+
+			// Situation description.
+			if ( ! is_wp_error( $tt_ids ) ) {
+				$term = get_term_by( 'term_taxonomy_id', (int) $tt_ids[0], bp_get_email_tax_type() );
+				wp_update_term( (int) $term->term_id, bp_get_email_tax_type(), array(
+					'description' => $situation_desc,
+				) );
+			}
+		}
+	}
+
+	if ( true === $switched ) {
+		restore_current_blog();
+	}
+}

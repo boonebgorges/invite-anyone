@@ -180,6 +180,10 @@ class Invite_Anyone_Schema {
 		if ( version_compare( $this->db_version, '0.9', '<' ) ) {
 			add_action( 'admin_init', array( $this, 'upgrade_0_9' ) );
 		}
+
+		if ( version_compare( $this->db_version, '1.4.0', '<' ) ) {
+			add_action( 'admin_init', array( $this, 'upgrade_1_4_0' ) );
+		}
 	}
 
 	/**
@@ -249,6 +253,15 @@ class Invite_Anyone_Schema {
 
 		// WP bug
 		$wp_query = $old_wp_query;
+	}
+
+	/**
+	 * Upgrade for 1.4.0
+	 *
+	 * @since 1.4.0
+	 */
+	function upgrade_1_4_0() {
+		invite_anyone_install_emails( true );
 	}
 }
 

@@ -10,8 +10,8 @@ Text Domain: invite-anyone
 Domain Path: /languages
 */
 
-define( 'BP_INVITE_ANYONE_VER', '1.3.20' );
-define( 'BP_INVITE_ANYONE_DB_VER', '1.3.20' );
+define( 'BP_INVITE_ANYONE_VER', '1.4.0' );
+define( 'BP_INVITE_ANYONE_DB_VER', '1.4.0' );
 
 if ( !defined( 'BP_INVITE_ANYONE_SLUG' ) )
 	define( 'BP_INVITE_ANYONE_SLUG', 'invite-anyone' );
