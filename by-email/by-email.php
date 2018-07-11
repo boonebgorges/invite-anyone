@@ -994,6 +994,57 @@ function invite_anyone_process_footer( $email ) {
 	return stripslashes( $footer );
 }
 
+/**
+ * Get the invitation acceptance URL for a given email address.
+ *
+ * @since 1.4.0
+ *
+ * @param string $email Email address.
+ * @return string
+ */
+function invite_anyone_get_accept_url( $email ) {
+	$accept_link  = add_query_arg( array(
+		'iaaction' => 'accept-invitation',
+		'email'    => $email,
+	), bp_get_root_domain() . '/' . bp_get_signup_slug() . '/' );
+
+	/**
+	 * Filters the invitation acceptance URL for a given email address.
+	 *
+	 * @since 0.3.3
+	 * @since 1.4.0 Introduced `$email` parameter.
+	 *
+	 * @param string $accept_link Accept URL.
+	 * @param string $email       Email address.
+	 */
+	return apply_filters( 'invite_anyone_accept_url', $accept_link, $email );
+}
+
+/**
+ * Get the opt-out URL for a given email address.
+ *
+ * @since 1.4.0
+ *
+ * @param string $email Email address.
+ * @return string
+ */
+function invite_anyone_get_opt_out_url( $email ) {
+	$opt_out_link = add_query_arg( array(
+		'iaaction' => 'opt-out',
+		'email'    => $email,
+	), bp_get_root_domain() . '/' . bp_get_signup_slug() . '/' );
+
+	/**
+	 * Filters the opt-out acceptance URL for a given email address.
+	 *
+	 * @since 1.4.0
+	 *
+	 * @param string $opt_out_link Opt-out URL.
+	 * @param string $email        Email address.
+	 */
+	return apply_filters( 'invite_anyone_opt_out_url', $opt_out_link, $email );
+}
+
 function invite_anyone_wildcard_replace( $text, $email = false ) {
 	global $bp;
 
@@ -1003,16 +1054,8 @@ function invite_anyone_wildcard_replace( $text, $email = false ) {
 
 	$email = urlencode( $email );
 
-	$accept_link  = add_query_arg( array(
-		'iaaction' => 'accept-invitation',
-		'email'    => $email,
-	), bp_get_root_domain() . '/' . bp_get_signup_slug() . '/' );
-	$accept_link  = apply_filters( 'invite_anyone_accept_url', $accept_link );
-
-	$opt_out_link = add_query_arg( array(
-		'iaaction' => 'opt-out',
-		'email'    => $email,
-	), bp_get_root_domain() . '/' . bp_get_signup_slug() . '/' );
+	$accept_link  = invite_anyone_get_accept_url( $email );
+	$opt_out_link = invite_anyone_get_opt_out_url( $email );
 
 	$text = str_replace( '%%INVITERNAME%%', $inviter_name, $text );
 	$text = str_replace( '%%INVITERURL%%', $inviter_url, $text );
