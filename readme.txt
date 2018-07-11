@@ -2,9 +2,9 @@
 Contributors: boonebgorges, cuny-academic-commons
 Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
-Requires at least: WP 3.2, BuddyPress 1.8
-Tested up to: WP 4.5, BuddyPress 2.5
-Stable tag: 1.3.11
+Requires at least: 3.2
+Tested up to: 4.9
+Stable tag: 1.3.20
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -51,9 +51,43 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
-= 1.4.0 =
-* Improve appearance of Admin tabs.
-* Improve signup workflow for CloudSponge integration.
+= 1.3.21 =
+* Fix bug that caused admin panel to be added to Network Admin in some incorrect situations.
+
+= 1.3.20 =
+* Add parameters to filters on outgoing email parts.
+* Improved compatibility with PHP 7.2.
+
+= 1.3.19 =
+* Security fix: Improved encoding of error cookies.
+
+= 1.3.18 =
+* Fix regression from 1.3.16 that caused some admin settings not to be sanitized correctly.
+
+= 1.3.17 =
+* Fix regression from 1.3.16 that caused admin-customized invitation messages to be corrupted on save.
+
+= 1.3.16 =
+* Security fix: Disallow manual bypass of Access settings when inviting users by email. Thanks to Plugin Vulnerabilities for discovering and privately reporting this and other security issues addressed in this release.
+* Security fix: Improved CSRF protection in admin panels
+* Security fix: Improved output escaping of user-provided content in the Dashboard and on the front end
+* Fixed bug that prevented the 'email' sort from working on the Sent Invites screen.
+
+= 1.3.15 =
+* Security fix: Disallow manual overriding of non-customizable subject and message lines. Thanks to Ewoud Vlasselaer, Eric Schayes, and Nabeel Ahmed for discovering and privately reporting this issue.
+* Improve usage of BP API functions
+
+= 1.3.14 =
+* Fixed regression in 1.3.13 that caused friend request invitations to be sent improperly on account activation
+
+= 1.3.13 =
+* Fixed broken link on Stats tab in the Dashboard
+* Fixed bug that caused internal taxonomies to be indexable by search engines
+
+= 1.3.12 =
+* Better compatibility with HTTPS setups
+* Fixed compatibility with WP < 4.0
+* Fixed CloudSponge integration on the front-end
 
 = 1.3.11 =
 * Improvements to CloudSponge signup process

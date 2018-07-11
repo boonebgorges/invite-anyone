@@ -17,7 +17,7 @@ class Cloudsponge_Integration {
 
 		$this->enabled = !empty( $options['cloudsponge_enabled'] ) ? $options['cloudsponge_enabled'] : false;
 		$this->domain_key = !empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : false;
-		$this->account_key = !empty( $options['cloudsponge_domain_key'] ) ? $options['cloudsponge_domain_key'] : false;
+		$this->account_key = !empty( $options['cloudsponge_account_key'] ) ? $options['cloudsponge_account_key'] : false;
 
 		if ( $this->enabled && ( $this->domain_key || $this->account_key ) ) {
 			define( 'INVITE_ANYONE_CS_ENABLED', true );
@@ -39,11 +39,11 @@ class Cloudsponge_Integration {
 
 		if ($this->domain_key) {
 			wp_register_script( 'ia_cloudsponge_address_books', 'https://api.cloudsponge.com/address_books.js', array(), false, true );
-			wp_register_script( 'ia_cloudsponge', WP_PLUGIN_URL . '/invite-anyone/by-email/cloudsponge-js.js', array( 'ia_cloudsponge_address_books' ), false, true );
+			wp_register_script( 'ia_cloudsponge', plugins_url() . '/invite-anyone/by-email/cloudsponge-js.js', array( 'ia_cloudsponge_address_books' ), false, true );
 			$strings['domain_key'] = $this->domain_key;
 			$strings['account_key'] = false;
 		} else {
-			wp_register_script( 'ia_cloudsponge', WP_PLUGIN_URL . '/invite-anyone/by-email/cloudsponge-js.js', array(), false, true );
+			wp_register_script( 'ia_cloudsponge', plugins_url() . '/invite-anyone/by-email/cloudsponge-js.js', array(), false, true );
 			$strings['account_key'] = $this->account_key;
 			$strings['domain_key'] = false;
 		}

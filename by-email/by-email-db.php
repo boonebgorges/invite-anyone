@@ -100,7 +100,7 @@ class Invite_Anyone_Schema {
 			'_builtin' 	=> false,
 			'show_ui' 	=> $this->show_dashboard_ui(),
 			'hierarchical' 	=> false,
-			'menu_icon'	=> WP_PLUGIN_URL . '/invite-anyone/images/smallest_buddypress_icon_ev.png',
+			'menu_icon'	=> plugins_url() . '/invite-anyone/images/smallest_buddypress_icon_ev.png',
 			'supports' 	=> array( 'title', 'editor', 'custom-fields', 'author' )
 		), $this ) );
 
@@ -122,6 +122,7 @@ class Invite_Anyone_Schema {
 			'label'		=> __( 'Invitees', 'invite-anyone' ),
 			'labels' 	=> $invitee_labels,
 			'hierarchical' 	=> false,
+			'public'        => false,
 			'show_ui' 	=> true,
 		), $this ) );
 
@@ -143,6 +144,7 @@ class Invite_Anyone_Schema {
 			'label'		=> __( 'Invited Groups', 'invite-anyone' ),
 			'labels' 	=> $invited_groups_labels,
 			'hierarchical' 	=> false,
+			'public'        => false,
 			'show_ui' 	=> true,
 		), $this ) );
 
@@ -440,21 +442,27 @@ class Invite_Anyone_Invitation {
 			'post_status'	=> $status,
 			'post_type'	=> $this->post_type_name,
 			'orderby'	=> $orderby,
-			'order'		=> $order
+			'order'		=> $order,
+			'tax_query' => array(),
 		);
 
+		if ( ! empty( $r['invitee_email'] ) ) {
+			$query_post_args['tax_query']['invitee'] = array(
+				'taxonomy' => $this->invitee_tax_name,
+				'terms' => (array) $r['invitee_email'],
+				'field' => 'name',
+			);
+		}
+
 		// Add optional arguments, if provided
-		// Todo: The tax and meta stuff needs to be updated for 3.1 queries
 		$optional_args = array(
 			'message' 		=> 'post_content',
 			'subject'		=> 'post_title',
 			'date_created'		=> 'date_created',
-			'invitee_email'		=> $this->invitee_tax_name,
 			'meta_key'		=> 'meta_key',
 			'meta_value'		=> 'meta_value',
 			'posts_per_page'	=> 'posts_per_page',
 			'paged'			=> 'paged',
-			'tax_query'		=> 'tax_query'
 		);
 
 		foreach ( $optional_args as $key => $value ) {
@@ -477,7 +485,11 @@ class Invite_Anyone_Invitation {
 	function filter_join_emails( $join, $query ) {
 		global $wpdb;
 
-		$join .= " INNER JOIN {$wpdb->term_taxonomy} wp_term_taxonomy_ia ON (wp_term_taxonomy_ia.term_taxonomy_id = wp_term_relationships.term_taxonomy_id) INNER JOIN {$wpdb->terms} wp_terms_ia ON ( wp_terms_ia.term_id = wp_term_taxonomy_ia.term_id )";
+		$join .= "
+			INNER JOIN {$wpdb->term_relationships} tria ON ( tria.object_id = {$wpdb->posts}.ID )
+			INNER JOIN {$wpdb->term_taxonomy} wp_term_taxonomy_ia ON ( tria.term_taxonomy_id = wp_term_taxonomy_ia.term_taxonomy_id )
+			INNER JOIN {$wpdb->terms} wp_terms_ia ON ( wp_terms_ia.term_id = wp_term_taxonomy_ia.term_id )
+		";
 
 		return $join;
 	}

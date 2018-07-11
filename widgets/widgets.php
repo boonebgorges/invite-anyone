@@ -4,7 +4,7 @@
 function invite_anyone_add_widget_css() {
 	global $bp;
 
-	$style_url = WP_PLUGIN_URL . '/invite-anyone/widgets/widgets-css.css';
+	$style_url = plugins_url() . '/invite-anyone/widgets/widgets-css.css';
 	$style_file = WP_PLUGIN_DIR . '/invite-anyone/widgets/widgets-css.css';
 	if (file_exists($style_file)) {
 		wp_register_style('invite-anyone-widget-style', $style_url);
@@ -27,7 +27,7 @@ class InviteAnyoneWidget extends WP_Widget {
 		parent::__construct( 'invite-anyone-widget', 'Invite Anyone', $widget_ops, $control_ops );
 
 		if ( is_active_widget( false, false, $this->id_base ) )
-			wp_enqueue_style( 'invite-anyone-widget-style', WP_PLUGIN_URL . '/invite-anyone/widgets/widgets-css.css' );
+			wp_enqueue_style( 'invite-anyone-widget-style', plugins_url() . '/invite-anyone/widgets/widgets-css.css' );
 	}
 
 	/**
@@ -112,6 +112,8 @@ class InviteAnyoneWidget extends WP_Widget {
 		<?php
 	}
 }
-add_action('widgets_init', create_function('', 'return register_widget("InviteAnyoneWidget");'));
 
-?>
+function invite_anyone_register_widget() {
+	return register_widget( 'InviteAnyoneWidget' );
+}
+add_action('widgets_init', 'invite_anyone_register_widget' );

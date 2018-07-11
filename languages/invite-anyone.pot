@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Invite Anyone package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Invite Anyone 1.3.11\n"
+"Project-Id-Version: Invite Anyone 1.3.13\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/invite-anyone\n"
-"POT-Creation-Date: 2016-05-18 03:46:19+00:00\n"
+"POT-Creation-Date: 2016-12-22 03:11:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#. #-#-#-#-#  invite-anyone.pot (Invite Anyone 1.3.11)  #-#-#-#-#
+#. #-#-#-#-#  invite-anyone.pot (Invite Anyone 1.3.13)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: admin/admin-panel.php:6 admin/admin-panel.php:114 widgets/widgets.php:41
 #: widgets/widgets.php:92
@@ -316,7 +316,7 @@ msgstr ""
 msgid "All Time"
 msgstr ""
 
-#: admin/admin-stats.php:163 by-email/by-email-db.php:352
+#: admin/admin-stats.php:163 by-email/by-email-db.php:354
 msgid "Yes"
 msgstr ""
 
@@ -456,73 +456,73 @@ msgstr ""
 msgid "New Invitee Name"
 msgstr ""
 
-#: by-email/by-email-db.php:130 by-email/by-email-db.php:143
+#: by-email/by-email-db.php:131 by-email/by-email-db.php:144
 msgid "Invited Groups"
 msgstr ""
 
-#: by-email/by-email-db.php:131 by-email/by-email-db.php:138
+#: by-email/by-email-db.php:132 by-email/by-email-db.php:139
 msgid "Invited Group"
 msgstr ""
 
-#: by-email/by-email-db.php:132
+#: by-email/by-email-db.php:133
 msgid "Search Invited Groups"
 msgstr ""
 
-#: by-email/by-email-db.php:133
+#: by-email/by-email-db.php:134
 msgid "All Invited Groups"
 msgstr ""
 
-#: by-email/by-email-db.php:134
+#: by-email/by-email-db.php:135
 msgid "Edit Invited Group"
 msgstr ""
 
-#: by-email/by-email-db.php:135
+#: by-email/by-email-db.php:136
 msgid "Update Invited Group"
 msgstr ""
 
-#: by-email/by-email-db.php:136
+#: by-email/by-email-db.php:137
 msgid "Add New Invited Group"
 msgstr ""
 
-#: by-email/by-email-db.php:137
+#: by-email/by-email-db.php:138
 msgid "New Invited Group Name"
 msgstr ""
 
-#: by-email/by-email-db.php:352
+#: by-email/by-email-db.php:354
 msgid "No"
 msgstr ""
 
-#: by-email/by-email-db.php:912
+#: by-email/by-email-db.php:914
 msgid "All done!"
 msgstr ""
 
-#: by-email/by-email-db.php:914
+#: by-email/by-email-db.php:916
 msgid "Finish"
 msgstr ""
 
-#: by-email/by-email-db.php:952
+#: by-email/by-email-db.php:954
 msgid "Migrated Invitation"
 msgstr ""
 
-#: by-email/by-email-db.php:972
+#: by-email/by-email-db.php:974
 msgid "Importing: %1$s invited %2$s<br />"
 msgstr ""
 
-#: by-email/by-email-db.php:983
+#: by-email/by-email-db.php:985
 msgid ""
 "If your browser doesn&#8217;t start loading the next page automatically, "
 "click this link:"
 msgstr ""
 
-#: by-email/by-email-db.php:983
+#: by-email/by-email-db.php:985
 msgid "Next Invitations"
 msgstr ""
 
-#: by-email/by-email-db.php:1011
+#: by-email/by-email-db.php:1013
 msgid "Invite Anyone Upgrade"
 msgstr ""
 
-#: by-email/by-email-db.php:1014
+#: by-email/by-email-db.php:1016
 msgid ""
 "Invite Anyone has just been updated, and needs to move some old invitation "
 "data in order to complete the upgrade. Click GO to start the process."
@@ -824,13 +824,13 @@ msgstr ""
 msgid "Group created successfully."
 msgstr ""
 
-#: group-invites/group-invites.php:403
+#: group-invites/group-invites.php:410
 #: group-invites/templates/invite-anyone.php:70
 #: group-invites/templates/invite-anyone.php:159
 msgid "Remove Invite"
 msgstr ""
 
-#: group-invites/group-invites.php:587
+#: group-invites/group-invites.php:594
 msgid ""
 "%1$s has invited you to the group: \"%2$s\".\n"
 "\n"

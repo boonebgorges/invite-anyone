@@ -339,7 +339,14 @@ class Invite_Anyone_User_Query extends WP_User_Query {
 		$searches = array();
 		$leading_wild = ( 'leading' == $wild || 'both' == $wild ) ? '%' : '';
 		$trailing_wild = ( 'trailing' == $wild || 'both' == $wild ) ? '%' : '';
-		$like_string = $leading_wild . $wpdb->esc_like( $string ) . $trailing_wild;
+
+		if ( method_exists( $wpdb, 'esc_like' ) ) {
+			$escaped_string = $wpdb->esc_like( $string );
+		} else {
+			$escaped_string = addcslashes( $string, '_%\\' );
+		}
+
+		$like_string = $leading_wild . $escaped_string . $trailing_wild;
 		foreach ( $cols as $col ) {
 			$searches[] = $wpdb->prepare( "$col LIKE %s", $like_string );
 		}
