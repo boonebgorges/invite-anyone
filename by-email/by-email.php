@@ -1300,15 +1300,23 @@ function invite_anyone_process_invitations( $data ) {
 		$groups = ! empty( $data['invite_anyone_groups'] ) ? $data['invite_anyone_groups'] : array();
 		$is_error = 0;
 
-		foreach( $emails as $email ) {
+		$do_bp_email = true === function_exists( 'bp_send_email' ) && true === ! apply_filters( 'bp_email_use_wp_mail', false );
+
+		foreach ( $emails as $email ) {
 			$subject = stripslashes( strip_tags( $data['invite_anyone_custom_subject'] ) );
 
-			$message = stripslashes( strip_tags( $data['invite_anyone_custom_message'] ) );
+			if ( $do_bp_email ) {
+				$custom_message = stripslashes( $data['invite_anyone_custom_message'] );
+				$accept_url     = invite_anyone_get_accept_url( $email );
+				$opt_out_url    = invite_anyone_get_opt_out_url( $email );
+			} else {
+				$custom_message = stripslashes( strip_tags( $data['invite_anyone_custom_message'] ) );
+			}
 
 			$footer = invite_anyone_process_footer( $email );
 			$footer = invite_anyone_wildcard_replace( $footer, $email );
 
-			$message .= '
+			$message = $custom_message . '
 
 ================
 ';
@@ -1336,7 +1344,7 @@ function invite_anyone_process_invitations( $data ) {
 			$subject = apply_filters( 'invite_anyone_invitation_subject', $subject, $data, $email );
 
 			/**
-			 * Filters the contents of an outgoing email.
+			 * Filters the contents of an outgoing plaintext email.
 			 *
 			 * @since 1.3.20 Added the $email and $data parameters.
 			 *
@@ -1347,12 +1355,14 @@ function invite_anyone_process_invitations( $data ) {
 			$message = apply_filters( 'invite_anyone_invitation_message', $message, $data, $email );
 
 			// BP 2.5+
-			if ( true === function_exists( 'bp_send_email' ) && true === ! apply_filters( 'bp_email_use_wp_mail', false ) ) {
+			if ( $do_bp_email ) {
 				$bp_email_args = array(
 					'tokens' => array(
-						'ia.subject' => $subject,
-						'ia.content' => $message,
-						'ia.content_plaintext' => strip_tags( $message ),
+						'ia.subject'           => $subject,
+						'ia.content'           => $custom_message,
+						'ia.content_plaintext' => $message,
+						'ia.accept_url'        => $accept_url,
+						'ia.opt_out_url'       => $opt_out_url,
 					),
 					'subject' => $subject,
 					'content' => $message,
@@ -1707,7 +1717,7 @@ function invite_anyone_set_email_type( $email_type, $term_check = true ) {
 				$post_title = __( '[{{{site.name}}}] {{{ia.subject}}}', 'invite-anyone' );
 
 				/* translators: do not remove {} brackets or translate its contents. */
-				$html_content = __( "{{{ia.content}}}", 'invite-anyone' );
+				$html_content = __( "{{{ia.content}}}<br /><hr><a href=\"{{{ia.accept_url}}}\">Accept or reject this invitation</a> &middot; <a href=\"{{{ia.opt_out_url}}}\">Opt out of future invitations</a>", 'invite-anyone' );
 
 				/* translators: do not remove {} brackets or translate its contents. */
 				$plaintext_content = __( "{{{ia.content_plaintext}}}", 'invite-anyone' );
