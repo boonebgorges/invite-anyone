@@ -1363,11 +1363,17 @@ function invite_anyone_process_invitations( $data ) {
 						'ia.content_plaintext' => $message,
 						'ia.accept_url'        => $accept_url,
 						'ia.opt_out_url'       => $opt_out_url,
+						'recipient.name'       => $to,
 					),
 					'subject' => $subject,
 					'content' => $message,
 				);
+
+				add_filter( 'bp_email_get_salutation', 'invite_anyone_replace_bp_email_salutation', 10, 2 );
 				bp_send_email( 'invite-anyone-invitation', $to, $bp_email_args );
+
+				remove_filter( 'bp_email_get_salutation', 'invite_anyone_replace_bp_email_salutation', 10, 2 );
+
 			} else {
 				wp_mail( $to, $subject, $message );
 			}
@@ -1406,6 +1412,30 @@ function invite_anyone_process_invitations( $data ) {
 	}
 
 	return true;
+}
+
+/**
+ * Replaces the customized salutation in outgoing invitation emails.
+ *
+ * There's no first name, so we just say 'Hello' instead.
+ *
+ * @since 1.4.0
+ *
+ * @param string $salutation
+ * @param array  $settings
+ * @return string
+ */
+function invite_anyone_replace_bp_email_salutation( $salutation, $settings ) {
+	/**
+	 * Filters the IA email salutation.
+	 *
+	 * @since 1.4.0
+	 *
+	 * @param string $ia_salutation Salutation from IA.
+	 * @param string $salutation    Salutation from BP.
+	 * @param array  $settings      Email settings.
+	 */
+	return apply_filters( 'invite_anyone_replace_bp_email_salutation', _x( 'Hello,', 'Invite Anyone email salutation', 'invite-anyone' ), $salutation, $settings );
 }
 
 function invite_anyone_send_invitation( $inviter_id, $email, $message, $groups ) {
