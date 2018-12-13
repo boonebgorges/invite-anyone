@@ -474,7 +474,7 @@ function invite_anyone_settings_cs_content() {
 			<?php
 				} else {
 			?>
-					<label for="invite_anyone[cloudsponge_key]"><?php _e( 'CloudSponge Key', 'invite-anyone' ) ?></label>
+					<label for="invite_anyone[cloudsponge_account_key]"><?php _e( 'CloudSponge Key', 'invite-anyone' ) ?></label>
 					<input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_account_key]" value="<?php if ( $account_key ) { echo esc_html( $account_key ); } else { echo esc_html( $_GET['cloudsponge-key'] ); } ?>" />
 					<?php if ( $account_key ) : ?>
 						<button id="test-cloudsponge-button" name="test-cloudsponge-button" type="button" onclick="csLaunch();"><?php _e( 'Test', 'invite-anyone' ); ?></button>
