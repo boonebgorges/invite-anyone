@@ -134,7 +134,8 @@ function invite_anyone_admin_panel() {
 				'addl_invitation_message',
 				'subject_is_customizable',
 				'message_is_customizable',
-				'max_invites'
+				'max_invites',
+				'use_bp_email'
 			)
 		);
 
@@ -238,6 +239,8 @@ function invite_anyone_settings_setup() {
 
 			add_settings_field( 'invite_anyone_settings_group_invites_enable_create_step', __( 'Enable the Send Invites step during group creation', 'invite-anyone' ), 'invite_anyone_settings_group_invites_enable_create_step', 'invite_anyone', 'invite_anyone_general_settings' );
 
+			add_settings_field( 'invite_anyone_settings_use_bp_email', __( 'Use BuddyPress email templates', 'invite-anyone'), 'invite_anyone_settings_use_bp_email', 'invite_anyone', 'invite_anyone_general_settings' );
+
 			break;
 	}
 }
@@ -286,6 +289,14 @@ function invite_anyone_settings_bypass_registration_lock() {
 	$options = invite_anyone_options();
 ?>
 	<input type="checkbox" name="invite_anyone[bypass_registration_lock]" value="yes" <?php checked( $options['bypass_registration_lock'], 'yes' ) ?> />
+<?php
+}
+
+// Use the BP email template instead of wp_mail
+function invite_anyone_settings_use_bp_email() {
+	$options = invite_anyone_options();
+?>
+	<input type="checkbox" name="invite_anyone[use_bp_email]" value="yes" <?php checked( $options['use_bp_email'], 'yes' ) ?> />
 <?php
 }
 
@@ -705,6 +716,7 @@ function invite_anyone_settings_check( $input ) {
 			break;
 
 			// 'yes' checkboxes.
+			case 'use_bp_email' :
 			case 'subject_is_customizable' :
 			case 'message_is_customizable' :
 			case 'can_send_group_invites_email' :

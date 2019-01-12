@@ -62,6 +62,36 @@ function invite_anyone_setup_globals() {
 }
 add_action( 'bp_setup_globals', 'invite_anyone_setup_globals', 2 );
 
+function create_notification_email_if_not_exists() {
+    $term_id = get_term_by( 'name', 'invite_anyone_notification', bp_get_email_tax_type() );
+
+    if ( $term_id ) {
+        return;
+    }
+
+    $new_post = array(
+        'post_title'    => '[{{{site.name}}}] {{{notification.subject}}}',
+        'post_content'  => '{{{notification.text}}}',
+        'post_excerpt'  => '{{{notification.text}}}',
+        'post_status'   => 'publish',
+        'post_type' => bp_get_email_post_type()
+    );
+
+    $post_id = wp_insert_post( $new_post );
+
+    if ( $post_id ) {
+        $tt_ids = wp_set_object_terms( $post_id, 'invite_anyone_notification', bp_get_email_tax_type() );
+
+        foreach ( $tt_ids as $tt_id ) {
+            $term = get_term_by( 'term_taxonomy_id', (int) $tt_id, bp_get_email_tax_type() );
+            wp_update_term( (int) $term->term_id, bp_get_email_tax_type(), array(
+                'description' => 'Invite Anyone notification',
+            ) );
+        }
+    }
+
+}
+
 
 function invite_anyone_opt_out_screen() {
 	global $bp;
@@ -1306,7 +1336,15 @@ function invite_anyone_process_invitations( $data ) {
 			 */
 			$message = apply_filters( 'invite_anyone_invitation_message', $message, $data, $email );
 
-			wp_mail( $to, $subject, $message );
+			if ( 'yes' === $options['use_bp_email'] )
+			{
+				create_notification_email_if_not_exists();
+				
+				$args = array('tokens' => array('site.name' => get_bloginfo('name'),'notification.subject' => $subject, 'notification.text' => $message,), );
+				bp_send_email('invite_anyone_notification', $to, $args);
+
+			}
+			else wp_mail( $to, $subject, $message );
 
 			/* todo: isolate which email(s) cause problems, and send back to user */
 		/*	if ( !invite_anyone_send_invitation( $bp->loggedin_user->id, $email, $message, $groups ) )

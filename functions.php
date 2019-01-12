@@ -39,7 +39,8 @@ function invite_anyone_options() {
 		'group_invites_enable_create_step' => 'yes',
 		'cloudsponge_enabled'            => 'off',
 		'email_limit_invites_toggle'     => 'no',
-		'limit_invites_per_user'         => 10
+		'limit_invites_per_user'         => 10,
+		'use_bp_email'			 => 'no'
 	);
 
 	foreach ( $defaults_array as $key => $value ) {
