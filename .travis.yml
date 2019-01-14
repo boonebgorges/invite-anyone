@@ -6,7 +6,7 @@ language: php
 
 # Versions of PHP to test against - PHPCompatibilityWP does linting for earlier versions.
 php:
-  - 7.3
+  - 7.2
 
 # Specify versions of WordPress to test against
 # WP_VERSION = WordPress version number (use "master" for SVN trunk)
