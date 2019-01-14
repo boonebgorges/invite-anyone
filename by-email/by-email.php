@@ -1537,7 +1537,7 @@ function invite_anyone_bypass_registration_lock() {
 
 		add_filter( 'bp_get_signup_allowed', '__return_true' );
 	} else {
-		add_filter( 'option_users_can_register', create_function( false, 'return true;' ) );
+		add_filter( 'option_users_can_register', '__return_true' );
 	}
 }
 add_action( 'wp', 'invite_anyone_bypass_registration_lock', 1 );
