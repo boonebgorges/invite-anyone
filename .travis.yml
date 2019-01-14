@@ -42,12 +42,12 @@ before_script:
     # prepare for running the tests
     - cd $plugin_dir
     - pwd
-    - composer global require --dev phpunit/phpunit ^6
+    - composer require --dev phpunit/phpunit ^6
     - composer install
 
 script:
     - ./vendor/bin/phpcs -p admin/ by-email/ functions.php group-invites/ invite-anyone.php lib/ tests/ widgets/ --standard=PHPCompatibilityWP --runtime-set testVersion 5.3- --extensions=php
-    - phpunit
+    - ./vendor/bin/phpunit
 
 # wordpress-plugin-tests specific config
 # Tells Travis CI not to run unit tests against the setup branch
