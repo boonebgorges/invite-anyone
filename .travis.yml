@@ -42,7 +42,6 @@ before_script:
     # prepare for running the tests
     - cd $plugin_dir
     - pwd
-    - composer require --dev phpunit/phpunit ^6
     - composer install
 
 script:
