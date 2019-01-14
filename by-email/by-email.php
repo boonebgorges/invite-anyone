@@ -648,10 +648,11 @@ function invite_anyone_screen_one_content() {
 			<?php endif ?>
 
 			<div class="manual-email">
-				<p>
+				<label for="invite-anyone-email-addresses">
 					<?php _e( 'Enter email addresses below, one per line.', 'invite-anyone' ) ?>
-					<?php if( invite_anyone_allowed_domains() ) : ?> <?php _e( 'You can only invite people whose email addresses end in one of the following domains:', 'invite-anyone' ) ?> <?php echo esc_html( invite_anyone_allowed_domains() ); ?><?php endif; ?>
-				</p>
+				</label>
+
+				<?php if( invite_anyone_allowed_domains() ) : ?> <p class="description"><?php _e( 'You can only invite people whose email addresses end in one of the following domains:', 'invite-anyone' ) ?> <?php echo esc_html( invite_anyone_allowed_domains() ); ?></p><?php endif; ?>
 
 				<?php if ( false !== $max_no_invites = invite_anyone_max_invites() ) : ?>
 					<p class="description"><?php printf( __( 'You can invite a maximum of %s people at a time.', 'invite-anyone' ), $max_no_invites ) ?></p>
@@ -692,26 +693,28 @@ function invite_anyone_screen_one_content() {
 		<?php if ( invite_anyone_are_groups_running() ) : ?>
 			<?php if ( $iaoptions['can_send_group_invites_email'] == 'yes' && bp_has_groups( "per_page=10000&type=alphabetical&user_id=" . bp_loggedin_user_id() ) ) : ?>
 			<li>
-				<p><?php _e( '(optional) Select some groups. Invitees will receive invitations to these groups when they join the site.', 'invite-anyone' ) ?></p>
-				<ul id="invite-anyone-group-list">
-					<?php while ( bp_groups() ) : bp_the_group(); ?>
-						<?php
+				<fieldset>
+					<legend><?php _e( '(optional) Select some groups. Invitees will receive invitations to these groups when they join the site.', 'invite-anyone' ) ?></legend>
+					<ul id="invite-anyone-group-list">
+						<?php while ( bp_groups() ) : bp_the_group(); ?>
+							<?php
 
-						// Enforce per-group invitation settings
-						if ( ! bp_groups_user_can_send_invites( bp_get_group_id() ) || 'anyone' !== invite_anyone_group_invite_access_test( bp_get_group_id() ) ) {
-							continue;
-						}
+							// Enforce per-group invitation settings
+							if ( ! bp_groups_user_can_send_invites( bp_get_group_id() ) || 'anyone' !== invite_anyone_group_invite_access_test( bp_get_group_id() ) ) {
+								continue;
+							}
 
-						?>
-						<li>
-						<input type="checkbox" name="invite_anyone_groups[]" id="invite_anyone_groups-<?php echo esc_attr( bp_get_group_id() ) ?>" value="<?php echo esc_attr( bp_get_group_id() ) ?>" <?php if ( $from_group == bp_get_group_id() || array_search( bp_get_group_id(), $returned_groups) ) : ?>checked<?php endif; ?> />
+							?>
+							<li>
+							<input type="checkbox" name="invite_anyone_groups[]" id="invite_anyone_groups-<?php echo esc_attr( bp_get_group_id() ) ?>" value="<?php echo esc_attr( bp_get_group_id() ) ?>" <?php if ( $from_group == bp_get_group_id() || array_search( bp_get_group_id(), $returned_groups) ) : ?>checked<?php endif; ?> />
 
-						<label for="invite_anyone_groups-<?php echo esc_attr( bp_get_group_id() ) ?>" class="invite-anyone-group-name"><?php bp_group_avatar_mini() ?> <span><?php bp_group_name() ?></span></label>
+							<label for="invite_anyone_groups-<?php echo esc_attr( bp_get_group_id() ) ?>" class="invite-anyone-group-name"><?php bp_group_avatar_mini() ?> <span><?php bp_group_name() ?></span></label>
 
-						</li>
-					<?php endwhile; ?>
+							</li>
+						<?php endwhile; ?>
 
-				</ul>
+					</ul>
+				</fieldset>
 			</li>
 			<?php endif; ?>
 
