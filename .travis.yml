@@ -17,15 +17,7 @@ php:
 # changes in the path structure)
 env:
     - WP_VERSION=master WP_MULTISITE=0 BP_VERSION=master
-#    - WP_VERSION=3.6.1 WP_MULTISITE=0 BP_VERSION=master
-#    - WP_VERSION=3.7.1 WP_MULTISITE=0 BP_VERSION=master
-#    - WP_VERSION=3.8.1 WP_MULTISITE=0 BP_VERSION=master
-#    - WP_VERSION=3.9.1 WP_MULTISITE=0 BP_VERSION=master
-#    - WP_VERSION=master WP_MULTISITE=1 BP_VERSION=master
-#    - WP_VERSION=3.6.1 WP_MULTISITE=1 BP_VERSION=master
-#    - WP_VERSION=3.7.1 WP_MULTISITE=1 BP_VERSION=master
-#    - WP_VERSION=3.8.1 WP_MULTISITE=1 BP_VERSION=master
-#    - WP_VERSION=3.9.1 WP_MULTISITE=1 BP_VERSION=master
+    - WP_VERSION=5.0 WP_MULTISITE=0 BP_VERSION=master
 
 # Grab the setup script and execute
 before_script:
@@ -52,8 +44,11 @@ before_script:
     # prepare for running the tests
     - cd $plugin_dir
     - pwd
+    - composer install
 
-script: phpunit
+script:
+    - ./vendor/bin/phpcs -p admin/ by-email/ functions.php group-invites/ invite-anyone.php lib/ tests/ widgets/ --standard=PHPCompatibilityWP --runtime-set testVersion 5.3- --extensions=php
+    - phpunit
 
 # wordpress-plugin-tests specific config
 # Tells Travis CI not to run unit tests against the setup branch

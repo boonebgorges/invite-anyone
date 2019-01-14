@@ -1,0 +1,10 @@
+{
+    "name": "boonebgorges/invite-anyone",
+    "type": "project",
+    "license": "GPL 3.0",
+    "require": {},
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
+        "phpcompatibility/phpcompatibility-wp": "*"
+    }
+}

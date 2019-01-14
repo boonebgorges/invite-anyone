@@ -3,8 +3,8 @@ Contributors: boonebgorges, cuny-academic-commons
 Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: 3.2
-Tested up to: 4.9
-Stable tag: 1.3.20
+Tested up to: 5.1
+Stable tag: 1.4.0
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -51,7 +51,8 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
-= 1.3.21 =
+= 1.4.0 =
+* Use BP's pretty email formatting system for outgoing email notifications.
 * Fix bug that caused admin panel to be added to Network Admin in some incorrect situations.
 
 = 1.3.20 =
