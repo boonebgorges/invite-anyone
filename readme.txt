@@ -54,6 +54,7 @@ Additional details about the plugin can be found in the following languages:
 = 1.4.0 =
 * Use BP's pretty email formatting system for outgoing email notifications.
 * Fix bug that caused admin panel to be added to Network Admin in some incorrect situations.
+* Improved PHP 7.2+ compatibility.
 
 = 1.3.20 =
 * Add parameters to filters on outgoing email parts.
