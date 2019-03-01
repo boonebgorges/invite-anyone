@@ -33,7 +33,10 @@
 }
 
 #invite-anyone-steps label,
-#invite-anyone-steps p {font-weight:bold;}
+#invite-anyone-steps p,
+#invite-anyone-steps legend {
+	font-weight:bold;
+}
 
 #invite-anyone-steps label {
   display:block;

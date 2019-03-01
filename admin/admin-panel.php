@@ -512,16 +512,17 @@ function invite_anyone_settings_cs_content() {
 					<label for="invite_anyone[cloudsponge_key]"><?php _e( 'CloudSponge Domain Key', 'invite-anyone' ) ?></label> <input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_key]" value="<?php echo esc_html( $domain_key ) ?>" /> <span class="description"><?php _e( 'CloudSponge integration will not work without a valid CloudSponge Domain key.', 'invite-anyone' ) ?></span>
 			<?php
 				} else {
+					$request_key = array_key_exists( 'cloudsponge-key', $_GET ) ? $_GET['cloudsponge-key'] : '';
 			?>
-					<label for="invite_anyone[cloudsponge_key]"><?php _e( 'CloudSponge Key', 'invite-anyone' ) ?></label>
-					<input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_account_key]" value="<?php if ( $account_key ) { echo esc_html( $account_key ); } else { echo esc_html( $_GET['cloudsponge-key'] ); } ?>" />
+					<label for="invite_anyone[cloudsponge_account_key]"><?php _e( 'CloudSponge Key', 'invite-anyone' ) ?></label>
+					<input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_account_key]" value="<?php if ( $account_key ) { echo esc_html( $account_key ); } else { echo esc_html( $request_key ); } ?>" />
 					<?php if ( $account_key ) : ?>
 						<button id="test-cloudsponge-button" name="test-cloudsponge-button" type="button" onclick="csLaunch();"><?php _e( 'Test', 'invite-anyone' ); ?></button>
 					<?php endif; ?>
 
-					<?php if ( ! isset( $_GET['cloudsponge-key'] ) && ! $account_key ) : ?>
+					<?php if ( ! isset( $request_key ) && ! $account_key ) : ?>
 						<span class="description"><?php _e( 'CloudSponge integration will not work without a valid CloudSponge Key.', 'invite-anyone' ) ?></span>
-					<?php elseif ( isset( $_GET['cloudsponge-key']) && !$account_key ) : ?>
+					<?php elseif ( isset( $request_key ) && !$account_key ) : ?>
 						<span class="description cs-warning"><?php _e( 'Please, click on <strong>Save Changes</strong> to save the key!', 'invite-anyone' ) ?></span>
 					<?php else : ?>
 						<span class="description"><?php _e( 'Click in the <strong>test</strong> button to test your integration.', 'invite-anyone' ) ?></span>
