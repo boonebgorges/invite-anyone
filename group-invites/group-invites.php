@@ -24,6 +24,10 @@ function invite_anyone_add_js() {
 		) );
 		wp_localize_script( 'invite-anyone-js', 'IA_js_strings', $params );
 
+		$autocomplete_options = apply_filters( 'ia_autocomplete_options', array(
+			'minChars'     => 1,
+		) );
+		wp_localize_script( 'invite-anyone-js', 'IA_autocomplete_options', $autocomplete_options );
 	}
 }
 add_action( 'wp_head', 'invite_anyone_add_js', 1 );
