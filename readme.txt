@@ -51,6 +51,10 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.4.1 =
+* Sane, overridable default for autocomplete minimum-character setting.
+* Accessibility improvements.
+
 = 1.4.0 =
 * Use BP's pretty email formatting system for outgoing email notifications.
 * Fix bug that caused admin panel to be added to Network Admin in some incorrect situations.
