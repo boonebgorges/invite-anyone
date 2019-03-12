@@ -16,7 +16,8 @@ jQuery(document).ready( function() {
 		onSelect: ia_on_autocomplete_select,
 		deferRequestBy: 0, //miliseconds
 		params: { action: 'invite_anyone_autocomplete_ajax_handler' },
-		noCache: true //set to true, to disable caching
+		noCache: true, //set to true, to disable caching
+		minChars: parseInt( IA_autocomplete_options.minChars )
 	};
 
 	a = j('#create-group-form #send-to-input, #send-invite-form #send-to-input').autocomplete(options);
