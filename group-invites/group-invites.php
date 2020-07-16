@@ -200,7 +200,17 @@ function invite_anyone_catch_group_invites() {
 			return false;
 
 		// Send the invites.
-		groups_send_invites( $bp->loggedin_user->id, $bp->groups->current_group->id );
+		$bp_version = defined( BP_VERSION ) ? BP_VERSION : '1.2';
+		if ( version_compare( $bp_version, '5.0.0', '>=' ) ) {
+			groups_send_invites(
+				array(
+					'user_id'  => bp_loggedin_user_id(),
+					'group_id' => bp_get_current_group_id(),
+				)
+			);
+		} else {
+			groups_send_invites( $bp->loggedin_user->id, $bp->groups->current_group->id );
+		}
 
 		bp_core_add_message( __( 'Group invites sent.', 'invite-anyone' ) );
 
