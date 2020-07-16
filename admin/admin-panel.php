@@ -91,6 +91,25 @@ function invite_anyone_admin_add() {
 }
 add_action( invite_anyone_admin_hook(), 'invite_anyone_admin_add', 80 );
 
+/**
+ * Mirror the admin menu item under the post type menu.
+ *
+ * @since 1.4.1
+ */
+function invite_anyone_mirror_settings_menu_item() {
+    global $submenu;
+
+	$settings_url = add_query_arg( 'page', 'invite-anyone', invite_anyone_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' ) );
+
+    $submenu['edit.php?post_type=ia_invites'][500] = array(
+		__( 'Invite Anyone Settings', 'invite-anyone' ),
+		__( 'Invite Anyone Settings', 'invite-anyone' ),
+		$settings_url,
+		'manage_options',
+	);
+}
+add_action( 'admin_menu', 'invite_anyone_mirror_settings_menu_item' );
+
 /* Stolen from Welcome Pack - thanks, Paul! */
 function invite_anyone_admin_add_action_link( $links, $file ) {
 	if ( 'invite-anyone/invite-anyone.php' != $file )
