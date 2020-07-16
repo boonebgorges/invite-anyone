@@ -657,7 +657,12 @@ function invite_anyone_screen_one_content() {
 				<?php if ( false !== $max_no_invites = invite_anyone_max_invites() ) : ?>
 					<p class="description"><?php printf( __( 'You can invite a maximum of %s people at a time.', 'invite-anyone' ), $max_no_invites ) ?></p>
 				<?php endif ?>
-				<?php invite_anyone_email_fields( $returned_data['error_emails'] ) ?>
+
+				<?php
+				$error_emails = is_array( $returned_data ) && isset( $returned_data['error_emails'] ) ? $returned_data['error_emails'] : array();
+				?>
+
+				<?php invite_anyone_email_fields( $error_emails ); ?>
 			</div>
 
 			<?php /* invite_anyone_after_addresses gets $iaoptions so that Cloudsponge etc can tell whether certain components are activated, without an additional lookup */ ?>
