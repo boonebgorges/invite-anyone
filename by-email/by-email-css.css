@@ -43,6 +43,10 @@
   margin-bottom:5px;
 }
 
+#invite-anyone-steps .cs_import {
+	cursor: pointer;
+}
+
 #invite-anyone-email-fields {
 	width: 380px;
 }
