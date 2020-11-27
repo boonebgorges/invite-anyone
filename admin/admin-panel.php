@@ -517,7 +517,7 @@ function invite_anyone_settings_cs_content() {
 	wp_localize_script( 'ia_cloudsponge', 'ia_cloudsponge', $strings );
 	wp_enqueue_script( 'ia_cloudsponge' );
 
-	$cloudsponge_sourcesList['gmail'] = "Gmail";
+	$cloudsponge_sourcesList['gmail'] = "Google Contacts";
 	$cloudsponge_sourcesList['yahoo'] = "Yahoo";
 	$cloudsponge_sourcesList['windowslive'] = "Windows Live";
 	$cloudsponge_sourcesList['csv'] = "CSV";
