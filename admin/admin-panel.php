@@ -227,7 +227,7 @@ function invite_anyone_admin_panel() {
 
 	<input type="hidden" name="settings-section" value="<?php echo $subpage ?>" />
 
-	<input id="invite-anyone-settings-submit" name="invite-anyone-settings-submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
+	<input id="invite-anyone-settings-submit" name="invite-anyone-settings-submit" type="submit" class="button" value="<?php esc_attr_e('Save Changes'); ?>" />
 	</form>
 
 
@@ -543,7 +543,7 @@ function invite_anyone_settings_cs_content() {
 						<th scope="row"><?php _e( 'CloudSponge Key', 'invite-anyone' ) ?></th>
 						<td><input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_account_key]" value="<?php if ( $account_key ) { echo esc_html( $account_key ); } else { echo esc_html( $_GET['cloudsponge-key'] ); } ?>" />
 						<?php if ( $account_key ) : ?>
-							<button id="test-cloudsponge-button" name="test-cloudsponge-button" type="button" onclick="csLaunch();"><?php _e( 'Test', 'invite-anyone' ); ?></button>
+							<button id="test-cloudsponge-button" name="test-cloudsponge-button" type="button" class="button" onclick="csLaunch();"><?php _e( 'Test', 'invite-anyone' ); ?></button>
 						<?php endif; ?>
 
 						<?php if ( ! isset( $_GET['cloudsponge-key'] ) && ! $account_key ) : ?>
@@ -558,8 +558,10 @@ function invite_anyone_settings_cs_content() {
 					}
 				?>
 					<tr>
-						<th scope="row"><?php _e( 'CloudSponge Proxy URL', 'invite-anyone' ) ?></th>
-						<td><span class="description"><strong><?php echo plugins_url() . '/invite-anyone/by-email/cloudsponge-proxy.html' ?></span></strong></td>
+						<th scope="row"><?php _e( 'Your Proxy URL', 'invite-anyone' ) ?></th>
+						<td><input type="text" style="width: 80%" id="cloudsponge-proxy" name="invite_anyone[cloudsponge_proxy]" value="<?php echo plugins_url() . '/invite-anyone/by-email/cloudsponge-proxy.html' ?>" /> <button type="button" id="cloudsponge-copy" class="button">Copy to clipboard</button>
+						<p class="description" style="padding-top: 4px;"><?php _e( 'When you\'re configuring your OAuth credentials in your CloudSponge account, you\'ll be asked to specify this Proxy URL.' ) ?></p>
+						</td>
 					</tr>
 				</tbody>
 			</table>
