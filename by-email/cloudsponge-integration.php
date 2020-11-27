@@ -18,6 +18,7 @@ class Cloudsponge_Integration {
 		$this->enabled = !empty( $options['cloudsponge_enabled'] ) ? $options['cloudsponge_enabled'] : false;
 		$this->domain_key = !empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : false;
 		$this->account_key = !empty( $options['cloudsponge_account_key'] ) ? $options['cloudsponge_account_key'] : false;
+		$this->sources = !empty( $options['cloudsponge_sources'] ) ? explode(",", $options['cloudsponge_sources']) : false;
 
 		if ( $this->enabled && ( $this->domain_key || $this->account_key ) ) {
 			define( 'INVITE_ANYONE_CS_ENABLED', true );
@@ -55,6 +56,8 @@ class Cloudsponge_Integration {
 		if ( $stylesheet = apply_filters( 'ia_cloudsponge_stylesheet', '' ) ) {
 			$strings['stylesheet'] = $stylesheet;
 		}
+
+		$strings['sources'] = $this->sources;
 
 		wp_localize_script( 'ia_cloudsponge', 'ia_cloudsponge', $strings );
 	}
