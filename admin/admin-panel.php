@@ -183,7 +183,8 @@ function invite_anyone_admin_panel() {
 				'cloudsponge_key',
 				'cloudsponge_account_key',
 				'cloudsponge_sources',
-				'cloudsponge_sources_list'
+				'cloudsponge_sources_list',
+				'cloudsponge_deep_links'
 			),
 			'general-settings' => array(
 				'can_send_group_invites_email',
@@ -601,6 +602,14 @@ function invite_anyone_settings_cs_content() {
 							</ul>
 							<input type="hidden" name="invite_anyone[cloudsponge_sources]" id="csSourcesStore" value="<?php echo esc_html( $cloudsponge_sources ) ?>">
 							<input type="hidden" name="invite_anyone[cloudsponge_sources_list]" value='<?php echo json_encode($cloudsponge_sourcesList); ?>'>
+						</td>
+					</tr>
+
+					<tr>
+						<th scope="row"><?php _e( 'Enable Deep Links', 'invite-anyone' ) ?></th>
+						<td>
+							<input type="checkbox" name="invite_anyone[cloudsponge_deep_links]" id="cloudsponge-deep-links" <?php checked( $options['cloudsponge_deep_links'], 'on' ) ?>/>
+							<span class="description" style="padding-top: 0;"><?php _e( 'If you’d like to skip the Address Book Providers menu (and eliminate one click for your users) you can use Deep Links instead' ) ?></span>
 						</td>
 					</tr>
 				</tbody>
