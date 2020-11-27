@@ -517,29 +517,29 @@ function invite_anyone_settings_cs_content() {
 	wp_localize_script( 'ia_cloudsponge', 'ia_cloudsponge', $strings );
 	wp_enqueue_script( 'ia_cloudsponge' );
 
-	$cloudsponge_sourcesList['gmail'] = "Google Contacts";
-	$cloudsponge_sourcesList['yahoo'] = "Yahoo";
-	$cloudsponge_sourcesList['windowslive'] = "Windows Live";
-	$cloudsponge_sourcesList['csv'] = "CSV";
-	$cloudsponge_sourcesList['linkedin'] = "LinkedIn";
-	$cloudsponge_sourcesList['aol'] = "AOL";
-	$cloudsponge_sourcesList['icloud'] = "iCloud";
-	$cloudsponge_sourcesList['outlook'] = "Outlook";
-	$cloudsponge_sourcesList['addressbook'] = "Addressbook";
-	$cloudsponge_sourcesList['plaxo'] = "Plaxo";
-	$cloudsponge_sourcesList['mail_ru'] = "Mail.ru";
-	$cloudsponge_sourcesList['uol'] = "UOL";
-	$cloudsponge_sourcesList['bol'] = "BOL";
-	$cloudsponge_sourcesList['terra'] = "Terra";
-	$cloudsponge_sourcesList['rediff'] = "Rediff";
-	$cloudsponge_sourcesList['mail126'] = "Mail126";
-	$cloudsponge_sourcesList['mail163'] = "Mail163";
-	$cloudsponge_sourcesList['mail_yeah_net'] = "Yeah.net";
-	$cloudsponge_sourcesList['gmx'] = "GMX";
-	$cloudsponge_sourcesList['qip_ru'] = "QIP.ru";
-	$cloudsponge_sourcesList['sapo'] = "Sapo";
-	$cloudsponge_sourcesList['mailcom'] = "Mail.com";
-	$cloudsponge_sourcesList['yandex_ru'] = "Yandex.ru";
+	$cloudsponge_sourcesList['gmail'] = array("title"=>"Google Contacts");
+	$cloudsponge_sourcesList['yahoo'] = array("title"=>"Yahoo");
+	$cloudsponge_sourcesList['windowslive'] = array("title"=>"Windows Live");
+	$cloudsponge_sourcesList['csv'] = array("title"=>"CSV");
+	$cloudsponge_sourcesList['linkedin'] = array("title"=>"LinkedIn");
+	$cloudsponge_sourcesList['aol'] = array("title"=>"AOL");
+	$cloudsponge_sourcesList['icloud'] = array("title"=>"iCloud");
+	$cloudsponge_sourcesList['outlook'] = array("title"=>"Outlook");
+	$cloudsponge_sourcesList['addressbook'] = array("title"=>"Addressbook");
+	$cloudsponge_sourcesList['plaxo'] = array("title"=>"Plaxo");
+	$cloudsponge_sourcesList['mail_ru'] = array("title"=>"Mail.ru");
+	$cloudsponge_sourcesList['uol'] = array("title"=>"UOL");
+	$cloudsponge_sourcesList['bol'] = array("title"=>"BOL");
+	$cloudsponge_sourcesList['terra'] = array("title"=>"Terra");
+	$cloudsponge_sourcesList['rediff'] = array("title"=>"Rediff");
+	$cloudsponge_sourcesList['mail126'] = array("title"=>"Mail126");
+	$cloudsponge_sourcesList['mail163'] = array("title"=>"Mail163");
+	$cloudsponge_sourcesList['mail_yeah_net'] = array("title"=>"Yeah.net");
+	$cloudsponge_sourcesList['gmx'] = array("title"=>"GMX");
+	$cloudsponge_sourcesList['qip_ru'] = array("title"=>"QIP.ru");
+	$cloudsponge_sourcesList['sapo'] = array("title"=>"Sapo");
+	$cloudsponge_sourcesList['mailcom'] = array("title"=>"Mail.com");
+	$cloudsponge_sourcesList['yandex_ru'] = array("title"=>"Yandex.ru");	
 
 ?>
 	<div class="cs">
@@ -593,7 +593,7 @@ function invite_anyone_settings_cs_content() {
 
 								foreach($cloudsponge_sourcesList as $key => $val)
 								{
-									print '<li><input type="checkbox" name="csSources" value="'.$key.'" '.((in_array($key, $cloudsponge_sources_arr) || $cloudsponge_sources == '')?'checked':'').'> '.$val.'</li>';
+									print '<li><input type="checkbox" name="csSources" value="'.$key.'" '.((in_array($key, $cloudsponge_sources_arr) || $cloudsponge_sources == '')?'checked':'').'> '.$val['title'].'</li>';
 								}
 
 								?>
