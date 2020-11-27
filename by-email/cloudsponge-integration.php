@@ -19,6 +19,7 @@ class Cloudsponge_Integration {
 		$this->domain_key = !empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : false;
 		$this->account_key = !empty( $options['cloudsponge_account_key'] ) ? $options['cloudsponge_account_key'] : false;
 		$this->sources = !empty( $options['cloudsponge_sources'] ) ? explode(",", $options['cloudsponge_sources']) : false;
+		$this->sources_list = !empty( $options['cloudsponge_sources_list'] ) ? $options['cloudsponge_sources_list'] : false;
 
 		if ( $this->enabled && ( $this->domain_key || $this->account_key ) ) {
 			define( 'INVITE_ANYONE_CS_ENABLED', true );

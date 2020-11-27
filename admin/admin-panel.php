@@ -182,7 +182,8 @@ function invite_anyone_admin_panel() {
 				'cloudsponge_enabled',
 				'cloudsponge_key',
 				'cloudsponge_account_key',
-				'cloudsponge_sources'
+				'cloudsponge_sources',
+				'cloudsponge_sources_list'
 			),
 			'general-settings' => array(
 				'can_send_group_invites_email',
@@ -539,7 +540,7 @@ function invite_anyone_settings_cs_content() {
 	$cloudsponge_sourcesList['qip_ru'] = array("title"=>"QIP.ru");
 	$cloudsponge_sourcesList['sapo'] = array("title"=>"Sapo");
 	$cloudsponge_sourcesList['mailcom'] = array("title"=>"Mail.com");
-	$cloudsponge_sourcesList['yandex_ru'] = array("title"=>"Yandex.ru");	
+	$cloudsponge_sourcesList['yandex_ru'] = array("title"=>"Yandex.ru");
 
 ?>
 	<div class="cs">
@@ -599,6 +600,7 @@ function invite_anyone_settings_cs_content() {
 								?>
 							</ul>
 							<input type="hidden" name="invite_anyone[cloudsponge_sources]" id="csSourcesStore" value="<?php echo esc_html( $cloudsponge_sources ) ?>">
+							<input type="hidden" name="invite_anyone[cloudsponge_sources_list]" value='<?php echo json_encode($cloudsponge_sourcesList); ?>'>
 						</td>
 					</tr>
 				</tbody>
