@@ -14,19 +14,12 @@ jQuery(document).ready( function() {
 
 	csSources.change(function(){
 		var csSourcesTemp = [];
-		var cnt = 0;
 		csSources.each( function () {
 	        if(this.checked) {
 	            csSourcesTemp.push(j(this).val());
 	        }
-
-	        cnt++;
 	    });
-
-		if(csSourcesTemp.length != cnt)
-	    	csSourcesStore.val(csSourcesTemp.join());
-	    else
-	    	csSourcesStore.val("");
+	    csSourcesStore.val(csSourcesTemp.join());
 	});
 	
 	j(cstoggle).click(function(){
