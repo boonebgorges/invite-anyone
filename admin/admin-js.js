@@ -5,10 +5,29 @@ jQuery(document).ready( function() {
 	var cstoggle = j("input#cloudsponge-enabled");
 	var cscopy = j("#cloudsponge-copy");
 	var cstable = j("div.cs-settings");
+	var csSourcesStore = j("#csSourcesStore");
+	var csSources = j("input[name='csSources']");
 	
 	if ( j(cstoggle).prop('checked') == false ) {
 		j(cstable).hide();
 	}
+
+	csSources.change(function(){
+		var csSourcesTemp = [];
+		var cnt = 0;
+		csSources.each( function () {
+	        if(this.checked) {
+	            csSourcesTemp.push(j(this).val());
+	        }
+
+	        cnt++;
+	    });
+
+		if(csSourcesTemp.length != cnt)
+	    	csSourcesStore.val(csSourcesTemp.join());
+	    else
+	    	csSourcesStore.val("");
+	});
 	
 	j(cstoggle).click(function(){
 		j(cstable).slideToggle(300);

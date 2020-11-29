@@ -182,6 +182,9 @@ function invite_anyone_admin_panel() {
 				'cloudsponge_enabled',
 				'cloudsponge_key',
 				'cloudsponge_account_key',
+				'cloudsponge_sources',
+				'cloudsponge_sources_list',
+				'cloudsponge_deep_links'
 			),
 			'general-settings' => array(
 				'can_send_group_invites_email',
@@ -491,6 +494,7 @@ function invite_anyone_settings_cs_content() {
 	$options = invite_anyone_options();
 	$domain_key = isset( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : '';
 	$account_key = isset( $options['cloudsponge_account_key'] ) ? $options['cloudsponge_account_key'] : '';
+	$cloudsponge_sources = isset( $options['cloudsponge_sources'] ) ? $options['cloudsponge_sources'] : '';
 	// Trying to give to CloudSponge user email and name to pre populate signup
 	// form and reduce friction
 	$cloudsponge_params = '?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator';
@@ -514,6 +518,30 @@ function invite_anyone_settings_cs_content() {
 	$strings['domain_key'] = false;
 	wp_localize_script( 'ia_cloudsponge', 'ia_cloudsponge', $strings );
 	wp_enqueue_script( 'ia_cloudsponge' );
+
+	$cloudsponge_sourcesList['gmail'] = array("title"=>"Google Contacts");
+	$cloudsponge_sourcesList['yahoo'] = array("title"=>"Yahoo");
+	$cloudsponge_sourcesList['windowslive'] = array("title"=>"Windows Live");
+	$cloudsponge_sourcesList['csv'] = array("title"=>"CSV");
+	$cloudsponge_sourcesList['linkedin'] = array("title"=>"LinkedIn");
+	$cloudsponge_sourcesList['aol'] = array("title"=>"AOL");
+	$cloudsponge_sourcesList['icloud'] = array("title"=>"iCloud");
+	$cloudsponge_sourcesList['outlook'] = array("title"=>"Outlook");
+	$cloudsponge_sourcesList['addressbook'] = array("title"=>"Addressbook");
+	$cloudsponge_sourcesList['plaxo'] = array("title"=>"Plaxo");
+	$cloudsponge_sourcesList['mail_ru'] = array("title"=>"Mail.ru");
+	$cloudsponge_sourcesList['uol'] = array("title"=>"UOL");
+	$cloudsponge_sourcesList['bol'] = array("title"=>"BOL");
+	$cloudsponge_sourcesList['terra'] = array("title"=>"Terra");
+	$cloudsponge_sourcesList['rediff'] = array("title"=>"Rediff");
+	$cloudsponge_sourcesList['mail126'] = array("title"=>"Mail126");
+	$cloudsponge_sourcesList['mail163'] = array("title"=>"Mail163");
+	$cloudsponge_sourcesList['mail_yeah_net'] = array("title"=>"Yeah.net");
+	$cloudsponge_sourcesList['gmx'] = array("title"=>"GMX");
+	$cloudsponge_sourcesList['qip_ru'] = array("title"=>"QIP.ru");
+	$cloudsponge_sourcesList['sapo'] = array("title"=>"Sapo");
+	$cloudsponge_sourcesList['mailcom'] = array("title"=>"Mail.com");
+	$cloudsponge_sourcesList['yandex_ru'] = array("title"=>"Yandex.ru");
 
 ?>
 	<div class="cs">
@@ -557,11 +585,39 @@ function invite_anyone_settings_cs_content() {
 				<?php
 					}
 				?>
-					<tr>
-						<th scope="row"><?php _e( 'Your Proxy URL', 'invite-anyone' ) ?></th>
+          <tr>
+            <th scope="row"><?php _e( 'Your Proxy URL', 'invite-anyone' ) ?></th>
 						<td><input type="text" style="width: 80%" id="cloudsponge-proxy" name="invite_anyone[cloudsponge_proxy]" value="<?php echo plugins_url() . '/invite-anyone/by-email/cloudsponge-proxy.html' ?>" /> <button type="button" id="cloudsponge-copy" class="button">Copy to clipboard</button>
 						<p class="description" style="padding-top: 4px;"><?php _e( 'When you\'re configuring your OAuth credentials in your CloudSponge account, you\'ll be asked to specify this Proxy URL.' ) ?></p>
 						</td>
+          </tr>
+					
+          <tr>
+						<th scope="row"><?php _e( 'Address Book Providers', 'invite-anyone' ) ?></th>
+						<td>
+							<p class="description" style="padding-top: 0;"><?php _e( 'You may not want to display the entire list of our Address Book Providers. So instead you can specify only the ones you want your users to see.' ) ?></p>
+							<ul><?php
+
+								$cloudsponge_sources_arr = explode(",", $cloudsponge_sources);
+
+								foreach($cloudsponge_sourcesList as $key => $val)
+								{
+									print '<li><input type="checkbox" name="csSources" value="'.$key.'" '.((in_array($key, $cloudsponge_sources_arr) || $cloudsponge_sources == '')?'checked':'').'> '.$val['title'].'</li>';
+								}
+
+								?>
+							</ul>
+							<input type="hidden" name="invite_anyone[cloudsponge_sources]" id="csSourcesStore" value="<?php echo esc_html( $cloudsponge_sources ) ?>">
+							<input type="hidden" name="invite_anyone[cloudsponge_sources_list]" value='<?php echo json_encode($cloudsponge_sourcesList); ?>'>
+						</td>
+					</tr>
+
+					<tr>
+						<th scope="row"><?php _e( 'Enable Deep Links', 'invite-anyone' ) ?></th>
+						<td>
+							<input type="checkbox" name="invite_anyone[cloudsponge_deep_links]" id="cloudsponge-deep-links" <?php checked( $options['cloudsponge_deep_links'], 'on' ) ?>/>
+							<span class="description" style="padding-top: 0;"><?php _e( 'If you’d like to skip the Address Book Providers menu (and eliminate one click for your users) you can use Deep Links instead' ) ?></span>
+            </td>
 					</tr>
 				</tbody>
 			</table>
