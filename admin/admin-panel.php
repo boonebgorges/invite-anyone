@@ -227,7 +227,7 @@ function invite_anyone_admin_panel() {
 
 	<input type="hidden" name="settings-section" value="<?php echo $subpage ?>" />
 
-	<input id="invite-anyone-settings-submit" name="invite-anyone-settings-submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
+	<input id="invite-anyone-settings-submit" name="invite-anyone-settings-submit" type="submit" class="button" value="<?php esc_attr_e('Save Changes'); ?>" />
 	</form>
 
 
@@ -525,29 +525,46 @@ function invite_anyone_settings_cs_content() {
 
 		<div class="cs-settings">
 
-			<?php
-				if ( $domain_key ) {
-			?>
-					<label for="invite_anyone[cloudsponge_key]"><?php _e( 'CloudSponge Domain Key', 'invite-anyone' ) ?></label> <input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_key]" value="<?php echo esc_html( $domain_key ) ?>" /> <span class="description"><?php _e( 'CloudSponge integration will not work without a valid CloudSponge Domain key.', 'invite-anyone' ) ?></span>
-			<?php
-				} else {
-			?>
-					<label for="invite_anyone[cloudsponge_key]"><?php _e( 'CloudSponge Key', 'invite-anyone' ) ?></label>
-					<input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_account_key]" value="<?php if ( $account_key ) { echo esc_html( $account_key ); } else { echo esc_html( $_GET['cloudsponge-key'] ); } ?>" />
-					<?php if ( $account_key ) : ?>
-						<button id="test-cloudsponge-button" name="test-cloudsponge-button" type="button" onclick="csLaunch();"><?php _e( 'Test', 'invite-anyone' ); ?></button>
-					<?php endif; ?>
+			<table class="form-table" role="presentation">
+				<tbody>
 
-					<?php if ( ! isset( $_GET['cloudsponge-key'] ) && ! $account_key ) : ?>
-						<span class="description"><?php _e( 'CloudSponge integration will not work without a valid CloudSponge Key.', 'invite-anyone' ) ?></span>
-					<?php elseif ( isset( $_GET['cloudsponge-key']) && !$account_key ) : ?>
-						<span class="description cs-warning"><?php _e( 'Please, click on <strong>Save Changes</strong> to save the key!', 'invite-anyone' ) ?></span>
-					<?php else : ?>
-						<span class="description"><?php _e( 'Click in the <strong>test</strong> button to test your integration.', 'invite-anyone' ) ?></span>
-					<?php endif; ?>
-			<?php
-				}
-			?>
+				<?php
+					if ( $domain_key ) {
+				?>
+					<tr>
+						<th scope="row"><?php _e( 'CloudSponge Domain Key', 'invite-anyone' ) ?></th>
+						<td><input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_key]" value="<?php echo esc_html( $domain_key ) ?>" /> <span class="description"><?php _e( 'CloudSponge integration will not work without a valid CloudSponge Domain key.', 'invite-anyone' ) ?></span></td>
+					</tr>
+			
+				<?php
+					} else {
+				?>
+					<tr>
+						<th scope="row"><?php _e( 'CloudSponge Key', 'invite-anyone' ) ?></th>
+						<td><input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_account_key]" value="<?php if ( $account_key ) { echo esc_html( $account_key ); } else { echo esc_html( $_GET['cloudsponge-key'] ); } ?>" />
+						<?php if ( $account_key ) : ?>
+							<button id="test-cloudsponge-button" name="test-cloudsponge-button" type="button" class="button" onclick="csLaunch();"><?php _e( 'Test', 'invite-anyone' ); ?></button>
+						<?php endif; ?>
+
+						<?php if ( ! isset( $_GET['cloudsponge-key'] ) && ! $account_key ) : ?>
+							<span class="description"><?php _e( 'CloudSponge integration will not work without a valid CloudSponge Key.', 'invite-anyone' ) ?></span>
+						<?php elseif ( isset( $_GET['cloudsponge-key']) && !$account_key ) : ?>
+							<span class="description cs-warning"><?php _e( 'Please, click on <strong>Save Changes</strong> to save the key!', 'invite-anyone' ) ?></span>
+						<?php else : ?>
+							<span class="description"><?php _e( 'Click in the <strong>test</strong> button to test your integration.', 'invite-anyone' ) ?></span>
+						<?php endif; ?></td>
+					</tr>
+				<?php
+					}
+				?>
+					<tr>
+						<th scope="row"><?php _e( 'Your Proxy URL', 'invite-anyone' ) ?></th>
+						<td><input type="text" style="width: 80%" id="cloudsponge-proxy" name="invite_anyone[cloudsponge_proxy]" value="<?php echo plugins_url() . '/invite-anyone/by-email/cloudsponge-proxy.html' ?>" /> <button type="button" id="cloudsponge-copy" class="button">Copy to clipboard</button>
+						<p class="description" style="padding-top: 4px;"><?php _e( 'When you\'re configuring your OAuth credentials in your CloudSponge account, you\'ll be asked to specify this Proxy URL.' ) ?></p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 
 			<p class="description"><?php _e( 'When you use CloudSponge with Invite Anyone, part of your CloudSponge monthly payment goes to the author of Invite Anyone. This is a great way to support future development of the plugin. Thanks for your support!', 'invite-anyone' ) ?></p>
 		</div>
