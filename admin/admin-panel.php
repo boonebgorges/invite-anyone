@@ -523,7 +523,6 @@ function invite_anyone_settings_cs_content() {
 	$cloudsponge_sourcesList['yahoo'] = array("title"=>"Yahoo");
 	$cloudsponge_sourcesList['windowslive'] = array("title"=>"Windows Live");
 	$cloudsponge_sourcesList['csv'] = array("title"=>"CSV");
-	$cloudsponge_sourcesList['linkedin'] = array("title"=>"LinkedIn");
 	$cloudsponge_sourcesList['aol'] = array("title"=>"AOL");
 	$cloudsponge_sourcesList['icloud'] = array("title"=>"iCloud");
 	$cloudsponge_sourcesList['outlook'] = array("title"=>"Outlook");
