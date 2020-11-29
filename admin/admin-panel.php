@@ -585,7 +585,14 @@ function invite_anyone_settings_cs_content() {
 				<?php
 					}
 				?>
-					<tr>
+          <tr>
+            <th scope="row"><?php _e( 'Your Proxy URL', 'invite-anyone' ) ?></th>
+						<td><input type="text" style="width: 80%" id="cloudsponge-proxy" name="invite_anyone[cloudsponge_proxy]" value="<?php echo plugins_url() . '/invite-anyone/by-email/cloudsponge-proxy.html' ?>" /> <button type="button" id="cloudsponge-copy" class="button">Copy to clipboard</button>
+						<p class="description" style="padding-top: 4px;"><?php _e( 'When you\'re configuring your OAuth credentials in your CloudSponge account, you\'ll be asked to specify this Proxy URL.' ) ?></p>
+						</td>
+          </tr>
+					
+          <tr>
 						<th scope="row"><?php _e( 'Address Book Providers', 'invite-anyone' ) ?></th>
 						<td>
 							<p class="description" style="padding-top: 0;"><?php _e( 'You may not want to display the entire list of our Address Book Providers. So instead you can specify only the ones you want your users to see.' ) ?></p>
@@ -610,7 +617,7 @@ function invite_anyone_settings_cs_content() {
 						<td>
 							<input type="checkbox" name="invite_anyone[cloudsponge_deep_links]" id="cloudsponge-deep-links" <?php checked( $options['cloudsponge_deep_links'], 'on' ) ?>/>
 							<span class="description" style="padding-top: 0;"><?php _e( 'If you’d like to skip the Address Book Providers menu (and eliminate one click for your users) you can use Deep Links instead' ) ?></span>
-						</td>
+            </td>
 					</tr>
 				</tbody>
 			</table>
