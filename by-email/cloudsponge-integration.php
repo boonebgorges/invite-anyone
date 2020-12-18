@@ -19,7 +19,6 @@ class Cloudsponge_Integration {
 		$this->domain_key = !empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : false;
 		$this->account_key = !empty( $options['cloudsponge_account_key'] ) ? $options['cloudsponge_account_key'] : false;
 		$this->sources = !empty( $options['cloudsponge_sources'] ) ? explode(",", $options['cloudsponge_sources']) : false;
-		$this->sources_list = !empty( $options['cloudsponge_sources_list'] ) ? $options['cloudsponge_sources_list'] : false;
 		$this->deep_links = !empty( $options['cloudsponge_deep_links'] ) ? $options['cloudsponge_deep_links'] : false;
 
 		if ( $this->enabled && ( $this->domain_key || $this->account_key ) ) {
@@ -81,27 +80,54 @@ class Cloudsponge_Integration {
 
 <input type="hidden" id="cloudsponge-emails" name="cloudsponge-emails" value="" />
 
-<?php 
-	
+<?php
+
 	if(!$this->deep_links)
 		_e( 'You can also add email addresses <a class="cs_import">from your Address Book</a>.', 'invite-anyone' );
 	else
 	{
-		$sourcesList = json_decode(stripslashes($this->sources_list), true);
+		$sourcesList = self::sources_list();
 		$sourcesDisplay = array();
-		
+
 		_e( 'You can also add email addresses from one of the following address books:</br>', 'invite-anyone' );
 
 		foreach($this->sources as $source)
 		{
 			$sourcesDisplay[] = '<a class="cloudsponge-launch" data-cloudsponge-source="'.$source.'">'.$sourcesList[$source]["title"].'</a>';
 		}
-		
+
 		print implode(", ", $sourcesDisplay);
 	}
 
 ?>
 		<?php
+	}
+
+	public static function sources_list() {
+		return [
+			'gmail' => array("title"=>"Google Contacts"),
+			'yahoo' => array("title"=>"Yahoo"),
+			'windowslive' => array("title"=>"Windows Live"),
+			'csv' => array("title"=>"CSV"),
+			'aol' => array("title"=>"AOL"),
+			'icloud' => array("title"=>"iCloud"),
+			'outlook' => array("title"=>"Outlook"),
+			'addressbook' => array("title"=>"Addressbook"),
+			'plaxo' => array("title"=>"Plaxo"),
+			'mail_ru' => array("title"=>"Mail.ru"),
+			'uol' => array("title"=>"UOL"),
+			'bol' => array("title"=>"BOL"),
+			'terra' => array("title"=>"Terra"),
+			'rediff' => array("title"=>"Rediff"),
+			'mail126' => array("title"=>"Mail126"),
+			'mail163' => array("title"=>"Mail163"),
+			'mail_yeah_net' => array("title"=>"Yeah.net"),
+			'gmx' => array("title"=>"GMX"),
+			'qip_ru' => array("title"=>"QIP.ru"),
+			'sapo' => array("title"=>"Sapo"),
+			'mailcom' => array("title"=>"Mail.com"),
+			'yandex_ru' => array("title"=>"Yandex.ru"),
+		];
 	}
 }
 $cloudsponge_integration = new Cloudsponge_Integration;
