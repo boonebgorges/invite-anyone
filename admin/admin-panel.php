@@ -574,9 +574,9 @@ function invite_anyone_settings_cs_content() {
 							$cloudsponge_sources_arr = explode( ",", $cloudsponge_sources );
 							?>
 
-							<ul>
+							<ul class="cs-source-list-checkboxes">
 								<?php foreach ( $cloudsponge_sourcesList as $key => $val ) : ?>
-									<li><input type="checkbox" name="csSources" value="<?php echo esc_attr( $key ); ?>" <?php checked( in_array( $key, $cloudsponge_sources_arr ) || empty( $cloudsponge_sources ) ); ?>><?php echo esc_html( $val['title'] ); ?></li>
+									<li><input id="cs-source-<?php echo esc_attr( $key ); ?>" type="checkbox" name="csSources" value="<?php echo esc_attr( $key ); ?>" <?php checked( in_array( $key, $cloudsponge_sources_arr ) || empty( $cloudsponge_sources ) ); ?>><label for="cs-source-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $val['title'] ); ?></label></li>
 								<?php endforeach; ?>
 							</ul>
 
