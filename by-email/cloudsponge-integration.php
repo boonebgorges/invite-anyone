@@ -12,8 +12,9 @@ class Cloudsponge_Integration {
 	 */
 	function __construct() {
 
-		if ( empty( $options ) )
+		if ( empty( $options ) ) {
 			$options = get_option( 'invite_anyone' );
+		}
 
 		$this->enabled = !empty( $options['cloudsponge_enabled'] ) ? $options['cloudsponge_enabled'] : false;
 		$this->domain_key = !empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : false;
@@ -78,29 +79,23 @@ class Cloudsponge_Integration {
 
 		?>
 
-<input type="hidden" id="cloudsponge-emails" name="cloudsponge-emails" value="" />
+		<input type="hidden" id="cloudsponge-emails" name="cloudsponge-emails" value="" />
 
-<?php
+		<?php if ( ! $this->deep_links ) : ?>
+			<a class="cs_import"><?php esc_html_e( 'You can also add email addresses from your Address Book.', 'invite-anyone' ); ?></a>
+		<?php else : ?>
+			<?php
+			$sourcesList    = self::sources_list();
+			$sourcesDisplay = array();
+			?>
 
-	if(!$this->deep_links)
-		_e( 'You can also add email addresses <a class="cs_import">from your Address Book</a>.', 'invite-anyone' );
-	else
-	{
-		$sourcesList = self::sources_list();
-		$sourcesDisplay = array();
+			<?php esc_html_e( 'You can also add email addresses from one of the following address books:', 'invite-anyone' ); ?>
 
-		_e( 'You can also add email addresses from one of the following address books:</br>', 'invite-anyone' );
+			<?php foreach( $this->sources as $source ) : ?>
+				<a class="cloudsponge-launch" data-cloudsponge-source="<?php echo esc_attr( $source ); ?>"><?php echo esc_html( $sourcesList[ $source ]['title'] ); ?></a>
+			<?php endforeach; ?>
 
-		foreach($this->sources as $source)
-		{
-			$sourcesDisplay[] = '<a class="cloudsponge-launch" data-cloudsponge-source="'.$source.'">'.$sourcesList[$source]["title"].'</a>';
-		}
-
-		print implode(", ", $sourcesDisplay);
-	}
-
-?>
-		<?php
+		<?php endif;
 	}
 
 	public static function sources_list() {
