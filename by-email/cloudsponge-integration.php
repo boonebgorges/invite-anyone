@@ -104,10 +104,18 @@ class Cloudsponge_Integration {
 	}
 
 	public static function sources_list() {
+		$sources = get_transient( 'cloudsponge-services' );
+		if ( false === $sources ) {
+			$sources = json_decode( file_get_contents( 'https://api.cloudsponge.com/services.json' ), true );
 
-		$cloudsponge_sourcesJSON = "https://api.cloudsponge.com/services.json";
-		return json_decode( file_get_contents($cloudsponge_sourcesJSON), true);
+			if ( $sources ) {
+				set_transient( 'cloudsponge-services', $sources, HOUR_IN_SECONDS );
+			} else {
+				$sources = [];
+			}
+		}
 
+		return $sources;
 	}
 }
 $cloudsponge_integration = new Cloudsponge_Integration;
