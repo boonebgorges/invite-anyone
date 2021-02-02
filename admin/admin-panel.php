@@ -216,7 +216,7 @@ function invite_anyone_admin_panel() {
 	<h2 class="nav-tab-wrapper">
 		<a class="nav-tab<?php if ( 'general-settings' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'general-settings', esc_url( $url_base ) ) ?>"><?php _e( 'General Settings', 'invite-anyone' ) ?></a>
 		<a class="nav-tab<?php if ( 'access-control' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'access-control', esc_url( $url_base ) ) ?>"><?php _e( 'Access Control', 'invite-anyone' ) ?></a>
-		<a class="nav-tab<?php if ( 'cloudsponge' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'cloudsponge', esc_url( $url_base ) ) ?>"><?php _e( 'Contact Picker', 'invite-anyone' ) ?></a>
+		<a class="nav-tab<?php if ( 'cloudsponge' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'cloudsponge', esc_url( $url_base ) ) ?>"><?php esc_html_e( 'Contact Picker', 'invite-anyone' ) ?></a>
 		<a class="nav-tab<?php if ( 'manage-invitations' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'manage-invitations', esc_url( $url_base ) ) ?>"><?php _e( 'Manage Invitations', 'invite-anyone' ) ?></a>
 		<a class="nav-tab<?php if ( 'stats' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'stats', esc_url( $url_base ) ) ?>"><?php _e( 'Stats', 'invite-anyone' ) ?></a>
 	</h2>
@@ -227,9 +227,9 @@ function invite_anyone_admin_panel() {
 	<?php settings_fields( 'invite_anyone' ); ?>
 	<?php do_settings_sections( 'invite_anyone' ); ?>
 
-	<input type="hidden" name="settings-section" value="<?php echo $subpage ?>" />
+	<input type="hidden" name="settings-section" value="<?php echo esc_attr( $subpage ); ?>" />
 
-	<input id="invite-anyone-settings-submit" name="invite-anyone-settings-submit" type="submit" class="button" value="<?php esc_attr_e('Save Changes'); ?>" />
+	<input id="invite-anyone-settings-submit" name="invite-anyone-settings-submit" type="submit" class="button" value="<?php esc_attr_e( 'Save Changes', 'invite-anyone' ); ?>" />
 	</form>
 
 
