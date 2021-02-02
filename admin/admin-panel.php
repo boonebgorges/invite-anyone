@@ -216,7 +216,7 @@ function invite_anyone_admin_panel() {
 	<h2 class="nav-tab-wrapper">
 		<a class="nav-tab<?php if ( 'general-settings' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'general-settings', esc_url( $url_base ) ) ?>"><?php _e( 'General Settings', 'invite-anyone' ) ?></a>
 		<a class="nav-tab<?php if ( 'access-control' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'access-control', esc_url( $url_base ) ) ?>"><?php _e( 'Access Control', 'invite-anyone' ) ?></a>
-		<a class="nav-tab<?php if ( 'cloudsponge' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'cloudsponge', esc_url( $url_base ) ) ?>"><?php _e( 'CloudSponge', 'invite-anyone' ) ?></a>
+		<a class="nav-tab<?php if ( 'cloudsponge' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'cloudsponge', esc_url( $url_base ) ) ?>"><?php _e( 'Contact Picker', 'invite-anyone' ) ?></a>
 		<a class="nav-tab<?php if ( 'manage-invitations' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'manage-invitations', esc_url( $url_base ) ) ?>"><?php _e( 'Manage Invitations', 'invite-anyone' ) ?></a>
 		<a class="nav-tab<?php if ( 'stats' === $subpage ) : ?> nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'stats', esc_url( $url_base ) ) ?>"><?php _e( 'Stats', 'invite-anyone' ) ?></a>
 	</h2>
@@ -259,7 +259,7 @@ function invite_anyone_settings_setup() {
 
 		case 'cloudsponge' :
 			/* Cloudsponge Settings */
-			add_settings_section( 'invite_anyone_cs', __( 'CloudSponge', 'invite-anyone' ), 'invite_anyone_settings_cs_content', 'invite_anyone' );
+			add_settings_section( 'invite_anyone_cs', __( 'Contact Picker', 'invite-anyone' ), 'invite_anyone_settings_cs_content', 'invite_anyone' );
 
 			break;
 
@@ -506,9 +506,11 @@ function invite_anyone_settings_cs_content() {
 	$protocol = is_ssl() ? 'https://' : 'http://';
 	$cloudsponge_additional_params .= '&callback=' . urlencode( $protocol. $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] );
 	// Landing to home
-	$cloudsponge_link = 'http://www.cloudsponge.com'.$cloudsponge_params;
+	$cloudsponge_link = 'https://www.cloudsponge.com'.$cloudsponge_params;
+	// Landing to Contacts
+	$cloudsponge_contact_link = 'https://www.cloudsponge.com/contact/' . $cloudsponge_params . $cloudsponge_additional_params;
 	// Landing on Signup Form
-	$cloudsponge_signup_link = 'http://cloudsponge.com/signup/invite-anyone' . $cloudsponge_params . $cloudsponge_additional_params;
+	$cloudsponge_signup_link = 'https://cloudsponge.com/signup/invite-anyone' . $cloudsponge_params . $cloudsponge_additional_params;
 
 	// Include CloudSponge Snippet, so user can launch it clicking
 	// on `Test` button
@@ -519,9 +521,21 @@ function invite_anyone_settings_cs_content() {
 	wp_enqueue_script( 'ia_cloudsponge' );
 ?>
 	<div class="cs">
-		<img class="cs-logo" src="<?php echo plugins_url( 'invite-anyone/images/cloudsponge_logo.png' ) ?>" />
+		<img class="cs-logo" src="<?php echo plugins_url( 'invite-anyone/images/cloudsponge_logo.svg' ) ?>" />
 		<div class="cs-explain">
-			<p><?php _e( 'CloudSponge is a cool service that gives your users easy and secure access to their address books (LinkedIn, Gmail, Yahoo, and a number of other online and desktop email clients), so that they can more easily invite friends to your site. It\'s a great way to increase engagement on your site, by making it easier for them to invite new members. In order to enable CloudSponge support in Invite Anyone and BuddyPress, you\'ll need to <a href="'.$cloudsponge_signup_link.'">register for a CloudSponge account</a>.', 'invite-anyone' ) ?></p>
+			<p><?php _e( 'Every successful social network has one thing in common: a contact picker. It\'s the proven way to grow your network virally because it\'s the best interface for your users to input a long list of email addresses into your invitation form. Without a contact picker, your users will have to type emails into your invitation form manually or copy and paste them from another window.
+				<br/>
+				<br/>
+				Invite Anyone\'s integration with CloudSponge\'s Contact Picker plugs all of the popular webmail address book providers into your BuddyPress-powered website instantly. Your users will be able to select and input all of their friends\' email addresses directly from Google Contacts, Yahoo Mail, Outlook.com, Office 365, AOL, iCloud, and dozens more around the world.
+				<br/>
+				<br/>
+				Here\'s how:
+				<ol>
+					<li><a href="'.$cloudsponge_signup_link.'">Create a CloudSponge account to get your API key</a></li>
+					<li>Paste your API key here in your Invite Anyone settings below</li>
+					<li>Follow the setup instructions provided by CloudSponge</li>
+					<li><a href="'.$cloudsponge_contact_link.'">Contact the CloudSponge team</a> if you have any questions</li>
+				</ol>', 'invite-anyone' ) ?></p>
 			<label for="invite_anyone[cloudsponge_enabled]"><input type="checkbox" name="invite_anyone[cloudsponge_enabled]" id="cloudsponge-enabled" <?php checked( $options['cloudsponge_enabled'], 'on' )  || checked( isset($_GET['cloudsponge-key']), true ) ?>/> <strong><?php _e( 'Enable CloudSponge?', 'invite-anyone' ) ?></strong></label>
 		</div>
 
