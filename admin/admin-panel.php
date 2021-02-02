@@ -576,17 +576,25 @@ function invite_anyone_settings_cs_content() {
 						<th scope="row"><?php esc_html_e( 'Address Book Providers', 'invite-anyone' ) ?></th>
 						<td>
 							<p class="description" style="padding-top: 0;"><?php esc_html_e( 'You may not want to display the entire list of our Address Book Providers. So instead you can specify only the ones you want your users to see.' ) ?></p>
-							<ul><?php
+							<ul class="cs-source-checkboxes">
+							<?php
 
 								$cloudsponge_sourcesList = Cloudsponge_Integration::sources_list();
 								$cloudsponge_sources_arr = explode( ",", $cloudsponge_sources );
 
 								foreach ( $cloudsponge_sourcesList as $key => $val ) {
 									$source_is_checked = in_array( $key, $cloudsponge_sources_arr, true ) || $cloudsponge_sources == '';
-									print '<li><input type="checkbox" name="csSources" value="'. esc_attr( $key ) .'" '. checked( $source_is_checked, true, false ) . '> ' . esc_html( $val['name'] ) . '</li>';
+									$source_id = 'cs-source-' . $key;
+									printf(
+										'<li><input type="checkbox" name="csSources" id="%s" value="%s" %s> <label for="%s">%s</label></li>',
+										esc_attr( $source_id ),
+										esc_attr( $key ),
+										checked( $source_is_checked, true, false ),
+										esc_attr( $source_id ),
+										esc_html( $val['name'] )
+									);
 								}
-
-								?>
+							?>
 							</ul>
 							<input type="hidden" name="invite_anyone[cloudsponge_sources]" id="csSourcesStore" value="<?php echo esc_html( $cloudsponge_sources ) ?>">
 						</td>

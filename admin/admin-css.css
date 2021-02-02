@@ -16,6 +16,12 @@ div.cs-settings label {
 	float: left;
 }
 
+div.cs-settings .cs-source-checkboxes label {
+	width: auto;
+	display: inline;
+	float: none;
+}
+
 div.cs-settings input[type=text] {
 	padding: 5px auto;
 	width: 200px;
