@@ -8,7 +8,7 @@ if ( ia_cloudsponge.account_key ) {
 
 var csPageOptions = {
 	referrer: 'invite-anyone',
-	sources: [ 'linkedin', 'yahoo', 'gmail', 'windowslive', 'aol', 'plaxo', 'addressbook', 'outlook' ],
+	sources: ia_cloudsponge.sources,
 	afterSubmitContacts:function(contacts) {
 		var emails = [];
 		var contact, name, email;
