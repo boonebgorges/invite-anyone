@@ -16,9 +16,21 @@ div.cs-settings label {
 	float: left;
 }
 
-div.cs-settings input {
+div.cs-settings .cs-source-checkboxes label {
+	width: auto;
+	display: inline;
+	float: none;
+}
+
+div.cs-settings input[type=text] {
 	padding: 5px auto;
 	width: 200px;
+}
+
+div.cs-settings ul {
+	columns: 2;
+	-webkit-columns: 2;
+	-moz-columns: 2;
 }
 
 div.cs p {
@@ -28,6 +40,7 @@ div.cs p {
 
 .cs-logo {
 	float: left;
+	padding: 1rem;
 }
 
 .cs-warning {

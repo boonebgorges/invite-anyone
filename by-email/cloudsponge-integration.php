@@ -18,6 +18,8 @@ class Cloudsponge_Integration {
 		$this->enabled = !empty( $options['cloudsponge_enabled'] ) ? $options['cloudsponge_enabled'] : false;
 		$this->domain_key = !empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : false;
 		$this->account_key = !empty( $options['cloudsponge_account_key'] ) ? $options['cloudsponge_account_key'] : false;
+		$this->sources = !empty( $options['cloudsponge_sources'] ) ? explode(",", $options['cloudsponge_sources']) : false;
+		$this->deep_links = !empty( $options['cloudsponge_deep_links'] ) ? $options['cloudsponge_deep_links'] : false;
 
 		if ( $this->enabled && ( $this->domain_key || $this->account_key ) ) {
 			define( 'INVITE_ANYONE_CS_ENABLED', true );
@@ -56,6 +58,8 @@ class Cloudsponge_Integration {
 			$strings['stylesheet'] = $stylesheet;
 		}
 
+		$strings['sources'] = $this->sources;
+
 		wp_localize_script( 'ia_cloudsponge', 'ia_cloudsponge', $strings );
 	}
 
@@ -74,11 +78,43 @@ class Cloudsponge_Integration {
 
 		?>
 
-<input type="hidden" id="cloudsponge-emails" name="cloudsponge-emails" value="" />
+		<input type="hidden" id="cloudsponge-emails" name="cloudsponge-emails" value="" />
 
-<?php _e( 'You can also add email addresses <a class="cs_import">from your Address Book</a>.', 'invite-anyone' ) ?>
+		<?php if ( ! $this->deep_links ) : ?>
+			<a class="cs_import"><?php esc_html_e( 'You can also add email addresses from your Address Book.', 'invite-anyone' ); ?></a>
+		<?php else : ?>
+			<?php $sourcesList = self::sources_list(); ?>
 
-		<?php
+			<?php esc_html_e( 'You can also add email addresses from one of the following address books:', 'invite-anyone' ); ?>
+
+			<?php
+			$sourcesDisplay = [];
+			foreach ( $this->sources as $source ) {
+				if ( ! isset( $sourcesList[ $source ] ) ) {
+					continue;
+				}
+
+				$sourcesDisplay[] = '<a class="cloudsponge-launch" data-cloudsponge-source="' . esc_attr( $source ) . '">' . esc_html( $sourcesList[ $source ]['name'] ) . '</a>';
+			}
+
+			echo implode( ', ', $sourcesDisplay );
+			?>
+		<?php endif;
+	}
+
+	public static function sources_list() {
+		$sources = get_transient( 'cloudsponge-services' );
+		if ( false === $sources ) {
+			$sources = json_decode( file_get_contents( 'https://api.cloudsponge.com/services.json' ), true );
+
+			if ( $sources ) {
+				set_transient( 'cloudsponge-services', $sources, HOUR_IN_SECONDS );
+			} else {
+				$sources = [];
+			}
+		}
+
+		return $sources;
 	}
 }
 $cloudsponge_integration = new Cloudsponge_Integration;
