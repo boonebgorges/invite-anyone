@@ -248,6 +248,7 @@ ul#invite-anyone-clear-links {
 
 ul#invite-anyone-clear-links li {
   float:left;
+  list-style-type: none;
 }
 
 ul#invite-anyone-clear-links li a {
