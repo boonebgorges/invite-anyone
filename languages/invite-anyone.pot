@@ -1,22 +1,22 @@
-# Copyright (C) 2020 Boone Gorges
+# Copyright (C) 2021 Boone Gorges
 # This file is distributed under the same license as the Invite Anyone plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Invite Anyone 1.4.1\n"
+"Project-Id-Version: Invite Anyone 1.4.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/invite-anyone\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-07-16T14:14:15-05:00\n"
+"POT-Creation-Date: 2021-02-11T16:53:10-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: invite-anyone\n"
 
 #. Plugin Name of the plugin
 #: admin/admin-panel.php:87
-#: admin/admin-panel.php:212
+#: admin/admin-panel.php:214
 #: widgets/widgets.php:41
 #: widgets/widgets.php:92
 msgid "Invite Anyone"
@@ -47,252 +47,304 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: admin/admin-panel.php:215
-#: admin/admin-panel.php:279
+#: admin/admin-panel.php:217
+#: admin/admin-panel.php:281
 msgid "General Settings"
 msgstr ""
 
-#: admin/admin-panel.php:216
+#: admin/admin-panel.php:218
 msgid "Access Control"
 msgstr ""
 
-#: admin/admin-panel.php:217
-#: admin/admin-panel.php:260
-#: admin/admin-panel.php:595
-msgid "CloudSponge"
+#: admin/admin-panel.php:219
+#: admin/admin-panel.php:262
+msgid "Contact Picker"
 msgstr ""
 
-#: admin/admin-panel.php:218
-#: admin/admin-panel.php:266
+#: admin/admin-panel.php:220
+#: admin/admin-panel.php:268
 msgid "Manage Invitations"
 msgstr ""
 
-#: admin/admin-panel.php:219
-#: admin/admin-panel.php:272
+#: admin/admin-panel.php:221
+#: admin/admin-panel.php:274
 msgid "Stats"
 msgstr ""
 
-#: admin/admin-panel.php:248
-msgid "Access Settings"
+#: admin/admin-panel.php:232
+msgid "Save Changes"
 msgstr ""
 
 #: admin/admin-panel.php:250
-msgid "Allow email invitations to be sent by"
+msgid "Access Settings"
 msgstr ""
 
 #: admin/admin-panel.php:252
-msgid "Limit group invitations"
+msgid "Allow email invitations to be sent by"
 msgstr ""
 
 #: admin/admin-panel.php:254
+msgid "Limit group invitations"
+msgstr ""
+
+#: admin/admin-panel.php:256
 msgid "Limit per-user invitations"
 msgstr ""
 
-#: admin/admin-panel.php:281
+#: admin/admin-panel.php:283
 msgid "Replacement patterns for email text fields"
 msgstr ""
 
-#: admin/admin-panel.php:283
+#: admin/admin-panel.php:285
 msgid "Text of email invitation subject line"
 msgstr ""
 
-#: admin/admin-panel.php:285
+#: admin/admin-panel.php:287
 msgid "Main text of email invitation message"
 msgstr ""
 
-#: admin/admin-panel.php:287
+#: admin/admin-panel.php:289
 msgid "Footer text of email invitation message (not editable by users)"
 msgstr ""
 
-#: admin/admin-panel.php:289
+#: admin/admin-panel.php:291
 msgid "Allow users to customize invitation"
 msgstr ""
 
-#: admin/admin-panel.php:291
+#: admin/admin-panel.php:293
 msgid "Number of email invitations users are permitted to send at a time"
 msgstr ""
 
-#: admin/admin-panel.php:293
+#: admin/admin-panel.php:295
 msgid "Allow users to send group invitations along with email invitations"
 msgstr ""
 
-#: admin/admin-panel.php:295
+#: admin/admin-panel.php:297
 msgid "Allow email invitations to be accepted even when site registration is disabled"
 msgstr ""
 
-#: admin/admin-panel.php:297
+#: admin/admin-panel.php:299
 msgid "Enable the Send Invites step during group creation"
 msgstr ""
 
-#: admin/admin-panel.php:309
+#: admin/admin-panel.php:311
 msgid "Control the default behavior of Invite Anyone."
 msgstr ""
 
-#: admin/admin-panel.php:317
+#: admin/admin-panel.php:319
 msgid "name of your website"
 msgstr ""
 
-#: admin/admin-panel.php:318
+#: admin/admin-panel.php:320
 msgid "display name of the inviter"
 msgstr ""
 
-#: admin/admin-panel.php:319
+#: admin/admin-panel.php:321
 msgid "URL to the profile of the inviter"
 msgstr ""
 
-#: admin/admin-panel.php:320
+#: admin/admin-panel.php:322
 msgid "Link that invited users can click to accept the invitation"
 msgstr ""
 
-#: admin/admin-panel.php:321
+#: admin/admin-panel.php:323
 msgid "Link that invited users can click to opt out of future invitations"
 msgstr ""
 
-#: admin/admin-panel.php:380
+#: admin/admin-panel.php:382
 msgid "Subject line"
 msgstr ""
 
-#: admin/admin-panel.php:384
+#: admin/admin-panel.php:386
 msgid "Message body"
 msgstr ""
 
-#: admin/admin-panel.php:392
+#: admin/admin-panel.php:394
 msgid "Control which members are able to send various kinds of invitations."
 msgstr ""
 
-#: admin/admin-panel.php:401
+#: admin/admin-panel.php:403
 msgid "All users"
 msgstr ""
 
-#: admin/admin-panel.php:403
+#: admin/admin-panel.php:405
 msgid "A limited set of users"
 msgstr ""
 
-#: admin/admin-panel.php:407
+#: admin/admin-panel.php:409
 msgid "Only users who have been members of the site for a minimum number of days:"
 msgstr ""
 
-#: admin/admin-panel.php:412
+#: admin/admin-panel.php:414
 msgid "Only users who have at least the following role on this blog:"
 msgstr ""
 
-#: admin/admin-panel.php:423
+#: admin/admin-panel.php:425
 msgid "Provide a comma-separated list of users (identified by their numerical user ids) who <strong>cannot</strong> send invitations by email:"
 msgstr ""
 
-#: admin/admin-panel.php:440
+#: admin/admin-panel.php:442
 msgid "Limit number of invites per user :"
 msgstr ""
 
-#: admin/admin-panel.php:452
+#: admin/admin-panel.php:454
 msgid "Invite Anyone extends BuddyPress's default group invitation settings. Instead of allowing you to invite only friends to a group, this plugin allows you to invite any member of the site. Use these settings to limit possible invitees for different group roles."
 msgstr ""
 
-#: admin/admin-panel.php:454
-msgid "<strong>Site admins</strong> can send group invitations to: "
-msgstr ""
-
 #: admin/admin-panel.php:456
-#: admin/admin-panel.php:464
-#: admin/admin-panel.php:472
-#: admin/admin-panel.php:480
-msgid "Anyone"
-msgstr ""
-
-#: admin/admin-panel.php:457
-#: admin/admin-panel.php:465
-#: admin/admin-panel.php:473
-#: admin/admin-panel.php:481
-msgid "Friends"
+msgid "<strong>Site admins</strong> can send group invitations to: "
 msgstr ""
 
 #: admin/admin-panel.php:458
 #: admin/admin-panel.php:466
 #: admin/admin-panel.php:474
 #: admin/admin-panel.php:482
+msgid "Anyone"
+msgstr ""
+
+#: admin/admin-panel.php:459
+#: admin/admin-panel.php:467
+#: admin/admin-panel.php:475
+#: admin/admin-panel.php:483
+msgid "Friends"
+msgstr ""
+
+#: admin/admin-panel.php:460
+#: admin/admin-panel.php:468
+#: admin/admin-panel.php:476
+#: admin/admin-panel.php:484
 msgid "No one"
 msgstr ""
 
-#: admin/admin-panel.php:462
+#: admin/admin-panel.php:464
 msgid "<strong>Group admins</strong> can send group invitations to: "
 msgstr ""
 
-#: admin/admin-panel.php:470
+#: admin/admin-panel.php:472
 msgid "<strong>Group mods</strong> can send group invitations to: "
 msgstr ""
 
-#: admin/admin-panel.php:478
+#: admin/admin-panel.php:480
 msgid "<strong>Group members</strong> can send group invitations to: "
 msgstr ""
 
-#: admin/admin-panel.php:522
-msgid "CloudSponge is a cool service that gives your users easy and secure access to their address books (LinkedIn, Gmail, Yahoo, and a number of other online and desktop email clients), so that they can more easily invite friends to your site. It's a great way to increase engagement on your site, by making it easier for them to invite new members. In order to enable CloudSponge support in Invite Anyone and BuddyPress, you'll need to <a href=\""
+#: admin/admin-panel.php:526
+msgid "Every successful social network has one thing in common: a contact picker. It's the proven way to grow your network virally because it's the best interface for your users to input a long list of email addresses into your invitation form. Without a contact picker, your users will have to type emails into your invitation form manually or copy and paste them from another window."
 msgstr ""
 
-#: admin/admin-panel.php:523
-msgid "Enable CloudSponge?"
+#: admin/admin-panel.php:527
+msgid "Invite Anyone's integration with CloudSponge's Contact Picker plugs all of the popular webmail address book providers into your BuddyPress-powered website instantly. Your users will be able to select and input all of their friends' email addresses directly from Google Contacts, Yahoo Mail, Outlook.com, Office 365, AOL, iCloud, and dozens more around the world."
 msgstr ""
 
-#: admin/admin-panel.php:531
-msgid "CloudSponge Domain Key"
+#: admin/admin-panel.php:529
+msgid "Here's how:"
 msgstr ""
 
-#: admin/admin-panel.php:531
-msgid "CloudSponge integration will not work without a valid CloudSponge Domain key."
+#: admin/admin-panel.php:532
+msgid "Create a CloudSponge account to get your API key"
+msgstr ""
+
+#: admin/admin-panel.php:533
+msgid "Paste your API key here in your Invite Anyone settings below"
+msgstr ""
+
+#: admin/admin-panel.php:534
+msgid "Follow the setup instructions provided by CloudSponge"
 msgstr ""
 
 #: admin/admin-panel.php:535
-msgid "CloudSponge Key"
+msgid "Contact the CloudSponge team if you have any questions"
 msgstr ""
 
 #: admin/admin-panel.php:538
+msgid "Enable CloudSponge?"
+msgstr ""
+
+#: admin/admin-panel.php:548
+msgid "CloudSponge Domain Key"
+msgstr ""
+
+#: admin/admin-panel.php:549
+msgid "CloudSponge integration will not work without a valid CloudSponge Domain key."
+msgstr ""
+
+#: admin/admin-panel.php:551
+msgid "CloudSponge Key"
+msgstr ""
+
+#: admin/admin-panel.php:554
+msgctxt "CloudSponge integration test button"
 msgid "Test"
 msgstr ""
 
-#: admin/admin-panel.php:542
+#: admin/admin-panel.php:558
 msgid "CloudSponge integration will not work without a valid CloudSponge Key."
 msgstr ""
 
-#: admin/admin-panel.php:544
-msgid "Please, click on <strong>Save Changes</strong> to save the key!"
+#: admin/admin-panel.php:560
+msgid "Please click on Save Changes to save the key."
 msgstr ""
 
-#: admin/admin-panel.php:546
-msgid "Click in the <strong>test</strong> button to test your integration."
+#: admin/admin-panel.php:562
+msgid "Click the Test button to test your integration."
 msgstr ""
 
-#: admin/admin-panel.php:552
-msgid "When you use CloudSponge with Invite Anyone, part of your CloudSponge monthly payment goes to the author of Invite Anyone. This is a great way to support future development of the plugin. Thanks for your support!"
+#: admin/admin-panel.php:568
+msgid "Your Proxy URL"
+msgstr ""
+
+#: admin/admin-panel.php:570
+msgid "Copy to clipboard"
 msgstr ""
 
 #: admin/admin-panel.php:571
-msgid "Inviter"
+msgid "When you're configuring your OAuth credentials in your CloudSponge account, you'll be asked to specify this Proxy URL."
 msgstr ""
 
 #: admin/admin-panel.php:576
+msgid "Address Book Providers"
+msgstr ""
+
+#: admin/admin-panel.php:604
+msgid "Enable Deep Links"
+msgstr ""
+
+#: admin/admin-panel.php:613
+msgid "When you use CloudSponge with Invite Anyone, part of your CloudSponge monthly payment goes to the author of Invite Anyone. This is a great way to support future development of the plugin. Thanks for your support!"
+msgstr ""
+
+#: admin/admin-panel.php:632
+msgid "Inviter"
+msgstr ""
+
+#: admin/admin-panel.php:637
 msgid "Invited Email"
 msgstr ""
 
-#: admin/admin-panel.php:581
+#: admin/admin-panel.php:642
 #: by-email/by-email.php:822
 msgid "Sent"
 msgstr ""
 
-#: admin/admin-panel.php:589
+#: admin/admin-panel.php:650
 #: by-email/by-email.php:823
 msgid "Accepted"
 msgstr ""
 
-#: admin/admin-panel.php:655
+#: admin/admin-panel.php:656
+msgid "CloudSponge"
+msgstr ""
+
+#: admin/admin-panel.php:716
 #: by-email/by-email-db.php:88
 msgid "View Invitation"
 msgstr ""
 
-#: admin/admin-panel.php:697
+#: admin/admin-panel.php:758
 msgid "(no data)"
 msgstr ""
 
-#: admin/admin-panel.php:721
+#: admin/admin-panel.php:782
 msgid "No invitations have been sent yet."
 msgstr ""
 
@@ -733,77 +785,81 @@ msgstr ""
 msgid "To opt out of future invitations to this site, please visit %%OPTOUTURL%%"
 msgstr ""
 
-#: by-email/by-email.php:1228
+#: by-email/by-email.php:1225
 msgid "You are only allowed to invite up to %s people at a time. Please remove some addresses and try again"
 msgstr ""
 
-#: by-email/by-email.php:1238
+#: by-email/by-email.php:1235
 msgid "You didn't include any email addresses!"
 msgstr ""
 
-#: by-email/by-email.php:1251
+#: by-email/by-email.php:1248
 msgid "You are only allowed to invite %s more people. Please remove some addresses and try again"
 msgstr ""
 
-#: by-email/by-email.php:1272
+#: by-email/by-email.php:1269
 msgid "<strong>%s</strong> has opted out of email invitations from this site."
 msgstr ""
 
-#: by-email/by-email.php:1276
+#: by-email/by-email.php:1273
 msgid "<strong>%s</strong> is already a registered user of the site."
 msgstr ""
 
-#: by-email/by-email.php:1280
+#: by-email/by-email.php:1277
 msgid "<strong>%s</strong> is not a permitted email address."
 msgstr ""
 
-#: by-email/by-email.php:1284
+#: by-email/by-email.php:1281
 msgid "<strong>%s</strong> is not a valid email address. Please make sure that you have typed it correctly."
 msgstr ""
 
-#: by-email/by-email.php:1288
+#: by-email/by-email.php:1285
 msgid "<strong>%s</strong> is not a permitted email address. Please make sure that you have typed the domain name correctly."
 msgstr ""
 
-#: by-email/by-email.php:1405
+#: by-email/by-email.php:1402
 msgid "Invitations were sent successfully to the following email addresses: %s"
 msgstr ""
 
-#: by-email/by-email.php:1410
+#: by-email/by-email.php:1407
 msgid "Please correct your errors and resubmit."
 msgstr ""
 
-#: by-email/by-email.php:1446
+#: by-email/by-email.php:1443
 msgctxt "Invite Anyone email salutation"
 msgid "Hello,"
 msgstr ""
 
-#: by-email/by-email.php:1531
-#: by-email/by-email.php:1571
+#: by-email/by-email.php:1528
+#: by-email/by-email.php:1568
 msgid "We couldn't find any invitations associated with this email address."
 msgstr ""
 
 #. translators: do not remove {} brackets or translate its contents.
-#: by-email/by-email.php:1755
+#: by-email/by-email.php:1752
 msgid "[{{{site.name}}}] {{{ia.subject}}}"
 msgstr ""
 
 #. translators: do not remove {} brackets or translate its contents.
-#: by-email/by-email.php:1758
+#: by-email/by-email.php:1755
 msgid "{{{ia.content}}}<br /><hr><a href=\"{{{ia.accept_url}}}\">Accept or reject this invitation</a> &middot; <a href=\"{{{ia.opt_out_url}}}\">Opt out of future invitations</a>"
 msgstr ""
 
 #. translators: do not remove {} brackets or translate its contents.
-#: by-email/by-email.php:1761
+#: by-email/by-email.php:1758
 msgid "{{{ia.content_plaintext}}}"
 msgstr ""
 
-#: by-email/by-email.php:1763
+#: by-email/by-email.php:1760
 msgid "A user is invited to join the site by email. Used by the Invite Anyone plugin."
 msgstr ""
 
-#: by-email/cloudsponge-integration.php:79
-msgid "You can also add email addresses <a class=\"cs_import\">from your Address Book</a>."
+#: by-email/cloudsponge-integration.php:84
+msgid "You can also add email addresses from your Address Book."
+msgstr ""
+
+#: by-email/cloudsponge-integration.php:88
+msgid "You can also add email addresses from one of the following address books:"
 msgstr ""
 
 #: group-invites/group-invites.php:23
