@@ -549,7 +549,7 @@ function invite_anyone_settings_cs_content() {
 							<td><input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_key]" value="<?php echo esc_attr( $domain_key ) ?>" /> <span class="description"><?php esc_html_e( 'CloudSponge integration will not work without a valid CloudSponge Domain key.', 'invite-anyone' ) ?></span></td>
 						<?php else : ?>
 							<th scope="row"><?php esc_html_e( 'CloudSponge Key', 'invite-anyone' ) ?></th>
-							<td><input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_account_key]" value="<?php if ( $account_key ) { echo esc_attr( $account_key ); } else { echo esc_attr( $_GET['cloudsponge-key'] ); } ?>" />
+							<td><input type="text" id="cloudsponge-key" name="invite_anyone[cloudsponge_account_key]" value="<?php if ( $account_key ) { echo esc_attr( $account_key ); } else if ( isset( $_GET['cloudsponge-key'] ) ) { echo esc_attr( $_GET['cloudsponge-key'] ); } ?>" />
 							<?php if ( $account_key ) : ?>
 								<button id="test-cloudsponge-button" name="test-cloudsponge-button" type="button" class="button" onclick="csLaunch();"><?php echo esc_html( _x( 'Test', 'CloudSponge integration test button', 'invite-anyone' ) ); ?></button>
 							<?php endif; ?>
