@@ -1707,7 +1707,7 @@ function invite_anyone_install_emails( $post_exists_check = false ) {
 		}
 	}
 }
-add_action( 'bp_core_install_emails', 'ass_install_emails' );
+add_action( 'bp_core_install_emails', 'invite_anyone_install_emails' );
 
 /**
  * Sets the email situation type for use in Invite Anyone.
