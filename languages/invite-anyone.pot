@@ -1,17 +1,17 @@
-# Copyright (C) 2022 Boone Gorges
-# This file is distributed under the same license as the Invite Anyone plugin.
+# Copyright (C) 2023 Boone Gorges
+# This file is distributed under the GPL 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: Invite Anyone 1.4.3\n"
+"Project-Id-Version: Invite Anyone 1.4.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/invite-anyone\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-08-22T10:13:10-05:00\n"
+"POT-Creation-Date: 2023-07-27T11:41:36-05:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.4.0\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: invite-anyone\n"
 
 #. Plugin Name of the plugin
@@ -373,7 +373,7 @@ msgid "All Time"
 msgstr ""
 
 #: admin/admin-stats.php:163
-#: by-email/by-email-db.php:367
+#: by-email/by-email-db.php:368
 msgid "Yes"
 msgstr ""
 
@@ -550,39 +550,39 @@ msgstr ""
 msgid "New Invited Group Name"
 msgstr ""
 
-#: by-email/by-email-db.php:367
+#: by-email/by-email-db.php:368
 msgid "No"
 msgstr ""
 
-#: by-email/by-email-db.php:937
+#: by-email/by-email-db.php:938
 msgid "All done!"
 msgstr ""
 
-#: by-email/by-email-db.php:939
+#: by-email/by-email-db.php:940
 msgid "Finish"
 msgstr ""
 
-#: by-email/by-email-db.php:977
+#: by-email/by-email-db.php:978
 msgid "Migrated Invitation"
 msgstr ""
 
-#: by-email/by-email-db.php:997
+#: by-email/by-email-db.php:998
 msgid "Importing: %1$s invited %2$s<br />"
 msgstr ""
 
-#: by-email/by-email-db.php:1008
+#: by-email/by-email-db.php:1009
 msgid "If your browser doesn&#8217;t start loading the next page automatically, click this link:"
 msgstr ""
 
-#: by-email/by-email-db.php:1008
+#: by-email/by-email-db.php:1009
 msgid "Next Invitations"
 msgstr ""
 
-#: by-email/by-email-db.php:1036
+#: by-email/by-email-db.php:1037
 msgid "Invite Anyone Upgrade"
 msgstr ""
 
-#: by-email/by-email-db.php:1039
+#: by-email/by-email-db.php:1040
 msgid "Invite Anyone has just been updated, and needs to move some old invitation data in order to complete the upgrade. Click GO to start the process."
 msgstr ""
 
