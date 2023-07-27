@@ -1145,10 +1145,7 @@ function invite_anyone_get_invited_groups_tax_name() {
 }
 
 function invite_anyone_format_date( $date ) {
-	$thetime = strtotime( $date );
-	$format = get_option('date_format');
-	$thetime = date( "$format", $thetime );
-	return $thetime;
+	return date_i18n( get_option( 'date_format' ), strtotime( $date ) );
 }
 
 /**

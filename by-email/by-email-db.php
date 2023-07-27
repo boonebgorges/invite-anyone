@@ -339,12 +339,13 @@ class Invite_Anyone_Invitation {
 
 		// Set the arguments and create the post
 		$insert_post_args = array(
-			'post_author'	=> $inviter_id,
-			'post_content'	=> $message,
-			'post_title'	=> $subject,
-			'post_status'	=> $status,
-			'post_type'	=> $this->post_type_name,
-			'post_date'	=> $date_created
+			'post_author'  => $inviter_id,
+			'post_content' => $message,
+			'post_title'   => $subject,
+			'post_status'  => $status,
+			'post_type'    => $this->post_type_name,
+			'post_date'    => $date_created,
+			'post_name'    => sanitize_title_with_dashes( $subject . ' ' . microtime() ),
 		);
 
 		if ( !$this->id = wp_insert_post( $insert_post_args ) )

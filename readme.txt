@@ -3,8 +3,8 @@ Contributors: boonebgorges, cuny-academic-commons
 Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: 3.2
-Tested up to: 5.5
-Stable tag: 1.4.1
+Tested up to: 6.2
+Stable tag: 1.4.4
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -50,6 +50,18 @@ Additional details about the plugin can be found in the following languages:
 * Serbo-Croatian: <a href="http://science.webhostinggeeks.com/teleogistic">http://science.webhostinggeeks.com/teleogistic</a>
 
 == Changelog ==
+
+= 1.4.4 =
+* Fixed bug that prevented the installation of email templates.
+* Improved performance during invitation creation by generating unique post slugs based on microtime.
+* Improved compatibility with PHP 8+.
+
+= 1.4.3 =
+* Improvements to CloudSponge integration admin panel.
+
+= 1.4.2 =
+* Improvements to CloudSponge integration.
+* Fixed styling bug on Sent Invites screen.
 
 = 1.4.1 =
 * Sane, overridable default for autocomplete minimum-character setting.

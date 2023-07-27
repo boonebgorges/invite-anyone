@@ -369,7 +369,7 @@ class Invite_Anyone_User_Query extends WP_User_Query {
 	}
 }
 
-function get_members_invite_list( $user_id = false, $group_id ) {
+function get_members_invite_list( $user_id = false, $group_id = null ) {
 	global $bp, $wpdb;
 
 	if ( $users = invite_anyone_invite_query( $bp->groups->current_group->id, false, 'ID' ) ) {
