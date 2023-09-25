@@ -2,16 +2,16 @@
 # This file is distributed under the GPL 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: Invite Anyone 1.4.4\n"
+"Project-Id-Version: Invite Anyone 1.4.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/invite-anyone\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-07-27T11:41:36-05:00\n"
+"POT-Creation-Date: 2023-09-25T14:24:12-05:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: invite-anyone\n"
 
 #. Plugin Name of the plugin
@@ -305,46 +305,46 @@ msgstr ""
 msgid "Address Book Providers"
 msgstr ""
 
-#: admin/admin-panel.php:604
+#: admin/admin-panel.php:605
 msgid "Enable Deep Links"
 msgstr ""
 
-#: admin/admin-panel.php:613
+#: admin/admin-panel.php:614
 msgid "When you use CloudSponge with Invite Anyone, part of your CloudSponge monthly payment goes to the author of Invite Anyone. This is a great way to support future development of the plugin. Thanks for your support!"
 msgstr ""
 
-#: admin/admin-panel.php:632
+#: admin/admin-panel.php:633
 msgid "Inviter"
 msgstr ""
 
-#: admin/admin-panel.php:637
+#: admin/admin-panel.php:638
 msgid "Invited Email"
 msgstr ""
 
-#: admin/admin-panel.php:642
+#: admin/admin-panel.php:643
 #: by-email/by-email.php:822
 msgid "Sent"
 msgstr ""
 
-#: admin/admin-panel.php:650
+#: admin/admin-panel.php:651
 #: by-email/by-email.php:823
 msgid "Accepted"
 msgstr ""
 
-#: admin/admin-panel.php:656
+#: admin/admin-panel.php:657
 msgid "CloudSponge"
 msgstr ""
 
-#: admin/admin-panel.php:716
+#: admin/admin-panel.php:717
 #: by-email/by-email-db.php:88
 msgid "View Invitation"
 msgstr ""
 
-#: admin/admin-panel.php:758
+#: admin/admin-panel.php:759
 msgid "(no data)"
 msgstr ""
 
-#: admin/admin-panel.php:782
+#: admin/admin-panel.php:783
 msgid "No invitations have been sent yet."
 msgstr ""
 
