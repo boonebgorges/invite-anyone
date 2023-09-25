@@ -52,7 +52,7 @@ Additional details about the plugin can be found in the following languages:
 == Changelog ==
 
 = 1.4.5 =
-* Fixed bug in routen responsible for saving the CloudSponge configuration settings.
+* Fixed bug in routine responsible for saving the CloudSponge configuration settings.
 
 = 1.4.4 =
 * Fixed bug that prevented the installation of email templates.
