@@ -584,6 +584,7 @@ function invite_anyone_settings_cs_content() {
 
 								foreach ( $cloudsponge_sourcesList as $key => $val ) {
 									$source_is_checked = in_array( $key, $cloudsponge_sources_arr, true ) || $cloudsponge_sources == '';
+									if($source_is_checked) $selectedSources[] = $key;
 									$source_id = 'cs-source-' . $key;
 									printf(
 										'<li><input type="checkbox" name="csSources" id="%s" value="%s" %s> <label for="%s">%s</label></li>',
@@ -596,14 +597,14 @@ function invite_anyone_settings_cs_content() {
 								}
 							?>
 							</ul>
-							<input type="hidden" name="invite_anyone[cloudsponge_sources]" id="csSourcesStore" value="<?php echo esc_html( $cloudsponge_sources ) ?>">
+							<input type="hidden" name="invite_anyone[cloudsponge_sources]" id="csSourcesStore" value="<?php echo esc_html( implode(",", $selectedSources) ) ?>">
 						</td>
 					</tr>
 
 					<tr>
 						<th scope="row"><?php esc_html_e( 'Enable Deep Links', 'invite-anyone' ) ?></th>
 						<td>
-							<input type="checkbox" name="invite_anyone[cloudsponge_deep_links]" id="cloudsponge-deep-links" <?php checked( $options['cloudsponge_deep_links'], 'on' ) ?>/>
+							<input type="checkbox" name="invite_anyone[cloudsponge_deep_links]" id="cloudsponge-deep-links" <?php if(array_key_exists('cloudsponge_deep_links', $options))checked( $options['cloudsponge_deep_links'], 'on' ) ?>/>
 							<span class="description" style="padding-top: 0;"><?php esc_html_e( 'If you’d like to skip the Address Book Providers menu (and eliminate one click for your users) you can use Deep Links instead' ) ?></span>
             			</td>
 					</tr>

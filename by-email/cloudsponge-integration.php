@@ -82,7 +82,7 @@ class Cloudsponge_Integration {
 
 		<?php if ( ! $this->deep_links ) : ?>
 			<a class="cs_import"><?php esc_html_e( 'You can also add email addresses from your Address Book.', 'invite-anyone' ); ?></a>
-		<?php else : ?>
+		<?php elseif ( $this->sources ) : ?>
 			<?php $sourcesList = self::sources_list(); ?>
 
 			<?php esc_html_e( 'You can also add email addresses from one of the following address books:', 'invite-anyone' ); ?>
