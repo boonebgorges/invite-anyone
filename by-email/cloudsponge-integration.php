@@ -1,8 +1,47 @@
 <?php
 
 class Cloudsponge_Integration {
+	/**
+	 * Whether or not Cloudsponge is enabled.
+	 *
+	 * @var bool
+	 */
 	var $enabled;
+
+	/**
+	 * Cloudsponge domain key.
+	 *
+	 * @var string
+	 */
 	var $key;
+
+	/**
+	 * Cloudsponge domain key.
+	 *
+	 * @var string
+	 */
+	var $domain_key;
+
+	/**
+	 * Cloudsponge account key.
+	 *
+	 * @var string
+	 */
+	var $account_key;
+
+	/**
+	 * Cloudsponge sources.
+	 *
+	 * @var array
+	 */
+	var $sources;
+
+	/**
+	 * Whether or not to display deep links.
+	 *
+	 * @var bool
+	 */
+	var $deep_links;
 
 	/**
 	 * PHP 5 Constructor
