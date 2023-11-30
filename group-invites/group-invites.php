@@ -216,7 +216,12 @@ function invite_anyone_catch_group_invites() {
 
 		do_action( 'groups_screen_group_invite', $bp->groups->current_group->id );
 
-		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . BP_INVITE_ANYONE_SLUG );
+		$redirect_url = bp_get_group_url(
+			groups_get_current_group(),
+			bp_groups_get_path_chunks( [ BP_INVITE_ANYONE_SLUG ] )
+		);
+
+		bp_core_redirect( $redirect_url );
 	}
 }
 add_action( 'wp', 'invite_anyone_catch_group_invites', 1 );
