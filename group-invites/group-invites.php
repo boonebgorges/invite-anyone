@@ -420,7 +420,10 @@ function invite_anyone_ajax_invite_user() {
 		if ( $is_group_create ) {
 			$uninvite_url = add_query_arg( 'user_id', $user->id, bp_groups_get_create_url( [ 'invite-anyone' ] ) );
 		} else {
-			$uninvite_url = bp_get_group_permalink( groups_get_current_group() ) . 'send-invites/remove/' . $user->id;
+			$uninvite_url = bp_get_group_url(
+				groups_get_current_group(),
+				bp_groups_get_path_chunks( [ BP_INVITE_ANYONE_SLUG, 'remove', $user->id ] )
+			);
 		}
 
 		echo '<li id="uid-' . $user->id . '">';
