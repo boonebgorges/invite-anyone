@@ -1104,7 +1104,7 @@ function invite_anyone_wildcard_replace( $text, $email = false ) {
 
 	$inviter_name = bp_core_get_user_displayname( bp_loggedin_user_id() );
 	$site_name    = get_bloginfo( 'name' );
-	$inviter_url  = bp_loggedin_user_domain();
+	$inviter_url  = bp_loggedin_user_url();
 
 	$email = urlencode( $email );
 
@@ -1691,7 +1691,12 @@ function invite_anyone_already_accepted_redirect( $redirect ) {
 		return $redirect;
 	}
 
-	$redirect = add_query_arg( 'already', 'accepted', trailingslashit( bp_loggedin_user_domain() . $bp->invite_anyone->slug ) );
+	$redirect_base = bp_members_get_user_url(
+		bp_loggedin_user_id(),
+		bp_members_get_path_chunks( [ buddypress()->invite_anyone->slug ] )
+	);
+
+	$redirect = add_query_arg( 'already', 'accepted', $redirect_base );
 
 	return $redirect;
 }
