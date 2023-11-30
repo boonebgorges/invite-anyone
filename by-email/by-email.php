@@ -1227,7 +1227,7 @@ function invite_anyone_process_invitations( $data ) {
 
 	$options = invite_anyone_options();
 
-	$emails = false;
+	$emails = [];
 	// Parse out the individual email addresses
 	if ( !empty( $data['invite_anyone_email_addresses'] ) ) {
 		$emails = invite_anyone_parse_addresses( $data['invite_anyone_email_addresses'] );
