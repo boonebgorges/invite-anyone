@@ -451,7 +451,8 @@ function invite_anyone_catch_send() {
 		bp_core_add_message( __( 'Sorry, there was a problem sending your invitations. Please try again.', 'invite-anyone' ), 'error' );
 	}
 
-	bp_core_redirect( bp_displayed_user_domain() . $bp->invite_anyone->slug . '/sent-invites' );
+	$redirect_url = invite_anyone_get_user_sent_invites_url( bp_displayed_user_id() );
+	bp_core_redirect( $redirect_url );
 }
 add_action( 'bp_actions', 'invite_anyone_catch_send' );
 
@@ -503,7 +504,8 @@ function invite_anyone_catch_clear() {
 				bp_core_add_message( __( 'There was a problem clearing the invitations.', 'invite-anyone' ), 'error' );
 		}
 
-		bp_core_redirect( $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/' );
+		$redirect_url = invite_anyone_get_user_sent_invites_url( bp_displayed_user_id() );
+		bp_core_redirect( $redirect_url );
 	}
 }
 add_action( 'bp_template_redirect', 'invite_anyone_catch_clear', 5 );
@@ -791,10 +793,7 @@ function invite_anyone_screen_two() {
 			$order = 'ASC';
 		}
 
-		$base_url = bp_members_get_user_url(
-			bp_displayed_user_id(),
-			bp_members_get_path_chunks( [ $bp->invite_anyone->slug, 'sent-invites' ] )
-		);
+		$base_url = invite_anyone_get_user_sent_invites_url( bp_displayed_user_id() );
 
 		?>
 
@@ -951,6 +950,21 @@ function invite_anyone_get_user_invite_new_members_url( $user_id ) {
 	return bp_members_get_user_url(
 		$user_id,
 		bp_members_get_path_chunks( [ buddypress()->invite_anyone->slug, 'invite-new-members' ] )
+	);
+}
+
+/**
+ * Gets the URL of a user's sent-invites page.
+ *
+ * @since 1.4.7
+ *
+ * @param int $user_id User ID.
+ * @return string
+ */
+function invite_anyone_get_user_sent_invites_url( $user_id ) {
+	return bp_members_get_user_url(
+		$user_id,
+		bp_members_get_path_chunks( [ buddypress()->invite_anyone->slug, 'sent-invites' ] )
 	);
 }
 
