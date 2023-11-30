@@ -260,7 +260,7 @@ function bp_new_group_invite_member_list() {
 					}
 				}
 
-				$items[] = '<' . $separator . '><input' . $checked . ' type="checkbox" name="friends[]" id="f-' . $friends[$i]['id'] . '" value="' . esc_html( $friends[$i]['id'] ) . '" /> ' . $friends[$i]['full_name'] . '</' . $separator . '>';
+				$items[] = '<' . $separator . '><input' . $checked . ' type="checkbox" name="friends[]" id="f-' . $friends[$i]['id'] . '" value="' . esc_html( $friends[$i]['id'] ) . '" /> <label for="f-' . $friends[ $i ]['id'] . '">' . $friends[$i]['full_name'] . '</label></' . $separator . '>';
 			}
 		}
 

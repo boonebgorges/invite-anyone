@@ -48,6 +48,10 @@ body.group-create div#content .main-column {
 	    padding: 0;
 	    margin-left: 0;
 	}
+	#invite-anyone-member-list label {
+		display: inline;
+		font-weight: normal;
+	}
 
 #invite-anyone-email-fields {
 	margin: 15px 30px 0 30px;
