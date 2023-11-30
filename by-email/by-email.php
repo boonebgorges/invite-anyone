@@ -946,7 +946,7 @@ function invite_anyone_email_fields( $returned_emails = false ) {
 /**
  * Gets the URL of a user's invite-new-members page.
  *
- * @since 1.4.7
+ * @since 1.4.6
  *
  * @param int $user_id User ID.
  * @return string
@@ -961,7 +961,7 @@ function invite_anyone_get_user_invite_new_members_url( $user_id ) {
 /**
  * Gets the URL of a user's sent-invites page.
  *
- * @since 1.4.7
+ * @since 1.4.6
  *
  * @param int $user_id User ID.
  * @return string
