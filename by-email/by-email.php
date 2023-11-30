@@ -615,8 +615,13 @@ function invite_anyone_screen_one_content() {
 	$blogname = get_bloginfo('name');
 	$welcome_message = sprintf( __( 'Invite friends to join %s by following these steps:', 'invite-anyone' ), $blogname );
 
+	$form_action = bp_members_get_user_url(
+		bp_displayed_user_id(),
+		bp_members_get_path_chunks( [ buddypress()->invite_anyone->slug, 'send-invites', 'send' ] )
+	);
+
   ?>
-	<form id="invite-anyone-by-email" action="<?php echo $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/send/' ?>" method="post">
+	<form id="invite-anyone-by-email" action="<?php echo esc_url( $form_action ); ?>" method="post">
 
 	<h4><?php _e( 'Invite New Members', 'invite-anyone' ); ?></h4>
 
