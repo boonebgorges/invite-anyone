@@ -791,7 +791,10 @@ function invite_anyone_screen_two() {
 			$order = 'ASC';
 		}
 
-		$base_url = $bp->displayed_user->domain . $bp->invite_anyone->slug . '/sent-invites/';
+		$base_url = bp_members_get_user_url(
+			bp_displayed_user_id(),
+			bp_members_get_path_chunks( [ $bp->invite_anyone->slug, 'sent-invites' ] )
+		);
 
 		?>
 
