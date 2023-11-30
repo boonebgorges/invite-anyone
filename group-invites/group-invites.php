@@ -574,8 +574,12 @@ function invite_anyone_group_invite_access_test( $group_id = 0, $user_id = 0 ) {
 }
 
 function invite_anyone_group_invite_form_action() {
-	$group_url = bp_get_group_permalink( groups_get_current_group() );
-	echo trailingslashit( $group_url ) . trailingslashit( BP_INVITE_ANYONE_SLUG ) . trailingslashit( 'send' );
+	$url = bp_get_group_url(
+		groups_get_current_group(),
+		bp_groups_get_path_chunks( [ BP_INVITE_ANYONE_SLUG, 'send' ] )
+	);
+
+	echo esc_url( $url );
 }
 
 /**
