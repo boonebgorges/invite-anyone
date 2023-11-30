@@ -98,6 +98,10 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 	<?php endwhile; endif;
 
 } else { // Begin BP 1.2 code
+	$invitation_url = bp_members_get_user_url(
+		bp_loggedin_user_id(),
+		bp_members_get_path_chunks( [ buddypress()->invite_anyone->slug, 'invite-new-members', 'group-invites', bp_get_group_id() ] )
+	);
 
 	?>
 

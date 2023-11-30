@@ -52,7 +52,14 @@ class InviteAnyoneWidget extends WP_Widget {
 
 					<p><?php echo $instruction_text ?></p>
 
-					<form class="standard-form" action="<?php echo bp_loggedin_user_domain() . $bp->invite_anyone->slug ?>" method="post">
+					<?php
+					$form_action = bp_members_get_user_url(
+						bp_displayed_user_id(),
+						bp_members_get_path_chunks( [ buddypress()->invite_anyone->slug ] )
+					);
+					?>
+
+					<form class="standard-form" action="<?php echo esc_url( $form_action ); ?>" method="post">
 
 					<?php invite_anyone_email_fields() ?>
 
