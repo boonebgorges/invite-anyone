@@ -149,8 +149,10 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 		if ( $this->method == 'create' ) {
 			$redirect_url = $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $this->slug;
 		} else {
-			$group = groups_get_group( array( 'group_id' => $group_id ) );
-			$redirect_url = bp_get_group_permalink( $group ) . '/admin/' . $this->slug;
+			$redirect_url = bp_get_group_manage_url(
+				$group_id,
+				bp_groups_get_path_chunks( [ $this->slug ], 'manage' )
+			);
 		}
 
 		groups_send_invites( $bp->loggedin_user->id, $group_id );
