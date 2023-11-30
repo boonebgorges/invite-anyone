@@ -73,22 +73,20 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 
 		$this->has_caps = true;
 
-		/* Group API Extension Properties */
-		$this->name = __( 'Send Invites', 'invite-anyone' );
-		$this->slug = BP_INVITE_ANYONE_SLUG;
+		$args = [
+			'slug'              => BP_INVITE_ANYONE_SLUG,
+			'name'              => __( 'Send Invites', 'invite-anyone' ),
+			'show_tab'          => $this->enable_nav_item(),
+			'nav_item_position' => 71,
+			'screens'           => [
+				'create' => [
+					'enabled'  => $this->enable_create_step(),
+					'position' => 42,
+				],
+			],
+		];
 
-		/* Set as early in the order as possible */
-		$this->create_step_position = 42;
-		$this->nav_item_position = 71;
-
-		/* Generic check access */
-		if ( $this->has_caps == false ) {
-			$this->enable_create_step = false;
-			$this->enable_edit_step = false;
-		}
-
-		$this->enable_nav_item = $this->enable_nav_item();
-		$this->enable_create_step = $this->enable_create_step();
+		parent::init( $args );
 	}
 
 	/**
