@@ -939,6 +939,20 @@ function invite_anyone_email_fields( $returned_emails = false ) {
 <?php
 }
 
+/**
+ * Gets the URL of a user's invite-new-members page.
+ *
+ * @since 1.4.7
+ *
+ * @param int $user_id User ID.
+ * @return string
+ */
+function invite_anyone_get_user_invite_new_members_url( $user_id ) {
+	return bp_members_get_user_url(
+		$user_id,
+		bp_members_get_path_chunks( [ buddypress()->invite_anyone->slug, 'invite-new-members' ] )
+	);
+}
 
 function invite_anyone_invitation_subject( $returned_message = false ) {
 	global $bp;
@@ -1239,14 +1253,17 @@ function invite_anyone_process_invitations( $data ) {
 		$returned_data['error_emails'] 	= $emails;
 
 		setcookie( 'invite-anyone', wp_json_encode( $returned_data ), 0, '/' );
-		$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members/';
+
+		$redirect = invite_anyone_get_user_invite_new_members_url( bp_displayed_user_id() );
 		bp_core_redirect( $redirect );
 		die();
 	}
 
 	if ( empty( $emails ) ) {
 		bp_core_add_message( __( 'You didn\'t include any email addresses!', 'invite-anyone' ), 'error' );
-		bp_core_redirect( $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/invite-new-members' );
+
+		$redirect = invite_anyone_get_user_invite_new_members_url( bp_loggedin_user_id() );
+		bp_core_redirect( $redirect );
 		die();
 	}
 
@@ -1262,7 +1279,7 @@ function invite_anyone_process_invitations( $data ) {
 			$returned_data['error_emails'] = $emails;
 
 			setcookie( 'invite-anyone', wp_json_encode( $returned_data ), 0, '/' );
-			$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members/';
+			$redirect = invite_anyone_get_user_invite_new_members_url( bp_loggedin_user_id() );
 			bp_core_redirect( $redirect );
 			die();
 		}
@@ -1424,7 +1441,7 @@ function invite_anyone_process_invitations( $data ) {
 	// If there are errors, redirect to the Invite New Members page
 	if ( ! empty( $returned_data['error_emails'] ) ) {
 		setcookie( 'invite-anyone', wp_json_encode( $returned_data ), 0, '/' );
-		$redirect = bp_loggedin_user_domain() . $bp->invite_anyone->slug . '/invite-new-members/';
+		$redirect = invite_anyone_get_user_invite_new_members_url( bp_loggedin_user_id() );
 		bp_core_redirect( $redirect );
 		die();
 	}
