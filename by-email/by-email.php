@@ -67,11 +67,15 @@ function invite_anyone_opt_out_screen() {
 	global $bp;
 
 	if ( isset( $_POST['oops_submit'] ) ) {
-		$oops_email = urlencode( stripslashes( $_POST['opt_out_email'] ) );
-		$opt_out_link = add_query_arg( array(
-			'iaaction' => 'accept-invitation',
-			'email'    => $oops_email,
-		), bp_get_root_domain() . '/' . bp_get_signup_slug() . '/' );
+		$oops_email   = urlencode( stripslashes( $_POST['opt_out_email'] ) );
+		$opt_out_link = add_query_arg(
+			array(
+				'iaaction' => 'accept-invitation',
+				'email'    => $oops_email,
+			),
+			bp_get_signup_page()
+		);
+
 		bp_core_redirect( $opt_out_link );
 	}
 
@@ -1011,10 +1015,13 @@ function invite_anyone_process_footer( $email ) {
  * @return string
  */
 function invite_anyone_get_accept_url( $email ) {
-	$accept_link  = add_query_arg( array(
-		'iaaction' => 'accept-invitation',
-		'email'    => $email,
-	), bp_get_root_domain() . '/' . bp_get_signup_slug() . '/' );
+	$accept_link  = add_query_arg(
+		array(
+			'iaaction' => 'accept-invitation',
+			'email'    => $email,
+		),
+		bp_get_signup_page()
+	);
 
 	/**
 	 * Filters the invitation acceptance URL for a given email address.
@@ -1037,10 +1044,13 @@ function invite_anyone_get_accept_url( $email ) {
  * @return string
  */
 function invite_anyone_get_opt_out_url( $email ) {
-	$opt_out_link = add_query_arg( array(
-		'iaaction' => 'opt-out',
-		'email'    => $email,
-	), bp_get_root_domain() . '/' . bp_get_signup_slug() . '/' );
+	$opt_out_link = add_query_arg(
+		array(
+			'iaaction' => 'opt-out',
+			'email'    => $email,
+		),
+		bp_get_signup_page()
+	);
 
 	/**
 	 * Filters the opt-out acceptance URL for a given email address.
@@ -1474,7 +1484,7 @@ function invite_anyone_accept_invitation_backward_compatibility() {
 		return;
 	}
 
-	$redirect_to = add_query_arg( 'iaaction', $action, bp_get_root_domain() . '/' . bp_get_signup_slug() . '/' );
+	$redirect_to = add_query_arg( 'iaaction', $action, bp_get_signup_page() );
 
 	$email = bp_action_variable( 0 );
 	$email = str_replace( ' ', '+', $email );
