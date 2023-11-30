@@ -147,7 +147,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 
 		/* Set error redirect based on save method */
 		if ( $this->method == 'create' ) {
-			$redirect_url = $bp->loggedin_user->domain . $bp->groups->slug . '/create/step/' . $this->slug;
+			$redirect_url = bp_groups_get_create_url( [ $this->slug ] );
 		} else {
 			$redirect_url = bp_get_group_manage_url(
 				$group_id,

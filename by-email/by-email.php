@@ -295,7 +295,10 @@ function invite_anyone_setup_nav() {
 		'show_for_displayed_user' => invite_anyone_access_test()
 	) );
 
-	$invite_anyone_link = $bp->loggedin_user->domain . $bp->invite_anyone->slug . '/';
+	$invite_anyone_link = bp_members_get_user_url(
+		bp_loggedin_user_id(),
+		bp_members_get_path_chunks( [ buddypress()->invite_anyone->slug ] )
+	);
 
 	/* Create two sub nav items for this component */
 	bp_core_new_subnav_item( array(
