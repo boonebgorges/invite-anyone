@@ -133,7 +133,7 @@ jQuery(document).ready( function() {
 	    invitationsLoad.push( j(this).attr('id') );
 	});
 
-	jq('#send-invite-form input:submit,#create-group-form input:submit').on( 'click', function() {
+	j('#send-invite-form input:submit,#create-group-form input:submit').on( 'click', function() {
 		submitClicked = true;
 	});
 
