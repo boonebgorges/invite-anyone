@@ -410,8 +410,10 @@ function invite_anyone_ajax_invite_user() {
 
 		$group_slug = isset( $bp->groups->root_slug ) ? $bp->groups->root_slug : $bp->groups->slug;
 
-		if ( bp_is_current_action( 'create' ) ) {
-			$uninvite_url = bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/step/group-invites/?user_id=' . $user->id;
+		$referer         = wp_get_referer();
+		$is_group_create = 0 === strpos( $referer, bp_groups_get_create_url() );
+		if ( $is_group_create ) {
+			$uninvite_url = add_query_arg( 'user_id', $user->id, bp_groups_get_create_url( [ 'invite-anyone' ] ) );
 		} else {
 			$uninvite_url = bp_get_group_permalink( groups_get_current_group() ) . 'send-invites/remove/' . $user->id;
 		}
