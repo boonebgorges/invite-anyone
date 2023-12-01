@@ -2,7 +2,9 @@
     "name": "boonebgorges/invite-anyone",
     "type": "project",
     "license": "GPL 3.0",
-    "require": {},
+    "require": {
+        "hard-g/buddypress-12.0-url-polyfills": "^1.0"
+    },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "*",
         "phpcompatibility/phpcompatibility-wp": "*"

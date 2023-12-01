@@ -21,6 +21,10 @@ if ( ! defined( 'BP_INVITE_ANYONE_DIR' ) ) {
 	define( 'BP_INVITE_ANYONE_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 }
 
+require_once __DIR__ . '/vendor/autoload.php';
+
+HardG\BuddyPress120URLPolyfills\Loader::init();
+
 register_activation_hook( __FILE__, 'invite_anyone_activation' );
 
 /* Only load the BuddyPress plugin functions if BuddyPress is loaded and initialized. */
