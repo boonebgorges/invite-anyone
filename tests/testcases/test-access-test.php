@@ -35,7 +35,7 @@ class Invite_Anyone_Access_Test_Tests extends BP_UnitTestCase {
 		$this->set_current_user( self::$user_id );
 
 		$other_user_id = $this->factory->user->create();
-		$this->go_to( bp_core_get_user_domain( $other_user_id ) );
+		$this->go_to( bp_members_get_user_url( $other_user_id ) );
 
 		$this->assertFalse( invite_anyone_access_test() );
 	}
@@ -46,7 +46,7 @@ class Invite_Anyone_Access_Test_Tests extends BP_UnitTestCase {
 		bp_update_option( 'invite_anyone', $iaoptions );
 
 		$this->set_current_user( self::$user_id );
-		$this->go_to( bp_core_get_user_domain( self::$user_id ) );
+		$this->go_to( bp_members_get_user_url( self::$user_id ) );
 
 		$this->assertTrue( invite_anyone_access_test() );
 	}
@@ -66,7 +66,7 @@ class Invite_Anyone_Access_Test_Tests extends BP_UnitTestCase {
 		) );
 
 		$this->set_current_user( self::$user_id );
-		$this->go_to( bp_core_get_user_domain( self::$user_id ) );
+		$this->go_to( bp_members_get_user_url( self::$user_id ) );
 
 		$this->assertFalse( invite_anyone_access_test() );
 	}
@@ -86,7 +86,7 @@ class Invite_Anyone_Access_Test_Tests extends BP_UnitTestCase {
 		) );
 
 		$this->set_current_user( self::$user_id );
-		$this->go_to( bp_core_get_user_domain( self::$user_id ) );
+		$this->go_to( bp_members_get_user_url( self::$user_id ) );
 
 		$this->assertTrue( invite_anyone_access_test() );
 	}
@@ -104,7 +104,7 @@ class Invite_Anyone_Access_Test_Tests extends BP_UnitTestCase {
 		$user->remove_role( 'subscriber' );
 
 		$this->set_current_user( self::$user_id );
-		$this->go_to( bp_core_get_user_domain( self::$user_id ) );
+		$this->go_to( bp_members_get_user_url( self::$user_id ) );
 
 		$this->assertFalse( invite_anyone_access_test() );
 	}
@@ -121,7 +121,7 @@ class Invite_Anyone_Access_Test_Tests extends BP_UnitTestCase {
 		$user = new WP_User( self::$user_id );
 
 		$this->set_current_user( self::$user_id );
-		$this->go_to( bp_core_get_user_domain( self::$user_id ) );
+		$this->go_to( bp_members_get_user_url( self::$user_id ) );
 
 		$this->assertTrue( invite_anyone_access_test() );
 	}
@@ -139,7 +139,7 @@ class Invite_Anyone_Access_Test_Tests extends BP_UnitTestCase {
 		$user->remove_role( 'contributor' );
 
 		$this->set_current_user( self::$user_id );
-		$this->go_to( bp_core_get_user_domain( self::$user_id ) );
+		$this->go_to( bp_members_get_user_url( self::$user_id ) );
 
 		$this->assertFalse( invite_anyone_access_test() );
 	}
@@ -157,7 +157,7 @@ class Invite_Anyone_Access_Test_Tests extends BP_UnitTestCase {
 		$user->add_role( 'contributor' );
 
 		$this->set_current_user( self::$user_id );
-		$this->go_to( bp_core_get_user_domain( self::$user_id ) );
+		$this->go_to( bp_members_get_user_url( self::$user_id ) );
 
 		$this->assertTrue( invite_anyone_access_test() );
 	}
@@ -175,7 +175,7 @@ class Invite_Anyone_Access_Test_Tests extends BP_UnitTestCase {
 		$user->remove_role( 'author' );
 
 		$this->set_current_user( self::$user_id );
-		$this->go_to( bp_core_get_user_domain( self::$user_id ) );
+		$this->go_to( bp_members_get_user_url( self::$user_id ) );
 
 		$this->assertFalse( invite_anyone_access_test() );
 	}
@@ -193,7 +193,7 @@ class Invite_Anyone_Access_Test_Tests extends BP_UnitTestCase {
 		$user->add_role( 'author' );
 
 		$this->set_current_user( self::$user_id );
-		$this->go_to( bp_core_get_user_domain( self::$user_id ) );
+		$this->go_to( bp_members_get_user_url( self::$user_id ) );
 
 		$this->assertTrue( invite_anyone_access_test() );
 	}
@@ -211,7 +211,7 @@ class Invite_Anyone_Access_Test_Tests extends BP_UnitTestCase {
 		$user->remove_role( 'editor' );
 
 		$this->set_current_user( self::$user_id );
-		$this->go_to( bp_core_get_user_domain( self::$user_id ) );
+		$this->go_to( bp_members_get_user_url( self::$user_id ) );
 
 		$this->assertFalse( invite_anyone_access_test() );
 	}
@@ -229,7 +229,7 @@ class Invite_Anyone_Access_Test_Tests extends BP_UnitTestCase {
 		$user->add_role( 'editor' );
 
 		$this->set_current_user( self::$user_id );
-		$this->go_to( bp_core_get_user_domain( self::$user_id ) );
+		$this->go_to( bp_members_get_user_url( self::$user_id ) );
 
 		$this->assertTrue( invite_anyone_access_test() );
 	}
@@ -247,7 +247,7 @@ class Invite_Anyone_Access_Test_Tests extends BP_UnitTestCase {
 		$user->remove_role( 'administrator' );
 
 		$this->set_current_user( self::$user_id );
-		$this->go_to( bp_core_get_user_domain( self::$user_id ) );
+		$this->go_to( bp_members_get_user_url( self::$user_id ) );
 
 		$this->assertFalse( invite_anyone_access_test() );
 	}
@@ -265,7 +265,7 @@ class Invite_Anyone_Access_Test_Tests extends BP_UnitTestCase {
 		$user->add_role( 'administrator' );
 
 		$this->set_current_user( self::$user_id );
-		$this->go_to( bp_core_get_user_domain( self::$user_id ) );
+		$this->go_to( bp_members_get_user_url( self::$user_id ) );
 
 		$this->assertTrue( invite_anyone_access_test() );
 	}
@@ -281,7 +281,7 @@ class Invite_Anyone_Access_Test_Tests extends BP_UnitTestCase {
 		$GLOBALS['iaoptions'] = $iaoptions;
 
 		$this->set_current_user( self::$user_id );
-		$this->go_to( bp_core_get_user_domain( self::$user_id ) );
+		$this->go_to( bp_members_get_user_url( self::$user_id ) );
 
 		$this->assertFalse( invite_anyone_access_test() );
 	}
@@ -297,7 +297,7 @@ class Invite_Anyone_Access_Test_Tests extends BP_UnitTestCase {
 		$GLOBALS['iaoptions'] = $iaoptions;
 
 		$this->set_current_user( self::$user_id );
-		$this->go_to( bp_core_get_user_domain( self::$user_id ) );
+		$this->go_to( bp_members_get_user_url( self::$user_id ) );
 
 		$this->assertTrue( invite_anyone_access_test() );
 	}
