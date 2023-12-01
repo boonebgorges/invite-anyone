@@ -51,6 +51,12 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.4.6 =
+* BuddyPress 12.0 compatibility
+* Improved compatibility with PHP 8.0+
+* Accessibility improvements to invitation checklists
+* Fixed JS bug that might have prevented invitation checkboxes from working properly in some cases
+
 = 1.4.5 =
 * Fixed bug in routine responsible for saving the CloudSponge configuration settings.
 
