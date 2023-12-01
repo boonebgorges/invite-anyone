@@ -4,8 +4,12 @@
     "license": "GPL 3.0",
     "require": {},
     "require-dev": {
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
-        "phpcompatibility/phpcompatibility-wp": "*",
-        "phpunit/phpunit": "^6"
+        "dealerdirect/phpcodesniffer-composer-installer": "*",
+        "phpcompatibility/phpcompatibility-wp": "*"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }
