@@ -7,7 +7,7 @@ function invite_anyone_add_widget_css() {
 	$style_url  = plugins_url() . '/invite-anyone/widgets/widgets-css.css';
 	$style_file = WP_PLUGIN_DIR . '/invite-anyone/widgets/widgets-css.css';
 	if ( file_exists( $style_file ) ) {
-		wp_register_style( 'invite-anyone-widget-style', $style_url );
+		wp_register_style( 'invite-anyone-widget-style', $style_url, array(), filemtime( $style_file ) );
 		wp_enqueue_style( 'invite-anyone-widget-style' );
 	}
 }
@@ -38,7 +38,7 @@ class InviteAnyoneWidget extends WP_Widget {
 		parent::__construct( 'invite-anyone-widget', 'Invite Anyone', $widget_ops, $control_ops );
 
 		if ( is_active_widget( false, false, $this->id_base ) ) {
-			wp_enqueue_style( 'invite-anyone-widget-style', plugins_url() . '/invite-anyone/widgets/widgets-css.css' );
+			wp_enqueue_style( 'invite-anyone-widget-style', plugins_url() . '/invite-anyone/widgets/widgets-css.css', array(), filemtime( WP_PLUGIN_DIR . '/invite-anyone/widgets/widgets-css.css' ) );
 		}
 	}
 
@@ -49,28 +49,35 @@ class InviteAnyoneWidget extends WP_Widget {
 	 * @param array $instance Widget instance.
 	 * @return void
 	 */
-	function widget( $args, $instance ) {
+	public function widget( $args, $instance ) {
 		global $bp;
 		extract( $args );
 
-		if ( ! $title = apply_filters( 'widget_title', $instance['title'] ) ) {
+		$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
+		if ( ! apply_filters( 'widget_title', $instance['title'] ) ) {
 			$title = __( 'Invite Anyone', 'invite-anyone' );
 		}
 
-		if ( ! $instruction_text = esc_attr( $instance['instruction_text'] ) ) {
+		$instruction_text = esc_attr( $instance['instruction_text'] );
+		if ( ! $instruction_text ) {
 			$instruction_text = __( 'Enter one email address per line to invite friends to join this site.', 'invite-anyone' );
 		}
+
 		?>
 
 		<?php /* Non-logged-in and unauthorized users should not see the widget */ ?>
-		<?php if ( invite_anyone_access_test() && $bp->current_component != $bp->invite_anyone->slug ) : ?>
-				<?php echo $before_widget; ?>
+		<?php if ( invite_anyone_access_test() && $bp->current_component !== $bp->invite_anyone->slug ) : ?>
 				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo $before_widget;
+
 				if ( $title ) {
-					echo $before_title . $title . $after_title;}
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo $before_title . esc_html( $title ) . $after_title;
+				}
 				?>
 
-					<p><?php echo $instruction_text; ?></p>
+					<p><?php echo wp_kses_post( $instruction_text ); ?></p>
 
 					<?php
 					$form_action = bp_members_get_user_url(
@@ -86,7 +93,7 @@ class InviteAnyoneWidget extends WP_Widget {
 					<?php /* If we're on a group page, send the group_id as well */ ?>
 					<?php if ( bp_is_group() ) : ?>
 						<?php global $bp; ?>
-						<input type="hidden" name="invite_anyone_widget_group" id="invite_anyone_widget_group" value="<?php echo $bp->groups->current_group->id; ?>" />
+						<input type="hidden" name="invite_anyone_widget_group" id="invite_anyone_widget_group" value="<?php echo esc_attr( $bp->groups->current_group->id ); ?>" />
 					<?php endif; ?>
 
 					<input type="hidden" name="invite_anyone_widget" id="invite_anyone_widget" value="1" />
@@ -95,11 +102,14 @@ class InviteAnyoneWidget extends WP_Widget {
 
 					<?php wp_nonce_field( 'invite-anyone-widget_' . $bp->loggedin_user->id ); ?>
 					<p id="invite-anyone-widget-submit" >
-						<input class="button" type="submit" value="<?php _e( 'Continue', 'invite-anyone' ); ?>" />
+						<input class="button" type="submit" value="<?php esc_html_e( 'Continue', 'invite-anyone' ); ?>" />
 					</p>
 					</form>
 
-				<?php echo $after_widget; ?>
+				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo $after_widget;
+				?>
 		<?php endif; ?>
 		<?php
 	}
@@ -111,7 +121,7 @@ class InviteAnyoneWidget extends WP_Widget {
 	 * @param array $old_instance Old widget instance.
 	 * @return array
 	 */
-	function update( $new_instance, $old_instance ) {
+	public function update( $new_instance, $old_instance ) {
 		return $new_instance;
 	}
 
@@ -121,27 +131,21 @@ class InviteAnyoneWidget extends WP_Widget {
 	 * @param array $instance Widget instance.
 	 * @return void
 	 */
-	function form( $instance ) {
-		if ( ! isset( $instance['title'] ) || ! $title = esc_attr( $instance['title'] ) ) {
-			$title = __( 'Invite Anyone', 'invite-anyone' );
-		}
+	public function form( $instance ) {
+		$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : __( 'Invite Anyone', 'invite-anyone' );
 
-		if ( ! isset( $instance['email_fields'] ) || ! $email_fields = (int) $instance['email_fields'] ) {
-			$email_fields = 3;
-		}
+		$email_fields = isset( $instance['email_fields'] ) ? (int) $instance['email_fields'] : 3;
 
-		if ( ! isset( $instance['instruction_text'] ) || ! $instruction_text = esc_attr( $instance['instruction_text'] ) ) {
-			$instruction_text = __( 'Invite friends to join the site by entering their email addresses below.', 'invite-anyone' );
-		}
+		$instruction_text = isset( $instance['instruction_text'] ) ? esc_attr( $instance['instruction_text'] ) : __( 'Invite friends to join the site by entering their email addresses below.', 'invite-anyone' );
 
 		?>
-			<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
+			<p><label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:' ); ?> <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" /></label></p>
 
-			<p><label for="<?php echo $this->get_field_id( 'instruction_text' ); ?>"><?php _e( 'Text to display in widget:', 'invite-anyone' ); ?>
-			<textarea class="widefat" id="<?php echo $this->get_field_id( 'instruction_text' ); ?>" name="<?php echo $this->get_field_name( 'instruction_text' ); ?>"><?php echo $instruction_text; ?></textarea>
+			<p><label for="<?php echo esc_attr( $this->get_field_id( 'instruction_text' ) ); ?>"><?php esc_html_e( 'Text to display in widget:', 'invite-anyone' ); ?>
+			<textarea class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'instruction_text' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'instruction_text' ) ); ?>"><?php echo wp_kses_post( $instruction_text ); ?></textarea>
 			</label></p>
 
-			<p><label for="<?php echo $this->get_field_id( 'email_fields' ); ?>"><?php _e( 'Number of email fields to display in widget:', 'invite-anyone' ); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'email_fields' ); ?>" name="<?php echo $this->get_field_name( 'email_fields' ); ?>" type="text" value="<?php echo $email_fields; ?>" /></label></p>
+			<p><label for="<?php echo esc_attr( $this->get_field_id( 'email_fields' ) ); ?>"><?php esc_html_e( 'Number of email fields to display in widget:', 'invite-anyone' ); ?> <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'email_fields' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'email_fields' ) ); ?>" type="text" value="<?php echo esc_attr( (string) $email_fields ); ?>" /></label></p>
 
 		<?php
 	}
