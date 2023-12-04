@@ -553,13 +553,13 @@ function invite_anyone_group_invite_access_test( $group_id = 0, $user_id = 0 ) {
 	$iaoptions = invite_anyone_options();
 
 	if ( bp_is_group_create() ) {
-		if ( empty( $iaoptions['group_invites_can_group_admin'] ) || $iaoptions['group_invites_can_group_admin'] == 'anyone' || ! $iaoptions['group_invites_can_group_admin'] ) {
+		if ( empty( $iaoptions['group_invites_can_group_admin'] ) || 'anyone' === $iaoptions['group_invites_can_group_admin'] || ! $iaoptions['group_invites_can_group_admin'] ) {
 			return 'anyone';
 		}
-		if ( $iaoptions['group_invites_can_group_admin'] == 'friends' ) {
+		if ( 'friends' === $iaoptions['group_invites_can_group_admin'] ) {
 			return 'friends';
 		}
-		if ( $iaoptions['group_invites_can_group_admin'] == 'noone' ) {
+		if ( 'noone' === $iaoptions['group_invites_can_group_admin'] ) {
 			return 'noone';
 		}
 	}
@@ -569,43 +569,43 @@ function invite_anyone_group_invite_access_test( $group_id = 0, $user_id = 0 ) {
 	}
 
 	if ( user_can( $user_id, 'bp_moderate' ) ) {
-		if ( empty( $iaoptions['group_invites_can_admin'] ) || $iaoptions['group_invites_can_admin'] == 'anyone' || ! $iaoptions['group_invites_can_admin'] ) {
+		if ( empty( $iaoptions['group_invites_can_admin'] ) || 'anyone' === $iaoptions['group_invites_can_admin'] || ! $iaoptions['group_invites_can_admin'] ) {
 			return 'anyone';
 		}
-		if ( $iaoptions['group_invites_can_admin'] == 'friends' ) {
+		if ( 'friends' === $iaoptions['group_invites_can_admin'] ) {
 			return 'friends';
 		}
-		if ( $iaoptions['group_invites_can_admin'] == 'noone' ) {
+		if ( 'noone' === $iaoptions['group_invites_can_admin'] ) {
 			return 'noone';
 		}
 	} elseif ( groups_is_user_admin( $user_id, $group_id ) ) {
-		if ( empty( $iaoptions['group_invites_can_group_admin'] ) || $iaoptions['group_invites_can_group_admin'] == 'anyone' || ! $iaoptions['group_invites_can_group_admin'] ) {
+		if ( empty( $iaoptions['group_invites_can_group_admin'] ) || 'anyone' === $iaoptions['group_invites_can_group_admin'] || ! $iaoptions['group_invites_can_group_admin'] ) {
 			return 'anyone';
 		}
-		if ( $iaoptions['group_invites_can_group_admin'] == 'friends' ) {
+		if ( 'friends' === $iaoptions['group_invites_can_group_admin'] ) {
 			return 'friends';
 		}
-		if ( $iaoptions['group_invites_can_group_admin'] == 'noone' ) {
+		if ( 'noone' === $iaoptions['group_invites_can_group_admin'] ) {
 			return 'noone';
 		}
 	} elseif ( groups_is_user_mod( $user_id, $group_id ) ) {
-		if ( empty( $iaoptions['group_invites_can_group_mod'] ) || $iaoptions['group_invites_can_group_mod'] == 'anyone' || ! $iaoptions['group_invites_can_group_mod'] ) {
+		if ( empty( $iaoptions['group_invites_can_group_mod'] ) || 'anyone' === $iaoptions['group_invites_can_group_mod'] || ! $iaoptions['group_invites_can_group_mod'] ) {
 			return 'anyone';
 		}
-		if ( $iaoptions['group_invites_can_group_mod'] == 'friends' ) {
+		if ( 'friends' === $iaoptions['group_invites_can_group_mod'] ) {
 			return 'friends';
 		}
-		if ( $iaoptions['group_invites_can_group_mod'] == 'noone' ) {
+		if ( 'noone' === $iaoptions['group_invites_can_group_mod'] ) {
 			return 'noone';
 		}
 	} else {
-		if ( empty( $iaoptions['group_invites_can_group_member'] ) || $iaoptions['group_invites_can_group_member'] == 'anyone' || ! $iaoptions['group_invites_can_group_member'] ) {
+		if ( empty( $iaoptions['group_invites_can_group_member'] ) || 'anyone' === $iaoptions['group_invites_can_group_member'] || ! $iaoptions['group_invites_can_group_member'] ) {
 			return 'anyone';
 		}
-		if ( $iaoptions['group_invites_can_group_member'] == 'friends' ) {
+		if ( 'friends' === $iaoptions['group_invites_can_group_member'] ) {
 			return 'friends';
 		}
-		if ( $iaoptions['group_invites_can_group_member'] == 'noone' ) {
+		if ( 'noone' === $iaoptions['group_invites_can_group_member'] ) {
 			return 'noone';
 		}
 	}
@@ -639,7 +639,7 @@ function invite_anyone_group_invite_maybe_filter_invite_message( $to ) {
 
 	$friendship_status = BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), $invited_user->ID );
 	if ( 'is_friend' !== $friendship_status ) {
-		add_action( 'groups_notification_group_invites_message', 'invite_anyone_group_invite_email_message', 10, 7 );
+		add_action( 'groups_notification_group_invites_message', 'invite_anyone_group_invite_email_message', 10, 6 );
 	}
 
 	return $to;
@@ -655,11 +655,12 @@ add_filter( 'groups_notification_group_invites_to', 'invite_anyone_group_invite_
  *
  * @since 1.0.22
  */
-function invite_anyone_group_invite_email_message( $message, $group, $inviter_name, $inviter_link, $invites_link, $group_link, $settings_link ) {
+function invite_anyone_group_invite_email_message( $message, $group, $inviter_name, $inviter_link, $invites_link, $group_link ) {
 	// Make sure the check happens again fresh next time around
-	remove_action( 'groups_notification_group_invites_message', 'invite_anyone_group_invite_email_message', 10, 7 );
+	remove_action( 'groups_notification_group_invites_message', 'invite_anyone_group_invite_email_message', 10, 6 );
 
 	$message = sprintf(
+		// translators: 1. Inviter name, 2. Group name, 3. Invites link, 4. Group link, 5. Inviter name, 6. Inviter link
 		__(
 			'%1$s has invited you to the group: "%2$s".
 
