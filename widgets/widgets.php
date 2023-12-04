@@ -12,9 +12,14 @@ function invite_anyone_add_widget_css() {
 	}
 }
 
+/**
+ * Invite Anyone widget.
+ */
 class InviteAnyoneWidget extends WP_Widget {
 	/**
 	 * Constructor.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 		$widget_ops = array(
@@ -39,6 +44,10 @@ class InviteAnyoneWidget extends WP_Widget {
 
 	/**
 	 * Markup for public widget.
+	 *
+	 * @param array $args     Widget arguments.
+	 * @param array $instance Widget instance.
+	 * @return void
 	 */
 	function widget( $args, $instance ) {
 		global $bp;
@@ -97,6 +106,10 @@ class InviteAnyoneWidget extends WP_Widget {
 
 	/**
 	 * Callback for updating widget.
+	 *
+	 * @param array $new_instance New widget instance.
+	 * @param array $old_instance Old widget instance.
+	 * @return array
 	 */
 	function update( $new_instance, $old_instance ) {
 		return $new_instance;
@@ -104,6 +117,9 @@ class InviteAnyoneWidget extends WP_Widget {
 
 	/**
 	 * Admin form markup.
+	 *
+	 * @param array $instance Widget instance.
+	 * @return void
 	 */
 	function form( $instance ) {
 		if ( ! isset( $instance['title'] ) || ! $title = esc_attr( $instance['title'] ) ) {
@@ -131,6 +147,11 @@ class InviteAnyoneWidget extends WP_Widget {
 	}
 }
 
+/**
+ * Register widget.
+ *
+ * @return void
+ */
 function invite_anyone_register_widget() {
 	return register_widget( 'InviteAnyoneWidget' );
 }
