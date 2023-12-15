@@ -520,7 +520,7 @@ function invite_anyone_remove_invite_subnav() {
 	// BP 1.5 / BP 1.2
 	$parent_slug = isset( $bp->groups->root_slug ) && isset( $bp->groups->current_group->slug ) ? $bp->groups->current_group->slug : $bp->groups->slug;
 
-	bp_core_remove_subnav_item( $parent_slug, BP_INVITE_ANYONE_SLUG );
+	bp_core_remove_subnav_item( $parent_slug, 'send-invites' );
 }
 add_filter( 'groups_create_group_steps', 'invite_anyone_remove_group_creation_invites', 1 );
 add_action( 'bp_setup_nav', 'invite_anyone_remove_invite_subnav', 15 );
