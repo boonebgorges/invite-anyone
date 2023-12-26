@@ -51,6 +51,9 @@ Additional details about the plugin can be found in the following languages:
 
 == Changelog ==
 
+= 1.4.7 =
+* Fixed regression in 1.4.6 that may cause duplicate nav items in groups
+
 = 1.4.6 =
 * BuddyPress 12.0 compatibility
 * Improved compatibility with PHP 8.0+
