@@ -711,14 +711,27 @@ function invite_anyone_clear_sent_invite( $args ) {
 		if ( $invite->clear() )
 			$success = true;
 	} else {
-		array(
-			'inviter_id'	=> $inviter_id,
-			'posts_per_page' => -1
+		/**
+		 * Number of invitations to clear during a single request.
+		 *
+		 * We place a limit on the number of invitations that can be cleared to
+		 * avoid timeout and memory-exhaustion errors. You may adjust this
+		 * using the filter.
+		 *
+		 * @since 1.4.8
+		 *
+		 * @param int $limit The number of invitations to clear during a single request.
+		 */
+		$limit = apply_filters( 'invite_anyone_clear_sent_invite_limit', 100 );
+
+		$query_args = array(
+			'inviter_id'     => $inviter_id,
+			'posts_per_page' => $limit,
 		);
 
 		$invite = new Invite_Anyone_Invitation;
 
-		$iobj = $invite->get( $args );
+		$iobj = $invite->get( $query_args );
 
 		if ( $iobj->have_posts() ) {
 			while ( $iobj->have_posts() ) {
