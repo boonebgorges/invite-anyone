@@ -6,25 +6,25 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 		/**
 		 * The CPT query. Defaults to $wp_query; see BBG_CPT_Pag::setup_query()
 		 */
-		var $query;
+		public $query;
 
 		/**
 		 * The desired $_GET keys for per_page and paged
 		 */
-		var $get_per_page_key;
-		var $get_paged_key;
+		public $get_per_page_key;
+		public $get_paged_key;
 
 		/**
 		 * The values of per_page and paged as retrieved from $_GET
 		 */
-		var $get_per_page;
-		var $get_paged;
+		public $get_per_page;
+		public $get_paged;
 
 		/**
 		 * The number of items found, and the total page number based on this
 		 */
-		var $total_items;
-		var $total_pages;
+		public $total_items;
+		public $total_pages;
 
 		/**
 		 * PHP 5 constructor
