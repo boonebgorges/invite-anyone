@@ -191,6 +191,7 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 			$start = $this->get_start_number();
 			$end   = $this->get_end_number();
 
+			// translators: %1$d is the start number, %2$d is the end number, %3$d is the total number of items
 			$string = sprintf( __( 'Viewing %1$d - %2$d of a total of %3$d', 'invite-anyone' ), $start, $end, $this->total_items );
 
 			if ( 'echo' === $type ) {
