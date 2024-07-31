@@ -193,7 +193,7 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 
 			$string = sprintf( __( 'Viewing %1$d - %2$d of a total of %3$d', 'invite-anyone' ), $start, $end, $this->total_items );
 
-			if ( 'echo' == $type ) {
+			if ( 'echo' === $type ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo $string;
 			} else {
@@ -223,7 +223,7 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 				)
 			);
 
-			if ( 'echo' == $type ) {
+			if ( 'echo' === $type ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo $page_links;
 			} else {
