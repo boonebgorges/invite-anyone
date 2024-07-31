@@ -237,7 +237,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 			$class = implode( ' ', $class );
 
 			if ( 'echo' == $type ) {
-				echo $class;
+				echo esc_attr( $class );
 			} else {
 				return $class;
 			}
@@ -253,7 +253,12 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 
 			// Assemble the html link, if necessary
 			if ( 'html' == $html_or_url ) {
-				$html = sprintf( '<a title="%1$s" href="%2$s">%3$s</a>', $this->column->name, $url, $this->the_column_title( 'return' ) );
+				$html = sprintf(
+					'<a title="%1$s" href="%2$s">%3$s</a>',
+					esc_attr( $this->column->name ),
+					esc_url( $url ),
+					esc_html( $this->the_column_title( 'return' ) )
+				);
 
 				$link = $html;
 			} else {
@@ -261,6 +266,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 			}
 
 			if ( 'echo' == $type ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo $link;
 			} else {
 				return $link;
@@ -271,7 +277,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 			$name = $this->column->title;
 
 			if ( 'echo' == $type ) {
-				echo $name;
+				echo esc_html( $name );
 			} else {
 				return $name;
 			}
@@ -279,15 +285,23 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 
 		public function the_column_th( $type = 'echo' ) {
 			if ( $this->column->is_sortable ) {
-				$td_content = sprintf( '<a href="%1$s"><span>%2$s</span><span class="sorting-indicator"></span></a>', $this->the_column_next_link( 'return', 'url' ), $this->the_column_title( 'return' ) );
+				$td_content = sprintf(
+					'<a href="%1$s"><span>%2$s</span><span class="sorting-indicator"></span></a>',
+					esc_attr( $this->the_column_next_link( 'return', 'url' ) ),
+					esc_html( $this->the_column_title( 'return' ) )
+				);
 			} else {
-				$td_content = $this->the_column_title( 'return' );
-
+				$td_content = esc_html( $this->the_column_title( 'return' ) );
 			}
 
-			$html = sprintf( '<th scope="col" class="manage-column %1$s">%2$s</th>', $this->the_column_css_class( 'return' ), $td_content );
+			$html = sprintf(
+				'<th scope="col" class="manage-column %1$s">%2$s</th>',
+				esc_attr( $this->the_column_css_class( 'return' ) ),
+				$td_content
+			);
 
 			if ( 'echo' == $type ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo $html;
 			} else {
 				return $html;
