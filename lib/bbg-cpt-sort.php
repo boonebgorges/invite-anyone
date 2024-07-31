@@ -139,6 +139,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 		 */
 		public function setup_get_params() {
 			// Orderby
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$orderby = isset( $_GET[ $this->get_orderby_key ] ) ? $_GET[ $this->get_orderby_key ] : false;
 
 			// If an orderby param is provided, check to see that it's permitted.
@@ -150,6 +151,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 			}
 
 			// Order
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$order = isset( $_GET[ $this->get_order_key ] ) ? $_GET[ $this->get_order_key ] : false;
 
 			// If an order is provided, make sure it's either 'desc' or 'asc'
