@@ -215,8 +215,8 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 				array(
 					'base'      => add_query_arg( $this->get_paged_key, '%#%' ),
 					'format'    => '',
-					'prev_text' => __( '&laquo;' ),
-					'next_text' => __( '&raquo;' ),
+					'prev_text' => __( '&laquo;', 'invite-anyone' ),
+					'next_text' => __( '&raquo;', 'invite-anyone' ),
 					'total'     => $this->total_pages,
 					'current'   => $this->get_paged,
 					'add_args'  => array( $this->get_per_page_key => $this->get_per_page ),
