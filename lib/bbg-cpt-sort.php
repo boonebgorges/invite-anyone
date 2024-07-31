@@ -6,31 +6,31 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 		/**
 		 * The full column data
 		 */
-		var $columns;
+		public $columns;
 
-		var $column_count;
-		var $current_column;
-		var $column;
-		var $in_the_loop;
+		public $column_count;
+		public $current_column;
+		public $column;
+		public $in_the_loop;
 
 		/**
 		 * Default orderby column
 		 */
-		var $default_orderby;
+		public $default_orderby;
 
 		/**
 		 * The desired $_GET keys for orderby and order
 		 */
-		var $get_orderby_key;
-		var $get_order_key;
+		public $get_orderby_key;
+		public $get_order_key;
 
 		/**
 		 * The values of orderby and order as retrieved from $_GET
 		 */
-		var $get_orderby;
-		var $get_order;
+		public $get_orderby;
+		public $get_order;
 
-		var $sortable_keys;
+		public $sortable_keys;
 
 		/**
 		 * PHP 5 constructor
@@ -41,7 +41,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 		 * $columns should be an array of arrays. That is, an array of args for each column. See
 		 * $defaults below for an explanation of these arrays.
 		 */
-		function __construct( $cols = false ) {
+		public function __construct( $cols = false ) {
 			$defaults = array(
 				'name'          => false,
 				'title'         => false,
@@ -124,7 +124,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 		 * @package Boone's Sortable Columns
 		 * @since 1.0
 		 */
-		function setup_get_keys() {
+		public function setup_get_keys() {
 			$this->get_orderby_key = apply_filters( 'bbg_cpt_sort_orderby_key', 'orderby' );
 			$this->get_order_key   = apply_filters( 'bbg_cpt_sort_order_key', 'order' );
 		}
@@ -137,7 +137,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 		 * @package Boone's Sortable Columns
 		 * @since 1.0
 		 */
-		function setup_get_params() {
+		public function setup_get_params() {
 			// Orderby
 			$orderby = isset( $_GET[ $this->get_orderby_key ] ) ? $_GET[ $this->get_orderby_key ] : false;
 
@@ -174,7 +174,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 			$this->get_order = $order;
 		}
 
-		function setup_next_orders() {
+		public function setup_next_orders() {
 			foreach ( $this->columns as $name => $col ) {
 				if ( $col->name == $this->get_orderby ) {
 					$current_order = $this->get_order;
@@ -186,7 +186,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 			}
 		}
 
-		function have_columns() {
+		public function have_columns() {
 			// Compare against the column_count - 1 to account for the 0 array index shift
 			if ( $this->column_count && $this->current_column < $this->column_count - 1 ) {
 				return true;
@@ -195,21 +195,21 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 			return false;
 		}
 
-		function next_column() {
+		public function next_column() {
 			++$this->current_column;
 			$this->column = $this->columns[ $this->current_column ];
 
 			return $this->column;
 		}
 
-		function rewind_columns() {
+		public function rewind_columns() {
 			$this->current_column = -1;
 			if ( $this->column_count > 0 ) {
 				$this->column = $this->columns[0];
 			}
 		}
 
-		function the_column() {
+		public function the_column() {
 			$this->in_the_loop = true;
 			$this->column      = $this->next_column();
 
@@ -218,7 +218,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 			}
 		}
 
-		function the_column_css_class( $type = 'echo' ) {
+		public function the_column_css_class( $type = 'echo' ) {
 			// The column-identifying class
 			$class = array( $this->column->css_class );
 
@@ -243,7 +243,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 			}
 		}
 
-		function the_column_next_link( $type = 'echo', $html_or_url = 'html' ) {
+		public function the_column_next_link( $type = 'echo', $html_or_url = 'html' ) {
 			$args = array(
 				$this->get_orderby_key => $this->column->name,
 				$this->get_order_key   => $this->column->next_order,
@@ -267,7 +267,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 			}
 		}
 
-		function the_column_title( $type = 'echo' ) {
+		public function the_column_title( $type = 'echo' ) {
 			$name = $this->column->title;
 
 			if ( 'echo' == $type ) {
@@ -277,7 +277,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 			}
 		}
 
-		function the_column_th( $type = 'echo' ) {
+		public function the_column_th( $type = 'echo' ) {
 			if ( $this->column->is_sortable ) {
 				$td_content = sprintf( '<a href="%1$s"><span>%2$s</span><span class="sorting-indicator"></span></a>', $this->the_column_next_link( 'return', 'url' ), $this->the_column_title( 'return' ) );
 			} else {
