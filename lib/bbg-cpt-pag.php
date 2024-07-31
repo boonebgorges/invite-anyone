@@ -97,6 +97,7 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 		 */
 		public function setup_get_params() {
 			// Per page
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$per_page = isset( $_GET[ $this->get_per_page_key ] ) ? $_GET[ $this->get_per_page_key ] : 10;
 
 			// Basic per_page sanity and security
@@ -107,6 +108,7 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 			$this->get_per_page = $per_page;
 
 			// Page number
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$paged = isset( $_GET[ $this->get_paged_key ] ) ? $_GET[ $this->get_paged_key ] : 1;
 
 			// Basic paged sanity and security
