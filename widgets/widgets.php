@@ -51,7 +51,6 @@ class InviteAnyoneWidget extends WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 		global $bp;
-		extract( $args );
 
 		$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
 		if ( ! apply_filters( 'widget_title', $instance['title'] ) ) {
@@ -69,11 +68,11 @@ class InviteAnyoneWidget extends WP_Widget {
 		<?php if ( invite_anyone_access_test() && $bp->current_component !== $bp->invite_anyone->slug ) : ?>
 				<?php
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo $before_widget;
+				echo $args['before_widget'];
 
 				if ( $title ) {
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					echo $before_title . esc_html( $title ) . $after_title;
+					echo $args['before_title'] . esc_html( $title ) . $args['after_title'];
 				}
 				?>
 
@@ -108,7 +107,7 @@ class InviteAnyoneWidget extends WP_Widget {
 
 				<?php
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo $after_widget;
+				echo $args['after_widget'];
 				?>
 		<?php endif; ?>
 		<?php
