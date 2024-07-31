@@ -32,7 +32,7 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 		 * @package BBG CPT Pag
 		 * @since 1.0
 		 */
-		function __construct( $query = false ) {
+		public function __construct( $query = false ) {
 			// Set up the $_GET keys (which are customizable)
 			$this->setup_get_keys();
 
@@ -57,7 +57,7 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 		 * @package BBG CPT Pag
 		 * @since 1.0
 		 */
-		function setup_query( $query = false ) {
+		public function setup_query( $query = false ) {
 			global $wp_query;
 
 			if ( ! $query ) {
@@ -82,7 +82,7 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 		 * @package BBG CPT Pag
 		 * @since 1.0
 		 */
-		function setup_get_keys() {
+		public function setup_get_keys() {
 			$this->get_per_page_key = apply_filters( 'bbg_cpt_pag_per_page_key', 'per_page' );
 			$this->get_paged_key    = apply_filters( 'bbg_cpt_pag_paged_key', 'paged' );
 		}
@@ -95,7 +95,7 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 		 * @package BBG CPT Pag
 		 * @since 1.0
 		 */
-		function setup_get_params() {
+		public function setup_get_params() {
 			// Per page
 			$per_page = isset( $_GET[ $this->get_per_page_key ] ) ? $_GET[ $this->get_per_page_key ] : 10;
 
@@ -123,7 +123,7 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 		 * @package BBG CPT Pag
 		 * @since 1.0
 		 */
-		function setup_total_items() {
+		public function setup_total_items() {
 			$this->total_items = $this->query->found_posts;
 		}
 
@@ -133,7 +133,7 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 		 * @package BBG CPT Pag
 		 * @since 1.0
 		 */
-		function setup_total_pages() {
+		public function setup_total_pages() {
 			$this->total_pages = $this->query->max_num_pages;
 		}
 
@@ -148,7 +148,7 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 		 *
 		 * @return int $start The start number
 		 */
-		function get_start_number() {
+		public function get_start_number() {
 			$start = ( ( $this->get_paged - 1 ) * $this->get_per_page ) + 1;
 
 			return $start;
@@ -166,7 +166,7 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 		 *
 		 * @return int $end The start number
 		 */
-		function get_end_number() {
+		public function get_end_number() {
 			global $wp_query;
 
 			$end = $this->get_paged * $this->get_per_page;
@@ -187,7 +187,7 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 		 * @param str $type Optional. 'echo' will echo the results, anything else will return them
 		 * @return str $page_links The "viewing" text
 		 */
-		function currently_viewing_text( $type = 'echo' ) {
+		public function currently_viewing_text( $type = 'echo' ) {
 			$start = $this->get_start_number();
 			$end   = $this->get_end_number();
 
@@ -210,7 +210,7 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 		 * @param str $type Optional. 'echo' will echo the results, anything else will return them
 		 * @return str $page_links The pagination links
 		 */
-		function paginate_links( $type = 'echo' ) {
+		public function paginate_links( $type = 'echo' ) {
 			$page_links = paginate_links(
 				array(
 					'base'      => add_query_arg( $this->get_paged_key, '%#%' ),
