@@ -75,7 +75,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 				}
 
 				// Compare the default order against a whitelist of 'asc' and 'desc'
-				if ( 'asc' == strtolower( $r['default_order'] ) || 'desc' == strtolower( $r['default_order'] ) ) {
+				if ( 'asc' === strtolower( $r['default_order'] ) || 'desc' === strtolower( $r['default_order'] ) ) {
 					$r['default_order'] = strtolower( $r['default_order'] );
 				} else {
 					$r['default_order'] = 'asc';
@@ -225,7 +225,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 			// Sortable logic
 			if ( $this->column->is_sortable ) {
 				// Add the sorted/sortable class, based on whether this is the current sort
-				if ( $this->column->name == $this->get_orderby ) {
+				if ( $this->column->name === $this->get_orderby ) {
 					$class[] = 'sorted';
 					$class[] = $this->get_order;
 				} else {
@@ -252,7 +252,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 			$url = add_query_arg( $args );
 
 			// Assemble the html link, if necessary
-			if ( 'html' == $html_or_url ) {
+			if ( 'html' === $html_or_url ) {
 				$html = sprintf(
 					'<a title="%1$s" href="%2$s">%3$s</a>',
 					esc_attr( $this->column->name ),
