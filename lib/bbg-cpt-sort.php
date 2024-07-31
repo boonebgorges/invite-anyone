@@ -143,7 +143,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 
 			// If an orderby param is provided, check to see that it's permitted.
 			// Otherwise set the current orderby to the default
-			if ( $orderby && in_array( $orderby, $this->sortable_keys ) ) {
+			if ( $orderby && in_array( $orderby, $this->sortable_keys, true ) ) {
 				$this->get_orderby = $orderby;
 			} else {
 				$this->get_orderby = $this->default_orderby;
@@ -154,13 +154,13 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 
 			// If an order is provided, make sure it's either 'desc' or 'asc'
 			// Otherwise set current order to the orderby's default order
-			if ( $order && ( 'desc' == strtolower( $order ) || 'asc' == strtolower( $order ) ) ) {
+			if ( $order && ( 'desc' === strtolower( $order ) || 'asc' === strtolower( $order ) ) ) {
 				$order = strtolower( $order );
 			} else {
 				// Loop through to find the default order for this bad boy
 				// This is not optimized because of the way the array is keyed
 				foreach ( $this->columns as $col ) {
-					if ( $col->name == $this->get_orderby ) {
+					if ( $col->name === $this->get_orderby ) {
 						$order = $col->default_order;
 						break;
 					}
@@ -169,20 +169,20 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 
 			// There should only be two options, 'asc' and 'desc'. We'll cut some slack for
 			// uppercase variants
-			$order = 'desc' == strtolower( $order ) ? 'desc' : 'asc';
+			$order = 'desc' === strtolower( $order ) ? 'desc' : 'asc';
 
 			$this->get_order = $order;
 		}
 
 		public function setup_next_orders() {
 			foreach ( $this->columns as $name => $col ) {
-				if ( $col->name == $this->get_orderby ) {
+				if ( $col->name === $this->get_orderby ) {
 					$current_order = $this->get_order;
 				} else {
 					$current_order = $col->default_order;
 				}
 
-				$this->columns[ $name ]->next_order = 'asc' == $current_order ? 'desc' : 'asc';
+				$this->columns[ $name ]->next_order = 'asc' === $current_order ? 'desc' : 'asc';
 			}
 		}
 
@@ -213,7 +213,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 			$this->in_the_loop = true;
 			$this->column      = $this->next_column();
 
-			if ( 0 == $this->current_column ) { // loop has just started
+			if ( 0 === (int) $this->current_column ) { // loop has just started
 				do_action( 'loop_start' );
 			}
 		}
@@ -236,7 +236,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 
 			$class = implode( ' ', $class );
 
-			if ( 'echo' == $type ) {
+			if ( 'echo' === $type ) {
 				echo esc_attr( $class );
 			} else {
 				return $class;
@@ -265,7 +265,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 				$link = $url;
 			}
 
-			if ( 'echo' == $type ) {
+			if ( 'echo' === $type ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo $link;
 			} else {
@@ -276,7 +276,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 		public function the_column_title( $type = 'echo' ) {
 			$name = $this->column->title;
 
-			if ( 'echo' == $type ) {
+			if ( 'echo' === $type ) {
 				echo esc_html( $name );
 			} else {
 				return $name;
@@ -300,7 +300,7 @@ if ( ! class_exists( 'BBG_CPT_Sort' ) ) :
 				$td_content
 			);
 
-			if ( 'echo' == $type ) {
+			if ( 'echo' === $type ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo $html;
 			} else {
