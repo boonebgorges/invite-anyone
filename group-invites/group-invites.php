@@ -492,7 +492,7 @@ function invite_anyone_ajax_autocomplete_results() {
 		$return['data']        = $data;
 	}
 
-	die( json_encode( $return ) );
+	die( wp_json_encode( $return ) );
 }
 add_action( 'wp_ajax_invite_anyone_autocomplete_ajax_handler', 'invite_anyone_ajax_autocomplete_results' );
 
