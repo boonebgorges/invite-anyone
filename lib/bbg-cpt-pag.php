@@ -32,7 +32,7 @@ if ( ! class_exists( 'BBG_CPT_Pag' ) ) :
 		 * @package BBG CPT Pag
 		 * @since 1.0
 		 */
-		public function __construct( $query = false ) {
+		public function __construct() {
 			// Set up the $_GET keys (which are customizable)
 			$this->setup_get_keys();
 
