@@ -235,6 +235,8 @@ class Invite_Anyone_Schema {
 			'paged'          => '1',
 		);
 
+		// phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
+
 		// Get the invites
 		$invite  = new Invite_Anyone_Invitation();
 		$invites = $invite->get( $args );
@@ -288,6 +290,7 @@ class Invite_Anyone_Schema {
 
 		// WP bug
 		$wp_query = $old_wp_query;
+		// phpcs:enable WordPress.WP.GlobalVariablesOverride.Prohibited
 	}
 
 	/**
