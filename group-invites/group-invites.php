@@ -61,7 +61,7 @@ function invite_anyone_add_old_css() {
 li a#nav-invite-anyone {
 	padding: 0.55em 3.1em 0.55em 0px !important;
 	margin-right: 10px;
-	background: url(<?php echo $plugins_url . '/invite-anyone/invite-anyone/invite_bullet.gif'; ?>) no-repeat 89% 52%;
+	background: url(<?php echo esc_url( $plugins_url ) . '/invite-anyone/invite-anyone/invite_bullet.gif'; ?>) no-repeat 89% 52%;
 
 }
 	</style>
@@ -114,7 +114,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 			do_action( 'groups_screen_group_invite', $bp->groups->current_group->id );
 
 			// Hack to imitate bp_core_add_message, since bp_core_redirect is giving me such hell
-			echo '<div id="message" class="updated"><p>' . __( 'Group invites sent.', 'invite-anyone' ) . '</p></div>';
+			echo '<div id="message" class="updated"><p>' . esc_html__( 'Group invites sent.', 'invite-anyone' ) . '</p></div>';
 		}
 
 		invite_anyone_create_screen_content( 'invite' );
@@ -246,8 +246,10 @@ function invite_anyone_create_screen_content( $event ) {
 
 /* Creates the list of members on the Sent Invite screen */
 function bp_new_group_invite_member_list() {
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo bp_get_new_group_invite_member_list();
 }
+
 function bp_get_new_group_invite_member_list( $args = '' ) {
 	global $bp;
 
@@ -449,12 +451,17 @@ function invite_anyone_ajax_invite_user() {
 			);
 		}
 
-		echo '<li id="uid-' . $user->id . '">';
+		echo '<li id="uid-' . esc_attr( $user->id ) . '">';
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo bp_core_fetch_avatar( array( 'item_id' => $user->id ) );
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<h4>' . bp_core_get_userlink( $user->id ) . '</h4>';
+
 		echo '<span class="activity">' . esc_html( $user->last_active ) . '</span>';
 		echo '<div class="action">
-				<a class="remove" href="' . wp_nonce_url( $uninvite_url ) . '" id="uid-' . esc_html( $user->id ) . '">' . __( 'Remove Invite', 'invite-anyone' ) . '</a>
+				<a class="remove" href="' . esc_url( wp_nonce_url( $uninvite_url ) ) . '" id="uid-' . esc_attr( $user->id ) . '">' . esc_html__( 'Remove Invite', 'invite-anyone' ) . '</a>
 			  </div>';
 		echo '</li>';
 
