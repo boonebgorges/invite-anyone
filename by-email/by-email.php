@@ -88,9 +88,17 @@ function invite_anyone_opt_out_screen() {
 
 	$sitename = get_bloginfo( 'name' );
 
-	$opt_out_message = sprintf( __( 'To opt out of future invitations to %s, make sure that your email is entered in the field below and click "Opt Out".', 'invite-anyone' ), $sitename );
+	$opt_out_message = sprintf(
+		// translators: %s is the site name
+		__( 'To opt out of future invitations to %s, make sure that your email is entered in the field below and click "Opt Out".', 'invite-anyone' ),
+		$sitename
+	);
 
-	$oops_message = sprintf( __( 'If you are here by mistake and would like to accept your invitation to %s, click "Accept Invitation" instead.', 'invite-anyone' ), $sitename );
+	$oops_message = sprintf(
+		// translators: %s is the site name
+		__( 'If you are here by mistake and would like to accept your invitation to %s, click "Accept Invitation" instead.', 'invite-anyone' ),
+		$sitename
+	);
 
 	if ( bp_is_register_page() && isset( $_GET['iaaction'] ) && 'opt-out' === urldecode( $_GET['iaaction'] ) ) {
 		get_header();
@@ -203,7 +211,16 @@ function invite_anyone_register_screen_message() {
 		}
 
 		if ( ! empty( $inviters_names ) ) {
-			$message = sprintf( _n( 'Welcome! You&#8217;ve been invited to join the site by the following user: %s. Please fill out the information below to create your account.', 'Welcome! You&#8217;ve been invited to join the site by the following users: %s. Please fill out the information below to create your account.', count( $inviters_names ), 'invite-anyone' ), implode( ', ', $inviters_names ) );
+			$message = sprintf(
+				// translators: %s is a comma-separated list of user names
+				_n(
+					'Welcome! You&#8217;ve been invited to join the site by the following user: %s. Please fill out the information below to create your account.',
+					'Welcome! You&#8217;ve been invited to join the site by the following users: %s. Please fill out the information below to create your account.',
+					count( $inviters_names ),
+					'invite-anyone'
+				),
+				implode( ', ', $inviters_names )
+			);
 		} else {
 			$message = __( 'Welcome! You&#8217;ve been invited to join the site. Please fill out the information below to create your account.', 'invite-anyone' );
 		}
@@ -632,13 +649,17 @@ function invite_anyone_screen_one_content() {
 	if ( ! empty( $returned_data['error_message'] ) ) {
 		?>
 		<div class="invite-anyone-error error">
-			<p><?php _e( 'Some of your invitations were not sent. Please see the errors below and resubmit the failed invitations.', 'invite-anyone' ); ?></p>
+			<p><?php esc_html_e( 'Some of your invitations were not sent. Please see the errors below and resubmit the failed invitations.', 'invite-anyone' ); ?></p>
 		</div>
 		<?php
 	}
 
 	$blogname        = get_bloginfo( 'name' );
-	$welcome_message = sprintf( __( 'Invite friends to join %s by following these steps:', 'invite-anyone' ), $blogname );
+	$welcome_message = sprintf(
+		// translators: %s is the name of the blog
+		__( 'Invite friends to join %s by following these steps:', 'invite-anyone' ),
+		$blogname
+	);
 
 	$form_action = bp_members_get_user_url(
 		bp_displayed_user_id(),
