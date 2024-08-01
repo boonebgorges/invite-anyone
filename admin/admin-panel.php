@@ -525,14 +525,14 @@ function invite_anyone_settings_cs_content() {
 	// Trying to give to CloudSponge user email and name to pre populate signup
 	// form and reduce friction
 	$cloudsponge_params            = '?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator';
-	$cloudsponge_additional_params = '&email=' . urlencode( wp_get_current_user()->user_email );
+	$cloudsponge_additional_params = '&email=' . rawurlencode( wp_get_current_user()->user_email );
 	$display_name                  = bp_core_get_user_displayname( bp_loggedin_user_id() );
 	if ( $display_name ) {
-		$cloudsponge_additional_params .= '&name=' . urlencode( $display_name );
+		$cloudsponge_additional_params .= '&name=' . rawurlencode( $display_name );
 	}
 	// A callback URL to create a friendly button to get back to WP
 	$protocol                       = is_ssl() ? 'https://' : 'http://';
-	$cloudsponge_additional_params .= '&callback=' . urlencode( $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+	$cloudsponge_additional_params .= '&callback=' . rawurlencode( $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
 	// Landing to home
 	$cloudsponge_link = 'https://www.cloudsponge.com' . $cloudsponge_params;
 	// Landing to Contacts
