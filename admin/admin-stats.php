@@ -69,9 +69,11 @@ class Invite_Anyone_Stats {
 	public function setup_get_params() {
 		$params = array();
 
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_REQUEST['user_id'] ) ) {
 			$params['user_id'] = (int) $_REQUEST['user_id'];
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		$this->params = $params;
 	}
