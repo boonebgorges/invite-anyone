@@ -1196,7 +1196,7 @@ function invite_anyone_wildcard_replace( $text, $email = false ) {
 	$site_name    = get_bloginfo( 'name' );
 	$inviter_url  = bp_loggedin_user_url();
 
-	$email = urlencode( $email );
+	$email = rawurlencode( $email );
 
 	$accept_link  = invite_anyone_get_accept_url( $email );
 	$opt_out_link = invite_anyone_get_opt_out_url( $email );
@@ -1472,14 +1472,14 @@ function invite_anyone_process_invitations( $data ) {
 		$do_bp_email = true === function_exists( 'bp_send_email' ) && true === ! apply_filters( 'bp_email_use_wp_mail', false );
 
 		foreach ( $emails as $email ) {
-			$subject = stripslashes( strip_tags( $data['invite_anyone_custom_subject'] ) );
+			$subject = stripslashes( wp_strip_all_tags( $data['invite_anyone_custom_subject'] ) );
 
 			if ( $do_bp_email ) {
 				$custom_message = stripslashes( $data['invite_anyone_custom_message'] );
 				$accept_url     = invite_anyone_get_accept_url( $email );
 				$opt_out_url    = invite_anyone_get_opt_out_url( $email );
 			} else {
-				$custom_message = stripslashes( strip_tags( $data['invite_anyone_custom_message'] ) );
+				$custom_message = stripslashes( wp_strip_all_tags( $data['invite_anyone_custom_message'] ) );
 			}
 
 			$footer = invite_anyone_process_footer( $email );
