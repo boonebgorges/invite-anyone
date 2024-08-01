@@ -420,7 +420,7 @@ function invite_anyone_settings_email_visibility() {
 	?>
 
 	<ul>
-		<li><input type='radio' name='invite_anyone[email_visibility_toggle]' id='invite_anyone_toggle_email_no_limit' value='no_limit' 
+		<li><input type='radio' name='invite_anyone[email_visibility_toggle]' id='invite_anyone_toggle_email_no_limit' value='no_limit'
 		<?php
 		if ( $options['email_visibility_toggle'] != 'limit' ) :
 			?>
@@ -637,7 +637,7 @@ function invite_anyone_settings_cs_content() {
 					<tr>
 						<th scope="row"><?php esc_html_e( 'Enable Deep Links', 'invite-anyone' ); ?></th>
 						<td>
-							<input type="checkbox" name="invite_anyone[cloudsponge_deep_links]" id="cloudsponge-deep-links" 
+							<input type="checkbox" name="invite_anyone[cloudsponge_deep_links]" id="cloudsponge-deep-links"
 							<?php
 							if ( array_key_exists( 'cloudsponge_deep_links', $options ) ) {
 								checked( $options['cloudsponge_deep_links'], 'on' );}
