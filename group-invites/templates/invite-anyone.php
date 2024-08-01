@@ -28,7 +28,7 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 
 				<div class="left-menu">
 
-					<p><?php _e( 'Search for members to invite:', 'invite-anyone' ); ?></span></p>
+					<p><?php esc_html_e( 'Search for members to invite:', 'invite-anyone' ); ?></span></p>
 
 					<ul class="first acfb-holder">
 						<li>
@@ -36,7 +36,7 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 						</li>
 					</ul>
 
-					<p><?php _e( 'Select members from the directory:', 'invite-anyone' ); ?> </p>
+					<p><?php esc_html_e( 'Select members from the directory:', 'invite-anyone' ); ?> </p>
 
 					<div id="invite-anyone-member-list">
 						<ul>
@@ -51,7 +51,7 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 				<div class="main-column">
 
 					<div id="message" class="info">
-						<p><?php _e( 'Select people to invite.', 'invite-anyone' ); ?></p>
+						<p><?php esc_html_e( 'Select people to invite.', 'invite-anyone' ); ?></p>
 					</div>
 
 					<?php do_action( 'bp_before_group_send_invites_list' ); ?>
@@ -74,7 +74,7 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 								<?php do_action( 'bp_group_send_invites_item' ); ?>
 
 								<div class="action">
-									<a class="remove" href="<?php bp_group_invite_user_remove_invite_url(); ?>" id="<?php bp_group_invite_item_id(); ?>"><?php _e( 'Remove Invite', 'invite-anyone' ); ?></a>
+									<a class="remove" href="<?php bp_group_invite_user_remove_invite_url(); ?>" id="<?php bp_group_invite_item_id(); ?>"><?php esc_html_e( 'Remove Invite', 'invite-anyone' ); ?></a>
 
 									<?php do_action( 'bp_group_send_invites_item_action' ); ?>
 								</div>
@@ -91,7 +91,7 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 				<div class="clear"></div>
 
 					<?php if ( $event != 'create' ) : ?>
-				<p class="clear"><input type="submit" name="submit" id="submit" value="<?php _e( 'Send Invites', 'invite-anyone' ); ?>" /></p>
+				<p class="clear"><input type="submit" name="submit" id="submit" value="<?php esc_html_e( 'Send Invites', 'invite-anyone' ); ?>" /></p>
 						<?php wp_nonce_field( 'groups_send_invites', '_wpnonce_send_invites' ); ?>
 			<?php endif; ?>
 
@@ -117,7 +117,7 @@ endif;
 	<?php do_action( 'bp_before_group_send_invites_content' ); ?>
 
 	<?php if ( invite_anyone_access_test() && ! bp_is_group_create() ) : ?>
-		<p><?php _e( 'Want to invite someone to the group who is not yet a member of the site?', 'invite-anyone' ); ?> <a href="<?php echo esc_url( $invitation_url ); ?>"><?php _e( 'Send invitations by email.', 'invite-anyone' ); ?></a></p>
+		<p><?php esc_html_e( 'Want to invite someone to the group who is not yet a member of the site?', 'invite-anyone' ); ?> <a href="<?php echo esc_url( $invitation_url ); ?>"><?php esc_html_e( 'Send invitations by email.', 'invite-anyone' ); ?></a></p>
 	<?php endif; ?>
 
 	<?php if ( ! bp_get_new_group_id() ) : ?>
@@ -125,7 +125,7 @@ endif;
 	<?php endif; ?>
 
 	<div class="left-menu">
-		<p><?php _e( 'Search for members to invite:', 'invite-anyone' ); ?></p>
+		<p><?php esc_html_e( 'Search for members to invite:', 'invite-anyone' ); ?></p>
 
 		<ul class="first acfb-holder">
 			<li>
@@ -136,7 +136,7 @@ endif;
 		<?php wp_nonce_field( 'groups_invite_uninvite_user', '_wpnonce_invite_uninvite_user' ); ?>
 
 		<?php if ( ! invite_anyone_is_large_network( 'users' ) ) : ?>
-			<p><?php _e( 'Select members from the directory:', 'invite-anyone' ); ?></p>
+			<p><?php esc_html_e( 'Select members from the directory:', 'invite-anyone' ); ?></p>
 
 			<div id="invite-anyone-member-list">
 				<ul>
@@ -149,7 +149,7 @@ endif;
 	<div class="main-column">
 
 		<div id="message" class="info">
-			<p><?php _e( 'Select people to invite from your friends list.', 'invite-anyone' ); ?></p>
+			<p><?php esc_html_e( 'Select people to invite from your friends list.', 'invite-anyone' ); ?></p>
 		</div>
 
 		<?php do_action( 'bp_before_group_send_invites_list' ); ?>
@@ -172,7 +172,7 @@ endif;
 					<?php do_action( 'bp_group_send_invites_item' ); ?>
 
 					<div class="action">
-						<a class="remove" href="<?php bp_group_invite_user_remove_invite_url(); ?>" id="<?php bp_group_invite_item_id(); ?>"><?php _e( 'Remove Invite', 'invite-anyone' ); ?></a>
+						<a class="remove" href="<?php bp_group_invite_user_remove_invite_url(); ?>" id="<?php bp_group_invite_item_id(); ?>"><?php esc_attr_e( 'Remove Invite', 'invite-anyone' ); ?></a>
 
 						<?php do_action( 'bp_group_send_invites_item_action' ); ?>
 					</div>
@@ -191,7 +191,7 @@ endif;
 
 	<?php if ( ! bp_get_new_group_id() ) : ?>
 	<div class="submit">
-		<input type="submit" name="submit" id="submit" value="<?php _e( 'Send Invites', 'invite-anyone' ); ?>" />
+		<input type="submit" name="submit" id="submit" value="<?php esc_attr_e( 'Send Invites', 'invite-anyone' ); ?>" />
 	</div>
 	<?php endif; ?>
 
