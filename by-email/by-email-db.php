@@ -943,10 +943,11 @@ function invite_anyone_migrate_nag() {
 	} else {
 		$url = is_multisite() && function_exists( 'network_admin_url' ) ? network_admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) : admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' );
 		$url = add_query_arg( 'migrate', '1', $url );
+		$url = wp_nonce_url( $url, 'invite-anyone-migrate' );
 		?>
 
 		<div class="error">
-			<p>Invite Anyone has been updated. <a href="<?php echo $url; ?>">Click here</a> to migrate your invitation data and complete the upgrade.</p>
+			<p>Invite Anyone has been updated. <a href="<?php echo esc_url( $url ); ?>">Click here</a> to migrate your invitation data and complete the upgrade.</p>
 		</div>
 
 		<?php
