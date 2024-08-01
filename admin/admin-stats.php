@@ -304,52 +304,52 @@ class Invite_Anyone_Stats {
 		<table class="widefat ia-stats">
 			<thead><tr>
 				<th scope="col" class="in-the-last">
-					<?php _e( 'In the last...', 'invite-anyone' ); ?>
+					<?php esc_html_e( 'In the last...', 'invite-anyone' ); ?>
 				</th>
 
 				<th scope="col">
-					<?php _e( 'Total Sent', 'invite-anyone' ); ?>
+					<?php esc_html_e( 'Total Sent', 'invite-anyone' ); ?>
 				</th>
 
 				<th scope="col">
-					<?php _e( 'Total Accepted', 'invite-anyone' ); ?>
+					<?php esc_html_e( 'Total Accepted', 'invite-anyone' ); ?>
 				</th>
 
 				<th scope="col">
-					<?php _e( 'Acceptance Rate', 'invite-anyone' ); ?>
+					<?php esc_html_e( 'Acceptance Rate', 'invite-anyone' ); ?>
 				</th>
 
 				<th scope="col" class="top-inviter">
-					<?php _e( 'Top Inviter (by #)', 'invite-anyone' ); ?>
+					<?php esc_html_e( 'Top Inviter (by #)', 'invite-anyone' ); ?>
 				</th>
 
 				<th scope="col" class="top-inviter">
-					<?php _e( 'Top Inviter (by % accepted)', 'invite-anyone' ); ?>
+					<?php esc_html_e( 'Top Inviter (by % accepted)', 'invite-anyone' ); ?>
 				</th>
 
 				<?php if ( defined( 'INVITE_ANYONE_CS_ENABLED' ) && INVITE_ANYONE_CS_ENABLED ) : ?>
 					<th scope="col">
-						<?php _e( 'Total Sent (CloudSponge)', 'invite-anyone' ); ?>
+						<?php esc_html_e( 'Total Sent (CloudSponge)', 'invite-anyone' ); ?>
 					</th>
 
 					<th scope="col">
-						<?php _e( 'Total Accepted (CloudSponge)', 'invite-anyone' ); ?>
+						<?php esc_html_e( 'Total Accepted (CloudSponge)', 'invite-anyone' ); ?>
 					</th>
 
 					<th scope="col">
-						<?php _e( 'Acceptance Rate (CloudSponge)', 'invite-anyone' ); ?>
+						<?php esc_html_e( 'Acceptance Rate (CloudSponge)', 'invite-anyone' ); ?>
 					</th>
 
 					<th scope="col">
-						<?php _e( 'CloudSponge Usage', 'invite-anyone' ); ?>
+						<?php esc_html_e( 'CloudSponge Usage', 'invite-anyone' ); ?>
 					</th>
 
 					<th scope="col" class="top-inviter">
-						<?php _e( 'Top Inviter (by #) (CloudSponge)', 'invite-anyone' ); ?>
+						<?php esc_html_e( 'Top Inviter (by #) (CloudSponge)', 'invite-anyone' ); ?>
 					</th>
 
 					<th scope="col" class="top-inviter">
-						<?php _e( 'Top Inviter (by % accepted) (CloudSponge)', 'invite-anyone' ); ?>
+						<?php esc_html_e( 'Top Inviter (by % accepted) (CloudSponge)', 'invite-anyone' ); ?>
 					</th>
 				<?php endif ?>
 
@@ -377,11 +377,13 @@ class Invite_Anyone_Stats {
 					</td>
 
 					<td>
-						<?php echo $period['top_users']['top_user_num']['user_link']; ?> <span class="description"><?php printf( __( '(%d sent)', 'invite-anyone' ), $period['top_users']['top_user_num']['sent'] ); ?></span>
+						<?php // translators: number of items sent ?>
+						<?php echo wp_kses_post( $period['top_users']['top_user_num']['user_link'] ); ?> <span class="description"><?php echo esc_html( sprintf( __( '(%d sent)', 'invite-anyone' ), $period['top_users']['top_user_num']['sent'] ) ); ?></span>
 					</td>
 
 					<td>
-						<?php echo $period['top_users']['top_user_pct']['user_link']; ?> <span class="description"><?php printf( __( '(%s accepted)', 'invite-anyone' ), $period['top_users']['top_user_pct']['accepted'] ); ?></span>
+						<?php // translators: percentage of items accepted ?>
+						<?php echo wp_kses_post( $period['top_users']['top_user_pct']['user_link'] ); ?> <span class="description"><?php echo esc_html( sprintf( __( '(%s accepted)', 'invite-anyone' ), $period['top_users']['top_user_pct']['accepted'] ) ); ?></span>
 					</td>
 
 					<?php if ( defined( 'INVITE_ANYONE_CS_ENABLED' ) && INVITE_ANYONE_CS_ENABLED ) : ?>
@@ -402,11 +404,13 @@ class Invite_Anyone_Stats {
 						</td>
 
 						<td>
-							<?php echo $period['top_users']['top_user_num_cs']['user_link']; ?> <span class="description"><?php printf( __( '(%d sent)', 'invite-anyone' ), $period['top_users']['top_user_num_cs']['sent'] ); ?></span>
+							<?php // translators: number of items sent ?>
+							<?php echo wp_kses_post( $period['top_users']['top_user_num_cs']['user_link'] ); ?> <span class="description"><?php echo esc_html( sprintf( __( '(%d sent)', 'invite-anyone' ), $period['top_users']['top_user_num_cs']['sent'] ) ); ?></span>
 						</td>
 
 						<td>
-							<?php echo $period['top_users']['top_user_pct_cs']['user_link']; ?> <span class="description"><?php printf( __( '(%s accepted)', 'invite-anyone' ), $period['top_users']['top_user_pct_cs']['accepted'] ); ?></span>
+							<?php // translators: number of items accepted ?>
+							<?php echo wp_kses_post( $period['top_users']['top_user_pct_cs']['user_link'] ); ?> <span class="description"><?php echo esc_html( sprintf( __( '(%s accepted)', 'invite-anyone' ), $period['top_users']['top_user_pct_cs']['accepted'] ) ); ?></span>
 						</td>
 					<?php endif ?>
 				</tr>
