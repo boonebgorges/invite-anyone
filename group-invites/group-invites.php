@@ -238,7 +238,7 @@ function invite_anyone_catch_group_invites() {
 }
 add_action( 'wp', 'invite_anyone_catch_group_invites', 1 );
 
-function invite_anyone_create_screen_content( $event ) {
+function invite_anyone_create_screen_content() {
 	$template = function_exists( 'bp_locate_template' ) ? bp_locate_template( 'groups/single/invite-anyone.php', true ) : locate_template( 'groups/single/invite-anyone.php', true );
 	if ( $template ) {
 		include_once 'templates/invite-anyone.php';
@@ -398,7 +398,11 @@ class Invite_Anyone_User_Query extends WP_User_Query {
 function get_members_invite_list( $user_id = false, $group_id = null ) {
 	global $bp, $wpdb;
 
-	$users = invite_anyone_invite_query( $bp->groups->current_group->id, false, 'ID' );
+	if ( ! $group_id ) {
+		$group_id = bp_get_current_group_id();
+	}
+
+	$users = invite_anyone_invite_query( $group_id, false, 'ID' );
 	if ( $users ) {
 		foreach ( (array) $users as $user_id ) {
 			$display_name = bp_core_get_user_displayname( $user_id );
