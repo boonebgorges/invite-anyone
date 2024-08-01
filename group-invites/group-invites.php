@@ -239,7 +239,8 @@ function invite_anyone_catch_group_invites() {
 add_action( 'wp', 'invite_anyone_catch_group_invites', 1 );
 
 function invite_anyone_create_screen_content( $event ) {
-	if ( ! $template = function_exists( 'bp_locate_template' ) ? bp_locate_template( 'groups/single/invite-anyone.php', true ) : locate_template( 'groups/single/invite-anyone.php', true ) ) {
+	$template = function_exists( 'bp_locate_template' ) ? bp_locate_template( 'groups/single/invite-anyone.php', true ) : locate_template( 'groups/single/invite-anyone.php', true );
+	if ( $template ) {
 		include_once 'templates/invite-anyone.php';
 	}
 }
@@ -272,7 +273,8 @@ function bp_get_new_group_invite_member_list( $args = '' ) {
 	if ( $friends ) {
 		$invites = groups_get_invites_for_group( $bp->loggedin_user->id, $group_id );
 
-		for ( $i = 0; $i < count( $friends ); $i++ ) {
+		$friend_count = count( $friends );
+		for ( $i = 0; $i < $friend_count; $i++ ) {
 			$checked = '';
 			if ( $invites ) {
 				if ( in_array( $friends[ $i ]['id'], $invites ) ) {
@@ -396,8 +398,8 @@ class Invite_Anyone_User_Query extends WP_User_Query {
 function get_members_invite_list( $user_id = false, $group_id = null ) {
 	global $bp, $wpdb;
 
-	if ( $users = invite_anyone_invite_query( $bp->groups->current_group->id, false, 'ID' ) ) {
-
+	$users = invite_anyone_invite_query( $bp->groups->current_group->id, false, 'ID' );
+	if ( $users ) {
 		foreach ( (array) $users as $user_id ) {
 			$display_name = bp_core_get_user_displayname( $user_id );
 
