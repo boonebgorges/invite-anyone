@@ -167,7 +167,7 @@ function invite_anyone_admin_panel() {
 	// Get the proper URL for submitting the settings form. (Settings API workaround)
 	$url_base = function_exists( 'is_network_admin' ) && is_network_admin() ? network_admin_url( 'admin.php?page=invite-anyone' ) : admin_url( 'admin.php?page=invite-anyone' );
 
-	$form_action = add_query_arg( 'subpage', $submpage, $url_base );
+	$form_action = add_query_arg( 'subpage', $subpage, $url_base );
 
 	// Catch and save settings being saved (Settings API workaround)
 	if ( ! empty( $_POST['invite-anyone-settings-submit'] ) ) {
