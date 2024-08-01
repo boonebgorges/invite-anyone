@@ -896,7 +896,7 @@ else :
 	DESC<?php endif; ?>"><?php _e( 'Sent', 'invite-anyone' ); ?></a></th>
 						<th scope="col" class="col-date-joined
 						<?php
-						if ( $sort_by == 'date_joined' ) :
+						if ( 'date_joined' === $sort_by ) :
 							?>
 							sort-by-me<?php endif ?>"><a class="<?php echo esc_attr( $order ); ?>" title="Sort column order <?php echo esc_attr( $order ); ?>" href="<?php echo esc_url( $base_url ); ?>?sort_by=date_joined&amp;order=
 							<?php
@@ -1311,7 +1311,7 @@ function invite_anyone_parse_addresses( $address_string ) {
 			$row_address_trimmed = trim( $row_address );
 
 			// We also have to make sure that the email address isn't empty
-			if ( ! empty( $row_address_trimmed ) && ! in_array( $row_address_trimmed, $emails ) ) {
+			if ( ! empty( $row_address_trimmed ) && ! in_array( $row_address_trimmed, $emails, true ) ) {
 				$emails[] = $row_address_trimmed;
 			}
 		}
@@ -1525,12 +1525,8 @@ function invite_anyone_process_invitations( $data ) {
 				wp_mail( $to, $subject, $message );
 			}
 
-			/* todo: isolate which email(s) cause problems, and send back to user */
-			/*  if ( !invite_anyone_send_invitation( $bp->loggedin_user->id, $email, $message, $groups ) )
-				$is_error = 1; */
-
 			// Determine whether this address came from CloudSponge
-			$is_cloudsponge = isset( $cs_emails ) && in_array( $email, $cs_emails ) ? true : false;
+			$is_cloudsponge = isset( $cs_emails ) && in_array( $email, $cs_emails, true );
 
 			invite_anyone_record_invitation( $bp->loggedin_user->id, $email, $message, $groups, $subject, $is_cloudsponge );
 
@@ -1607,7 +1603,7 @@ function invite_anyone_accept_invitation_backward_compatibility() {
 
 	$action = bp_current_action();
 
-	if ( ! in_array( $action, array( 'accept-invitation', 'opt-out' ) ) ) {
+	if ( ! in_array( $action, array( 'accept-invitation', 'opt-out' ), true ) ) {
 		return;
 	}
 
