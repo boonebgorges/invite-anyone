@@ -664,7 +664,23 @@ function invite_anyone_screen_one_content() {
 
 		?>
 
-		<p class="description"><?php printf( __( 'The site administrator has limited each user to %1$d invitations. You have %2$d invitations remaining.', 'invite-anyone' ), (int) $iaoptions['limit_invites_per_user'], (int) $limit_invite_count ); ?></p>
+		<p class="description">
+			<?php
+			echo esc_html(
+				sprintf(
+					// translators: %1$s is the maximum number of invites, %2$s is the remaining number of invites
+					_n(
+						'The site administrator has limited each user to %1$s invitation. Remaining invitations: %2$s',
+						'The site administrator has limited each user to %1$s invitations. Remaining invitations: %2$s',
+						$limit_invite_count,
+						'invite-anyone'
+					),
+					number_format_i18n( $iaoptions['limit_invites_per_user'] ),
+					number_format_i18n( $limit_invite_count )
+				)
+			);
+			?>
+		</p>
 
 		<?php
 	}
