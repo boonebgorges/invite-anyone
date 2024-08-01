@@ -80,12 +80,33 @@ class Cloudsponge_Integration {
 		$strings = array();
 
 		if ( $this->domain_key ) {
-			wp_register_script( 'ia_cloudsponge_address_books', 'https://api.cloudsponge.com/address_books.js', array(), false, true );
-			wp_register_script( 'ia_cloudsponge', plugins_url() . '/invite-anyone/by-email/cloudsponge-js.js', array( 'ia_cloudsponge_address_books' ), false, true );
+			wp_register_script(
+				'ia_cloudsponge_address_books',
+				'https://api.cloudsponge.com/address_books.js',
+				array(),
+				BP_INVITE_ANYONE_VER,
+				true
+			);
+
+			wp_register_script(
+				'ia_cloudsponge',
+				plugins_url() . '/invite-anyone/by-email/cloudsponge-js.js',
+				array( 'ia_cloudsponge_address_books' ),
+				BP_INVITE_ANYONE_VER,
+				true
+			);
+
 			$strings['domain_key']  = $this->domain_key;
 			$strings['account_key'] = false;
 		} else {
-			wp_register_script( 'ia_cloudsponge', plugins_url() . '/invite-anyone/by-email/cloudsponge-js.js', array(), false, true );
+			wp_register_script(
+				'ia_cloudsponge',
+				plugins_url() . '/invite-anyone/by-email/cloudsponge-js.js',
+				array(),
+				BP_INVITE_ANYONE_VER,
+				true
+			);
+
 			$strings['account_key'] = $this->account_key;
 			$strings['domain_key']  = false;
 		}
