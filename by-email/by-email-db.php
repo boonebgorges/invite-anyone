@@ -493,9 +493,9 @@ class Invite_Anyone_Invitation {
 		if ( 'ia_invitees' === $orderby ) {
 			// Filtering the query so that it's possible to sort by taxonomy terms
 			// This is not a recommended technique, as it's likely to break
-			add_filter( 'posts_fields', array( $this, 'filter_fields_emails' ), 10, 2 );
-			add_filter( 'posts_join_paged', array( $this, 'filter_join_emails' ), 10, 2 );
-			add_filter( 'posts_orderby', array( $this, 'filter_orderby_emails' ), 10, 2 );
+			add_filter( 'posts_fields', array( $this, 'filter_fields_emails' ), 10 );
+			add_filter( 'posts_join_paged', array( $this, 'filter_join_emails' ), 10 );
+			add_filter( 'posts_orderby', array( $this, 'filter_orderby_emails' ), 10 );
 
 			$this->email_order = $order;
 
@@ -562,7 +562,7 @@ class Invite_Anyone_Invitation {
 	 * @package Invite Anyone
 	 * @since 0.9
 	 */
-	public function filter_join_emails( $join, $query ) {
+	public function filter_join_emails( $join ) {
 		global $wpdb;
 
 		$join .= "
@@ -582,7 +582,7 @@ class Invite_Anyone_Invitation {
 	 * @package Invite Anyone
 	 * @since 0.9
 	 */
-	public function filter_fields_emails( $fields, $query ) {
+	public function filter_fields_emails( $fields ) {
 		$fields .= ' ,wp_terms_ia.name, wp_term_taxonomy_ia.term_taxonomy_id';
 
 		return $fields;
@@ -596,7 +596,7 @@ class Invite_Anyone_Invitation {
 	 * @package Invite Anyone
 	 * @since 0.9
 	 */
-	public function filter_orderby_emails( $orderby, $query ) {
+	public function filter_orderby_emails( $orderby ) {
 		$orderby = 'wp_terms_ia.name ' . $this->email_order;
 
 		return $orderby;
