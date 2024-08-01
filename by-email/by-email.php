@@ -1065,6 +1065,7 @@ function invite_anyone_invitation_subject( $returned_message = false ) {
 		$iaoptions = invite_anyone_options();
 
 		if ( empty( $iaoptions['default_invitation_subject'] ) ) {
+			// translators: %s is the name of the site.
 			$text = sprintf( __( 'An invitation to join the %s community.', 'invite-anyone' ), $site_name );
 		} else {
 			$text = $iaoptions['default_invitation_subject'];
@@ -1091,6 +1092,7 @@ function invite_anyone_invitation_message( $returned_message = false ) {
 
 		if ( empty( $iaoptions['default_invitation_message'] ) ) {
 			$text = sprintf(
+				// translators: %s is the name of the site.
 				__(
 					'You have been invited by %%INVITERNAME%% to join the %s community.
 
@@ -1361,8 +1363,18 @@ function invite_anyone_process_invitations( $data ) {
 
 	if ( count( $emails ) > $max_invites ) {
 
-		$returned_data['error_message'] = sprintf( __( 'You are only allowed to invite up to %s people at a time. Please remove some addresses and try again', 'invite-anyone' ), $max_invites );
-		$returned_data['error_emails']  = $emails;
+		$returned_data['error_message'] = sprintf(
+			// translators: %s is the number of maximum invites
+			_n(
+				'You are only allowed to invite up to %s person at a time. Please remove some addresses and try again',
+				'You are only allowed to invite up to %s people at a time. Please remove some addresses and try again',
+				$max_invites,
+				'invite-anyone'
+			),
+			$max_invites
+		);
+
+		$returned_data['error_emails'] = $emails;
 
 		setcookie( 'invite-anyone', wp_json_encode( $returned_data ), 0, '/' );
 
@@ -1387,8 +1399,13 @@ function invite_anyone_process_invitations( $data ) {
 		$remaining_invites_count = (int) $options['limit_invites_per_user'] - $sent_invites_count;
 
 		if ( count( $emails ) > $remaining_invites_count ) {
-			$returned_data['error_message'] = sprintf( __( 'You are only allowed to invite %s more people. Please remove some addresses and try again', 'invite-anyone' ), $remaining_invites_count );
-			$returned_data['error_emails']  = $emails;
+			$returned_data['error_message'] = sprintf(
+				// translators: %s is the number of remaining invites
+				_n( 'You are only allowed to invite %s more person. Please remove some addresses and try again', 'You are only allowed to invite %s more people. Please remove some addresses and try again', $remaining_invites_count, 'invite-anyone' ),
+				$remaining_invites_count
+			);
+
+			$returned_data['error_emails'] = $emails;
 
 			setcookie( 'invite-anyone', wp_json_encode( $returned_data ), 0, '/' );
 			$redirect = invite_anyone_get_user_invite_new_members_url( bp_loggedin_user_id() );
@@ -1408,22 +1425,27 @@ function invite_anyone_process_invitations( $data ) {
 		switch ( $check ) {
 
 			case 'opt_out' :
+				// translators: %s is an email address
 				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> has opted out of email invitations from this site.', 'invite-anyone' ), $email );
 				break;
 
 			case 'used' :
+				// translators: %s is an email address
 				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> is already a registered user of the site.', 'invite-anyone' ), $email );
 				break;
 
 			case 'unsafe' :
+				// translators: %s is the email address
 				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> is not a permitted email address.', 'invite-anyone' ), $email );
 				break;
 
 			case 'invalid' :
+				// translators: %s is an email address
 				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> is not a valid email address. Please make sure that you have typed it correctly.', 'invite-anyone' ), $email );
 				break;
 
 			case 'limited_domain' :
+				// translators: %s is the email address
 				$returned_data['error_message'] .= sprintf( __( '<strong>%s</strong> is not a permitted email address. Please make sure that you have typed the domain name correctly.', 'invite-anyone' ), $email );
 				break;
 		}
@@ -1537,6 +1559,7 @@ function invite_anyone_process_invitations( $data ) {
 
 		// Set a success message
 
+		// translators: %s is a comma-separated list of email addresses
 		$success_message = sprintf( __( 'Invitations were sent successfully to the following email addresses: %s', 'invite-anyone' ), implode( ', ', $emails ) );
 		bp_core_add_message( $success_message );
 
