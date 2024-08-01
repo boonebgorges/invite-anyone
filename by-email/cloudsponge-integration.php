@@ -110,10 +110,8 @@ class Cloudsponge_Integration {
 	 *
 	 * @package Invite Anyone
 	 * @since 0.8
-	 *
-	 * @param array $options Invite Anyone settings. Check em so we can bail if necessary
 	 */
-	public function import_markup( $options = false ) {
+	public function import_markup() {
 		wp_enqueue_script( 'ia_cloudsponge' );
 
 		?>
