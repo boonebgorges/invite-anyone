@@ -977,7 +977,7 @@ add_action( is_multisite() && function_exists( 'is_network_admin' ) ? 'network_a
 function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
 	global $wpdb;
 
-	$is_partial = $type != 'full' ? true : false;
+	$is_partial = 'full' !== $type;
 
 	$table_name = $wpdb->base_prefix . 'bp_invite_anyone';
 
