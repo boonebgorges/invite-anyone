@@ -146,6 +146,7 @@ class Cloudsponge_Integration {
 	public static function sources_list() {
 		$sources = get_transient( 'cloudsponge-services' );
 		if ( false === $sources ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 			$sources = json_decode( file_get_contents( 'https://api.cloudsponge.com/services.json' ), true );
 
 			if ( $sources ) {
