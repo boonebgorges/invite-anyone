@@ -396,7 +396,9 @@ class Invite_Anyone_Invitation {
 			'post_name'    => sanitize_title_with_dashes( $subject . ' ' . microtime() ),
 		);
 
-		if ( ! $this->id = wp_insert_post( $insert_post_args ) ) {
+		$this->id = wp_insert_post( $insert_post_args );
+
+		if ( ! $this->id ) {
 			return false;
 		}
 
