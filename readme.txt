@@ -4,8 +4,8 @@ Donate link: http://teleogistic.net/donate
 Tags: buddypress, invitations, group, invite, friends, members
 Requires at least: 3.2
 Tested up to: 6.6
-Stable tag: 1.4.7
-License: GPLv2 or later
+Stable tag: 1.4.8
+License: GPLv3
 
 Makes BuddyPress's invitation features more powerful.
 
@@ -51,6 +51,11 @@ Additional details about the plugin can be found in the following languages:
 * Serbo-Croatian: <a href="http://science.webhostinggeeks.com/teleogistic">http://science.webhostinggeeks.com/teleogistic</a>
 
 == Changelog ==
+
+= 1.4.8 =
+* Security fix: Prevent XSS during AJAX autocomplete
+* Security hardening
+* Internal codebase improvements
 
 = 1.4.7 =
 * Fixed regression in 1.4.6 that may cause duplicate nav items in groups
