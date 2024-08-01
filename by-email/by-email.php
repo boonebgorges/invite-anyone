@@ -68,6 +68,7 @@ add_action( 'bp_setup_globals', 'invite_anyone_setup_globals', 2 );
 function invite_anyone_opt_out_screen() {
 	global $bp;
 
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended
 	if ( isset( $_POST['oops_submit'] ) ) {
 		$oops_email   = urlencode( stripslashes( $_POST['opt_out_email'] ) );
 		$opt_out_link = add_query_arg(
@@ -80,6 +81,7 @@ function invite_anyone_opt_out_screen() {
 
 		bp_core_redirect( $opt_out_link );
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 	$opt_out_button_text = __( 'Opt Out', 'invite-anyone' );
 	$oops_button_text    = __( 'Accept Invitation', 'invite-anyone' );
@@ -158,11 +160,13 @@ function invite_anyone_register_screen_message() {
 		return;
 	}
 
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended
 	if ( isset( $_GET['email'] ) ) {
 		$email = urldecode( $_GET['email'] );
 	} else {
 		$email = '';
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 	?>
 	<?php if ( empty( $email ) ) : ?>
@@ -497,15 +501,13 @@ function invite_anyone_catch_clear() {
 		}
 
 		setcookie( 'invite-anyone', null, -1, '/' );
-
 	}
 
 	if ( isset( $_GET['clear'] ) ) {
-		$clear_id = $_GET['clear'];
-
-		$inviter_id = bp_loggedin_user_id();
-
 		check_admin_referer( 'invite_anyone_clear' );
+
+		$clear_id   = $_GET['clear'];
+		$inviter_id = bp_loggedin_user_id();
 
 		if ( (int) $clear_id ) {
 			if ( invite_anyone_clear_sent_invite(
