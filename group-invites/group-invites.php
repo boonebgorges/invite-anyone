@@ -499,17 +499,16 @@ function invite_anyone_ajax_invite_user() {
 add_action( 'wp_ajax_invite_anyone_groups_invite_user', 'invite_anyone_ajax_invite_user' );
 
 function invite_anyone_ajax_autocomplete_results() {
-	global $bp;
+	// phpcs:ignore WordPress.Security.NonceVerification
+	$query = sanitize_text_field( wp_unslash( $_REQUEST['query'] ) );
 
-	// phpcs:disable WordPress.Security.NonceVerification
 	$return = array(
-		'query'       => $_REQUEST['query'],
+		'query'       => $query,
 		'data'        => array(),
 		'suggestions' => array(),
 	);
 
-	$users = invite_anyone_invite_query( $bp->groups->current_group->id, $_REQUEST['query'] );
-	// phpcs:enable WordPress.Security.NonceVerification
+	$users = invite_anyone_invite_query( bp_get_current_group_id(), $query );
 
 	if ( $users ) {
 		$suggestions = array();
