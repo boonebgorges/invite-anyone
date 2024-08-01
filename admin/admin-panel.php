@@ -126,13 +126,23 @@ function invite_anyone_admin_add_action_link( $links, $file ) {
 }
 add_filter( 'plugin_action_links', 'invite_anyone_admin_add_action_link', 10, 2 );
 
-
 function invite_anyone_admin_scripts() {
-	wp_enqueue_script( 'invite-anyone-admin-js', plugins_url() . '/invite-anyone/admin/admin-js.js' );
+	wp_enqueue_script(
+		'invite-anyone-admin-js',
+		plugins_url() . '/invite-anyone/admin/admin-js.js',
+		[ 'jquery' ],
+		BP_INVITE_ANYONE_VER,
+		true
+	);
 }
 
 function invite_anyone_admin_styles() {
-	wp_enqueue_style( 'invite-anyone-admin-css', plugins_url() . '/invite-anyone/admin/admin-css.css' );
+	wp_enqueue_style(
+		'invite-anyone-admin-css',
+		plugins_url() . '/invite-anyone/admin/admin-css.css',
+		[],
+		BP_INVITE_ANYONE_VER
+	);
 }
 
 function invite_anyone_admin_panel() {
