@@ -271,7 +271,7 @@ class Invite_Anyone_Schema {
 					// Migrate the accepted data from date_modified to a meta
 					if ( ! get_post_meta( get_the_ID(), 'bp_ia_accepted', true ) ) {
 						// When the dates are different, it's been accepted
-						if ( $post->post_date != $post->post_modified ) {
+						if ( $post->post_date !== $post->post_modified ) {
 							update_post_meta( get_the_ID(), 'bp_ia_accepted', $post->post_modified );
 						} else {
 							// We set this to null so it still comes up in the
@@ -474,11 +474,10 @@ class Invite_Anyone_Invitation {
 		$orderby        = $r['orderby'];
 		$order          = $r['order'];
 
-
 		// Backward compatibility, and to keep the URL args clean
-		if ( $orderby == 'email' ) {
+		if ( 'email' === $orderby ) {
 			$orderby = $this->invitee_tax_name;
-		} elseif ( $orderby == 'date_joined' || $orderby == 'accepted' ) {
+		} elseif ( 'date_joined' === $orderby || 'accepted' === $orderby ) {
 			$orderby       = 'meta_value';
 			$r['meta_key'] = 'bp_ia_accepted';
 		}
@@ -489,7 +488,7 @@ class Invite_Anyone_Invitation {
 		}
 
 		// Todo: move all of this business to metadata
-		if ( 'ia_invitees' == $orderby ) {
+		if ( 'ia_invitees' === $orderby ) {
 			// Filtering the query so that it's possible to sort by taxonomy terms
 			// This is not a recommended technique, as it's likely to break
 			add_filter( 'posts_fields', array( $this, 'filter_fields_emails' ), 10, 2 );
