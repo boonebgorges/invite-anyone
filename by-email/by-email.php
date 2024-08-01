@@ -96,7 +96,8 @@ function invite_anyone_opt_out_screen() {
 		<div id="content">
 		<div class="padder">
 		<?php if ( ! empty( $_POST['opt_out_submit'] ) ) : ?>
-			<?php if ( $_POST['opt_out_submit'] == $opt_out_button_text && $email = urldecode( $_POST['opt_out_email'] ) ) : ?>
+			<?php $email = isset( $_POST['opt_out_email'] ) ? urldecode( $_POST['opt_out_email'] ) : ''; ?>
+			<?php if ( $_POST['opt_out_submit'] == $opt_out_button_text && $email ) : ?>
 				<?php $email = str_replace( ' ', '+', $email ); ?>
 
 				<?php check_admin_referer( 'invite_anyone_opt_out' ); ?>
@@ -112,10 +113,11 @@ function invite_anyone_opt_out_screen() {
 			<?php endif; ?>
 
 		<?php else : ?>
-			<?php if ( isset( $_GET['email'] ) && $email = $_GET['email'] ) : ?>
+			<?php $email = isset( $_GET['email'] ) ? urldecode( $_GET['email'] ) : ''; ?>
+			<?php if ( $email ) : ?>
 				<script type="text/javascript">
 				jQuery(document).ready( function() {
-					jQuery("input#opt_out_email").val("<?php echo esc_js( str_replace( ' ', '+', urldecode( $email ) ) ); ?>");
+					jQuery("input#opt_out_email").val("<?php echo esc_js( str_replace( ' ', '+', $email ) ); ?>");
 				});
 				</script>
 			<?php endif; ?>
@@ -369,7 +371,8 @@ function invite_anyone_access_test() {
 
 	/* Minimum number of days since joined the site */
 	elseif ( isset( $iaoptions['email_since_toggle'] ) && 'yes' === $iaoptions['email_since_toggle'] ) {
-		if ( isset( $iaoptions['days_since'] ) && $since = $iaoptions['days_since'] ) {
+		$since = isset( $iaoptions['days_since'] ) ? $iaoptions['days_since'] : 0;
+		if ( $since ) {
 			// WordPress's DAY_IN_SECONDS exists for WP >= 3.5, target version is 3.2, hence hard-coded value of 86400.
 			$since = $since * 86400;
 
@@ -384,7 +387,8 @@ function invite_anyone_access_test() {
 
 	/* Minimum role on this blog. Users who are at the necessary role or higher should move right through this toward the 'return true' at the end of the function. */
 	elseif ( isset( $iaoptions['email_role_toggle'] ) && 'yes' === $iaoptions['email_role_toggle'] ) {
-		if ( isset( $iaoptions['minimum_role'] ) && $role = $iaoptions['minimum_role'] ) {
+		$role = $iaoptions['email_role'];
+		if ( isset( $iaoptions['minimum_role'] ) && $role ) {
 			switch ( $role ) {
 				case 'Subscriber' :
 					if ( ! current_user_can( 'read' ) ) {
@@ -580,7 +584,7 @@ function invite_anyone_screen_one_content() {
 	}
 
 	// If the user has maxed out his invites, no need to go on
-	if ( ! empty( $iaoptions['email_limit_invites_toggle'] ) && $iaoptions['email_limit_invites_toggle'] == 'yes' && ! current_user_can( 'delete_others_pages' ) ) {
+	if ( ! empty( $iaoptions['email_limit_invites_toggle'] ) && 'yes' === $iaoptions['email_limit_invites_toggle'] && ! current_user_can( 'delete_others_pages' ) ) {
 		$sent_invites       = invite_anyone_get_invitations_by_inviter_id( bp_displayed_user_id() );
 		$sent_invites_count = $sent_invites->post_count;
 		if ( $sent_invites_count >= $iaoptions['limit_invites_per_user'] ) :
@@ -595,7 +599,8 @@ function invite_anyone_screen_one_content() {
 		endif;
 	}
 
-	if ( ! $max_invites = $iaoptions['max_invites'] ) {
+	$max_invites = $iaoptions['max_invites'];
+	if ( ! $max_invites ) {
 		$max_invites = 5;
 	}
 
@@ -702,7 +707,8 @@ function invite_anyone_screen_one_content() {
 					?>
 					<p class="description"><?php _e( 'You can only invite people whose email addresses end in one of the following domains:', 'invite-anyone' ); ?> <?php echo esc_html( invite_anyone_allowed_domains() ); ?></p><?php endif; ?>
 
-				<?php if ( false !== $max_no_invites = invite_anyone_max_invites() ) : ?>
+				<?php $max_no_invites = invite_anyone_max_invites(); ?>
+				<?php if ( false !== $max_no_invites ) : ?>
 					<p class="description"><?php printf( __( 'You can invite a maximum of %s people at a time.', 'invite-anyone' ), $max_no_invites ); ?></p>
 				<?php endif ?>
 
@@ -1669,7 +1675,8 @@ function invite_anyone_bypass_registration_lock() {
 		return;
 	}
 
-	if ( ! isset( $_GET['email'] ) || ! $email = urldecode( $_GET['email'] ) ) {
+	$email = isset( $_GET['email'] ) ? urldecode( $_GET['email'] ) : '';
+	if ( empty( $email ) ) {
 		return;
 	}
 
@@ -1735,9 +1742,10 @@ function invite_anyone_validate_email( $user_email ) {
 
 	$status = 'okay';
 
+	$user = get_user_by( 'email', $user_email );
 	if ( invite_anyone_check_is_opt_out( $user_email ) ) {
 		$status = 'opt_out';
-	} elseif ( $user = get_user_by( 'email', $user_email ) ) {
+	} elseif ( $user ) {
 		$status = 'used';
 	} elseif ( function_exists( 'is_email_address_unsafe' ) && is_email_address_unsafe( $user_email ) ) {
 		$status = 'unsafe';
@@ -1746,7 +1754,8 @@ function invite_anyone_validate_email( $user_email ) {
 	}
 
 	if ( function_exists( 'get_site_option' ) ) {
-		if ( $limited_email_domains = get_site_option( 'limited_email_domains' ) ) {
+		$limited_email_domains = get_site_option( 'limited_email_domains' );
+		if ( $limited_email_domains ) {
 			if ( is_array( $limited_email_domains ) && ! empty( $limited_email_domains ) ) {
 				$emaildomain = strtolower( substr( $user_email, 1 + strpos( $user_email, '@' ) ) );
 
