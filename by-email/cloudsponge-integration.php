@@ -90,11 +90,13 @@ class Cloudsponge_Integration {
 			$strings['domain_key']  = false;
 		}
 
-		if ( $locale = apply_filters( 'ia_cloudsponge_locale', '' ) ) {
+		$locale = apply_filters( 'ia_cloudsponge_locale', '' );
+		if ( $locale ) {
 			$strings['locale'] = $locale;
 		}
 
-		if ( $stylesheet = apply_filters( 'ia_cloudsponge_stylesheet', '' ) ) {
+		$stylesheet = apply_filters( 'ia_cloudsponge_stylesheet', '' );
+		if ( $stylesheet ) {
 			$strings['stylesheet'] = $stylesheet;
 		}
 
