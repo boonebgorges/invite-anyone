@@ -1000,9 +1000,9 @@ function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
 		$url = is_multisite() && function_exists( 'network_admin_url' ) ? network_admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) : admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' );
 		?>
 
-		<p><?php _e( 'All done!', 'invite-anyone' ); ?></p>
+		<p><?php esc_html_e( 'All done!', 'invite-anyone' ); ?></p>
 
-		<a href="<?php echo $url; ?>" class="button"><?php _e( 'Finish', 'invite-anyone' ); ?></a>
+		<a href="<?php echo esc_url( $url ); ?>" class="button"><?php esc_html_e( 'Finish', 'invite-anyone' ); ?></a>
 
 		<?php
 
@@ -1072,14 +1072,15 @@ function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
 		$url = is_multisite() && function_exists( 'network_admin_url' ) ? network_admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) : admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' );
 		$url = add_query_arg( 'migrate', '1', $url );
 		$url = add_query_arg( 'start', $start + 5, $url );
+		$url = wp_nonce_url( $url, 'invite-anyone-migrate' );
 
 		?>
-		<p><?php _e( 'If your browser doesn&#8217;t start loading the next page automatically, click this link:', 'invite-anyone' ); ?> <a class="button" href="<?php echo $url; ?>"><?php _e( 'Next Invitations', 'invite-anyone' ); ?></a></p>
+		<p><?php esc_html_e( 'If your browser doesn&#8217;t start loading the next page automatically, click this link:', 'invite-anyone' ); ?> <a class="button" href="<?php echo esc_url( $url ); ?>"><?php esc_html_e( 'Next Invitations', 'invite-anyone' ); ?></a></p>
 
 		<script type='text/javascript'>
 			<!--
 			function nextpage() {
-				location.href = "<?php echo $url; ?>";
+				location.href = "<?php echo esc_js( $url ); ?>";
 			}
 			setTimeout( "nextpage()", 1000 );
 			//-->
@@ -1103,12 +1104,12 @@ function invite_anyone_migration_step() {
 
 	?>
 	<div class="wrap">
-		<h2><?php _e( 'Invite Anyone Upgrade', 'invite-anyone' ); ?></h2>
+		<h2><?php esc_html_e( 'Invite Anyone Upgrade', 'invite-anyone' ); ?></h2>
 
 		<?php if ( ! isset( $_GET['start'] ) ) : ?>
-			<p><?php _e( 'Invite Anyone has just been updated, and needs to move some old invitation data in order to complete the upgrade. Click GO to start the process.', 'invite-anyone' ); ?></p>
+			<p><?php esc_html_e( 'Invite Anyone has just been updated, and needs to move some old invitation data in order to complete the upgrade. Click GO to start the process.', 'invite-anyone' ); ?></p>
 
-			<a class="button" href="<?php echo $url; ?>">GO</a>
+			<a class="button" href="<?php echo esc_url( $url ); ?>"><?php esc_html_e( 'GO', 'invite-anyone' ); ?></a>
 		<?php else : ?>
 			<?php check_admin_referer( 'invite-anyone-migrate' ); ?>
 
