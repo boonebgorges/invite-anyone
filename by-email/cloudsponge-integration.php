@@ -51,14 +51,15 @@ class Cloudsponge_Integration {
 	 */
 	function __construct() {
 
-		if ( empty( $options ) )
+		if ( empty( $options ) ) {
 			$options = get_option( 'invite_anyone' );
+		}
 
-		$this->enabled = !empty( $options['cloudsponge_enabled'] ) ? $options['cloudsponge_enabled'] : false;
-		$this->domain_key = !empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : false;
-		$this->account_key = !empty( $options['cloudsponge_account_key'] ) ? $options['cloudsponge_account_key'] : false;
-		$this->sources = !empty( $options['cloudsponge_sources'] ) ? explode(",", $options['cloudsponge_sources']) : false;
-		$this->deep_links = !empty( $options['cloudsponge_deep_links'] ) ? $options['cloudsponge_deep_links'] : false;
+		$this->enabled     = ! empty( $options['cloudsponge_enabled'] ) ? $options['cloudsponge_enabled'] : false;
+		$this->domain_key  = ! empty( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : false;
+		$this->account_key = ! empty( $options['cloudsponge_account_key'] ) ? $options['cloudsponge_account_key'] : false;
+		$this->sources     = ! empty( $options['cloudsponge_sources'] ) ? explode( ',', $options['cloudsponge_sources'] ) : false;
+		$this->deep_links  = ! empty( $options['cloudsponge_deep_links'] ) ? $options['cloudsponge_deep_links'] : false;
 
 		if ( $this->enabled && ( $this->domain_key || $this->account_key ) ) {
 			define( 'INVITE_ANYONE_CS_ENABLED', true );
@@ -78,15 +79,15 @@ class Cloudsponge_Integration {
 		// Values available in the JavaScript side
 		$strings = array();
 
-		if ($this->domain_key) {
+		if ( $this->domain_key ) {
 			wp_register_script( 'ia_cloudsponge_address_books', 'https://api.cloudsponge.com/address_books.js', array(), false, true );
 			wp_register_script( 'ia_cloudsponge', plugins_url() . '/invite-anyone/by-email/cloudsponge-js.js', array( 'ia_cloudsponge_address_books' ), false, true );
-			$strings['domain_key'] = $this->domain_key;
+			$strings['domain_key']  = $this->domain_key;
 			$strings['account_key'] = false;
 		} else {
 			wp_register_script( 'ia_cloudsponge', plugins_url() . '/invite-anyone/by-email/cloudsponge-js.js', array(), false, true );
 			$strings['account_key'] = $this->account_key;
-			$strings['domain_key'] = false;
+			$strings['domain_key']  = false;
 		}
 
 		if ( $locale = apply_filters( 'ia_cloudsponge_locale', '' ) ) {
@@ -138,7 +139,8 @@ class Cloudsponge_Integration {
 
 			echo implode( ', ', $sourcesDisplay );
 			?>
-		<?php endif;
+			<?php
+		endif;
 	}
 
 	public static function sources_list() {
@@ -156,4 +158,4 @@ class Cloudsponge_Integration {
 		return $sources;
 	}
 }
-$cloudsponge_integration = new Cloudsponge_Integration;
+$cloudsponge_integration = new Cloudsponge_Integration();
