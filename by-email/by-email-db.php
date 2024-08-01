@@ -1099,6 +1099,7 @@ function invite_anyone_migration_step() {
 	$url = is_multisite() && function_exists( 'network_admin_url' ) ? network_admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' ) : admin_url( 'admin.php?page=invite-anyone/admin/admin-panel.php' );
 	$url = add_query_arg( 'migrate', '1', $url );
 	$url = add_query_arg( 'start', '0', $url );
+	$url = wp_nonce_url( $url, 'invite-anyone-migrate' );
 
 	?>
 	<div class="wrap">
@@ -1109,6 +1110,8 @@ function invite_anyone_migration_step() {
 
 			<a class="button" href="<?php echo $url; ?>">GO</a>
 		<?php else : ?>
+			<?php check_admin_referer( 'invite-anyone-migrate' ); ?>
+
 			<?php invite_anyone_data_migration( 'partial', (int) $_GET['start'] ); ?>
 
 		<?php endif ?>
