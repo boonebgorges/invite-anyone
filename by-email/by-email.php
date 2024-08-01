@@ -83,7 +83,7 @@ function invite_anyone_opt_out_screen() {
 
 	// phpcs:disable WordPress.Security.NonceVerification.Recommended
 	if ( isset( $_POST['oops_submit'] ) ) {
-		$oops_email   = urlencode( stripslashes( $_POST['opt_out_email'] ) );
+		$oops_email   = rawurlencode( stripslashes( $_POST['opt_out_email'] ) );
 		$opt_out_link = add_query_arg(
 			array(
 				'iaaction' => 'accept-invitation',
