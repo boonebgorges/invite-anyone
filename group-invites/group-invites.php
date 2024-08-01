@@ -501,6 +501,7 @@ add_action( 'wp_ajax_invite_anyone_groups_invite_user', 'invite_anyone_ajax_invi
 function invite_anyone_ajax_autocomplete_results() {
 	global $bp;
 
+	// phpcs:disable WordPress.Security.NonceVerification
 	$return = array(
 		'query'       => $_REQUEST['query'],
 		'data'        => array(),
@@ -508,6 +509,7 @@ function invite_anyone_ajax_autocomplete_results() {
 	);
 
 	$users = invite_anyone_invite_query( $bp->groups->current_group->id, $_REQUEST['query'] );
+	// phpcs:enable WordPress.Security.NonceVerification
 
 	if ( $users ) {
 		$suggestions = array();
