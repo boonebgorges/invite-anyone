@@ -131,7 +131,7 @@ class Invite_Anyone_Stats {
 					// Increase the total count
 					++$period['total_count'];
 
-					$author_key = get_the_author_ID();
+					$author_key = get_the_author_meta( 'ID' );
 
 					// If it's a new sender, add them to $unique_inviters
 					if ( ! isset( $period['unique_inviters'][ $author_key ] ) ) {
