@@ -610,13 +610,14 @@ function invite_anyone_settings_cs_content() {
 							<ul class="cs-source-checkboxes">
 							<?php
 
-								$cloudsponge_sourcesList = Cloudsponge_Integration::sources_list();
-								$cloudsponge_sources_arr = explode( ',', $cloudsponge_sources );
+							$cloudsponge_sources_list = Cloudsponge_Integration::sources_list();
+							$cloudsponge_sources_arr  = explode( ',', $cloudsponge_sources );
 
-							foreach ( $cloudsponge_sourcesList as $key => $val ) {
+							$selected_sources = [];
+							foreach ( $cloudsponge_sources_list as $key => $val ) {
 								$source_is_checked = in_array( $key, $cloudsponge_sources_arr, true ) || $cloudsponge_sources == '';
 								if ( $source_is_checked ) {
-									$selectedSources[] = $key;
+									$selected_sources[] = $key;
 								}
 								$source_id = 'cs-source-' . $key;
 								printf(
@@ -630,7 +631,7 @@ function invite_anyone_settings_cs_content() {
 							}
 							?>
 							</ul>
-							<input type="hidden" name="invite_anyone[cloudsponge_sources]" id="csSourcesStore" value="<?php echo esc_attr( implode( ',', $selectedSources ) ); ?>">
+							<input type="hidden" name="invite_anyone[cloudsponge_sources]" id="csSourcesStore" value="<?php echo esc_attr( implode( ',', $selected_sources ) ); ?>">
 						</td>
 					</tr>
 
