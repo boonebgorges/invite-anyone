@@ -366,7 +366,16 @@ class Invite_Anyone_Invitation {
 		);
 
 		$r = wp_parse_args( $args, $defaults );
-		extract( $r );
+
+		$inviter_id     = $r['inviter_id'];
+		$invitee_email  = $r['invitee_email'];
+		$message        = $r['message'];
+		$subject        = $r['subject'];
+		$groups         = $r['groups'];
+		$status         = $r['status'];
+		$date_created   = $r['date_created'];
+		$date_modified  = $r['date_modified'];
+		$is_cloudsponge = $r['is_cloudsponge'];
 
 		// Let plugins stop this process if they want
 		do_action( 'invite_anyone_before_invitation_create', $r, $args );
@@ -452,7 +461,19 @@ class Invite_Anyone_Invitation {
 		);
 
 		$r = wp_parse_args( $args, $defaults );
-		extract( $r );
+
+		$inviter_id     = $r['inviter_id'];
+		$invitee_email  = $r['invitee_email'];
+		$message        = $r['message'];
+		$subject        = $r['subject'];
+		$groups         = $r['groups'];
+		$status         = $r['status'];
+		$date_created   = $r['date_created'];
+		$posts_per_page = $r['posts_per_page'];
+		$paged          = $r['paged'];
+		$orderby        = $r['orderby'];
+		$order          = $r['order'];
+
 
 		// Backward compatibility, and to keep the URL args clean
 		if ( $orderby == 'email' ) {
@@ -745,7 +766,9 @@ function invite_anyone_clear_sent_invite( $args ) {
 	);
 	$args     = wp_parse_args( $args, $defaults );
 
-	extract( $args );
+	$inviter_id = $args['inviter_id'];
+	$clear_id   = $args['clear_id'];
+	$type       = $args['type'];
 
 	if ( empty( $inviter_id ) ) {
 		return false;
