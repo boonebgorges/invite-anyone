@@ -1093,7 +1093,7 @@ function invite_anyone_email_fields( $returned_emails = false ) {
 		$returned_emails = implode( "\n", $returned_emails );
 	}
 	?>
-	<textarea name="invite_anyone_email_addresses" class="invite-anyone-email-addresses" id="invite-anyone-email-addresses"><?php echo $returned_emails; ?></textarea>
+	<textarea name="invite_anyone_email_addresses" class="invite-anyone-email-addresses" id="invite-anyone-email-addresses"><?php echo esc_textarea( $returned_emails ); ?></textarea>
 	<?php
 }
 
@@ -1486,8 +1486,10 @@ function invite_anyone_process_invitations( $data ) {
 	}
 
 	// Turn the CS emails into an array so that they can be matched against the main list
-	if ( isset( $_POST['cloudsponge-emails'] ) ) {
-		$cs_emails = explode( ',', $_POST['cloudsponge-emails'] );
+	// phpcs:ignore WordPress.Security.NonceVerification.Missing
+	$cs_emails_raw = isset( $_POST['cloudsponge-emails'] ) ? sanitize_text_field( wp_unslash( $_POST['cloudsponge-emails'] ) ) : '';
+	if ( $cs_emails_raw ) {
+		$cs_emails = explode( ',', $cs_emails_raw );
 	}
 
 	// validate email addresses
