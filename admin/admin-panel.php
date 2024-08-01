@@ -101,6 +101,7 @@ function invite_anyone_mirror_settings_menu_item() {
 
 	$settings_url = add_query_arg( 'page', 'invite-anyone', invite_anyone_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' ) );
 
+	// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 	$submenu['edit.php?post_type=ia_invites'][500] = array(
 		__( 'Invite Anyone Settings', 'invite-anyone' ),
 		__( 'Invite Anyone Settings', 'invite-anyone' ),
