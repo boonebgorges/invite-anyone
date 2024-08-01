@@ -26,7 +26,13 @@ function invite_anyone_add_by_email_css() {
 		$style_url  = plugins_url() . '/invite-anyone/by-email/by-email-css.css';
 		$style_file = WP_PLUGIN_DIR . '/invite-anyone/by-email/by-email-css.css';
 		if ( file_exists( $style_file ) ) {
-			wp_register_style( 'invite-anyone-by-email-style', $style_url );
+			wp_register_style(
+				'invite-anyone-by-email-style',
+				$style_url,
+				[],
+				BP_INVITE_ANYONE_VER
+			);
+
 			wp_enqueue_style( 'invite-anyone-by-email-style' );
 		}
 	}
@@ -37,10 +43,17 @@ function invite_anyone_add_by_email_js() {
 	global $bp;
 
 	if ( bp_is_current_component( BP_INVITE_ANYONE_SLUG ) ) {
-		$style_url  = plugins_url() . '/invite-anyone/by-email/by-email-js.js';
-		$style_file = WP_PLUGIN_DIR . '/invite-anyone/by-email/by-email-js.js';
-		if ( file_exists( $style_file ) ) {
-			wp_register_script( 'invite-anyone-by-email-scripts', $style_url );
+		$script_url  = plugins_url() . '/invite-anyone/by-email/by-email-js.js';
+		$script_file = WP_PLUGIN_DIR . '/invite-anyone/by-email/by-email-js.js';
+		if ( file_exists( $script_file ) ) {
+			wp_register_script(
+				'invite-anyone-by-email-scripts',
+				$script_url,
+				[ 'jquery' ],
+				BP_INVITE_ANYONE_VER,
+				true
+			);
+
 			wp_enqueue_script( 'invite-anyone-by-email-scripts' );
 		}
 	}
