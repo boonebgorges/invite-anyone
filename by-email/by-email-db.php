@@ -127,7 +127,7 @@ class Invite_Anyone_Schema {
 				'update_item'   => __( 'Update Invitee', 'invite-anyone' ),
 				'add_new_item'  => __( 'Add New Invitee', 'invite-anyone' ),
 				'new_item_name' => __( 'New Invitee Name', 'invite-anyone' ),
-				'menu_name'     => __( 'Invitee' ),
+				'menu_name'     => __( 'Invitee', 'invite-anyone' ),
 			),
 			$this
 		);
@@ -161,7 +161,7 @@ class Invite_Anyone_Schema {
 				'update_item'   => __( 'Update Invited Group', 'invite-anyone' ),
 				'add_new_item'  => __( 'Add New Invited Group', 'invite-anyone' ),
 				'new_item_name' => __( 'New Invited Group Name', 'invite-anyone' ),
-				'menu_name'     => __( 'Invited Group' ),
+				'menu_name'     => __( 'Invited Group', 'invite-anyone' ),
 			),
 			$this
 		);
