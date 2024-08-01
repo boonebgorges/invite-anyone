@@ -911,7 +911,9 @@ function invite_anyone_migrate_nag() {
 	}
 
 	// If you're on the Migrate page, no need to show the message
-	if ( ! empty( $_GET['migrate'] ) && $_GET['migrate'] == '1' ) {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$is_migrate = ! empty( $_GET['migrate'] ) && '1' === sanitize_text_field( wp_unslash( $_GET['migrate'] ) );
+	if ( $is_migrate ) {
 		return;
 	}
 
