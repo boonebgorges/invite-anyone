@@ -914,8 +914,8 @@ else :
 				<tr id="batch-clear">
 					<td colspan="5" >
 					<ul id="invite-anyone-clear-links">
-						<li> <a title="<?php _e( 'Clear all accepted invites from the list', 'invite-anyone' ); ?>" class="confirm" href="<?php echo wp_nonce_url( $base_url . '?clear=accepted', 'invite_anyone_clear' ); ?>"><?php _e( 'Clear all accepted invitations', 'invite-anyone' ); ?></a></li>
-						<li class="last"><a title="<?php _e( 'Clear all your listed invites', 'invite-anyone' ); ?>" class="confirm" href="<?php echo wp_nonce_url( $base_url . '?clear=all', 'invite_anyone_clear' ); ?>"><?php _e( 'Clear all invitations', 'invite-anyone' ); ?></a></li>
+						<li> <a title="<?php esc_attr_e( 'Clear all accepted invites from the list', 'invite-anyone' ); ?>" class="confirm" href="<?php echo esc_url( wp_nonce_url( $base_url . '?clear=accepted', 'invite_anyone_clear' ) ); ?>"><?php esc_html_e( 'Clear all accepted invitations', 'invite-anyone' ); ?></a></li>
+						<li class="last"><a title="<?php esc_attr_e( 'Clear all your listed invites', 'invite-anyone' ); ?>" class="confirm" href="<?php echo esc_url( wp_nonce_url( $base_url . '?clear=all', 'invite_anyone_clear' ) ); ?>"><?php esc_html_e( 'Clear all invitations', 'invite-anyone' ); ?></a></li>
 					</ul>
 				</td>
 				</tr>
@@ -944,14 +944,14 @@ else :
 
 					$clear_url  = ( $query_string ) ? $base_url . '?' . $query_string . '&clear=' . $post_id : $base_url . '?clear=' . $post_id;
 					$clear_url  = wp_nonce_url( $clear_url, 'invite_anyone_clear' );
-					$clear_link = '<a class="clear-entry confirm" title="' . __( 'Clear this invitation', 'invite-anyone' ) . '" href="' . $clear_url . '">x<span></span></a>';
+					$clear_link = '<a class="clear-entry confirm" title="' . esc_attr__( 'Clear this invitation', 'invite-anyone' ) . '" href="' . esc_url( $clear_url ) . '">x<span></span></a>';
 
 					$groups = wp_get_post_terms( get_the_ID(), invite_anyone_get_invited_groups_tax_name() );
 					if ( ! empty( $groups ) ) {
 						$group_names = '<ul>';
 						foreach ( $groups as $group_term ) {
 							$group        = new BP_Groups_Group( $group_term->name );
-							$group_names .= '<li>' . bp_get_group_name( $group ) . '</li>';
+							$group_names .= '<li>' . esc_html( bp_get_group_name( $group ) ) . '</li>';
 						}
 						$group_names .= '</ul>';
 					} else {
@@ -979,8 +979,12 @@ else :
 					if ( $accepted ) {
 						?>
 						class="accepted" <?php } ?>>
+						<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						<td class="col-delete-invite"><?php echo $clear_link; ?></td>
+
 						<td class="col-email"><?php echo esc_html( $email ); ?></td>
+
+						<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						<td class="col-group-invitations"><?php echo $group_names; ?></td>
 						<td class="col-date-invited"><?php echo esc_html( $date_invited ); ?></td>
 						<td class="date-joined col-date-joined"><span></span><?php echo esc_html( $date_joined ); ?></td>
@@ -1002,7 +1006,7 @@ else :
 
 		<?php else : ?>
 
-		<p id="sent-invites-intro"><?php _e( "You haven't sent any email invitations yet.", 'invite-anyone' ); ?></p>
+		<p id="sent-invites-intro"><?php esc_html_e( "You haven't sent any email invitations yet.", 'invite-anyone' ); ?></p>
 
 		<?php endif; ?>
 	<?php
