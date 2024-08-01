@@ -542,7 +542,14 @@ function invite_anyone_settings_cs_content() {
 
 	// Include CloudSponge Snippet, so user can launch it clicking
 	// on `Test` button
-	wp_register_script( 'ia_cloudsponge', plugins_url() . '/invite-anyone/by-email/cloudsponge-js.js', array(), false, true );
+	wp_register_script(
+		'ia_cloudsponge',
+		plugins_url() . '/invite-anyone/by-email/cloudsponge-js.js',
+		array(),
+		BP_INVITE_ANYONE_VER,
+		true
+	);
+
 	$strings['account_key'] = $account_key;
 	$strings['domain_key']  = false;
 	wp_localize_script( 'ia_cloudsponge', 'ia_cloudsponge', $strings );
