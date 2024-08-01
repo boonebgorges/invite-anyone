@@ -501,7 +501,12 @@ class Invite_Anyone_Invitation {
 
 			// Limitations in the WP_Tax_Query class mean I have to assemble a tax term
 			// list first
-			$emails = get_terms( $this->invitee_tax_name, array( 'fields' => 'names' ) );
+			$emails = get_terms(
+				[
+					'taxonomy' => $this->invitee_tax_name,
+					'fields'   => 'name',
+				]
+			);
 
 			$r['tax_query'] = array(
 				array(
