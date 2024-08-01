@@ -1790,10 +1790,12 @@ function invite_anyone_already_accepted_redirect( $redirect ) {
 		return $redirect;
 	}
 
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	if ( empty( $_GET['email'] ) ) {
 		return $redirect;
 	}
 
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	$reg_email = urldecode( $_GET['email'] );
 
 	if ( bp_core_get_user_email( bp_loggedin_user_id() ) !== $reg_email ) {
