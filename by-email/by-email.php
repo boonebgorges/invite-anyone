@@ -354,22 +354,17 @@ function invite_anyone_access_test() {
 
 	if ( ! is_user_logged_in() ) {
 		$access_allowed = false;
-	}
-
-	// The site admin can see all
-	elseif ( current_user_can( 'bp_moderate' ) ) {
+	} elseif ( current_user_can( 'bp_moderate' ) ) {
+		// The site admin can see all
 		$access_allowed = true;
 	} elseif ( bp_displayed_user_id() && ! bp_is_my_profile() ) {
 		$access_allowed = false;
-	}
-
-	/* This is the last of the general checks: logged in, looking at own profile, and finally admin has set to "All Users".*/
-	elseif ( isset( $iaoptions['email_visibility_toggle'] ) && 'no_limit' === $iaoptions['email_visibility_toggle'] ) {
+	} elseif ( isset( $iaoptions['email_visibility_toggle'] ) && 'no_limit' === $iaoptions['email_visibility_toggle'] ) {
+		// This is the last of the general checks: logged in,
+		// looking at own profile, and finally admin has set to "All Users".
 		$access_allowed = true;
-	}
-
-	/* Minimum number of days since joined the site */
-	elseif ( isset( $iaoptions['email_since_toggle'] ) && 'yes' === $iaoptions['email_since_toggle'] ) {
+	} elseif ( isset( $iaoptions['email_since_toggle'] ) && 'yes' === $iaoptions['email_since_toggle'] ) {
+		// Minimum number of days since joined the site
 		$since = isset( $iaoptions['days_since'] ) ? $iaoptions['days_since'] : 0;
 		if ( $since ) {
 			// WordPress's DAY_IN_SECONDS exists for WP >= 3.5, target version is 3.2, hence hard-coded value of 86400.
@@ -382,10 +377,10 @@ function invite_anyone_access_test() {
 				$access_allowed = false;
 			}
 		}
-	}
-
-	/* Minimum role on this blog. Users who are at the necessary role or higher should move right through this toward the 'return true' at the end of the function. */
-	elseif ( isset( $iaoptions['email_role_toggle'] ) && 'yes' === $iaoptions['email_role_toggle'] ) {
+	} elseif ( isset( $iaoptions['email_role_toggle'] ) && 'yes' === $iaoptions['email_role_toggle'] ) {
+		// Minimum role on this blog. Users who are at the necessary role or higher
+		// should move right through this toward the 'return true'
+		// at the end of the function.
 		$role = $iaoptions['email_role'];
 		if ( isset( $iaoptions['minimum_role'] ) && $role ) {
 			switch ( $role ) {
@@ -420,10 +415,8 @@ function invite_anyone_access_test() {
 					break;
 			}//end switch
 		}//end if
-	}
-
-	/* User blacklist */
-	elseif ( isset( $iaoptions['email_blacklist_toggle'] ) && 'yes' === $iaoptions['email_blacklist_toggle'] ) {
+	} elseif ( isset( $iaoptions['email_blacklist_toggle'] ) && 'yes' === $iaoptions['email_blacklist_toggle'] ) {
+		// User blacklist.
 		if ( isset( $iaoptions['email_blacklist'] ) ) {
 			$blacklist = wp_parse_id_list( $iaoptions['email_blacklist'] );
 			$user_id   = intval( $current_user->ID );
