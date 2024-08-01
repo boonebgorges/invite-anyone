@@ -246,19 +246,17 @@ function invite_anyone_admin_panel() {
 	<input id="invite-anyone-settings-submit" name="invite-anyone-settings-submit" type="submit" class="button" value="<?php esc_attr_e( 'Save Changes', 'invite-anyone' ); ?>" />
 	</form>
 
-
 	</div>
 	<?php
 }
 
-
-
 function invite_anyone_settings_setup() {
-	$subpage = isset( $_GET['subpage'] ) ? $_GET['subpage'] : 'general-settings';
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$the_subpage = isset( $_GET['subpage'] ) ? $_GET['subpage'] : 'general-settings';
 
 	register_setting( 'invite_anyone', 'invite_anyone', 'invite_anyone_settings_check' );
 
-	switch ( $subpage ) {
+	switch ( $the_subpage ) {
 		case 'access-control' :
 			/* Access Settings */
 			add_settings_section( 'invite_anyone_access_settings', __( 'Access Settings', 'invite-anyone' ), 'invite_anyone_settings_access_content', 'invite_anyone' );
