@@ -927,7 +927,9 @@ function invite_anyone_migrate_nag() {
 	}
 
 	// First, check to see whether the data table exists
-	$table_name   = $wpdb->base_prefix . 'bp_invite_anyone';
+	$table_name = $wpdb->base_prefix . 'bp_invite_anyone';
+
+	// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	$invite_count = $wpdb->get_var( "SELECT COUNT(*) FROM {$table_name}" );
 
 	if ( ! $invite_count ) {
@@ -979,6 +981,7 @@ function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
 
 	$table_name = $wpdb->base_prefix . 'bp_invite_anyone';
 
+	// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	$total_table_contents = $wpdb->get_var( "SELECT COUNT(*) FROM {$table_name}" );
 
 	$table_contents_sql = "SELECT * FROM {$table_name}";
@@ -986,9 +989,10 @@ function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
 	$table_contents_sql .= '  ORDER BY id ASC LIMIT 5';
 
 	if ( $is_partial ) {
-		$table_contents_sql .= " OFFSET $start";
+		$table_contents_sql .= ' OFFSET ' . intval( $start );
 	}
 
+	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 	$table_contents = $wpdb->get_results( $table_contents_sql );
 
 	// If this is a stepwise migration, and the start number is too high or the table_contents
