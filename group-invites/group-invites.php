@@ -274,7 +274,9 @@ function bp_get_new_group_invite_member_list( $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
+
+	$group_id  = $r['group_id'];
+	$separator = $r['separator'];
 
 	if ( ! $group_id ) {
 		$group_id = isset( $bp->groups->new_group_id ) ? $bp->groups->new_group_id : $bp->groups->current_group->id;
