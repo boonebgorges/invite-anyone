@@ -70,9 +70,9 @@ li a#nav-invite-anyone {
 
 class BP_Invite_Anyone extends BP_Group_Extension {
 
-	var $enable_nav_item    = true;
-	var $enable_create_step = true;
-	var $enable_edit_item   = false;
+	public $enable_nav_item    = true;
+	public $enable_create_step = true;
+	public $enable_edit_item   = false;
 
 	public function __construct() {
 		global $bp;
@@ -100,7 +100,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 	 *
 	 * @param int $group_id Available only on BP 2.2+.
 	 */
-	function display( $group_id = null ) {
+	public function display( $group_id = null ) {
 		global $bp;
 
 		if ( BP_INVITE_ANYONE_SLUG === $bp->current_action && isset( $bp->action_variables[0] ) && 'send' === $bp->action_variables[0] ) {
@@ -120,7 +120,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 		invite_anyone_create_screen_content( 'invite' );
 	}
 
-	function create_screen( $group_id = null ) {
+	public function create_screen( $group_id = null ) {
 		global $bp;
 
 		/* If we're not at this step, go bye bye */
@@ -133,7 +133,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 		wp_nonce_field( 'groups_create_save_' . $this->slug );
 	}
 
-	function create_screen_save( $group_id = null ) {
+	public function create_screen_save( $group_id = null ) {
 		global $bp;
 
 		/* Always check the referer */
@@ -147,7 +147,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 		$this->save( $group_id );
 	}
 
-	function save( $group_id = null ) {
+	public function save( $group_id = null ) {
 		global $bp;
 
 		if ( null === $group_id ) {
@@ -183,7 +183,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 		return ! empty( $options['group_invites_enable_create_step'] ) && $options['group_invites_enable_create_step'] === 'yes';
 	}
 
-	function enable_nav_item() {
+	public function enable_nav_item() {
 		global $bp;
 
 		// Group-specific settings always override
@@ -198,7 +198,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 		}
 	}
 
-	function widget_display() {}
+	public function widget_display() {}
 }
 bp_register_group_extension( 'BP_Invite_Anyone' );
 
