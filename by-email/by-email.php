@@ -820,18 +820,21 @@ function invite_anyone_screen_two_content() {
 	if ( ! class_exists( 'BBG_CPT_Pag' ) ) {
 		require_once BP_INVITE_ANYONE_DIR . 'lib/bbg-cpt-pag.php';
 	}
+
 	$pagination = new BBG_CPT_Pag();
 
 	$inviter_id = bp_loggedin_user_id();
 
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended
 	if ( isset( $_GET['sort_by'] ) ) {
-		$sort_by = $_GET['sort_by'];
+		$sort_by = sanitize_text_field( wp_unslash( $_GET['sort_by'] ) );
 	} else {
 		$sort_by = 'date_invited';
 	}
 
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended
 	if ( isset( $_GET['order'] ) ) {
-		$order = $_GET['order'];
+		$order = sanitize_text_field( wp_unslash( $_GET['order'] ) );
 	} else {
 		$order = 'DESC';
 	}
