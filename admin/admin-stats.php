@@ -165,7 +165,7 @@ class Invite_Anyone_Stats {
 					// Is it a CloudSponge invite?
 					$is_cloudsponge = get_post_meta( get_the_ID(), 'bp_ia_is_cloudsponge', true );
 
-					if ( __( 'Yes', 'invite-anyone' ) == $is_cloudsponge ) {
+					if ( __( 'Yes', 'invite-anyone' ) === $is_cloudsponge ) {
 
 						++$period['total_count_cs'];
 
