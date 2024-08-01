@@ -7,10 +7,10 @@
  * @since 0.9
  */
 class Invite_Anyone_Stats {
-	var $time_periods;
-	var $params;
-	var $posts;
-	var $date_sql;
+	public $time_periods;
+	public $params;
+	public $posts;
+	public $date_sql;
 
 	/**
 	 * PHP 4 constructor
@@ -18,7 +18,7 @@ class Invite_Anyone_Stats {
 	 * @package Invite Anyone
 	 * @since 0.9
 	 */
-	function invite_anyone_stats() {
+	public function invite_anyone_stats() {
 		$this->__construct();
 	}
 
@@ -28,13 +28,13 @@ class Invite_Anyone_Stats {
 	 * @package Invite Anyone
 	 * @since 0.9
 	 */
-	function __construct() {
+	public function __construct() {
 		$this->setup_time_periods();
 		$this->setup_get_params();
 		$this->get_posts();
 	}
 
-	function setup_time_periods() {
+	public function setup_time_periods() {
 		// $time_periods are in seconds
 		$this->time_periods = apply_filters(
 			'invite_anyone_stats_time_periods',
@@ -66,7 +66,7 @@ class Invite_Anyone_Stats {
 	 * @package Invite Anyone
 	 * @since 0.9
 	 */
-	function setup_get_params() {
+	public function setup_get_params() {
 		$params = array();
 
 		if ( isset( $_REQUEST['user_id'] ) ) {
@@ -82,7 +82,7 @@ class Invite_Anyone_Stats {
 	 * @package Invite Anyone
 	 * @since 0.9
 	 */
-	function get_posts() {
+	public function get_posts() {
 		global $wpdb;
 
 		// $posts is a multidimensional array, containing all different time periods
@@ -287,7 +287,7 @@ class Invite_Anyone_Stats {
 	 * @param str $where Where clause from WP_Query
 	 * @param str $where Where clause with date_sql appended
 	 */
-	function where_filter( $where ) {
+	public function where_filter( $where ) {
 		$where .= $this->date_sql;
 		return $where;
 	}
@@ -298,7 +298,7 @@ class Invite_Anyone_Stats {
 	 * @package Invite Anyone
 	 * @since 0.9
 	 */
-	function display() {
+	public function display() {
 		?>
 
 		<table class="widefat ia-stats">
