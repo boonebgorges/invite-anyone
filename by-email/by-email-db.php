@@ -23,7 +23,7 @@ class Invite_Anyone_Schema {
 		global $current_blog;
 
 		// There's no reason for the CPT to be loaded on non-root-blogs
-		if ( is_multisite() && $current_blog->blog_id != BP_ROOT_BLOG ) {
+		if ( is_multisite() && ! bp_is_root_blog( $current_blog->blog_id ) ) {
 			return;
 		}
 
