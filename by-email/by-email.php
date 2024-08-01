@@ -670,26 +670,26 @@ function invite_anyone_screen_one_content() {
 	}
 	?>
 
-	<p id="welcome-message"><?php echo esc_html( $welcome_message ); ?></p>
+	<p id="welcome-message"><?php echo esc_html( wp_kses_post( $welcome_message ) ); ?></p>
 
 	<ol id="invite-anyone-steps">
 
 		<li>
 			<?php if ( ! empty( $returned_data['error_message'] ) ) : ?>
 				<div class="invite-anyone-error error">
-					<p><?php echo $returned_data['error_message']; ?></p>
+					<p><?php echo wp_kses_post( $returned_data['error_message'] ); ?></p>
 				</div>
 			<?php endif ?>
 
 			<div class="manual-email">
 				<label for="invite-anyone-email-addresses">
-					<?php _e( 'Enter email addresses below, one per line.', 'invite-anyone' ); ?>
+					<?php esc_html_e( 'Enter email addresses below, one per line.', 'invite-anyone' ); ?>
 				</label>
 
 				<?php
 				if ( invite_anyone_allowed_domains() ) :
 					?>
-					<p class="description"><?php _e( 'You can only invite people whose email addresses end in one of the following domains:', 'invite-anyone' ); ?> <?php echo esc_html( invite_anyone_allowed_domains() ); ?></p><?php endif; ?>
+					<p class="description"><?php esc_html_e( 'You can only invite people whose email addresses end in one of the following domains:', 'invite-anyone' ); ?> <?php echo esc_html( invite_anyone_allowed_domains() ); ?></p><?php endif; ?>
 
 				<?php $max_no_invites = invite_anyone_max_invites(); ?>
 				<?php if ( false !== $max_no_invites ) : ?>
@@ -710,10 +710,10 @@ function invite_anyone_screen_one_content() {
 
 		<li>
 			<?php if ( 'yes' === $iaoptions['subject_is_customizable'] ) : ?>
-				<label for="invite-anyone-custom-subject"><?php _e( '(optional) Customize the subject line of the invitation email.', 'invite-anyone' ); ?></label>
+				<label for="invite-anyone-custom-subject"><?php esc_html_e( '(optional) Customize the subject line of the invitation email.', 'invite-anyone' ); ?></label>
 					<textarea name="invite_anyone_custom_subject" id="invite-anyone-custom-subject" rows="15" cols="10" ><?php echo esc_textarea( invite_anyone_invitation_subject( $returned_subject ) ); ?></textarea>
 			<?php else : ?>
-				<strong><?php _e( 'Subject:', 'invite-anyone' ); ?></strong> <?php echo esc_html( invite_anyone_invitation_subject( $returned_subject ) ); ?>
+				<strong><?php esc_html_e( 'Subject:', 'invite-anyone' ); ?></strong> <?php echo esc_html( invite_anyone_invitation_subject( $returned_subject ) ); ?>
 
 				<input type="hidden" id="invite-anyone-customised-subject" name="invite_anyone_custom_subject" value="<?php echo esc_attr( invite_anyone_invitation_subject() ); ?>" />
 			<?php endif; ?>
@@ -721,11 +721,11 @@ function invite_anyone_screen_one_content() {
 
 		<li>
 			<?php if ( 'yes' === $iaoptions['message_is_customizable'] ) : ?>
-				<label for="invite-anyone-custom-message"><?php _e( '(optional) Customize the text of the invitation.', 'invite-anyone' ); ?></label>
-				<p class="description"><?php _e( 'The message will also contain a custom footer containing links to accept the invitation or opt out of further email invitations from this site.', 'invite-anyone' ); ?></p>
+				<label for="invite-anyone-custom-message"><?php esc_html_e( '(optional) Customize the text of the invitation.', 'invite-anyone' ); ?></label>
+				<p class="description"><?php esc_html_e( 'The message will also contain a custom footer containing links to accept the invitation or opt out of further email invitations from this site.', 'invite-anyone' ); ?></p>
 					<textarea name="invite_anyone_custom_message" id="invite-anyone-custom-message" cols="40" rows="10"><?php echo esc_textarea( invite_anyone_invitation_message( $returned_message ) ); ?></textarea>
 			<?php else : ?>
-				<label for="invite-anyone-custom-message"><?php _e( 'Message:', 'invite-anyone' ); ?></label>
+				<label for="invite-anyone-custom-message"><?php esc_html_e( 'Message:', 'invite-anyone' ); ?></label>
 					<textarea name="invite_anyone_custom_message" id="invite-anyone-custom-message" disabled="disabled"><?php echo esc_textarea( invite_anyone_invitation_message( $returned_message ) ); ?></textarea>
 
 				<input type="hidden" name="invite_anyone_custom_message" value="<?php echo esc_attr( invite_anyone_invitation_message() ); ?>" />
@@ -737,7 +737,7 @@ function invite_anyone_screen_one_content() {
 			<?php if ( 'yes' === $iaoptions['can_send_group_invites_email'] && bp_has_groups( 'per_page=10000&type=alphabetical&user_id=' . bp_loggedin_user_id() ) ) : ?>
 			<li>
 				<fieldset>
-					<legend><?php _e( '(optional) Select some groups. Invitees will receive invitations to these groups when they join the site.', 'invite-anyone' ); ?></legend>
+					<legend><?php esc_html_e( '(optional) Select some groups. Invitees will receive invitations to these groups when they join the site.', 'invite-anyone' ); ?></legend>
 					<ul id="invite-anyone-group-list">
 						<?php
 						while ( bp_groups() ) :
@@ -776,9 +776,8 @@ function invite_anyone_screen_one_content() {
 	</ol>
 
 	<div class="submit">
-		<input type="submit" name="invite-anyone-submit" id="invite-anyone-submit" value="<?php _e( 'Send Invites', 'invite-anyone' ); ?> " />
+		<input type="submit" name="invite-anyone-submit" id="invite-anyone-submit" value="<?php esc_attr_e( 'Send Invites', 'invite-anyone' ); ?> " />
 	</div>
-
 
 	</form>
 	<?php
@@ -834,14 +833,14 @@ function invite_anyone_screen_two_content() {
 
 	?>
 
-		<h4><?php _e( 'Sent Invites', 'invite-anyone' ); ?></h4>
+		<h4><?php esc_html_e( 'Sent Invites', 'invite-anyone' ); ?></h4>
 
 		<?php $invites = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id(), $sort_by, $order, $pagination->get_per_page, $pagination->get_paged ); ?>
 
 		<?php $pagination->setup_query( $invites ); ?>
 
 		<?php if ( $invites->have_posts() ) : ?>
-			<p id="sent-invites-intro"><?php _e( 'You have sent invitations to the following people.', 'invite-anyone' ); ?></p>
+			<p id="sent-invites-intro"><?php esc_html_e( 'You have sent invitations to the following people.', 'invite-anyone' ); ?></p>
 
 			<div class="ia-pagination">
 				<div class="currently-viewing">
