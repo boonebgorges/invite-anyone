@@ -225,37 +225,17 @@ function invite_anyone_admin_panel() {
 	}
 	?>
 	<div class="wrap">
-	<h2><?php _e( 'Invite Anyone', 'invite-anyone' ); ?></h2>
+	<h2><?php esc_html_e( 'Invite Anyone', 'invite-anyone' ); ?></h2>
 
 	<h2 class="nav-tab-wrapper">
-		<a class="nav-tab
-		<?php
-		if ( 'general-settings' === $subpage ) :
-			?>
-			nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'general-settings', esc_url( $url_base ) ); ?>"><?php _e( 'General Settings', 'invite-anyone' ); ?></a>
-		<a class="nav-tab
-		<?php
-		if ( 'access-control' === $subpage ) :
-			?>
-			nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'access-control', esc_url( $url_base ) ); ?>"><?php _e( 'Access Control', 'invite-anyone' ); ?></a>
-		<a class="nav-tab
-		<?php
-		if ( 'cloudsponge' === $subpage ) :
-			?>
-			nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'cloudsponge', esc_url( $url_base ) ); ?>"><?php esc_html_e( 'Contact Picker', 'invite-anyone' ); ?></a>
-		<a class="nav-tab
-		<?php
-		if ( 'manage-invitations' === $subpage ) :
-			?>
-			nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'manage-invitations', esc_url( $url_base ) ); ?>"><?php _e( 'Manage Invitations', 'invite-anyone' ); ?></a>
-		<a class="nav-tab
-		<?php
-		if ( 'stats' === $subpage ) :
-			?>
-			nav-tab-active<?php endif; ?>" href="<?php echo add_query_arg( 'subpage', 'stats', esc_url( $url_base ) ); ?>"><?php _e( 'Stats', 'invite-anyone' ); ?></a>
+		<a class="nav-tab <?php echo 'general-settings' === $subpage ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( add_query_arg( 'subpage', 'general-settings', $url_base ) ); ?>"><?php esc_html_e( 'General Settings', 'invite-anyone' ); ?></a>
+		<a class="nav-tab <?php echo 'access-control' === $subpage ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( add_query_arg( 'subpage', 'access-control', $url_base ) ); ?>"><?php esc_html_e( 'Access Control', 'invite-anyone' ); ?></a>
+		<a class="nav-tab <?php echo 'cloudsponge' === $subpage ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( add_query_arg( 'subpage', 'cloudsponge', $url_base ) ); ?>"><?php esc_html_e( 'Contact Picker', 'invite-anyone' ); ?></a>
+		<a class="nav-tab <?php echo 'manage-invitations' === $subpage ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( add_query_arg( 'subpage', 'manage-invitations', $url_base ) ); ?>"><?php esc_html_e( 'Manage Invitations', 'invite-anyone' ); ?></a>
+		<a class="nav-tab <?php echo 'stats' === $subpage ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( add_query_arg( 'subpage', 'stats', $url_base ) ); ?>"><?php esc_html_e( 'Stats', 'invite-anyone' ); ?></a>
 	</h2>
 
-		<form action="<?php echo $form_action; ?>" method="post">
+		<form action="<?php echo esc_attr( $form_action ); ?>" method="post">
 
 	<?php /* The Settings API does not work with WP 3.1 Network Admin, but these functions still work to create the markup */ ?>
 	<?php settings_fields( 'invite_anyone' ); ?>
@@ -337,12 +317,10 @@ function invite_anyone_settings_setup() {
 }
 add_action( 'admin_init', 'invite_anyone_settings_setup' );
 
-
-
 function invite_anyone_settings_main_content() {
 
 	?>
-	<p><?php _e( 'Control the default behavior of Invite Anyone.', 'invite-anyone' ); ?></p>
+	<p><?php esc_html_e( 'Control the default behavior of Invite Anyone.', 'invite-anyone' ); ?></p>
 
 	<?php
 }
@@ -350,11 +328,11 @@ function invite_anyone_settings_main_content() {
 function invite_anyone_settings_replacement_patterns() {
 	?>
 	<ul>
-		<li><strong>%%SITENAME%%</strong> - <?php _e( 'name of your website', 'invite-anyone' ); ?></li>
-		<li><strong>%%INVITERNAME%%</strong> - <?php _e( 'display name of the inviter', 'invite-anyone' ); ?></li>
-		<li><strong>%%INVITERURL%%</strong> - <?php _e( 'URL to the profile of the inviter', 'invite-anyone' ); ?></li>
-		<li><strong>%%ACCEPTURL%%</strong> - <?php _e( 'Link that invited users can click to accept the invitation', 'invite-anyone' ); ?></li>
-		<li><strong>%%OPTOUTURL%%</strong> - <?php _e( 'Link that invited users can click to opt out of future invitations', 'invite-anyone' ); ?></li>
+		<li><strong>%%SITENAME%%</strong> - <?php esc_html_e( 'name of your website', 'invite-anyone' ); ?></li>
+		<li><strong>%%INVITERNAME%%</strong> - <?php esc_html_e( 'display name of the inviter', 'invite-anyone' ); ?></li>
+		<li><strong>%%INVITERURL%%</strong> - <?php esc_html_e( 'URL to the profile of the inviter', 'invite-anyone' ); ?></li>
+		<li><strong>%%ACCEPTURL%%</strong> - <?php esc_html_e( 'Link that invited users can click to accept the invitation', 'invite-anyone' ); ?></li>
+		<li><strong>%%OPTOUTURL%%</strong> - <?php esc_html_e( 'Link that invited users can click to opt out of future invitations', 'invite-anyone' ); ?></li>
 	</ul>
 	<?php
 }
@@ -366,7 +344,7 @@ function invite_anyone_settings_number_of_invitations() {
 	$options     = invite_anyone_options();
 	$max_invites = intval( $options['max_invites'] );
 
-	echo "<input id='invite_anyone_settings_number_of_invitations' name='invite_anyone[max_invites]' size='10' type='text' value='{$max_invites}' />";
+	echo sprintf( "<input id='invite_anyone_settings_number_of_invitations' name='invite_anyone[max_invites]' size='10' type='text' value='%s' />", esc_attr( $max_invites ) );
 }
 
 function invite_anyone_settings_can_send_group_invites_email() {
@@ -397,15 +375,23 @@ function invite_anyone_settings_group_invites_enable_create_step() {
 }
 
 function invite_anyone_settings_default_invitation_subject() {
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo apply_filters( 'invite_anyone_settings_default_invitation_subject', "<textarea name='invite_anyone[default_invitation_subject]' cols=60 rows=2 >" . esc_textarea( invite_anyone_invitation_subject() ) . '</textarea>' );
 }
 
 function invite_anyone_settings_default_invitation_message() {
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo apply_filters( 'invite_anyone_settings_default_invitation_message', "<textarea name='invite_anyone[default_invitation_message]' cols=60 rows=5 >" . esc_textarea( invite_anyone_invitation_message() ) . '</textarea>' );
 }
 
 function invite_anyone_settings_addl_invitation_message() {
-	echo apply_filters( 'invite_anyone_settings_addl_invitation_message', "<textarea name='invite_anyone[addl_invitation_message]' cols=60 rows=5 >" . esc_textarea( invite_anyone_process_footer( '[email]' ) ) . '</textarea>' );
+	$email_footer = invite_anyone_process_footer( '[email]' );
+
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo apply_filters(
+		'invite_anyone_settings_addl_invitation_message',
+		"<textarea name='invite_anyone[addl_invitation_message]' cols=60 rows=5 >" . esc_textarea( $email_footer ) . '</textarea>'
+	);
 }
 
 function invite_anyone_settings_is_customizable() {
@@ -413,11 +399,11 @@ function invite_anyone_settings_is_customizable() {
 	?>
 	<ul>
 		<li>
-			<input type="checkbox" name="invite_anyone[subject_is_customizable]" value="yes" <?php checked( $options['subject_is_customizable'], 'yes' ); ?> /> <?php _e( 'Subject line', 'invite-anyone' ); ?>
+			<input type="checkbox" name="invite_anyone[subject_is_customizable]" value="yes" <?php checked( $options['subject_is_customizable'], 'yes' ); ?> /> <?php esc_html_e( 'Subject line', 'invite-anyone' ); ?>
 		</li>
 
 		<li>
-			<input type="checkbox" name="invite_anyone[message_is_customizable]" value="yes" <?php checked( $options['message_is_customizable'], 'yes' ); ?> /> <?php _e( 'Message body', 'invite-anyone' ); ?>
+			<input type="checkbox" name="invite_anyone[message_is_customizable]" value="yes" <?php checked( $options['message_is_customizable'], 'yes' ); ?> /> <?php esc_html_e( 'Message body', 'invite-anyone' ); ?>
 		</li>
 	</ul>
 	<?php
@@ -425,7 +411,7 @@ function invite_anyone_settings_is_customizable() {
 
 function invite_anyone_settings_access_content() {
 	?>
-	<p><?php _e( 'Control which members are able to send various kinds of invitations.', 'invite-anyone' ); ?></p>
+	<p><?php esc_html_e( 'Control which members are able to send various kinds of invitations.', 'invite-anyone' ); ?></p>
 	<?php
 }
 
@@ -434,34 +420,30 @@ function invite_anyone_settings_email_visibility() {
 	?>
 
 	<ul>
-		<li><input type='radio' name='invite_anyone[email_visibility_toggle]' id='invite_anyone_toggle_email_no_limit' value='no_limit'
-		<?php
-		if ( $options['email_visibility_toggle'] != 'limit' ) :
-			?>
-			checked="checked"<?php endif ?> /> <?php _e( 'All users', 'invite-anyone' ); ?></li>
+		<li><input type='radio' name='invite_anyone[email_visibility_toggle]' id='invite_anyone_toggle_email_no_limit' value='no_limit' <?php checked( 'limit' !== $options['email_visibility_toggle'] ); ?> /> <?php esc_html_e( 'All users', 'invite-anyone' ); ?></li>
 
-		<li><input type='radio' name='invite_anyone[email_visibility_toggle]' id='invite_anyone_toggle_email_limit' value='limit' <?php checked( $options['email_visibility_toggle'], 'limit' ); ?> /> <?php _e( 'A limited set of users', 'invite-anyone' ); ?>
+		<li><input type='radio' name='invite_anyone[email_visibility_toggle]' id='invite_anyone_toggle_email_limit' value='limit' <?php checked( $options['email_visibility_toggle'], 'limit' ); ?> /> <?php esc_html_e( 'A limited set of users', 'invite-anyone' ); ?>
 			<div class="invite-anyone-admin-limited">
 			<ul>
 				<li>
-					<input type="checkbox" name="invite_anyone[email_since_toggle]" value="yes" <?php checked( $options['email_since_toggle'], 'yes' ); ?> /> <?php _e( 'Only users who have been members of the site for a minimum number of days:', 'invite-anyone' ); ?>
-					<input name='invite_anyone[days_since]' size='10' type='text' value='<?php echo $options['days_since']; ?>' />
+					<input type="checkbox" name="invite_anyone[email_since_toggle]" value="yes" <?php checked( $options['email_since_toggle'], 'yes' ); ?> /> <?php esc_html_e( 'Only users who have been members of the site for a minimum number of days:', 'invite-anyone' ); ?>
+					<input name='invite_anyone[days_since]' size='10' type='text' value='<?php echo esc_attr( $options['days_since'] ); ?>' />
 				</li>
 
 				<li>
-					<input type="checkbox" name="invite_anyone[email_role_toggle]" value="yes"  <?php checked( $options['email_role_toggle'], 'yes' ); ?> /> <?php _e( 'Only users who have at least the following role on this blog:', 'invite-anyone' ); ?>
+					<input type="checkbox" name="invite_anyone[email_role_toggle]" value="yes"  <?php checked( $options['email_role_toggle'], 'yes' ); ?> /> <?php esc_html_e( 'Only users who have at least the following role on this blog:', 'invite-anyone' ); ?>
 					<select name="invite_anyone[minimum_role]">
-						<option value="Subscriber" <?php selected( $options['minimum_role'], 'Subscriber' ); ?>><?php _e( 'Subscriber' ); ?></option>
-						<option value="Contributor" <?php selected( $options['minimum_role'], 'Contributor' ); ?>><?php _e( 'Contributor' ); ?></option>
-						<option value="Author" <?php selected( $options['minimum_role'], 'Author' ); ?>><?php _e( 'Author' ); ?></option>
-						<option value="Editor" <?php selected( $options['minimum_role'], 'Editor' ); ?>><?php _e( 'Editor' ); ?></option>
-						<option value="Administrator" <?php selected( $options['minimum_role'], 'Administrator' ); ?>><?php _e( 'Administrator' ); ?></option>
+						<option value="Subscriber" <?php selected( $options['minimum_role'], 'Subscriber' ); ?>><?php esc_html_e( 'Subscriber', 'invite-anyone' ); ?></option>
+						<option value="Contributor" <?php selected( $options['minimum_role'], 'Contributor' ); ?>><?php esc_html_e( 'Contributor', 'invite-anyone' ); ?></option>
+						<option value="Author" <?php selected( $options['minimum_role'], 'Author' ); ?>><?php esc_html_e( 'Author', 'invite-anyone' ); ?></option>
+						<option value="Editor" <?php selected( $options['minimum_role'], 'Editor' ); ?>><?php esc_html_e( 'Editor', 'invite-anyone' ); ?></option>
+						<option value="Administrator" <?php selected( $options['minimum_role'], 'Administrator' ); ?>><?php esc_html_e( 'Administrator', 'invite-anyone' ); ?></option>
 					</select>
 				</li>
 
 				<li>
-					<input type="checkbox" name="invite_anyone[email_blacklist_toggle]" value="yes"  <?php checked( $options['email_blacklist_toggle'], 'yes' ); ?> /> <?php _e( 'Provide a comma-separated list of users (identified by their numerical user ids) who <strong>cannot</strong> send invitations by email:', 'invite-anyone' ); ?>
-					<input name='invite_anyone[email_blacklist]' size='40' type='text' value='<?php echo $options['email_blacklist']; ?>' />
+					<input type="checkbox" name="invite_anyone[email_blacklist_toggle]" value="yes" <?php checked( $options['email_blacklist_toggle'], 'yes' ); ?> /> <?php echo wp_kses_post( __( 'Provide a comma-separated list of users (identified by their numerical user ids) who <strong>cannot</strong> send invitations by email:', 'invite-anyone' ) ); ?>
+					<input name='invite_anyone[email_blacklist]' size='40' type='text' value='<?php echo esc_attr( $options['email_blacklist'] ); ?>' />
 				</li>
 			</ul>
 			</div>
@@ -477,7 +459,7 @@ function invite_anyone_settings_limit_invites() {
 
 	<ul>
 		<li>
-			<input type="checkbox" name="invite_anyone[email_limit_invites_toggle]" value="yes" <?php checked( $options['email_limit_invites_toggle'], 'yes' ); ?> /> <?php _e( 'Limit number of invites per user :', 'invite-anyone' ); ?>
+			<input type="checkbox" name="invite_anyone[email_limit_invites_toggle]" value="yes" <?php checked( $options['email_limit_invites_toggle'], 'yes' ); ?> /> <?php esc_html_e( 'Limit number of invites per user :', 'invite-anyone' ); ?>
 			<input name='invite_anyone[limit_invites_per_user]' size='10' type='text' value='<?php echo esc_attr( (int) $options['limit_invites_per_user'] ); ?>' />
 		</li>
 	</ul>
@@ -489,37 +471,37 @@ function invite_anyone_settings_group_invite_visibility() {
 	$options = invite_anyone_options();
 	?>
 	<ul>
-	<p><?php _e( 'Invite Anyone extends BuddyPress\'s default group invitation settings. Instead of allowing you to invite only friends to a group, this plugin allows you to invite any member of the site. Use these settings to limit possible invitees for different group roles.', 'invite-anyone' ); ?></p>
+	<p><?php esc_html_e( 'Invite Anyone extends BuddyPress\'s default group invitation settings. Instead of allowing you to invite only friends to a group, this plugin allows you to invite any member of the site. Use these settings to limit possible invitees for different group roles.', 'invite-anyone' ); ?></p>
 	<br />
-		<li><?php _e( '<strong>Site admins</strong> can send group invitations to: ', 'invite-anyone' ); ?>
+		<li><?php echo wp_kses_post( __( '<strong>Site admins</strong> can send group invitations to: ', 'invite-anyone' ) ); ?>
 			<select name="invite_anyone[group_invites_can_admin]">
-				<option value="anyone" <?php selected( $options['group_invites_can_admin'], 'anyone' ); ?>><?php _e( 'Anyone', 'invite-anyone' ); ?></option>
-				<option value="friends" <?php selected( $options['group_invites_can_admin'], 'friends' ); ?>><?php _e( 'Friends', 'invite-anyone' ); ?></option>
-				<option value="noone" <?php selected( $options['group_invites_can_admin'], 'noone' ); ?>><?php _e( 'No one', 'invite-anyone' ); ?></option>
+				<option value="anyone" <?php selected( $options['group_invites_can_admin'], 'anyone' ); ?>><?php esc_html_e( 'Anyone', 'invite-anyone' ); ?></option>
+				<option value="friends" <?php selected( $options['group_invites_can_admin'], 'friends' ); ?>><?php esc_html_e( 'Friends', 'invite-anyone' ); ?></option>
+				<option value="noone" <?php selected( $options['group_invites_can_admin'], 'noone' ); ?>><?php esc_html_e( 'No one', 'invite-anyone' ); ?></option>
 			</select>
 		</li>
 
-		<li><?php _e( '<strong>Group admins</strong> can send group invitations to: ', 'invite-anyone' ); ?>
+		<li><?php echo wp_kses_post( __) ( '<strong>Group admins</strong> can send group invitations to: ', 'invite-anyone' ); ?>
 			<select name="invite_anyone[group_invites_can_group_admin]">
-				<option value="anyone" <?php selected( $options['group_invites_can_group_admin'], 'anyone' ); ?>><?php _e( 'Anyone', 'invite-anyone' ); ?></option>
-				<option value="friends" <?php selected( $options['group_invites_can_group_admin'], 'friends' ); ?>><?php _e( 'Friends', 'invite-anyone' ); ?></option>
-				<option value="noone" <?php selected( $options['group_invites_can_group_admin'], 'noone' ); ?>><?php _e( 'No one', 'invite-anyone' ); ?></option>
+				<option value="anyone" <?php selected( $options['group_invites_can_group_admin'], 'anyone' ); ?>><?php esc_html_e( 'Anyone', 'invite-anyone' ); ?></option>
+				<option value="friends" <?php selected( $options['group_invites_can_group_admin'], 'friends' ); ?>><?php esc_html_e( 'Friends', 'invite-anyone' ); ?></option>
+				<option value="noone" <?php selected( $options['group_invites_can_group_admin'], 'noone' ); ?>><?php esc_html_e( 'No one', 'invite-anyone' ); ?></option>
 			</select>
 		</li>
 
-		<li><?php _e( '<strong>Group mods</strong> can send group invitations to: ', 'invite-anyone' ); ?>
+		<li><?php echo wp_kses_post( __( '<strong>Group mods</strong> can send group invitations to: ', 'invite-anyone' ) ); ?>
 			<select name="invite_anyone[group_invites_can_group_mod]">
-				<option value="anyone" <?php selected( $options['group_invites_can_group_mod'], 'anyone' ); ?>><?php _e( 'Anyone', 'invite-anyone' ); ?></option>
-				<option value="friends" <?php selected( $options['group_invites_can_group_mod'], 'friends' ); ?>><?php _e( 'Friends', 'invite-anyone' ); ?></option>
-				<option value="noone" <?php selected( $options['group_invites_can_group_mod'], 'noone' ); ?>><?php _e( 'No one', 'invite-anyone' ); ?></option>
+				<option value="anyone" <?php selected( $options['group_invites_can_group_mod'], 'anyone' ); ?>><?php esc_html_e( 'Anyone', 'invite-anyone' ); ?></option>
+				<option value="friends" <?php selected( $options['group_invites_can_group_mod'], 'friends' ); ?>><?php esc_html_e( 'Friends', 'invite-anyone' ); ?></option>
+				<option value="noone" <?php selected( $options['group_invites_can_group_mod'], 'noone' ); ?>><?php esc_html_e( 'No one', 'invite-anyone' ); ?></option>
 			</select>
 		</li>
 
-		<li><?php _e( '<strong>Group members</strong> can send group invitations to: ', 'invite-anyone' ); ?>
+		<li><?php echo wp_kses_post( __( '<strong>Group members</strong> can send group invitations to: ', 'invite-anyone' ) ); ?>
 			<select name="invite_anyone[group_invites_can_group_member]">
-				<option value="anyone" <?php selected( $options['group_invites_can_group_member'], 'anyone' ); ?>><?php _e( 'Anyone', 'invite-anyone' ); ?></option>
-				<option value="friends" <?php selected( $options['group_invites_can_group_member'], 'friends' ); ?>><?php _e( 'Friends', 'invite-anyone' ); ?></option>
-				<option value="noone" <?php selected( $options['group_invites_can_group_member'], 'noone' ); ?>><?php _e( 'No one', 'invite-anyone' ); ?></option>
+				<option value="anyone" <?php selected( $options['group_invites_can_group_member'], 'anyone' ); ?>><?php esc_html_e( 'Anyone', 'invite-anyone' ); ?></option>
+				<option value="friends" <?php selected( $options['group_invites_can_group_member'], 'friends' ); ?>><?php esc_html_e( 'Friends', 'invite-anyone' ); ?></option>
+				<option value="noone" <?php selected( $options['group_invites_can_group_member'], 'noone' ); ?>><?php esc_html_e( 'No one', 'invite-anyone' ); ?></option>
 			</select>
 		</li>
 	</ul>
