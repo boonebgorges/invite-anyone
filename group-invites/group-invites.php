@@ -385,6 +385,7 @@ class Invite_Anyone_User_Query extends WP_User_Query {
 
 		$like_string = $leading_wild . $escaped_string . $trailing_wild;
 		foreach ( $cols as $col ) {
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$searches[] = $wpdb->prepare( "$col LIKE %s", $like_string );
 		}
 
