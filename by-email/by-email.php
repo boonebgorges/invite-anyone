@@ -1661,6 +1661,7 @@ add_action( 'bp_actions', 'invite_anyone_accept_invitation_backward_compatibilit
 function invite_anyone_is_accept_invitation_page() {
 	$retval = false;
 
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	if ( bp_is_register_page() && ! empty( $_GET['iaaction'] ) && 'accept-invitation' === urldecode( $_GET['iaaction'] ) ) {
 		$retval = true;
 	}
@@ -1675,6 +1676,7 @@ function invite_anyone_bypass_registration_lock() {
 		return;
 	}
 
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	$email = isset( $_GET['email'] ) ? urldecode( $_GET['email'] ) : '';
 	if ( empty( $email ) ) {
 		return;
