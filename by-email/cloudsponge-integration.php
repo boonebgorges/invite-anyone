@@ -6,42 +6,42 @@ class Cloudsponge_Integration {
 	 *
 	 * @var bool
 	 */
-	var $enabled;
+	public $enabled;
 
 	/**
 	 * Cloudsponge domain key.
 	 *
 	 * @var string
 	 */
-	var $key;
+	public $key;
 
 	/**
 	 * Cloudsponge domain key.
 	 *
 	 * @var string
 	 */
-	var $domain_key;
+	public $domain_key;
 
 	/**
 	 * Cloudsponge account key.
 	 *
 	 * @var string
 	 */
-	var $account_key;
+	public $account_key;
 
 	/**
 	 * Cloudsponge sources.
 	 *
 	 * @var array
 	 */
-	var $sources;
+	public $sources;
 
 	/**
 	 * Whether or not to display deep links.
 	 *
 	 * @var bool
 	 */
-	var $deep_links;
+	public $deep_links;
 
 	/**
 	 * PHP 5 Constructor
@@ -49,7 +49,7 @@ class Cloudsponge_Integration {
 	 * @package Invite Anyone
 	 * @since 0.8
 	 */
-	function __construct() {
+	public function __construct() {
 
 		if ( empty( $options ) ) {
 			$options = get_option( 'invite_anyone' );
@@ -74,7 +74,7 @@ class Cloudsponge_Integration {
 	 * @package Invite Anyone
 	 * @since 0.8.8
 	 */
-	function enqueue_script() {
+	public function enqueue_script() {
 
 		// Values available in the JavaScript side
 		$strings = array();
@@ -113,7 +113,7 @@ class Cloudsponge_Integration {
 	 *
 	 * @param array $options Invite Anyone settings. Check em so we can bail if necessary
 	 */
-	function import_markup( $options = false ) {
+	public function import_markup( $options = false ) {
 		wp_enqueue_script( 'ia_cloudsponge' );
 
 		?>
@@ -137,6 +137,7 @@ class Cloudsponge_Integration {
 				$sources_display[] = '<a class="cloudsponge-launch" data-cloudsponge-source="' . esc_attr( $source ) . '">' . esc_html( $sources_list[ $source ]['name'] ) . '</a>';
 			}
 
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo implode( ', ', $sources_display );
 			?>
 			<?php
