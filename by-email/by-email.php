@@ -263,7 +263,7 @@ function invite_anyone_activate_user( $user_id ) {
 			}
 
 			// Mark as accepted
-			update_post_meta( get_the_ID(), 'bp_ia_accepted', date( 'Y-m-d H:i:s' ) );
+			update_post_meta( get_the_ID(), 'bp_ia_accepted', gmdate( 'Y-m-d H:i:s' ) );
 		}
 
 		$inviters = array_unique( $inviters );
