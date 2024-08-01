@@ -33,7 +33,7 @@ class Invite_Anyone_Schema {
 		// Check for necessary updates to data schema
 		$this->update();
 
-		if ( $this->db_version != BP_INVITE_ANYONE_DB_VER ) {
+		if ( BP_INVITE_ANYONE_DB_VER !== $this->db_version ) {
 			update_option( 'invite_anyone_db_version', BP_INVITE_ANYONE_DB_VER );
 			$this->db_version = BP_INVITE_ANYONE_DB_VER;
 		}
