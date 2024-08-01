@@ -360,7 +360,7 @@ class Invite_Anyone_User_Query extends WP_User_Query {
 	/**
 	 * @see WP_User_Query::get_search_sql()
 	 */
-	public function get_search_sql( $string, $cols, $wild = false ) {
+	public function get_search_sql( $the_string, $cols, $wild = false ) {
 		global $wpdb;
 
 		// Always search all columns
@@ -380,9 +380,9 @@ class Invite_Anyone_User_Query extends WP_User_Query {
 		$trailing_wild = ( 'trailing' === $wild || 'both' === $wild ) ? '%' : '';
 
 		if ( method_exists( $wpdb, 'esc_like' ) ) {
-			$escaped_string = $wpdb->esc_like( $string );
+			$escaped_string = $wpdb->esc_like( $the_string );
 		} else {
-			$escaped_string = addcslashes( $string, '_%\\' );
+			$escaped_string = addcslashes( $the_string, '_%\\' );
 		}
 
 		$like_string = $leading_wild . $escaped_string . $trailing_wild;
