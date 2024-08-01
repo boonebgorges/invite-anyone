@@ -22,7 +22,7 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 
 					<?php do_action( 'bp_before_group_send_invites_content' ); ?>
 
-					<?php if ( $event != 'create' ) : ?>
+					<?php if ( 'create' !== $event ) : ?>
 				<form action="<?php bp_group_send_invite_form_action(); ?>" method="post" id="send-invite-form">
 			<?php endif; ?>
 
@@ -90,14 +90,14 @@ if ( function_exists( 'bp_post_get_permalink' ) ) { // ugly ugly ugly hack to ch
 
 				<div class="clear"></div>
 
-					<?php if ( $event != 'create' ) : ?>
+					<?php if ( 'create' !== $event ) : ?>
 				<p class="clear"><input type="submit" name="submit" id="submit" value="<?php esc_html_e( 'Send Invites', 'invite-anyone' ); ?>" /></p>
 						<?php wp_nonce_field( 'groups_send_invites', '_wpnonce_send_invites' ); ?>
 			<?php endif; ?>
 
 			<input type="hidden" name="group_id" id="group_id" value="<?php bp_group_id(); ?>" />
 
-					<?php if ( $event != 'create' ) : ?>
+					<?php if ( 'create' !== $event ) : ?>
 				</form>
 			<?php endif; ?>
 
