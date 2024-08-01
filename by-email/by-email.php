@@ -81,9 +81,12 @@ add_action( 'bp_setup_globals', 'invite_anyone_setup_globals', 2 );
 function invite_anyone_opt_out_screen() {
 	global $bp;
 
-	// phpcs:disable WordPress.Security.NonceVerification.Recommended
+	$opt_out_email = isset( $_POST['opt_out_email'] ) ? sanitize_text_field( wp_unslash( $_POST['opt_out_email'] ) ) : '';
+
+	// phpcs:disable WordPress.Security.NonceVerification
 	if ( isset( $_POST['oops_submit'] ) ) {
-		$oops_email   = rawurlencode( stripslashes( $_POST['opt_out_email'] ) );
+		$oops_email = rawurlencode( $opt_out_email );
+
 		$opt_out_link = add_query_arg(
 			array(
 				'iaaction' => 'accept-invitation',
@@ -94,7 +97,7 @@ function invite_anyone_opt_out_screen() {
 
 		bp_core_redirect( $opt_out_link );
 	}
-	// phpcs:enable WordPress.Security.NonceVerification.Recommended
+	// phpcs:enable WordPress.Security.NonceVerification
 
 	$opt_out_button_text = __( 'Opt Out', 'invite-anyone' );
 	$oops_button_text    = __( 'Accept Invitation', 'invite-anyone' );
@@ -113,15 +116,15 @@ function invite_anyone_opt_out_screen() {
 		$sitename
 	);
 
+	// phpcs:ignore WordPress.Security.NonceVerification
 	if ( bp_is_register_page() && isset( $_GET['iaaction'] ) && 'opt-out' === urldecode( $_GET['iaaction'] ) ) {
 		get_header();
 		?>
 		<div id="content">
 		<div class="padder">
 		<?php if ( ! empty( $_POST['opt_out_submit'] ) ) : ?>
-			<?php $email = isset( $_POST['opt_out_email'] ) ? urldecode( $_POST['opt_out_email'] ) : ''; ?>
-			<?php if ( $_POST['opt_out_submit'] == $opt_out_button_text && $email ) : ?>
-				<?php $email = str_replace( ' ', '+', $email ); ?>
+			<?php if ( $_POST['opt_out_submit'] === $opt_out_button_text && $opt_out_email ) : ?>
+				<?php $email = str_replace( ' ', '+', $opt_out_email ); ?>
 
 				<?php check_admin_referer( 'invite_anyone_opt_out' ); ?>
 
