@@ -1052,7 +1052,9 @@ function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
 				'date_modified' => $invite->date_joined,
 			);
 
-			if ( $new_invite_id = $new_invite->create( $args ) ) {
+			$new_invite_id = $new_invite->create( $args );
+
+			if ( $new_invite_id ) {
 				// Now look to see whether the item should be opt out
 				if ( $invite->is_opt_out ) {
 					update_post_meta( $new_invite_id, 'opt_out', 'yes' );
