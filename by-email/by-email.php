@@ -557,13 +557,6 @@ function invite_anyone_catch_clear() {
 add_action( 'bp_template_redirect', 'invite_anyone_catch_clear', 5 );
 
 function invite_anyone_screen_one() {
-	global $bp;
-
-	/*
-	print "<pre>";
-	print_r($bp);
-	*/
-
 	/* Add a do action here, so your component can be extended by others. */
 	do_action( 'invite_anyone_screen_one' );
 
