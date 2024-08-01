@@ -3,8 +3,6 @@
 /* Load JS necessary for group invitation pages */
 
 function invite_anyone_add_js() {
-	global $bp;
-
 	if ( bp_is_current_action( BP_INVITE_ANYONE_SLUG ) || bp_is_action_variable( BP_INVITE_ANYONE_SLUG, 1 ) ) {
 
 		$min = '-min';
@@ -39,8 +37,6 @@ function invite_anyone_add_js() {
 add_action( 'wp_head', 'invite_anyone_add_js', 1 );
 
 function invite_anyone_add_group_invite_css() {
-	global $bp;
-
 	if ( bp_is_current_action( BP_INVITE_ANYONE_SLUG ) || bp_is_action_variable( BP_INVITE_ANYONE_SLUG, 1 ) ) {
 		$style_url  = plugins_url() . '/invite-anyone/group-invites/group-invites-css.css';
 		$style_file = WP_PLUGIN_DIR . '/invite-anyone/group-invites/group-invites-css.css';
