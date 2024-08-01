@@ -180,7 +180,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 	 */
 	public function enable_create_step() {
 		$options = invite_anyone_options();
-		return ! empty( $options['group_invites_enable_create_step'] ) && $options['group_invites_enable_create_step'] === 'yes';
+		return ! empty( $options['group_invites_enable_create_step'] ) && 'yes' === $options['group_invites_enable_create_step'];
 	}
 
 	public function enable_nav_item() {
@@ -191,7 +191,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 			return false;
 		}
 
-		if ( invite_anyone_group_invite_access_test() == 'anyone' ) {
+		if ( 'anyone' === invite_anyone_group_invite_access_test() ) {
 			return true;
 		} else {
 			return false;
@@ -277,7 +277,7 @@ function bp_get_new_group_invite_member_list( $args = '' ) {
 		for ( $i = 0; $i < $friend_count; $i++ ) {
 			$checked = '';
 			if ( $invites ) {
-				if ( in_array( $friends[ $i ]['id'], $invites ) ) {
+				if ( in_array( (int) $friends[ $i ]['id'], $invites, true ) ) {
 					$checked = ' checked="checked"';
 				}
 			}
