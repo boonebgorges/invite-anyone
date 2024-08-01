@@ -113,7 +113,7 @@ add_action( 'admin_menu', 'invite_anyone_mirror_settings_menu_item' );
 
 /* Stolen from Welcome Pack - thanks, Paul! */
 function invite_anyone_admin_add_action_link( $links, $file ) {
-	if ( 'invite-anyone/invite-anyone.php' != $file ) {
+	if ( 'invite-anyone/invite-anyone.php' !== $file ) {
 		return $links;
 	}
 
