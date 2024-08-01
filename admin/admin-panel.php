@@ -518,6 +518,10 @@ function invite_anyone_settings_cs_content() {
 	$domain_key          = isset( $options['cloudsponge_key'] ) ? $options['cloudsponge_key'] : '';
 	$account_key         = isset( $options['cloudsponge_account_key'] ) ? $options['cloudsponge_account_key'] : '';
 	$cloudsponge_sources = isset( $options['cloudsponge_sources'] ) ? $options['cloudsponge_sources'] : '';
+
+	// phpcs:ignore WordPress.Security.NonceVerification
+	$submitted_cs_key = isset( $_GET['cloudsponge-key'] ) ? $_GET['cloudsponge-key'] : '';
+
 	// Trying to give to CloudSponge user email and name to pre populate signup
 	// form and reduce friction
 	$cloudsponge_params            = '?utm_source=invite-anyone&utm_medium=partner&utm_campaign=integrator';
