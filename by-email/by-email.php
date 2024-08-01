@@ -114,9 +114,9 @@ function invite_anyone_opt_out_screen() {
 
 				<?php if ( invite_anyone_mark_as_opt_out( $email ) ) : ?>
 					<?php $opted_out_message = __( 'You have successfully opted out. No more invitation emails will be sent to you by this site.', 'invite-anyone' ); ?>
-					<p><?php echo $opted_out_message; ?></p>
+					<p><?php echo esc_html( $opted_out_message ); ?></p>
 				<?php else : ?>
-					<p><?php _e( 'Sorry, there was an error in processing your request', 'invite-anyone' ); ?></p>
+					<p><?php esc_html_e( 'Sorry, there was an error in processing your request', 'invite-anyone' ); ?></p>
 				<?php endif; ?>
 			<?php else : ?>
 				<?php /* I guess this should be some sort of error message? */ ?>
@@ -136,16 +136,16 @@ function invite_anyone_opt_out_screen() {
 
 				<?php do_action( 'invite_anyone_before_optout_messages' ); ?>
 
-				<p><?php echo $opt_out_message; ?></p>
+				<p><?php echo esc_html( $opt_out_message ); ?></p>
 
-				<p><?php echo $oops_message; ?></p>
+				<p><?php echo esc_html( $oops_message ); ?></p>
 
 				<?php do_action( 'invite_anyone_after_optout_messages' ); ?>
 
 				<?php wp_nonce_field( 'invite_anyone_opt_out' ); ?>
-				<p><?php _e( 'Email:', 'invite-anyone' ); ?> <input type="text" id="opt_out_email" name="opt_out_email" size="50" /></p>
+				<p><?php esc_html_e( 'Email:', 'invite-anyone' ); ?> <input type="text" id="opt_out_email" name="opt_out_email" size="50" /></p>
 
-				<p><input type="submit" name="opt_out_submit" value="<?php echo $opt_out_button_text; ?>" /> <input type="submit" name="oops_submit" value="<?php echo $oops_button_text; ?>" />
+				<p><input type="submit" name="opt_out_submit" value="<?php echo esc_attr( $opt_out_button_text ); ?>" /> <input type="submit" name="oops_submit" value="<?php echo esc_attr( $oops_button_text ); ?>" />
 				</p>
 
 			</form>
@@ -178,7 +178,7 @@ function invite_anyone_register_screen_message() {
 
 	?>
 	<?php if ( empty( $email ) ) : ?>
-		<div id="message" class="error"><p><?php _e( "It looks like you're trying to accept an invitation to join the site, but some information is missing. Please try again by clicking on the link in the invitation email.", 'invite-anyone' ); ?></p></div>
+		<div id="message" class="error"><p><?php esc_html_e( "It looks like you're trying to accept an invitation to join the site, but some information is missing. Please try again by clicking on the link in the invitation email.", 'invite-anyone' ); ?></p></div>
 	<?php endif; ?>
 
 	<?php if ( 'request-details' === $bp->signup->step && ! empty( $email ) ) : ?>
@@ -225,7 +225,7 @@ function invite_anyone_register_screen_message() {
 			$message = __( 'Welcome! You&#8217;ve been invited to join the site. Please fill out the information below to create your account.', 'invite-anyone' );
 		}
 
-			echo '<div id="message" class="success"><p>' . esc_html( $message ) . '</p></div>';
+		echo '<div id="message" class="success"><p>' . esc_html( $message ) . '</p></div>';
 
 		?>
 
@@ -582,7 +582,7 @@ function invite_anyone_screen_one_content() {
 
 	// Hack - catch already=accepted
 	if ( ! empty( $_GET['already'] ) && 'accepted' === $_GET['already'] && bp_is_my_profile() ) {
-		_e( 'It looks like you&#8217;ve already accepted your invitation to join the site.', 'invite-anyone' );
+		esc_html_e( 'It looks like you&#8217;ve already accepted your invitation to join the site.', 'invite-anyone' );
 		return;
 	}
 
@@ -593,9 +593,9 @@ function invite_anyone_screen_one_content() {
 		if ( $sent_invites_count >= $iaoptions['limit_invites_per_user'] ) :
 			?>
 
-			<h4><?php _e( 'Invite New Members', 'invite-anyone' ); ?></h4>
+			<h4><?php esc_html_e( 'Invite New Members', 'invite-anyone' ); ?></h4>
 
-			<p id="welcome-message"><?php _e( 'You have sent the maximum allowed number of invitations.', 'invite-anyone' ); ?></em></p>
+			<p id="welcome-message"><?php esc_html_e( 'You have sent the maximum allowed number of invitations.', 'invite-anyone' ); ?></em></p>
 
 			<?php
 			return;
@@ -669,7 +669,7 @@ function invite_anyone_screen_one_content() {
 	?>
 	<form id="invite-anyone-by-email" action="<?php echo esc_url( $form_action ); ?>" method="post">
 
-	<h4><?php _e( 'Invite New Members', 'invite-anyone' ); ?></h4>
+	<h4><?php esc_html_e( 'Invite New Members', 'invite-anyone' ); ?></h4>
 
 	<?php
 
