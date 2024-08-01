@@ -102,7 +102,7 @@ class Invite_Anyone_Stats {
 			// Create the date filter
 			if ( $tp ) {
 				$since          = time() - $tp;
-				$this->date_sql = $wpdb->prepare( ' AND post_date > %s', date( 'Y-m-d H:i:s', $since ) );
+				$this->date_sql = $wpdb->prepare( ' AND post_date > %s', gmdate( 'Y-m-d H:i:s', $since ) );
 
 				add_filter( 'posts_where_paged', array( $this, 'where_filter' ) );
 			}
