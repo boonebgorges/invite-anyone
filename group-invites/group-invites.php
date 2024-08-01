@@ -10,9 +10,21 @@ function invite_anyone_add_js() {
 			$min = '';
 		}
 
-		wp_enqueue_script( 'invite-anyone-autocomplete-js', plugins_url() . "/invite-anyone/group-invites/jquery.autocomplete/jquery.autocomplete$min.js", array( 'jquery' ) );
+		wp_enqueue_script(
+			'invite-anyone-autocomplete-js',
+			plugins_url() . "/invite-anyone/group-invites/jquery.autocomplete/jquery.autocomplete$min.js",
+			array( 'jquery' ),
+			BP_INVITE_ANYONE_VER,
+			true
+		);
 
-		wp_register_script( 'invite-anyone-js', plugins_url() . '/invite-anyone/group-invites/group-invites-js.js', array( 'invite-anyone-autocomplete-js' ) );
+		wp_register_script(
+			'invite-anyone-js',
+			plugins_url() . '/invite-anyone/group-invites/group-invites-js.js',
+			array( 'invite-anyone-autocomplete-js' ),
+			BP_INVITE_ANYONE_VER,
+			true
+		);
 		wp_enqueue_script( 'invite-anyone-js' );
 
 		// Add words that we need to use in JS to the end of the page
@@ -42,7 +54,13 @@ function invite_anyone_add_group_invite_css() {
 		$style_file = WP_PLUGIN_DIR . '/invite-anyone/group-invites/group-invites-css.css';
 
 		if ( file_exists( $style_file ) ) {
-			wp_register_style( 'invite-anyone-group-invites-style', $style_url );
+			wp_register_style(
+				'invite-anyone-group-invites-style',
+				$style_url,
+				array(),
+				BP_INVITE_ANYONE_VER
+			);
+
 			wp_enqueue_style( 'invite-anyone-group-invites-style' );
 		}
 	}
