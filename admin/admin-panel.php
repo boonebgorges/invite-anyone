@@ -148,9 +148,12 @@ function invite_anyone_admin_styles() {
 function invite_anyone_admin_panel() {
 	global $iaoptions;
 
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	$subpage = isset( $_GET['subpage'] ) ? $_GET['subpage'] : 'general-settings';
 
-	if ( ! empty( $_GET['migrate'] ) && $_GET['migrate'] == '1' ) {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$is_migrate_page = isset( $_GET['migrate'] ) && '1' === sanitize_text_field( wp_unslash( $_GET['migrate'] ) );
+	if ( $is_migrate_page ) {
 		$iaoptions     = invite_anyone_options();
 		$maybe_version = ! empty( $iaoptions['db_version'] ) ? $iaoptions['db_version'] : '0.7';
 
