@@ -737,13 +737,13 @@ function invite_anyone_settings_mi_content() {
 				</th>
 
 				<?php
-				if ( $sortable->have_columns() ) :
-					while ( $sortable->have_columns() ) :
+				if ( $sortable->have_columns() ) {
+					while ( $sortable->have_columns() ) {
 						$sortable->the_column();
-						?>
-											<?php $sortable->the_column_th(); ?>
-									<?php endwhile; endif ?>
-
+						$sortable->the_column_th();
+					}
+				}
+				?>
 			</tr>
 		</thead>
 
