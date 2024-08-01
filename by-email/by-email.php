@@ -767,11 +767,7 @@ function invite_anyone_screen_one_content() {
 
 							?>
 							<li>
-							<input type="checkbox" name="invite_anyone_groups[]" id="invite_anyone_groups-<?php echo esc_attr( bp_get_group_id() ); ?>" value="<?php echo esc_attr( bp_get_group_id() ); ?>"
-																													<?php
-																													if ( bp_get_group_id() === (int) $from_group || array_search( bp_get_group_id(), $returned_groups, true ) ) :
-																														?>
-								checked<?php endif; ?> />
+							<input type="checkbox" name="invite_anyone_groups[]" id="invite_anyone_groups-<?php echo esc_attr( bp_get_group_id() ); ?>" value="<?php echo esc_attr( bp_get_group_id() ); ?>" <?php checked( bp_get_group_id() === (int) $from_group || array_search( bp_get_group_id(), $returned_groups, true ) ); ?> />
 
 							<label for="invite_anyone_groups-<?php echo esc_attr( bp_get_group_id() ); ?>" class="invite-anyone-group-name"><?php bp_group_avatar_mini(); ?> <span><?php bp_group_name(); ?></span></label>
 
