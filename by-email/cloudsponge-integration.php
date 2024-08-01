@@ -123,21 +123,21 @@ class Cloudsponge_Integration {
 		<?php if ( ! $this->deep_links ) : ?>
 			<a class="cs_import"><?php esc_html_e( 'You can also add email addresses from your Address Book.', 'invite-anyone' ); ?></a>
 		<?php elseif ( $this->sources ) : ?>
-			<?php $sourcesList = self::sources_list(); ?>
+			<?php $sources_list = self::sources_list(); ?>
 
 			<?php esc_html_e( 'You can also add email addresses from one of the following address books:', 'invite-anyone' ); ?>
 
 			<?php
-			$sourcesDisplay = [];
+			$sources_display = [];
 			foreach ( $this->sources as $source ) {
-				if ( ! isset( $sourcesList[ $source ] ) ) {
+				if ( ! isset( $sources_list[ $source ] ) ) {
 					continue;
 				}
 
-				$sourcesDisplay[] = '<a class="cloudsponge-launch" data-cloudsponge-source="' . esc_attr( $source ) . '">' . esc_html( $sourcesList[ $source ]['name'] ) . '</a>';
+				$sources_display[] = '<a class="cloudsponge-launch" data-cloudsponge-source="' . esc_attr( $source ) . '">' . esc_html( $sources_list[ $source ]['name'] ) . '</a>';
 			}
 
-			echo implode( ', ', $sourcesDisplay );
+			echo implode( ', ', $sources_display );
 			?>
 			<?php
 		endif;
