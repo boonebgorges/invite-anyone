@@ -1069,7 +1069,14 @@ function invite_anyone_data_migration( $type = 'full', $start = 0 ) {
 
 			if ( $is_partial ) {
 				$inviter = bp_core_get_user_displayname( $invite->inviter_id );
-				printf( __( 'Importing: %1$s invited %2$s<br />', 'invite-anyone' ), $inviter, $invite->email );
+				echo esc_html(
+					sprintf(
+						// translators: %1$s is the inviter's name, %2$s is the email address
+						__( 'Importing: %1$s invited %2$s', 'invite-anyone' ),
+						$inviter,
+						$invite->email
+					)
+				) . '<br />';
 			}
 		}
 	}
