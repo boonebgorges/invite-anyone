@@ -194,18 +194,19 @@ function invite_anyone_register_screen_message() {
 
 
 		<?php
-			$ia_obj = invite_anyone_get_invitations_by_invited_email( $email );
+		$ia_obj = invite_anyone_get_invitations_by_invited_email( $email );
 
-			$inviters = array();
+		$inviters = [];
 		if ( $ia_obj->have_posts() ) {
 			while ( $ia_obj->have_posts() ) {
 				$ia_obj->the_post();
 				$inviters[] = get_the_author_meta( 'ID' );
 			}
 		}
-			$inviters = array_unique( $inviters );
 
-			$inviters_names = array();
+		$inviters = array_unique( $inviters );
+
+		$inviters_names = [];
 		foreach ( $inviters as $inviter ) {
 			$inviters_names[] = bp_core_get_user_displayname( $inviter );
 		}
