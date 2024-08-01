@@ -342,7 +342,7 @@ function invite_anyone_settings_number_of_invitations() {
 	$options     = invite_anyone_options();
 	$max_invites = intval( $options['max_invites'] );
 
-	echo sprintf( "<input id='invite_anyone_settings_number_of_invitations' name='invite_anyone[max_invites]' size='10' type='text' value='%s' />", esc_attr( $max_invites ) );
+	printf( "<input id='invite_anyone_settings_number_of_invitations' name='invite_anyone[max_invites]' size='10' type='text' value='%s' />", esc_attr( $max_invites ) );
 }
 
 function invite_anyone_settings_can_send_group_invites_email() {
@@ -479,7 +479,7 @@ function invite_anyone_settings_group_invite_visibility() {
 			</select>
 		</li>
 
-		<li><?php echo wp_kses_post( __) ( '<strong>Group admins</strong> can send group invitations to: ', 'invite-anyone' ); ?>
+		<li><?php echo wp_kses_post( __( '<strong>Group admins</strong> can send group invitations to: ', 'invite-anyone' ) ); ?>
 			<select name="invite_anyone[group_invites_can_group_admin]">
 				<option value="anyone" <?php selected( $options['group_invites_can_group_admin'], 'anyone' ); ?>><?php esc_html_e( 'Anyone', 'invite-anyone' ); ?></option>
 				<option value="friends" <?php selected( $options['group_invites_can_group_admin'], 'friends' ); ?>><?php esc_html_e( 'Friends', 'invite-anyone' ); ?></option>
