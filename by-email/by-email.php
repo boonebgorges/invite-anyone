@@ -22,7 +22,7 @@ function invite_anyone_are_groups_running() {
 function invite_anyone_add_by_email_css() {
 	global $bp;
 
-	if ( $bp->current_component == BP_INVITE_ANYONE_SLUG ) {
+	if ( bp_is_current_component( $bp->current_component ) ) {
 		$style_url  = plugins_url() . '/invite-anyone/by-email/by-email-css.css';
 		$style_file = WP_PLUGIN_DIR . '/invite-anyone/by-email/by-email-css.css';
 		if ( file_exists( $style_file ) ) {
@@ -36,7 +36,7 @@ add_action( 'wp_print_styles', 'invite_anyone_add_by_email_css' );
 function invite_anyone_add_by_email_js() {
 	global $bp;
 
-	if ( $bp->current_component == BP_INVITE_ANYONE_SLUG ) {
+	if ( bp_is_current_component( BP_INVITE_ANYONE_SLUG ) ) {
 		$style_url  = plugins_url() . '/invite-anyone/by-email/by-email-js.js';
 		$style_file = WP_PLUGIN_DIR . '/invite-anyone/by-email/by-email-js.js';
 		if ( file_exists( $style_file ) ) {
@@ -167,7 +167,7 @@ function invite_anyone_register_screen_message() {
 		<div id="message" class="error"><p><?php _e( "It looks like you're trying to accept an invitation to join the site, but some information is missing. Please try again by clicking on the link in the invitation email.", 'invite-anyone' ); ?></p></div>
 	<?php endif; ?>
 
-	<?php if ( $bp->signup->step == 'request-details' && ! empty( $email ) ) : ?>
+	<?php if ( 'request-details' === $bp->signup->step && ! empty( $email ) ) : ?>
 
 		<?php do_action( 'accept_email_invite_before' ); ?>
 
@@ -601,7 +601,7 @@ function invite_anyone_screen_one_content() {
 
 	$from_group = false;
 	if ( ! empty( $bp->action_variables ) ) {
-		if ( 'group-invites' == $bp->action_variables[0] ) {
+		if ( 'group-invites' === $bp->action_variables[0] ) {
 			$from_group = $bp->action_variables[1];
 		}
 	}
@@ -628,7 +628,7 @@ function invite_anyone_screen_one_content() {
 	$returned_groups = array( 0 );
 	if ( ! empty( $returned_data['groups'] ) ) {
 		foreach ( $returned_data['groups'] as $group_id ) {
-			$returned_groups[] = $group_id;
+			$returned_groups[] = (int) $group_id;
 		}
 	}
 
@@ -661,7 +661,7 @@ function invite_anyone_screen_one_content() {
 
 	<?php
 
-	if ( isset( $iaoptions['email_limit_invites_toggle'] ) && $iaoptions['email_limit_invites_toggle'] == 'yes' && ! current_user_can( 'delete_others_pages' ) ) {
+	if ( isset( $iaoptions['email_limit_invites_toggle'] ) && 'yes' === $iaoptions['email_limit_invites_toggle'] && ! current_user_can( 'delete_others_pages' ) ) {
 		if ( ! isset( $sent_invites ) ) {
 			$sent_invites       = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id() );
 			$sent_invites_count = $sent_invites->post_count;
@@ -719,7 +719,7 @@ function invite_anyone_screen_one_content() {
 		</li>
 
 		<li>
-			<?php if ( $iaoptions['subject_is_customizable'] == 'yes' ) : ?>
+			<?php if ( 'yes' === $iaoptions['subject_is_customizable'] ) : ?>
 				<label for="invite-anyone-custom-subject"><?php _e( '(optional) Customize the subject line of the invitation email.', 'invite-anyone' ); ?></label>
 					<textarea name="invite_anyone_custom_subject" id="invite-anyone-custom-subject" rows="15" cols="10" ><?php echo esc_textarea( invite_anyone_invitation_subject( $returned_subject ) ); ?></textarea>
 			<?php else : ?>
@@ -730,7 +730,7 @@ function invite_anyone_screen_one_content() {
 		</li>
 
 		<li>
-			<?php if ( $iaoptions['message_is_customizable'] == 'yes' ) : ?>
+			<?php if ( 'yes' === $iaoptions['message_is_customizable'] ) : ?>
 				<label for="invite-anyone-custom-message"><?php _e( '(optional) Customize the text of the invitation.', 'invite-anyone' ); ?></label>
 				<p class="description"><?php _e( 'The message will also contain a custom footer containing links to accept the invitation or opt out of further email invitations from this site.', 'invite-anyone' ); ?></p>
 					<textarea name="invite_anyone_custom_message" id="invite-anyone-custom-message" cols="40" rows="10"><?php echo esc_textarea( invite_anyone_invitation_message( $returned_message ) ); ?></textarea>
@@ -744,7 +744,7 @@ function invite_anyone_screen_one_content() {
 		</li>
 
 		<?php if ( invite_anyone_are_groups_running() ) : ?>
-			<?php if ( $iaoptions['can_send_group_invites_email'] == 'yes' && bp_has_groups( 'per_page=10000&type=alphabetical&user_id=' . bp_loggedin_user_id() ) ) : ?>
+			<?php if ( 'yes' === $iaoptions['can_send_group_invites_email'] && bp_has_groups( 'per_page=10000&type=alphabetical&user_id=' . bp_loggedin_user_id() ) ) : ?>
 			<li>
 				<fieldset>
 					<legend><?php _e( '(optional) Select some groups. Invitees will receive invitations to these groups when they join the site.', 'invite-anyone' ); ?></legend>
@@ -762,9 +762,9 @@ function invite_anyone_screen_one_content() {
 
 							?>
 							<li>
-							<input type="checkbox" name="invite_anyone_groups[]" id="invite_anyone_groups-<?php echo esc_attr( bp_get_group_id() ); ?>" value="<?php echo esc_attr( bp_get_group_id() ); ?>" 
+							<input type="checkbox" name="invite_anyone_groups[]" id="invite_anyone_groups-<?php echo esc_attr( bp_get_group_id() ); ?>" value="<?php echo esc_attr( bp_get_group_id() ); ?>"
 																													<?php
-																													if ( $from_group == bp_get_group_id() || array_search( bp_get_group_id(), $returned_groups ) ) :
+																													if ( bp_get_group_id() === (int) $from_group || array_search( bp_get_group_id(), $returned_groups, true ) ) :
 																														?>
 								checked<?php endif; ?> />
 
@@ -884,11 +884,11 @@ function invite_anyone_screen_two_content() {
 						<th scope="col" class="col-delete-invite"></th>
 						<th scope="col" class="col-email
 						<?php
-						if ( $sort_by == 'email' ) :
+						if ( 'email' === $sort_by ) :
 							?>
 							sort-by-me<?php endif ?>"><a class="<?php echo esc_attr( $order ); ?>" title="Sort column order <?php echo esc_attr( $order ); ?>" href="<?php echo esc_url( $base_url ); ?>?sort_by=email&amp;order=
 							<?php
-							if ( $sort_by == 'email' && $order == 'ASC' ) :
+							if ( 'email' === $sort_by && 'ASC' === $order ) :
 								?>
 							DESC
 														<?php
@@ -898,11 +898,11 @@ else :
 						<th scope="col" class="col-group-invitations"><?php _e( 'Group invitations', 'invite-anyone' ); ?></th>
 						<th scope="col" class="col-date-invited
 						<?php
-						if ( $sort_by == 'date_invited' ) :
+						if ( 'date_invited' === $sort_by ) :
 							?>
 							sort-by-me<?php endif ?>"><a class="<?php echo esc_attr( $order ); ?>" title="Sort column order <?php echo esc_attr( $order ); ?>" href="<?php echo esc_url( $base_url ); ?>?sort_by=date_invited&amp;order=
 							<?php
-							if ( $sort_by == 'date_invited' && $order == 'DESC' ) :
+							if ( 'date_invited' === $sort_by && 'DESC' === $order ) :
 								?>
 							ASC
 														<?php
@@ -915,7 +915,7 @@ else :
 							?>
 							sort-by-me<?php endif ?>"><a class="<?php echo esc_attr( $order ); ?>" title="Sort column order <?php echo esc_attr( $order ); ?>" href="<?php echo esc_url( $base_url ); ?>?sort_by=date_joined&amp;order=
 							<?php
-							if ( $order == 'DESC' ) :
+							if ( 'DESC' === $order ) :
 								?>
 							ASC
 														<?php
@@ -989,7 +989,7 @@ else :
 
 					?>
 
-					<tr 
+					<tr
 					<?php
 					if ( $accepted ) {
 						?>
@@ -1396,7 +1396,7 @@ function invite_anyone_process_invitations( $data ) {
 	}
 
 	// Max number of invites sent
-	$limit_total_invites = ! empty( $options['email_limit_invites_toggle'] ) && 'no' != $options['email_limit_invites_toggle'];
+	$limit_total_invites = ! empty( $options['email_limit_invites_toggle'] ) && 'no' !== $options['email_limit_invites_toggle'];
 	if ( $limit_total_invites && ! current_user_can( 'delete_others_pages' ) ) {
 		$sent_invites            = invite_anyone_get_invitations_by_inviter_id( bp_loggedin_user_id() );
 		$sent_invites_count      = (int) $sent_invites->post_count;
@@ -1445,7 +1445,7 @@ function invite_anyone_process_invitations( $data ) {
 		}
 
 		// If there was an error in validation, we won't process this email
-		if ( $check != 'okay' ) {
+		if ( 'okay' !== $check ) {
 			$returned_data['error_message'] .= '<br />';
 			$returned_data['error_emails'][] = $email;
 			unset( $emails[ $key ] );
@@ -1675,7 +1675,7 @@ function invite_anyone_bypass_registration_lock() {
 
 	$options = invite_anyone_options();
 
-	if ( empty( $options['bypass_registration_lock'] ) || $options['bypass_registration_lock'] != 'yes' ) {
+	if ( empty( $options['bypass_registration_lock'] ) || 'yes' !== $options['bypass_registration_lock'] ) {
 		return;
 	}
 
@@ -1691,9 +1691,9 @@ function invite_anyone_bypass_registration_lock() {
 	// site_options property in some cases
 	if ( is_multisite() ) {
 		$site_options = $bp->site_options;
-		if ( ! empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'blog' ) {
+		if ( ! empty( $bp->site_options['registration'] ) && 'blog' === $bp->site_options['registration'] ) {
 			$site_options['registration'] = 'all';
-		} elseif ( ! empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'none' ) {
+		} elseif ( ! empty( $bp->site_options['registration'] ) && 'none' === $bp->site_options['registration'] ) {
 			$site_options['registration'] = 'user';
 		}
 		$bp->site_options = $site_options;
@@ -1747,12 +1747,12 @@ function invite_anyone_validate_email( $user_email ) {
 
 	if ( function_exists( 'get_site_option' ) ) {
 		if ( $limited_email_domains = get_site_option( 'limited_email_domains' ) ) {
-			if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
+			if ( is_array( $limited_email_domains ) && ! empty( $limited_email_domains ) ) {
 				$emaildomain = strtolower( substr( $user_email, 1 + strpos( $user_email, '@' ) ) );
 
 				$is_valid_domain = false;
 				foreach ( $limited_email_domains as $led ) {
-					if ( $emaildomain === strtolower( $led ) ) {
+					if ( strtolower( $led ) === $emaildomain ) {
 						$is_valid_domain = true;
 						break;
 					}
@@ -1900,7 +1900,7 @@ function invite_anyone_set_email_type( $email_type, $term_check = true ) {
 	}
 
 	// Term already exists so don't do anything.
-	if ( true === $term_check && $term !== 0 && $term !== null ) {
+	if ( true === $term_check && 0 !== $term && null !== $term ) {
 		if ( true === $switched ) {
 			restore_current_blog();
 		}
