@@ -448,18 +448,22 @@ function invite_anyone_ajax_invite_user() {
 		return false;
 	}
 
-	if ( 'invite' === $_POST['friend_action'] ) {
+	$friend_action = sanitize_text_field( wp_unslash( $_POST['friend_action'] ) );
+	$friend_id     = (int) $_POST['friend_id'];
+	$group_id      = (int) $_POST['group_id'];
+
+	if ( 'invite' === $friend_action ) {
 
 		if ( ! groups_invite_user(
 			array(
-				'user_id'  => $_POST['friend_id'],
-				'group_id' => $_POST['group_id'],
+				'user_id'  => $friend_id,
+				'group_id' => $group_id,
 			)
 		) ) {
 			return false;
 		}
 
-		$user = new BP_Core_User( $_POST['friend_id'] );
+		$user = new BP_Core_User( $friend_id );
 
 		$group_slug = isset( $bp->groups->root_slug ) ? $bp->groups->root_slug : $bp->groups->slug;
 
@@ -488,13 +492,11 @@ function invite_anyone_ajax_invite_user() {
 			  </div>';
 		echo '</li>';
 
-	} elseif ( 'uninvite' === $_POST['friend_action'] ) {
-
-		groups_uninvite_user( $_POST['friend_id'], $_POST['group_id'] );
-
+	} elseif ( 'uninvite' === $friend_action ) {
+		groups_uninvite_user( $friend_id, $group_id );
 	}
 
-		die();
+	die();
 }
 add_action( 'wp_ajax_invite_anyone_groups_invite_user', 'invite_anyone_ajax_invite_user' );
 
