@@ -29,6 +29,7 @@
 		<exclude name="PSR2.ControlStructures.SwitchDeclaration.SpaceBeforeColonDEFAULT" />
 		<exclude name="PSR2.ControlStructures.SwitchDeclaration.BreakIndent" />
 		<exclude name="Universal.Files.SeparateFunctionsFromOO.Mixed" />
+		<exclude name="Generic.Files.OneObjectStructurePerFile.MultipleFound" />
 	</rule>
 
 	<rule ref="WordPress.WP.Capabilities">
