@@ -8,10 +8,10 @@
  * @since 0.8
  */
 class Invite_Anyone_Schema {
-	var $post_type_name;
-	var $invitee_tax_name;
-	var $invited_groups_tax_name;
-	var $db_version;
+	public $post_type_name;
+	public $invitee_tax_name;
+	public $invited_groups_tax_name;
+	public $db_version;
 
 	/**
 	 * PHP5 Constructor
@@ -19,7 +19,7 @@ class Invite_Anyone_Schema {
 	 * @package Invite Anyone
 	 * @since 0.8
 	 */
-	function __construct() {
+	public function __construct() {
 		global $current_blog;
 
 		// There's no reason for the CPT to be loaded on non-root-blogs
@@ -74,7 +74,7 @@ class Invite_Anyone_Schema {
 	 * @package BuddyPress Docs
 	 * @since 1.0
 	 */
-	function register_post_type() {
+	public function register_post_type() {
 		global $bp;
 
 		// Define the labels to be used by the post type
@@ -201,7 +201,7 @@ class Invite_Anyone_Schema {
 	 *
 	 * @return bool
 	 */
-	function show_dashboard_ui() {
+	public function show_dashboard_ui() {
 		return apply_filters( 'show_dashboard_ui', is_super_admin() );
 	}
 
@@ -211,7 +211,7 @@ class Invite_Anyone_Schema {
 	 * @package Invite Anyone
 	 * @since 0.9
 	 */
-	function update() {
+	public function update() {
 		if ( version_compare( $this->db_version, '0.9', '<' ) ) {
 			add_action( 'admin_init', array( $this, 'upgrade_0_9' ) );
 		}
@@ -227,7 +227,7 @@ class Invite_Anyone_Schema {
 	 * @package Invite Anyone
 	 * @since 0.9
 	 */
-	function upgrade_0_9() {
+	public function upgrade_0_9() {
 		global $wp_query, $post;
 
 		$args = array(
@@ -295,7 +295,7 @@ class Invite_Anyone_Schema {
 	 *
 	 * @since 1.4.0
 	 */
-	function upgrade_1_4_0() {
+	public function upgrade_1_4_0() {
 		invite_anyone_install_emails( true );
 	}
 }
@@ -309,11 +309,11 @@ $invite_anyone_data = new Invite_Anyone_Schema();
  * @since 0.8
  */
 class Invite_Anyone_Invitation {
-	var $id;
-	var $invitee_tax_name;
-	var $post_type_name;
-	var $invited_groups_tax_name;
-	var $email_order;
+	public $id;
+	public $invitee_tax_name;
+	public $post_type_name;
+	public $invited_groups_tax_name;
+	public $email_order;
 
 	/**
 	 * PHP5 Constructor
@@ -323,7 +323,7 @@ class Invite_Anyone_Invitation {
 	 *
 	 * @param int $id Optional. The unique id of the invitation post
 	 */
-	function __construct( $id = false ) {
+	public function __construct( $id = false ) {
 		if ( $id ) {
 			$this->id = $id;
 		}
@@ -348,7 +348,7 @@ class Invite_Anyone_Invitation {
 	 *
 	 * @param array $args
 	 */
-	function create( $args = false ) {
+	public function create( $args = false ) {
 		// Set up the default arguments
 		$defaults = apply_filters(
 			'invite_anyone_create_invite_defaults',
@@ -441,7 +441,7 @@ class Invite_Anyone_Invitation {
 	 *
 	 * @param array $args
 	 */
-	function get( $args = false ) {
+	public function get( $args = false ) {
 		// Set up the default arguments
 		$defaults = apply_filters(
 			'invite_anyone_get_invite_defaults',
@@ -561,7 +561,7 @@ class Invite_Anyone_Invitation {
 	 * @package Invite Anyone
 	 * @since 0.9
 	 */
-	function filter_join_emails( $join, $query ) {
+	public function filter_join_emails( $join, $query ) {
 		global $wpdb;
 
 		$join .= "
@@ -581,7 +581,7 @@ class Invite_Anyone_Invitation {
 	 * @package Invite Anyone
 	 * @since 0.9
 	 */
-	function filter_fields_emails( $fields, $query ) {
+	public function filter_fields_emails( $fields, $query ) {
 		$fields .= ' ,wp_terms_ia.name, wp_term_taxonomy_ia.term_taxonomy_id';
 
 		return $fields;
@@ -595,7 +595,7 @@ class Invite_Anyone_Invitation {
 	 * @package Invite Anyone
 	 * @since 0.9
 	 */
-	function filter_orderby_emails( $orderby, $query ) {
+	public function filter_orderby_emails( $orderby, $query ) {
 		$orderby = 'wp_terms_ia.name ' . $this->email_order;
 
 		return $orderby;
@@ -609,7 +609,7 @@ class Invite_Anyone_Invitation {
 	 *
 	 * @param array $args
 	 */
-	function mark_accepted() {
+	public function mark_accepted() {
 		update_post_meta( $this->id, 'bp_ia_accepted', $args['post_modified'] );
 
 		return true;
@@ -623,7 +623,7 @@ class Invite_Anyone_Invitation {
 	 *
 	 * @param array $args
 	 */
-	function clear() {
+	public function clear() {
 		$args = array(
 			'ID'          => $this->id,
 			'post_status' => 'draft',
@@ -643,7 +643,7 @@ class Invite_Anyone_Invitation {
 	 *
 	 * @param array $args
 	 */
-	function mark_opt_out() {
+	public function mark_opt_out() {
 		if ( update_post_meta( $this->id, 'opt_out', 'yes' ) ) {
 			return true;
 		}
