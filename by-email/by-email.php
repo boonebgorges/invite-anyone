@@ -213,8 +213,7 @@ function invite_anyone_register_screen_message() {
 }
 add_action( 'bp_before_register_page', 'invite_anyone_register_screen_message' );
 
-
-function invite_anyone_activate_user( $user_id, $key, $user ) {
+function invite_anyone_activate_user( $user_id ) {
 	global $bp;
 
 	$email = bp_core_get_user_email( $user_id );
@@ -291,7 +290,7 @@ function invite_anyone_activate_user( $user_id, $key, $user ) {
 
 	do_action( 'accepted_email_invite', $user_id, $inviters );
 }
-add_action( 'bp_core_activated_user', 'invite_anyone_activate_user', 10, 3 );
+add_action( 'bp_core_activated_user', 'invite_anyone_activate_user', 10 );
 
 function invite_anyone_setup_nav() {
 	global $bp;
@@ -564,14 +563,6 @@ function invite_anyone_screen_one() {
 	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 }
 
-/*
-function invite_anyone_screen_one_title() {
-
-	_e( 'Invite New Members', 'invite-anyone' );
-
-	}
-*/
-
 function invite_anyone_screen_one_content() {
 	global $bp;
 
@@ -818,11 +809,6 @@ function invite_anyone_screen_two() {
 
 	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 }
-/*
-	function invite_anyone_screen_two_title() {
-	_e( 'Sent Invites', 'invite-anyone' );
-	}
-*/
 
 function invite_anyone_screen_two_content() {
 	global $bp;
@@ -1134,8 +1120,7 @@ Visit %%INVITERNAME%%\'s profile at %%INVITERURL%%.',
 	return apply_filters( 'invite_anyone_get_invitation_message', stripslashes( $text ) );
 }
 
-function invite_anyone_process_footer( $email ) {
-
+function invite_anyone_process_footer() {
 	$iaoptions = invite_anyone_options();
 
 	if ( empty( $iaoptions['addl_invitation_message'] ) ) {
@@ -1605,10 +1590,6 @@ function invite_anyone_replace_bp_email_salutation( $salutation, $settings ) {
 	 * @param array  $settings      Email settings.
 	 */
 	return apply_filters( 'invite_anyone_replace_bp_email_salutation', _x( 'Hello,', 'Invite Anyone email salutation', 'invite-anyone' ), $salutation, $settings );
-}
-
-function invite_anyone_send_invitation( $inviter_id, $email, $message, $groups ) {
-	global $bp;
 }
 
 /**
