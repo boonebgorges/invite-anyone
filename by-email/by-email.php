@@ -853,60 +853,65 @@ function invite_anyone_screen_two_content() {
 				</div>
 			</div>
 
-			<table class="invite-anyone-sent-invites zebra"
-			summary="
 			<?php
-			_e(
-				'This table displays a list of all your sent invites.
-			Invites that have been accepted are highlighted in the listings.
-			You may clear any individual invites, all accepted invites or all of the invites from the list.',
-				'invite-anyone'
-			)
+			$table_summary = __( 'This table displays a list of all your sent invites. Invites that have been accepted are highlighted in the listings. You may clear any individual invites, all accepted invites or all of the invites from the list.', 'invite-anyone' );
+
+			$col_email_class = 'col-email';
+			if ( 'email' === $sort_by ) {
+				$col_email_class .= ' sort-by-me';
+			}
+
+			$col_email_link = add_query_arg(
+				[
+					'sort_by' => 'email',
+					'order'   => ( 'email' === $sort_by && 'ASC' === $order ) ? 'DESC' : 'ASC',
+				],
+				$base_url
+			);
+
+			$col_date_invited_class = 'col-date-invited';
+			if ( 'date_invited' === $sort_by ) {
+				$col_date_invited_class .= ' sort-by-me';
+			}
+
+			$col_date_invited_link = add_query_arg(
+				[
+					'sort_by' => 'date_invited',
+					'order'   => ( 'date_invited' === $sort_by && 'ASC' === $order ) ? 'DESC' : 'ASC',
+				],
+				$base_url
+			);
+
+			$col_date_join_class = 'col-date-joined';
+			if ( 'date_joined' === $sort_by ) {
+				$col_date_join_class .= ' sort-by-me';
+			}
+
+			$col_date_join_link = add_query_arg(
+				[
+					'sort_by' => 'date_joined',
+					'order'   => ( 'date_joined' === $sort_by && 'ASC' === $order ) ? 'DESC' : 'ASC',
+				],
+				$base_url
+			);
+
 			?>
-						">
+
+			<table class="invite-anyone-sent-invites zebra" summary="<?php echo esc_attr( $table_summary ); ?>">
 				<thead>
 					<tr>
 						<th scope="col" class="col-delete-invite"></th>
-						<th scope="col" class="col-email
-						<?php
-						if ( 'email' === $sort_by ) :
-							?>
-							sort-by-me<?php endif ?>"><a class="<?php echo esc_attr( $order ); ?>" title="Sort column order <?php echo esc_attr( $order ); ?>" href="<?php echo esc_url( $base_url ); ?>?sort_by=email&amp;order=
-							<?php
-							if ( 'email' === $sort_by && 'ASC' === $order ) :
-								?>
-							DESC
-														<?php
-else :
-	?>
-	ASC<?php endif; ?>"><?php _e( 'Invited email address', 'invite-anyone' ); ?></a></th>
-						<th scope="col" class="col-group-invitations"><?php _e( 'Group invitations', 'invite-anyone' ); ?></th>
-						<th scope="col" class="col-date-invited
-						<?php
-						if ( 'date_invited' === $sort_by ) :
-							?>
-							sort-by-me<?php endif ?>"><a class="<?php echo esc_attr( $order ); ?>" title="Sort column order <?php echo esc_attr( $order ); ?>" href="<?php echo esc_url( $base_url ); ?>?sort_by=date_invited&amp;order=
-							<?php
-							if ( 'date_invited' === $sort_by && 'DESC' === $order ) :
-								?>
-							ASC
-														<?php
-else :
-	?>
-	DESC<?php endif; ?>"><?php _e( 'Sent', 'invite-anyone' ); ?></a></th>
-						<th scope="col" class="col-date-joined
-						<?php
-						if ( 'date_joined' === $sort_by ) :
-							?>
-							sort-by-me<?php endif ?>"><a class="<?php echo esc_attr( $order ); ?>" title="Sort column order <?php echo esc_attr( $order ); ?>" href="<?php echo esc_url( $base_url ); ?>?sort_by=date_joined&amp;order=
-							<?php
-							if ( 'DESC' === $order ) :
-								?>
-							ASC
-														<?php
-else :
-	?>
-	DESC<?php endif; ?>"><?php _e( 'Accepted', 'invite-anyone' ); ?></a></th>
+
+						<?php // translators: %s is the column order ?>
+						<th scope="col" class="<?php echo esc_attr( $col_email_class ); ?>"><a class="<?php echo esc_attr( $order ); ?>" title="<?php echo esc_attr( sprintf( __( 'Sort column order: %s', 'invite-anyone' ), $order ) ); ?>" href="<?php echo esc_url( $col_email_link ); ?>"><?php esc_html_e( 'Invited email address', 'invite-anyone' ); ?></a></th>
+
+						<th scope="col" class="col-group-invitations"><?php esc_html_e( 'Group invitations', 'invite-anyone' ); ?></th>
+
+						<?php // translators: %s is the column order ?>
+						<th scope="col" class="<?php echo esc_attr( $col_date_invited_class ); ?>"><a class="<?php echo esc_attr( $order ); ?>" title="<?php echo esc_attr( sprintf( __( 'Sort column order: %s', 'invite-anyone' ), $order ) ); ?>" href="<?php echo esc_url( $col_date_invited_link ); ?>"><?php esc_html_e( 'Sent', 'invite-anyone' ); ?></a></th>
+
+						<?php // translators: %s is the column order ?>
+						<th scope="col" class="<?php echo esc_attr( $col_date_join_class ); ?>"><a class="<?php echo esc_attr( $order ); ?>" title="<?php echo esc_attr( sprintf( __( 'Sort column order: %s', 'invite-anyone' ), $order ) ); ?>" href="<?php echo esc_url( $col_date_join_link ); ?>"><?php esc_html_e( 'Accepted', 'invite-anyone' ); ?></a></th>
 					</tr>
 				</thead>
 
