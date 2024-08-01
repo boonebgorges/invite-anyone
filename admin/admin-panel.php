@@ -630,7 +630,7 @@ function invite_anyone_settings_cs_content() {
 							}
 							?>
 							</ul>
-							<input type="hidden" name="invite_anyone[cloudsponge_sources]" id="csSourcesStore" value="<?php echo esc_html( implode( ',', $selectedSources ) ); ?>">
+							<input type="hidden" name="invite_anyone[cloudsponge_sources]" id="csSourcesStore" value="<?php echo esc_attr( implode( ',', $selectedSources ) ); ?>">
 						</td>
 					</tr>
 
@@ -649,7 +649,7 @@ function invite_anyone_settings_cs_content() {
 				</tbody>
 			</table>
 
-			<p class="description"><?php _e( 'When you use CloudSponge with Invite Anyone, part of your CloudSponge monthly payment goes to the author of Invite Anyone. This is a great way to support future development of the plugin. Thanks for your support!', 'invite-anyone' ); ?></p>
+			<p class="description"><?php esc_html_e( 'When you use CloudSponge with Invite Anyone, part of your CloudSponge monthly payment goes to the author of Invite Anyone. This is a great way to support future development of the plugin. Thanks for your support!', 'invite-anyone' ); ?></p>
 		</div>
 	</div>
 	<?php
@@ -758,20 +758,11 @@ function invite_anyone_settings_mi_content() {
 				</th>
 
 				<td class="ia-inviter">
-					<?php echo bp_core_get_userlink( get_the_author_meta( 'ID' ) ); ?>
+					<?php echo wp_kses_post( bp_core_get_userlink( get_the_author_meta( 'ID' ) ) ); ?>
 
 					<div class="row-actions">
-						<span class="edit"><a href="
-						<?php
-						echo add_query_arg(
-							array(
-								'post'   => get_the_ID(),
-								'action' => 'edit',
-							),
-							admin_url( 'post.php' )
-						);
-						?>
-													"><?php _e( 'View Invitation', 'invite-anyone' ); ?></a></span>
+						<?php $view_link = add_query_arg( array( 'post' => get_the_ID(), 'action' => 'edit' ), admin_url( 'post.php' ) ); ?>
+						<span class="edit"><a href="<?php echo esc_url( $view_link ); ?>"><?php esc_html_e( 'View Invitation', 'invite-anyone' ); ?></a></span>
 					</div>
 				</td>
 
@@ -824,7 +815,7 @@ function invite_anyone_settings_mi_content() {
 		</table>
 
 		<?php if ( defined( 'INVITE_ANYONE_CS_ENABLED' ) && INVITE_ANYONE_CS_ENABLED ) : ?>
-			<p class="description"><strong>Note:</strong> CloudSponge data has only been recorded since Invite Anyone v0.9.</p>
+			<p class="description"><?php echo wp_kses_post( __( '<strong>Note:</strong> CloudSponge data has only been recorded since Invite Anyone v0.9.', 'invite-anyone' ) ); ?></p>
 		<?php endif ?>
 
 		<div class="ia-admin-pagination">
@@ -838,7 +829,7 @@ function invite_anyone_settings_mi_content() {
 		</div>
 
 	<?php else : ?>
-		<p><?php _e( 'No invitations have been sent yet.', 'invite-anyone' ); ?></p>
+		<p><?php esc_html_e( 'No invitations have been sent yet.', 'invite-anyone' ); ?></p>
 
 	<?php endif ?>
 
