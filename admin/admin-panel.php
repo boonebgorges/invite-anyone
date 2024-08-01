@@ -643,7 +643,7 @@ function invite_anyone_settings_cs_content() {
 								checked( $options['cloudsponge_deep_links'], 'on' );}
 							?>
 							/>
-							<span class="description" style="padding-top: 0;"><?php esc_html_e( 'If you’d like to skip the Address Book Providers menu (and eliminate one click for your users) you can use Deep Links instead' ); ?></span>
+							<span class="description" style="padding-top: 0;"><?php esc_html_e( 'If you’d like to skip the Address Book Providers menu (and eliminate one click for your users) you can use Deep Links instead', 'invite-anyone' ); ?></span>
 						</td>
 					</tr>
 				</tbody>
