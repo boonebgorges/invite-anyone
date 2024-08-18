@@ -97,6 +97,7 @@ class BP_Invite_Anyone extends BP_Group_Extension {
 			'slug'              => BP_INVITE_ANYONE_SLUG,
 			'name'              => __( 'Send Invites', 'invite-anyone' ),
 			'show_tab'          => $this->enable_nav_item(),
+			'access'            => 'member',
 			'nav_item_position' => 71,
 			'screens'           => [
 				'create' => [
