@@ -2,14 +2,14 @@
 # This file is distributed under the GPL 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: Invite Anyone 1.4.9\n"
+"Project-Id-Version: Invite Anyone 1.4.10\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/invite-anyone\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-08-15T12:32:32-05:00\n"
+"POT-Creation-Date: 2024-08-19T12:06:26-05:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: invite-anyone\n"
@@ -939,24 +939,24 @@ msgstr ""
 msgid "Click &ldquo;Send Invites&rdquo; to finish sending your new invitations."
 msgstr ""
 
-#: group-invites/group-invites.php:131
-#: group-invites/group-invites.php:184
-#: group-invites/group-invites.php:241
+#: group-invites/group-invites.php:132
+#: group-invites/group-invites.php:185
+#: group-invites/group-invites.php:242
 msgid "Group invites sent."
 msgstr ""
 
-#: group-invites/group-invites.php:186
+#: group-invites/group-invites.php:187
 msgid "Group created successfully."
 msgstr ""
 
-#: group-invites/group-invites.php:494
+#: group-invites/group-invites.php:495
 #: group-invites/templates/invite-anyone.php:76
 #: group-invites/templates/invite-anyone.php:174
 msgid "Remove Invite"
 msgstr ""
 
 #. translators: 1. Inviter name, 2. Group name, 3. Invites link, 4. Group link, 5. Inviter name, 6. Inviter link
-#: group-invites/group-invites.php:700
+#: group-invites/group-invites.php:701
 msgid ""
 "%1$s has invited you to the group: \"%2$s\".\n"
 "\n"
