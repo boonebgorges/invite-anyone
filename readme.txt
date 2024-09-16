@@ -41,6 +41,7 @@ Invite Anyone features optional integration with CloudSponge http://cloudsponge.
 * Greek: Lena Stergatou
 * Italian: Luca Camellini
 * Norwegian: Stig Ulfsby
+* Polish: Maks Brzeziński 
 * Russian: Jettochkin, Roman Leonov
 * Serbo-Croatian: Anja Skrba
 * Spanish: Mauricio Camayo, Gregor Gimmy
