@@ -419,10 +419,11 @@ function invite_anyone_access_test() {
 		// Minimum role on this blog. Users who are at the necessary role or higher
 		// should move right through this toward the 'return true'
 		// at the end of the function.
-		$role = $iaoptions['email_role'];
+		$role = isset( $iaoptions['email_role'] ) ? $iaoptions['email_role'] : 'Subscriber';
 		if ( isset( $iaoptions['minimum_role'] ) && $role ) {
 			switch ( $role ) {
 				case 'Subscriber' :
+				default :
 					if ( ! current_user_can( 'read' ) ) {
 						$access_allowed = false;
 					}
