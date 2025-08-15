@@ -354,8 +354,36 @@ function invite_anyone_settings_can_send_group_invites_email() {
 
 function invite_anyone_settings_bypass_registration_lock() {
 	$options = invite_anyone_options();
+
+	// Filtered for Multisite by `users_can_register_signup_filter()`.
+	$registration_is_open = bp_get_option( 'users_can_register' );
+
+	if ( $registration_is_open ) {
+		$description = __( 'Registration is currently enabled, so this setting is disregarded.', 'invite-anyone' );
+	} else {
+		$description = __( 'Checking this box means that new users will be able to send invitations, and users will be able to accept these invitations, <strong>even though registration is currently disabled</strong>.', 'invite-anyone' );
+
+		if ( is_multisite() ) {
+			$settings_text = __( 'Network Admin > Settings', 'invite-anyone' );
+			$settings_url  = network_admin_url( 'settings.php' );
+		} else {
+			$settings_text = __( 'Settings > General', 'invite-anyone' );
+			$settings_url  = admin_url( 'options-general.php' );
+		}
+
+		$description .= ' ' . sprintf(
+			__( 'Visit <a href="%1$s">%2$s</a> to change your registration settings.', 'invite-anyone' ),
+			esc_url( $settings_url ),
+			esc_html( $settings_text )
+		);
+	}
+
 	?>
 	<input type="checkbox" name="invite_anyone[bypass_registration_lock]" value="yes" <?php checked( $options['bypass_registration_lock'], 'yes' ); ?> />
+
+	<p class="description">
+		<?php echo wp_kses_post( $description ); ?>
+	</p>
 	<?php
 }
 
