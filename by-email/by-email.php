@@ -390,12 +390,16 @@ function invite_anyone_access_test() {
 	$access_allowed = true;
 	$iaoptions      = invite_anyone_options();
 
+	$users_can_register = bp_get_option( 'users_can_register' );
+
 	if ( ! is_user_logged_in() ) {
 		$access_allowed = false;
 	} elseif ( current_user_can( 'bp_moderate' ) ) {
 		// The site admin can see all
 		$access_allowed = true;
 	} elseif ( bp_displayed_user_id() && ! bp_is_my_profile() ) {
+		$access_allowed = false;
+	} elseif ( ! $users_can_register && ! $iaoptions['bypass_registration_lock'] ) {
 		$access_allowed = false;
 	} elseif ( isset( $iaoptions['email_visibility_toggle'] ) && 'no_limit' === $iaoptions['email_visibility_toggle'] ) {
 		// This is the last of the general checks: logged in,
